@@ -49,7 +49,7 @@ class Stores(models.Model):
 
 class Item(models.Model):
     name = models.CharField(_('name'), max_length=250)
-    themes = models.ManyToManyField(Themes, blank=True, null=True, default=None)
+    fashions = models.ManyToManyField(Fashions, blank=True, null=True, default=None)
     stores = models.ManyToManyField(Stores, blank=True, null=True, default=None)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
     small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
@@ -149,7 +149,7 @@ class Orderitems(models.Model):
     def __unicode__(self):
         return u'%s' % self.order
 
-class Themes(models.Model):
+class Fashions(models.Model):
     name = models.CharField(_('name'), max_length=70, default='No name')
     details = models.TextField(_('details'), blank=True, default='')
 
