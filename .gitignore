@@ -1,0 +1,9 @@
+*.py[cod]
+.*.sw[a-z]
+*.un~
+*.log
+*.pot
+.env
+.idea
+*.sqlite3
+.bash_profile

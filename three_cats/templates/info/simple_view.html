@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% trans topic.title %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cs-item-title">
+      <h2>{{ topic.title }}</h2>
+    </div>
+  </div>
+
+  {% if topic.video %}
+      <div class="row">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cs-item-title">
+          {{ topic.video|safe }}
+        </div>
+      </div>
+  {% endif %}
+
+  {% if topic.image %}
+      <div class="row">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+          <div class="thumbnail cs-info-photo">
+            <img crop="center" src="{{ MEDIA_URL}}{{ topic.image }}">
+          </div>
+        </div>
+      </div>
+  {% endif %}
+
+  <div class="row cs-info">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      {{ topic.info|safe }}
+      {% if map %}<div id="map_canvas"></div>{% endif %}
+    </div>
+  </div>
+
+  {% if photos %}
+    <div class="row">
+      {% for entry in photos %}
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+          <div class="thumbnail cs-info-photo elephant" id="elephant-{{ forloop.counter }}">
+            <a href=# class="cs-photo-modal" data-toggle="modal" data-keyboard="true">
+            <img class="img-rounded cs-photo-simple" crop="center" data-id="{{ entry.id }}" src="{{ MEDIA_URL}}{{ entry.small_image }}">
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+    <div id="cs-photo-modal" class="modal hide fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div id="cs-photo-content"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button pull-left" class="btn" data-dismiss="modal">{% trans 'Close' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,235 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" href="{{ STATIC_URL }}img/cs-logo-mini.png">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link href="{{ STATIC_URL }}css/bootstrap-editable.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/jquery-ui.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/bootstrap-slider.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!--
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script>
+
+    <script type="text/javascript">
+      VK.init({apiId: 4061964, onlyWidgets: true});
+    </script>
+    -->
+
+    <script type="text/javascript" src="http://vk.com/js/api/share.js?90" charset="windows-1251"></script>
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="row">
+          <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 cs-local">
+
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                {% if LANGUAGE_CODE == "en" %}
+                  <div class="row">
+                      <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <a href="#" id="cs-locate-ru">Рус</a> En
+                      </div>
+                  </div>
+                {% else %}
+                  <div>
+                    <div class="row">
+                      <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        Рус <a href="#" id="cs-locate-en">En</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+            </div>
+
+            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+              {% if request.user.is_authenticated %}
+                {% if orders %}
+                  <a class="btn btn-danger cs-cart-order-admin pull-right" href="/orders/0/">
+                    <b><i class="glyphicon glyphicon-thumbs-up icon-white cs-icon-shopping-cart"></i>{% trans ' Orders' %}: </b>{{ orders }}
+                  </a>
+                {% else %}
+                  <a class="btn cs-cart-order-admin pull-right" href="/orders/">
+                    <b><i class="glyphicon glyphicon-thumbs-up cs-icon-shopping-cart"></i>{% trans ' Orders' %}: </b>{% trans 'Empty' %}
+                  </a>
+                {% endif %}
+              {% else %}
+                {% if cart.amount__sum %}
+                  <a class="btn btn-success cs-cart-order pull-right" href="#cs-cart-modal" data-toggle="modal" type="button">
+                    <b><i class="glyphicon glyphicon-shopping-cart icon-white cs-icon-shopping-cart"></i>{% trans 'Cart' %}: </b>{{ cart.amount__sum }}
+                  </a>
+                {% else %}
+                  <a class="btn cs-cart-order pull-right" href="#" data-toggle="modal" type="button">
+                    <b><i class="glyphicon glyphicon-shopping-cart cs-icon-shopping-cart"></i>{% trans 'Cart' %}: </b>{% trans 'Empty' %}
+                  </a>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+          <a href="/"><img class="cs-logo" crop="center" src="{{ STATIC_URL }}img/cs-logo.png"></a>
+
+          <div data-spy="affix" data-offset-top="200">
+            <div class="nav">
+              <ul class="navbar-nav cs-menu">
+                <li><a class="cs-main-menu-color" href="/" title="{% trans 'Showcase' %}">
+                    {% trans 'Showcase' %}
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a></li>
+                <li><a class="cs-main-menu-color" href="/about/" title="{% trans 'Common sense' %}">
+                    {% trans 'Common sense' %}
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a></li>
+                <li><a class="cs-main-menu-color" href="/stores/" title="{% trans 'Where to buy' %}">
+                    {% trans 'Where to buy' %}
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a></li>
+                <li><a class="cs-main-menu-color" href="/soup/" title="{% trans 'Soup of the day' %}" target="_blank">
+                    {% trans 'Soup of the day' %}
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a></li>
+                <li><a class="cs-main-menu-color" href="/delivery/" title="{% trans 'Delivery' %}">
+                    {% trans 'Delivery' %}
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a></li>
+                <li><a class="cs-main-menu-color" href="/contacts/" title="{% trans 'Contacts' %}">
+                    {% trans 'Contacts' %}
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a></li>
+                <li><a class="cs-main-menu-color" href="/feedback/" title="{% trans 'Feedback' %}">
+                    {% trans 'Feedback' %}
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a></li>
+              </ul>
+            </div>
+
+            <div class="row cs-triangle">
+
+              <div class="cs-sn col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <a class="cs-auto" href="http://facebook.com/thecommonsense" target="_blank">
+                  <img id="cs-facebook" crop="center" src="{{ STATIC_URL }}img/facebook-icon.png">
+                </a>
+              </div>
+
+              <div class="cs-sn col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <a class="cs-auto" href="http://vk.com/the.common.sense" target="_blank">
+                  <img crop="center" id="cs-vk" src="{{ STATIC_URL }}img/vk-icon.png">
+                </a>
+              </div>
+
+              <div class="cs-sn col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <a class="cs-auto" href="http://instagram.com/thecommonsense" target="_blank">
+                  <img id="cs-instagram" crop="center" src="{{ STATIC_URL }}img/instagram-icon.png">
+                </a>
+              </div>
+            </div>
+
+            <div class="row cs-triangle-partner">
+              <h5><p>{% trans 'Our partners' %}</p></h5>
+              <p>{% trans 'Sportswear shop' %}</p>
+            </div>
+
+            <div class="row cs-triangle-partner-img">
+              <a href="http://tooposhop.com/"><img class="cs-logo-partner" crop="center" src="{{ STATIC_URL }}img/tup_s.png"></a>
+            </div>
+
+            <div class="row cs-triangle-partner">
+                <p>{% trans 'Odessa, Greek Athena Square Shopping Center 5th floor' %}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+          <div class="row">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+              {% for message in messages %}
+                <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+              {% block content %}{% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="cs-cart-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% trans 'Cart' %}</h4>
+        </div>
+        <div class="modal-body">
+           <div id="cs-cart-content"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+          <a class="btn btn-success btn-danger" href="/checkout/">{% trans 'Checkout' %}</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-editable.min.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    {% block script %}{% endblock %}
+    <script src="{{ STATIC_URL }}js/script.js"></script>
+    {% if not debug %}
+      <script>
+
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-46597923-1', 'thecommonsen.se');
+          ga('send', 'pageview');
+
+      </script>
+
+    {% endif %}
+
+  </body>
+
+</html>

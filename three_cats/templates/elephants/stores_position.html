@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% trans topic.title %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cs-item-title">
+      <h2>{{ stores.name }}</h2>
+    </div>
+  </div>
+
+  <div class="row cs-info-stores">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      {{ stores.description|safe }}
+    </div>
+  </div>
+
+  {% if stores.image %}
+      <div class="row">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+          <div class="thumbnail cs-info-photo">
+            <img class="cs-stores-home" crop="center" src="{{ MEDIA_URL}}{{ stores.image }}">
+          </div>
+        </div>
+      </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <ul class="thumbnails">
+        {% for entry in items %}
+          <li class="col-xs-3 col-sm-3 col-md-3 col-lg-3 elephant">
+              <div class="thumbnail cs-showcase elephant-{{ forloop.counter }}">
+                {% if entry.price %}
+                  <div class="cs-elephant-name"><h3>{{ entry.name }}</h3></div>
+                {% else %}
+                  <div class="cs-elephant-name0"><h3>{{ entry.name }}</h3></div>
+                {% endif %}
+                <a href="/item/{{ entry.id }}/" title="{% trans 'Show details' %}">
+                  <img crop="center" src="{{ MEDIA_URL}}{{ entry.small_image }}">
+                </a>
+                <div class="cs-elephant-price"><h5><p>{{ entry.price_description }}</p></h5></div>
+              </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+{% endblock %}

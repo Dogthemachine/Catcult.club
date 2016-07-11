@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% crispy form form.helper %}
+
+{% block title %}
+  {% trans 'Send mail' %}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cs-item-title">
+      <h2>{{ order.title }}</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      {{ order.info|safe }}
+      {% crispy form %}
+    </div>
+  </div>
+{% endblock %}
