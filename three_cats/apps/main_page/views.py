@@ -4,7 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 
-from apps.elephants.models import (Item, Cart, Orders)
+from apps.elephants.models import Categories
+from apps.orders.models import Cart, Orders
 from apps.info.models import Maintitle, Info
 
 def main_page(request):
@@ -12,7 +13,7 @@ def main_page(request):
     mainpage = get_object_or_404(Info, topic='mainpage')
 
     try:
-        items = Item.objects.select_related('stores').order_by("-added")
+        items = Categories.objects.all()
         maintitle = Maintitle.objects.all()
         orders = Orders.objects.filter(status=0).count()
         cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))

@@ -1,4 +1,4 @@
-__author__ = 'fyaway'
+__author__ = 'flyaway'
 
 from django.core.management.base import BaseCommand
 
@@ -9,12 +9,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        from apps.elephants.models import Item
+        from apps.elephants.models import Items
 
-        Item_objects = Item.objects.all()
-        for Item_object in Item_objects:
-            Item_object.name_ru = Item_object.name
-            Item_object.description_ru = Item_object.description
-            Item_object.details_ru = Item_object.details
-            Item_object.price_description_ru = Item_object.price_description
-            Item_object.save()
+        Items_objects = Items.objects.all()
+        for Items_object in Items_objects:
+            Items_object.name_ru = Items_object.name
+            Items_object.description_ru = Items_object.description
+            Items_object.details_ru = Items_object.details
+            Items_object.price_description_ru = Items_object.price_description
+            Items_object.save()

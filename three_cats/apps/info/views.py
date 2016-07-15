@@ -15,7 +15,8 @@ from django.core.mail import EmailMultiAlternatives
 
 from forms import ContactForm, CheckoutForm, LoginForm
 from models import Info, Infophoto
-from apps.elephants.models import Item, Cart, Orders, Orderitems
+from apps.elephants.models import Items
+from apps.orders.models import Cart, Orders, Orderitems
 
 
 def user_login(request):
@@ -221,7 +222,7 @@ def checkout(request):
                 name_buy = ''
                 purchases = Cart.objects.all().filter(session_key=request.session._session_key)
                 for purchase in purchases:
-                    item = get_object_or_404(Item, id=purchase.item.id)
+                    item = get_object_or_404(Items, id=purchase.item.id)
                     sum_buy = sum_buy + item.price
                     name_buy = name_buy + item.name + ' (' + str(item.id) + ')\n'
                     o_item = Orderitems(order=o, item=item)

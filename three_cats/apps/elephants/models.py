@@ -9,6 +9,79 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 
+class Categories(models.Model):
+    name = models.CharField(_('name'), max_length=70, default='No name')
+    image = models.ImageField(upload_to='photos/%Y/%m/%d')
+    small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
+    details = models.TextField(_('details'), blank=True, default='')
+    sequence = models.PositiveSmallIntegerField(_('price'), default=0)
+
+    class Meta:
+        ordering = ('sequence',)
+        verbose_name = _('Categories of items')
+        verbose_name_plural = _('Categories of items')
+
+    def __unicode__(self):
+        return u'%s' % self.name
+
+    def save(self, *args, **kwargs):
+        SIZE = (300, 300)
+
+        image = Image.open(self.image)
+
+        small_image = image.copy()
+
+        small_image.thumbnail(SIZE, Image.ANTIALIAS)
+
+        temp_handle = StringIO()
+        small_image.save(temp_handle, 'JPEG')
+        temp_handle.seek(0)
+
+        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1][:-4] + '.jpg',
+                                 temp_handle.read(),
+                                 content_type='image/jpeg')
+        self.small_image.save(suf.name, suf, save=False)
+
+        super(Categories, self).save(*args, **kwargs)
+
+
+class Fashions(models.Model):
+    name = models.CharField(_('name'), max_length=70, default='No name')
+    categories = models.ForeignKey(Categories)
+    image = models.ImageField(upload_to='photos/%Y/%m/%d')
+    small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
+    details = models.TextField(_('details'), blank=True, default='')
+    sequence = models.PositiveSmallIntegerField(_('price'), default=0)
+
+    class Meta:
+        ordering = ('sequence',)
+        verbose_name = _('Fashions of items')
+        verbose_name_plural = _('Fashions of items')
+
+    def __unicode__(self):
+        return u'%s' % self.name
+
+    def save(self, *args, **kwargs):
+        SIZE = (300, 300)
+
+        image = Image.open(self.image)
+
+        small_image = image.copy()
+
+        small_image.thumbnail(SIZE, Image.ANTIALIAS)
+
+        temp_handle = StringIO()
+        small_image.save(temp_handle, 'JPEG')
+        temp_handle.seek(0)
+
+        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1][:-4] + '.jpg',
+                                 temp_handle.read(),
+                                 content_type='image/jpeg')
+        self.small_image.save(suf.name, suf, save=False)
+
+        super(Fashions, self).save(*args, **kwargs)
+
+
 class Stores(models.Model):
     name = models.CharField(_('name'), max_length=250)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
@@ -47,9 +120,9 @@ class Stores(models.Model):
         super(Stores, self).save(*args, **kwargs)
 
 
-class Item(models.Model):
+class Items(models.Model):
     name = models.CharField(_('name'), max_length=250)
-    fashions = models.ManyToManyField(Fashions, blank=True, null=True, default=None)
+    fashions = models.ForeignKey(Fashions)
     stores = models.ManyToManyField(Stores, blank=True, null=True, default=None)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
     small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
@@ -61,8 +134,8 @@ class Item(models.Model):
 
     class Meta:
         ordering = ('added',)
-        verbose_name = _('item')
-        verbose_name_plural = _('item')
+        verbose_name = _('items')
+        verbose_name_plural = _('items')
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -85,10 +158,10 @@ class Item(models.Model):
                                  content_type='image/jpeg')
         self.small_image.save(suf.name, suf, save=False)
 
-        super(Item, self).save(*args, **kwargs)
+        super(Items, self).save(*args, **kwargs)
 
 class Photo(models.Model):
-    item = models.ForeignKey(Item)
+    item = models.ForeignKey(Items)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
@@ -99,64 +172,3 @@ class Photo(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.added
-
-
-class Cart(models.Model):
-    item = models.ForeignKey(Item)
-    session_key = models.CharField(_('name'), max_length=32)
-    amount = models.SmallIntegerField(_('amount'))
-    added = models.DateTimeField(_('added'), auto_now_add=True)
-
-    class Meta:
-        ordering = ('added',)
-        verbose_name = _('Cart')
-        verbose_name_plural = _('Cart')
-
-    def __unicode__(self):
-        return u'%s' % self.session_key
-
-
-class Orders(models.Model):
-    name = models.CharField(_('name'), max_length=70, default='No name')
-    phone = models.CharField(_('phone'), max_length=32, default='')
-    email = models.EmailField(_('email'))
-    city = models.CharField(_('city'), max_length=32, default='')
-    delivery = models.CharField(_('delivery'), max_length=32, default=0)
-    payment = models.CharField(_('payment'), max_length=32, default=0)
-    massage = models.TextField(_('massage'), default='')
-    cost = models.IntegerField(_('cost'), default=0)
-    status = models.IntegerField(_('status'), choices=settings.ORDER_STATUS, default=0)
-    added = models.DateTimeField(_('added'), auto_now_add=True)
-
-    class Meta:
-        ordering = ('-added',)
-        verbose_name = _('orders')
-        verbose_name_plural = _('orders')
-
-    def __unicode__(self):
-        return u'%s' % self.name
-
-
-class Orderitems(models.Model):
-    order = models.ForeignKey(Orders)
-    item = models.ForeignKey(Item)
-
-    class Meta:
-        ordering = ('order',)
-        verbose_name = _('Order items')
-        verbose_name_plural = _('Order items')
-
-    def __unicode__(self):
-        return u'%s' % self.order
-
-class Fashions(models.Model):
-    name = models.CharField(_('name'), max_length=70, default='No name')
-    details = models.TextField(_('details'), blank=True, default='')
-
-    class Meta:
-        ordering = ('themes',)
-        verbose_name = _('Themes of items')
-        verbose_name_plural = _('Themes of items')
-
-    def __unicode__(self):
-        return u'%s' % self.order

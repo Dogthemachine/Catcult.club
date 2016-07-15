@@ -1,16 +1,16 @@
 from django.contrib import admin
-from apps.elephants.models import (Item, Photo, Cart, Orders, Orderitems, Stores)
+from apps.elephants.models import Items, Photo, Stores, Categories, Fashions
 from modeltranslation.admin import TranslationAdmin
 
 
-class ItemAdmin(TranslationAdmin):
+class ItemsAdmin(TranslationAdmin):
 
     list_display = ('name', 'added', 'price', 'price_description', 'description',)
 
     filter_horizontal = ('stores',)
 
     fieldsets = [
-        (u'Item', {'fields': ('name', 'image', 'stores', 'description', 'details', 'price', 'price_description', 'price_description_rub',)})
+        (u'Items', {'fields': ('name', 'image', 'stores', 'description', 'details', 'price', 'price_description', 'price_description_rub',)})
     ]
 
     class Media:
@@ -50,24 +50,24 @@ class PhotoAdmin(admin.ModelAdmin):
     list_display = ('item', 'image',)
 
 
-class CartAdmin(admin.ModelAdmin):
-    list_display = ('item', 'amount', 'session_key',)
+class CategoriesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'details', 'sequence',)
 
 
-class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'email', 'city', 'delivery', 'payment', 'massage', 'cost', 'status',)
+class FashionsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'categories', 'details', 'sequence',)
 
-class OrderitemsAdmin(admin.ModelAdmin):
-    list_display = ('order', 'item',)
 
-admin.site.register(Item, ItemAdmin)
+admin.site.register(Items, ItemsAdmin)
+
 
 admin.site.register(Stores, StoresAdmin)
 
+
 admin.site.register(Photo, PhotoAdmin)
 
-admin.site.register(Cart, CartAdmin)
 
-admin.site.register(Orders, OrdersAdmin)
+admin.site.register(Categories, CategoriesAdmin)
 
-admin.site.register(Orderitems, OrderitemsAdmin)
+
+admin.site.register(Fashions, FashionsAdmin)

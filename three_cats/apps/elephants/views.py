@@ -13,11 +13,40 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 
-from .models import (Item, Photo, Cart, Orders, Orderitems, Stores)
-from apps.info.models import Info
+from apps.orders.models import Cart, Orders, Orderitems
+from .models import Photo, Stores, Categories, Fashions, Items
+from apps.info.models import Info, Maintitle
 
 
-def elephants_detail(request, id=None, item=None):
+def category(request, id):
+
+    category = get_object_or_404(Categories, id=id)
+
+    items = Fashions.objects.filter(categories__id=id)
+
+    if len(items) == 0:
+        items = [{'name': _('There is no images now')}]
+
+    return render_to_response('elephants/category.html', {'category': category,
+                                                          'items': items},
+                              context_instance=RequestContext(request))
+
+
+def fashion(request, id):
+
+    fashion = get_object_or_404(Fashions, id=id)
+
+    items = Items.objects.filter(fashions__id=id)
+
+    if len(items) == 0:
+        items = [{'name': _('There is no images now')}]
+
+    return render_to_response('main_page/fashion.html', {'fashion': fashion,
+                                                         'items': items},
+                              context_instance=RequestContext(request))
+
+
+def item(request, id):
 
     photos = Photo.objects.all().order_by('added')
     cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
@@ -47,7 +76,7 @@ def elephants_detail(request, id=None, item=None):
     if len(photos) == 0:
         photos = [{'name': _('There is no potos of this image now')}]
 
-    return render_to_response('elephants/elephants_detail.html', {'photos': photos,
+    return render_to_response('elephants/item.html', {'photos': photos,
                                                                   'cart': cart,
                                                                   'orders': orders,
                                                                   'stores': stores,

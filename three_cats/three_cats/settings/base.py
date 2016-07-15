@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'apps.main_page',
     'apps.elephants',
     'apps.info',
+    'apps.orders',
 
 )
 

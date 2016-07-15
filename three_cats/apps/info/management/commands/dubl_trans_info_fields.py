@@ -1,4 +1,4 @@
-__author__ = 'fyaway'
+__author__ = 'flyaway'
 
 from django.core.management.base import BaseCommand
 

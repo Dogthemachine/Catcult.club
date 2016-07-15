@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% trans topic.title %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cs-item-title">
+      <h2>{{ fashion.name }}</h2>
+    </div>
+  </div>
+
+  <div class="row cs-info">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      {{ fashion.details|safe }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <ul class="thumbnails">
+        {% for entry in items %}
+          <li class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+              <div class="thumbnail cs-showcase stores" id="stores-{{ forloop.counter }}">
+                <div class="cs-elephant-name"><h3>{{ entry.name }}</h3></div>
+                <a href="/item/{{ entry.id }}/" title="{% trans 'Show details' %}">
+                  <img class="cs-stores-image" crop="center" src="{{ MEDIA_URL}}{{ entry.small_image }}">
+                </a>
+                <div class="cs-elephant-price cs-bla">{{ entry.details|safe }}</div>
+              </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+{% endblock %}
