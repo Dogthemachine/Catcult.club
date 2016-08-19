@@ -168,7 +168,7 @@ $(document).ready(function() {
             $(this).attr("src", src);
         })
         .mouseout(function() {
-            var src = $(this).attr("src").replace("vk-icon-1.png", "vk-icon.png");
+            var src = $(this).attr("src").replace("vk-icon-w-1.png", "vk-icon-w.png");
             $(this).attr("src", src);
     });
 
@@ -178,7 +178,7 @@ $(document).ready(function() {
             $(this).attr("src", src);
         })
         .mouseout(function() {
-            var src = $(this).attr("src").replace("facebook-icon-1.png", "facebook-icon.png");
+            var src = $(this).attr("src").replace("facebook-icon-w-1.png", "facebook-icon-w.png");
             $(this).attr("src", src);
     });
 
@@ -188,7 +188,7 @@ $(document).ready(function() {
             $(this).attr("src", src);
         })
         .mouseout(function() {
-            var src = $(this).attr("src").replace("instagram-icon-1.png", "instagram-icon.png");
+            var src = $(this).attr("src").replace("instagram-icon-w-1.png", "instagram-icon-w.png");
             $(this).attr("src", src);
     });
 

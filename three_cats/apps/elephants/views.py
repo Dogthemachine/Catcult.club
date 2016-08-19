@@ -18,70 +18,56 @@ from .models import Photo, Stores, Categories, Fashions, Items
 from apps.info.models import Info, Maintitle
 
 
-def category(request, id):
+def fashions(request, id):
 
     category = get_object_or_404(Categories, id=id)
-
+    maintitle = Maintitle.objects.all()
     items = Fashions.objects.filter(categories__id=id)
 
     if len(items) == 0:
         items = [{'name': _('There is no images now')}]
 
-    return render_to_response('elephants/category.html', {'category': category,
+    return render_to_response('elephants/fashions.html', {'category': category,
+                                                          'maintitle': maintitle,
                                                           'items': items},
                               context_instance=RequestContext(request))
 
 
-def fashion(request, id):
+def items(request, id):
 
     fashion = get_object_or_404(Fashions, id=id)
-
+    maintitle = Maintitle.objects.all()
     items = Items.objects.filter(fashions__id=id)
 
     if len(items) == 0:
         items = [{'name': _('There is no images now')}]
 
-    return render_to_response('main_page/fashion.html', {'fashion': fashion,
-                                                         'items': items},
+    return render_to_response('elephants/items.html', {'fashion': fashion,
+                                                       'maintitle': maintitle,
+                                                       'items': items},
                               context_instance=RequestContext(request))
 
 
-def item(request, id):
+def item_details(request, id):
 
-    photos = Photo.objects.all().order_by('added')
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-    orders = Orders.objects.filter(status=0).count()
-    available_item = Stores.objects.filter(item__id=id).filter(order_is_available=1).count()
-    stores = []
-    if id:
-        stores = Stores.objects.filter(item__id=id)
+    photos = Photo.objects.filter(item__id=id).order_by('added')
+    item = get_object_or_404(Items, id=id)
 
     try:
         session_key = request.session.session_key
         if not session_key:
             request.session.create()
-            session_key = request.session.session_key
+
     except:
         request.session.create()
-        session_key = request.session.session_key
-
-    if id:
-        try:
-            item = Item.objects.get(id=id)
-        except Item.DoesNotExists:
-            raise Http404
 
         photos = Photo.objects.filter(item=item)
 
     if len(photos) == 0:
         photos = [{'name': _('There is no potos of this image now')}]
 
-    return render_to_response('elephants/item.html', {'photos': photos,
-                                                                  'cart': cart,
-                                                                  'orders': orders,
-                                                                  'stores': stores,
-                                                                  'available_item': available_item,
-                                                                  'item': item},
+    return render_to_response('elephants/item_details.html', {'photos': photos,
+                                                              'item': item},
                               context_instance=RequestContext(request))
 
 
@@ -195,33 +181,4 @@ def order_position(request):
 
     else:
         raise PermissionDenied()
-
-
-def stores(request):
-
-    topic = get_object_or_404(Info, topic='stores')
-    try:
-        stores = Stores.objects.annotate(number_of_items=Count('item')).order_by("-added")
-        cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-        orders = Orders.objects.filter(status=0).count()
-    except:
-        raise
-
-    return render_to_response('elephants/stores.html',
-                              {'topic': topic, 'stores': stores,
-                               'orders': orders, 'map': False, 'cart': cart},
-                              context_instance=RequestContext(request))
-
-
-def stores_items(request, id):
-
-    items = Item.objects.filter(stores__id=id).exclude(price=0).order_by("-added")
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-    orders = Orders.objects.filter(status=0).count()
-    stores = get_object_or_404(Stores, id=id)
-
-    return render_to_response('elephants/stores_position.html',
-                              {'items': items, 'stores': stores,
-                               'orders': orders, 'map': False, 'cart': cart},
-                              context_instance=RequestContext(request))
 

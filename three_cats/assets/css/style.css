@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    overflow-x: hidden;
 }
 /*
 body {
@@ -9,6 +10,30 @@ body {
     background-position: center;
 }
 */
+
+.img-responsive,
+.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgb(255, 255, 255);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
 legend {
     border: none;
     font-size: 1.7em;
@@ -79,6 +104,10 @@ legend {
 }
 }
 
+.cs-logo-mini {
+    width: 125px;
+}
+
 @media (min-width: 1200px) {
 .cs-photo-ligth2 {
     width: 570px;
@@ -100,22 +129,19 @@ legend {
 #map_canvas {
     height: 400px;}
 
+
+.cc-card {
+     margin: 20px;
+}
+
+.cs-construction{
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
 .cs-photo-heavy{
     height: 500px;
-}
-
-.cs-triangle{
-    margin-top: 20px;
-}
-
-.cs-triangle-partner{
-    margin-top: 15px;
-    text-align: center;
-}
-
-.cs-triangle-partner-img{
-    margin-top: 5px;
-    text-align: center;
 }
 
 .cs-bla{

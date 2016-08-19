@@ -3,7 +3,7 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
-    <link rel="icon" href="{{ STATIC_URL }}img/cs-logo-mini.png">
+    <link rel="icon" href="{{ STATIC_URL }}img/cc-logo-mini.png">
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -14,6 +14,7 @@
     <link href="{{ STATIC_URL }}css/jquery-ui.min.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/bootstrap-slider.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/icons.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -43,59 +44,43 @@
 
   <body>
 
-    <div class="container">
 
-         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-               {% for message in messages %}
-                     <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
-                     <button type="button" class="close" data-dismiss="alert">×</button>
-                     {{ message }}
-                  </div>
-               {% endfor %}
-            </div>
-         </div>
 
-        <nav class="navbar navbar-dark bg-inverse">
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+             {% for message in messages %}
+                <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ message }}
+                </div>
+             {% endfor %}
+          </div>
+      </div>
 
-            <!-- Brand -->
-            <a class="navbar-brand" href="#">Logo</a>
+      <nav class="navbar navbar-dark bg-inverse">
 
-            <!-- Links -->
+        <!-- Toggle Button -->
+        <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#nav-content">
+            ☰
+        </button>
+        <div class="container">
+        <!-- Nav Content -->
+        <div class="collapse navbar-toggleable-xs" id="nav-content">
+
+            <a class="navbar-brand" href="/">
+                <img class="cs-logo-mini" src="{{ STATIC_URL }}img/cc-logo-w.png" class="img-circle">
+            </a>
+
             <ul class="nav navbar-nav">
-                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/" title="{% trans 'Showcase' %}">
-                    {% trans 'Showcase' %}
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                </a></li>
-                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/about/" title="{% trans 'Common sense' %}">
-                    {% trans 'Common sense' %}
-                    <i class="glyphicon glyphicon-chevron-right"></i>
-                </a></li>
-                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/stores/" title="{% trans 'Where to buy' %}">
-                    {% trans 'Where to buy' %}
-                    <i class="glyphicon glyphicon-chevron-right"></i>
-                </a></li>
-                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/soup/" title="{% trans 'Soup of the day' %}" target="_blank">
-                    {% trans 'Soup of the day' %}
-                    <i class="glyphicon glyphicon-chevron-right"></i>
-                </a></li>
-                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/delivery/" title="{% trans 'Delivery' %}">
-                    {% trans 'Delivery' %}
-                    <i class="glyphicon glyphicon-chevron-right"></i>
-                </a></li>
-                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/contacts/" title="{% trans 'Contacts' %}">
-                    {% trans 'Contacts' %}
-                    <i class="glyphicon glyphicon-chevron-right"></i>
-                </a></li>
                 <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/feedback/" title="{% trans 'Feedback' %}">
                     {% trans 'Feedback' %}
-                    <i class="glyphicon glyphicon-chevron-right"></i>
                 </a></li>
 
             </ul>
 
             <ul class="nav navbar-nav pull-xs-right pull-sm-right pull-md-right pull-lg-right">
 
+                <!--
                 {% if LANGUAGE_CODE == "en" %}
                   <li class="nav-item">
                       En
@@ -111,79 +96,71 @@
                       Рус
                   </li>
                 {% endif %}
+                -->
 
+                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/delivery/" title="{% trans 'Delivery' %}">
+                    {% trans 'Delivery' %}
+                </a></li>
+                <li class="nav-item"><a class="nav-link cs-main-menu-color" href="/stores/" title="{% trans 'Where to buy' %}">
+                    {% trans 'Payment' %}
+                </a></li>
                 <li class="nav-item">
                   {% if request.user.is_authenticated %}
                     {% if orders %}
                       <a class="nav-link cs-main-menu-color" href="/orders/0/">
-                        <b><i class="glyphicon glyphicon-thumbs-up icon-white cs-icon-shopping-cart"></i>{% trans ' Orders' %}: </b>{{ orders }}
+                        <b><span class="icon-star"></span> | </b>{{ request.new_orders }}
                       </a>
                     {% else %}
                       <a class="nav-link cs-main-menu-color " href="/orders/">
-                        <b><i class="glyphicon glyphicon-thumbs-up cs-icon-shopping-cart"></i>{% trans ' Orders' %}: </b>{% trans 'Empty' %}
+                        <b><span class="icon-star"></span> | </b>{% trans 'Empty' %}
                       </a>
                     {% endif %}
                   {% else %}
-                    {% if cart.amount__sum %}
+                    {% if request.cart_amount %}
                       <a class="nav-link cs-main-menu-color ">
-                        <b><i class="glyphicon glyphicon-shopping-cart icon-white cs-icon-shopping-cart"></i>{% trans 'Cart' %}: </b>{{ cart.amount__sum }}
+                        <b><span class="icon-cart"></span> | </b>{{ request.cart_amount }}
                       </a>
                     {% else %}
                       <a class="nav-link cs-main-menu-color " href="#">
-                        <b><i class="glyphicon glyphicon-shopping-cart cs-icon-shopping-cart"></i>{% trans 'Cart' %}: </b>{% trans 'Empty' %}
+                        <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b>{% trans 'Empty' %}
                       </a>
                     {% endif %}
                   {% endif %}
                 </li>
 
             </ul>
-        </nav>
+        </div>
+        </div> <!--- container --->
+
+      </nav>
 
       <div class="row">
-
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-
+        <!---
+        <div class="col-md-3 col-lg-3 hidden-xs-down hidden-sm-down">
 
             <a href="/"><img class="cs-logo" crop="center" src="{{ STATIC_URL }}img/cs-logo.png"></a>
 
-            <div class="row cs-triangle">
-
-              <div class="cs-sn col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <a class="cs-auto" href="http://facebook.com/thecommonsense" target="_blank">
-                  <img id="cs-facebook" crop="center" src="{{ STATIC_URL }}img/facebook-icon.png">
-                </a>
-              </div>
-
-              <div class="cs-sn col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <a class="cs-auto" href="http://vk.com/the.common.sense" target="_blank">
-                  <img crop="center" id="cs-vk" src="{{ STATIC_URL }}img/vk-icon.png">
-                </a>
-              </div>
-
-              <div class="cs-sn col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <a class="cs-auto" href="http://instagram.com/thecommonsense" target="_blank">
-                  <img id="cs-instagram" crop="center" src="{{ STATIC_URL }}img/instagram-icon.png">
-                </a>
-              </div>
-            </div>
-
-            <div class="row cs-triangle-partner">
+            <div class="row">
               <h5><p>{% trans 'Our partners' %}</p></h5>
               <p>{% trans 'Sportswear shop' %}</p>
             </div>
 
-            <div class="row cs-triangle-partner-img">
+            <div class="row">
               <a href="http://tooposhop.com/"><img class="cs-logo-partner" crop="center" src="{{ STATIC_URL }}img/tup_s.png"></a>
             </div>
 
-            <div class="row cs-triangle-partner">
+            <div class="row">
                 <p>{% trans 'Odessa, Greek Athena Square Shopping Center 5th floor' %}</p>
             </div>
 
         </div>
+        --->
 
-        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
+          {% if maintitle %}
+
+            <div class="hidden-xs-down">
                 <!-- Carousel container -->
                 <div id="my-pics" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
@@ -198,14 +175,19 @@
                     </ol>
                     <!-- Content -->
                     <div class="carousel-inner" role="listbox">
+                        <div class="overlay">
+                            <div class="container">
+                                <img class="img-responsive" src="{{ STATIC_URL }}img/slogan.png">
+                            </div>
+                        </div>
                         {% for entry in maintitle %}
                             {% if forloop.revcounter == 1 %}
                                 <div class="carousel-item active">
-                                    <img src="{{ MEDIA_URL}}{{ entry.image }}">
+                                    <img class="img-responsive" src="{{ MEDIA_URL}}{{ entry.image }}">
                                 </div>
                             {% else %}
                                 <div class="carousel-item">
-                                    <img src="{{ MEDIA_URL}}{{ entry.image }}">
+                                    <img class="img-responsive" src="{{ MEDIA_URL}}{{ entry.image }}">
                                 </div>
                             {% endif %}
                         {% endfor %}
@@ -226,14 +208,58 @@
                     margin: 0 auto;
                 }
                 </style>
+            </div>
+
+          {% endif %}
 
 
-                {% block content %}{% endblock %}
 
         </div>
-      </div>
+      </div> <!--- row --->
 
-    </div>
+          <div class="container">
+
+              {% block content %}{% endblock %}
+
+          </div> <!--- container --->
+
+       <!--- footer --->
+       <div class="bg-inverse">
+         <div class="row">
+           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <div class="container">
+                    <div class="row">
+
+                      <div class="cs-sn col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <a href="http://facebook.com/thecommonsense" target="_blank">
+                          <img class="center-block" id="cs-facebook" src="{{ STATIC_URL }}img/facebook-icon-w.png">
+                        </a>
+                      </div>
+
+                      <div class="cs-sn col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <a href="http://vk.com/the.common.sense" target="_blank">
+                          <img class="center-block" crop="center" id="cs-vk" src="{{ STATIC_URL }}img/vk-icon-w.png">
+                        </a>
+                      </div>
+
+                      <div class="cs-sn col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <a href="http://instagram.com/thecommonsense" target="_blank">
+                          <img class="center-block" id="cs-instagram" crop="center" src="{{ STATIC_URL }}img/instagram-icon-w.png">
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="row">
+
+                    </div>
+                </div> <!--- container --->
+
+           </div>
+         </div>
+       </div>
+
+
 
     <div id="cs-cart-modal" class="modal fade">
     <div class="modal-dialog">
@@ -271,7 +297,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-46597923-1', 'thecommonsen.se');
+          ga('create', 'UA-46597923-1', 'catcult.club');
           ga('send', 'pageview');
 
       </script>

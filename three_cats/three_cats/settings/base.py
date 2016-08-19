@@ -84,7 +84,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    #'job_board.apps.users.middleware.UserTypeMiddleware',
+    'apps.info.middleware.UserProfileMiddleware',
 )
 
 ROOT_URLCONF = 'three_cats.urls'
@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'apps.elephants',
     'apps.info',
     'apps.orders',
+    'apps.moderation',
 
 )
 

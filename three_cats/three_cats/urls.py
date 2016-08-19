@@ -7,7 +7,8 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'apps.main_page.views.main_page', name='main_page'),
+    url(r'^$', 'apps.main_page.views.construction_page', name='construction'),
+    url(r'^4321/$', 'apps.main_page.views.main_page', name='main_page'),
 
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
@@ -15,19 +16,14 @@ urlpatterns = patterns('',
     url(r'^login/$', 'apps.info.views.user_login', name='user_login'),
     url(r'^logout/$', 'apps.info.views.user_logout', name='user_logout'),
 
-    url(r'^about/$', 'apps.info.views.about', name='about_as'),
     url(r'^feedback/$', 'apps.info.views.feedback', name='feedback'),
     url(r'^delivery/$', 'apps.info.views.delivery', name='delivery'),
-    url(r'^contacts/$', 'apps.info.views.contacts', name='contacts'),
-    url(r'^soup/$', 'apps.info.views.soup', name='soup_of_the_day'),
-    url(r'^stores/$', 'apps.elephants.views.stores', name='stores'),
 
-    url(r'^category/(?P<id>\d+)/$', 'apps.elephants.views.category', name='category'),
-    url(r'^fashion/(?P<id>\d+)/$', 'apps.elephants.views.fashion', name='fashion'),
-    url(r'^item/(?P<id>\d+)/$', 'apps.elephants.views.item', name='item'),
+    url(r'^fashions/(?P<id>\d+)/$', 'apps.elephants.views.fashions', name='fashions'),
+    url(r'^items/(?P<id>\d+)/$', 'apps.elephants.views.items', name='items'),
+    url(r'^item_details/(?P<id>\d+)/$', 'apps.elephants.views.item_details', name='item_details'),
 
-    url(r'^delivery/$', 'apps.info.views.delivery', name='delivery'),
-    url(r'^stores/(?P<id>\d+)/$', 'apps.elephants.views.stores_items', name='stores'),
+    url(r'^moderation/items/(?P<id>\d+)/$', 'apps.moderation.views.items', name='moderation_items'),
 
     url(r'^order/(?P<id>\d+)/(?P<amount>\d+)/$', 'apps.elephants.views.elephants_order', name='elephants_order'),
     url(r'^feedback_order/(?P<id>\d+)/$', 'apps.info.views.feedback_order', name='feedback_order'),

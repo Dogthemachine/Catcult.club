@@ -28,10 +28,6 @@ def user_login(request):
 
     order = get_object_or_404(Info, topic='feedback')
 
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-    orders = Orders.objects.filter(status=0).count()
-
     if request.method == 'POST':
         form = LoginForm(request.POST)
 
@@ -46,8 +42,9 @@ def user_login(request):
             return redirect('/')
 
     return render_to_response('info/login.html',
-                              {'form': form, 'order': order, 'orders': orders,
-                               'cart': cart},
+                              {'form': form,
+                               'order': order,
+                               },
                               context_instance=RequestContext(request))
 
 
@@ -69,15 +66,11 @@ def delivery(request):
     try:
         topic = get_object_or_404(Info, topic='delivery')
 
-        cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-        orders = Orders.objects.filter(status=0).count()
-
     except:
         raise Http404
 
     return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': False, 'orders': orders, 'map': False, 'cart': cart},
+                              {'topic': topic, 'photos': False, 'map': False},
                               context_instance=RequestContext(request))
 
 
@@ -86,10 +79,6 @@ def feedback(request):
     order = get_object_or_404(Info, topic='feedback')
 
     form = ContactForm()
-
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-    orders = Orders.objects.filter(status=0).count()
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -111,8 +100,7 @@ def feedback(request):
             return redirect('feedback')
 
     return render_to_response('info/feedback.html',
-                              {'form': form, 'order': order, 'orders': orders,
-                               'cart': cart},
+                              {'form': form, 'order': order},
                               context_instance=RequestContext(request))
 
 
@@ -121,10 +109,6 @@ def feedback_order(request, id):
     order = get_object_or_404(Info, topic='feedback')
 
     form = ContactForm()
-
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-    orders = Orders.objects.filter(status=0).count()
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -146,8 +130,7 @@ def feedback_order(request, id):
             return redirect('feedback')
 
     return render_to_response('info/feedback.html',
-                              {'form': form, 'order': order, 'orders': orders,
-                               'cart': cart},
+                              {'form': form, 'order': order},
                               context_instance=RequestContext(request))
 
 
@@ -155,27 +138,8 @@ def contacts(request):
 
     topic = get_object_or_404(Info, topic='contacts')
 
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-    orders = Orders.objects.filter(status=0).count()
-
     return render_to_response('info/simple_view.html',
                               {'topic': topic, 'photos': False, 'orders': orders, 'map': True, 'cart': cart},
-                              context_instance=RequestContext(request))
-
-
-def about(request):
-
-    topic = get_object_or_404(Info, topic='about')
-
-    photos = Infophoto.objects.filter(info=topic)
-
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-    orders = Orders.objects.filter(status=0).count()
-
-    return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': photos, 'orders': orders, 'map': False, 'cart': cart},
                               context_instance=RequestContext(request))
 
 
@@ -183,12 +147,8 @@ def actions(request):
 
     topic = get_object_or_404(Info, topic='actions')
 
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-    orders = Orders.objects.filter(status=0).count()
-
     return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': False, 'orders': orders, 'map': False, 'cart': cart},
+                              {'topic': topic, 'photos': False, 'map': False},
                               context_instance=RequestContext(request))
 
 
@@ -197,10 +157,6 @@ def checkout(request):
     order = get_object_or_404(Info, topic='checkout')
 
     form = CheckoutForm()
-
-    cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-
-    orders = Orders.objects.filter(status=0).count()
 
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
@@ -270,16 +226,8 @@ def checkout(request):
             return redirect('/')
 
     return render_to_response('info/checkout.html',
-                              {'form': form, 'order': order, 'orders': orders,
-                               'cart': cart},
+                              {'form': form, 'order': order},
                               context_instance=RequestContext(request))
-
-
-def soup(request):
-
-    topic = get_object_or_404(Info, topic='soup')
-
-    return redirect(topic.title)
 
 
 @csrf_exempt

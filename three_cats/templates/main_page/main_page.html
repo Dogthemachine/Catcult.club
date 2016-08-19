@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% load crispy_forms_tags %}
-{% crispy form form.helper %}
 
 {% block main %}
 
@@ -17,31 +15,49 @@
 
   <div class="container">
 
-    <div class="row">
-      {% if mainpage.info %}
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-main-text">
-          {{ mainpage.info|safe }}
+    {% if not request.user.is_authenticated %}
+
+      {% if items %}
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 hidden-xs-down">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-main-text cs-item-title">
+                  <p><h2>{% trans 'Our partners' %}</h2></p>
+                </div>
+
+                {% for entry in items %}
+
+                    <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-4 cc-card">
+
+                      <a href="/fashions/{{ entry.id }}/" title="{% trans 'Show details' %}">
+                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.small_image }}"  alt="Card image cap">
+                      </a>
+                      <div class="card-block">
+                        <h4 class="card-title">{{ entry.name }}</h4>
+                        <p class="card-text">{{ entry.details }}</p>
+                      </div>
+                    </div>
+
+                {% endfor %}
+
+            </div>
         </div>
       {% endif %}
-    </div>
 
-    <div class="row">
+      <div class="row">
+        {% if mainpage.info %}
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
+            <p><h2>{{ mainpage.title|safe }}</h2></p>
+          </div>
+        {% endif %}
+      </div>
+      <div class="row cs-info">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-            {% for entry in items %}
-            <div class="card col-xs-4 col-sm-4 col-md-4 col-lg-4">
-              <a href="/category/{{ entry.id }}/" title="{% trans 'Show details' %}">
-                <img data-src="{{ MEDIA_URL }}{{ entry.small_image }}"  alt="Card image cap">
-              </a>
-              <div class="card-block">
-                <h4 class="card-title">{{ entry.name }}</h4>
-                <p class="card-text">{{ entry.details }}</p>
-              </div>
-            </div>
-            {% endfor %}
-
+          {{ mainpage.info|safe }}
         </div>
-    </div>
+      </div>
+
+    {% endif %}
 
   </div>
 

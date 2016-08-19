@@ -5,12 +5,10 @@ from modeltranslation.admin import TranslationAdmin
 
 class ItemsAdmin(TranslationAdmin):
 
-    list_display = ('name', 'added', 'price', 'price_description', 'description',)
-
-    filter_horizontal = ('stores',)
+    list_display = ('name', 'added', 'price', 'price_description', 'description', 'fashions',)
 
     fieldsets = [
-        (u'Items', {'fields': ('name', 'image', 'stores', 'description', 'details', 'price', 'price_description', 'price_description_rub',)})
+        (u'Items', {'fields': ('name', 'image', 'description', 'details', 'price', 'price_description', 'fashions',)})
     ]
 
     class Media:

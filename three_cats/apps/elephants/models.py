@@ -10,11 +10,11 @@ from django.conf import settings
 
 
 class Categories(models.Model):
-    name = models.CharField(_('name'), max_length=70, default='No name')
+    name = models.CharField(_('name'), max_length=70)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
     small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
-    details = models.TextField(_('details'), blank=True, default='')
-    sequence = models.PositiveSmallIntegerField(_('price'), default=0)
+    details = models.TextField(_('details'), blank=True)
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -51,7 +51,7 @@ class Fashions(models.Model):
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
     small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
     details = models.TextField(_('details'), blank=True, default='')
-    sequence = models.PositiveSmallIntegerField(_('price'), default=0)
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -82,6 +82,21 @@ class Fashions(models.Model):
         super(Fashions, self).save(*args, **kwargs)
 
 
+class Sizes(models.Model):
+    name = models.CharField(_('name'), max_length=20)
+    categories = models.ForeignKey(Categories)
+    description = models.TextField(_('description'), blank=True, default='')
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+
+    class Meta:
+        ordering = ('sequence',)
+        verbose_name = _('Sizes of items')
+        verbose_name_plural = _('Sizes of items')
+
+    def __unicode__(self):
+        return u'%s' % self.name
+
+
 class Stores(models.Model):
     name = models.CharField(_('name'), max_length=250)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
@@ -90,9 +105,10 @@ class Stores(models.Model):
     order_is_available = models.PositiveSmallIntegerField(_('order is available'), default=0)
     web_address = models.CharField(_('web_address'), max_length=250, blank=True, null=True, default=None)
     added = models.DateTimeField(_('added'), auto_now_add=True)
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
-        ordering = ('added',)
+        ordering = ('sequence',)
         verbose_name = _('stores')
         verbose_name_plural = _('stores')
 
@@ -123,7 +139,6 @@ class Stores(models.Model):
 class Items(models.Model):
     name = models.CharField(_('name'), max_length=250)
     fashions = models.ForeignKey(Fashions)
-    stores = models.ManyToManyField(Stores, blank=True, null=True, default=None)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
     small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
     description = models.TextField(_('description'), blank=True, default='')
@@ -172,3 +187,16 @@ class Photo(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.added
+
+
+class Balance(models.Model):
+    item = models.ForeignKey(Items)
+    size = models.ForeignKey(Sizes)
+    amount = models.PositiveSmallIntegerField(_('amount'), default=0)
+
+    class Meta:
+        verbose_name = _('Amount of items')
+        verbose_name_plural = _('Amount of items')
+
+    def __unicode__(self):
+        return u'%s' % self.item

@@ -1,32 +1,36 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.utils.translation import ugettext_lazy as _
-from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 
-from apps.elephants.models import Categories
-from apps.orders.models import Cart, Orders
 from apps.info.models import Maintitle, Info
+from apps.elephants.models import Stores
 
 def main_page(request):
 
-    mainpage = get_object_or_404(Info, topic='mainpage')
+    if request.user.is_authenticated():
 
-    try:
-        items = Categories.objects.all()
-        maintitle = Maintitle.objects.all()
-        orders = Orders.objects.filter(status=0).count()
-        cart = Cart.objects.filter(session_key=request.session._session_key).aggregate(Sum('amount'))
-    except:
-        raise
+        return render_to_response('main_page/main_page_mod.html', {
+                                                                  },
+                                  context_instance=RequestContext(request))
 
-    if len(items) == 0:
-        items = [{'name': _('There is no images now')}]
+    else:
 
-    return render_to_response('main_page/main_page.html', {'main_page': True,
-                                                           'mainpage': mainpage,
-                                                           'items': items,
-                                                           'orders': orders,
-                                                           'maintitle': maintitle,
-                                                           'cart': cart},
-                              context_instance=RequestContext(request))
+        mainpage = get_object_or_404(Info, topic='mainpage')
+
+        try:
+            items = Stores.objects.all()
+            maintitle = Maintitle.objects.all()
+        except:
+            raise
+
+        return render_to_response('main_page/main_page.html', {'mainpage': mainpage,
+                                                               'items': items,
+                                                               'maintitle': maintitle},
+                                  context_instance=RequestContext(request))
+
+
+def construction_page(request):
+
+        return render_to_response('main_page/construction_page.html', {
+                                                               },
+                                  context_instance=RequestContext(request))

@@ -1,0 +1,33 @@
+{% extends 'base_mod.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% trans 'Items balance' %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>{% trans 'Items Name' %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in items %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ entry.name }}</td>
+              <td><input type="text" class="cs-balance-{{ entry.id }}"></td>
+              <td><button class="btn cs-save-balance" data-balance="{{ entry.id }}">{% trans "Save" %}</button></td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+{% endblock %}
