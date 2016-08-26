@@ -2,8 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404
 
-from apps.info.models import Maintitle, Info
-from apps.elephants.models import Stores
+from apps.info.models import Maintitle, Info, Stores
 
 def main_page(request):
 
@@ -16,6 +15,8 @@ def main_page(request):
     else:
 
         mainpage = get_object_or_404(Info, topic='mainpage')
+        delivery = get_object_or_404(Info, topic='delivery')
+        payment = get_object_or_404(Info, topic='payment')
 
         try:
             items = Stores.objects.all()
@@ -25,7 +26,9 @@ def main_page(request):
 
         return render_to_response('main_page/main_page.html', {'mainpage': mainpage,
                                                                'items': items,
-                                                               'maintitle': maintitle},
+                                                               'maintitle': maintitle,
+                                                               'delivery': delivery,
+                                                               'payment': payment},
                                   context_instance=RequestContext(request))
 
 

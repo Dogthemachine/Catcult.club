@@ -17,27 +17,24 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'apps.info.views.user_logout', name='user_logout'),
 
     url(r'^feedback/$', 'apps.info.views.feedback', name='feedback'),
-    url(r'^delivery/$', 'apps.info.views.delivery', name='delivery'),
+    url(r'^contacts/$', 'apps.info.views.contacts', name='contacts'),
 
-    url(r'^fashions/(?P<id>\d+)/$', 'apps.elephants.views.fashions', name='fashions'),
-    url(r'^items/(?P<id>\d+)/$', 'apps.elephants.views.items', name='items'),
+    url(r'^showcase/(?P<category_id>\d+)/(?P<fashion_id>\d+)/$', 'apps.elephants.views.showcase', name='showcase'),
     url(r'^item_details/(?P<id>\d+)/$', 'apps.elephants.views.item_details', name='item_details'),
 
-    url(r'^moderation/items/(?P<id>\d+)/$', 'apps.moderation.views.items', name='moderation_items'),
+    url(r'^balances/$', 'apps.moderation.views.balances', name='balances'),
+    url(r'^advent/$', 'apps.moderation.views.advent', name='advent'),
+    url(r'^correction/$', 'apps.moderation.views.correction', name='correction'),
 
     url(r'^order/(?P<id>\d+)/(?P<amount>\d+)/$', 'apps.elephants.views.elephants_order', name='elephants_order'),
     url(r'^feedback_order/(?P<id>\d+)/$', 'apps.info.views.feedback_order', name='feedback_order'),
-    url(r'^contacts/$', 'apps.info.views.contacts', name='contacts'),
     url(r'^cart/$', 'apps.elephants.views.cart', name='cart'),
     url(r'^cart_remove/(?P<id>\d+)/$', 'apps.elephants.views.cart_remove', name='cart_remove'),
-    url(r'^actions/$', 'apps.info.views.actions', name='actions'),
-
     url(r'^checkout/$', 'apps.info.views.checkout', name='checkout'),
     url(r'^orders/$', 'apps.elephants.views.orders', name='orders_table'),
     url(r'^orders/(?P<status>\d+)/$', 'apps.elephants.views.orders', name='orders_table'),
     url(r'^orders/(?P<status>\d+)/(?P<id>\d+)/$', 'apps.elephants.views.orders', name='orders_table'),
     url(r'^order_position/$', 'apps.elephants.views.order_position', name='order_position'),
-    url(r'^simple_photo/(?P<id>\d+)/$', 'apps.info.views.simple_photo', name='simple_photo'),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 

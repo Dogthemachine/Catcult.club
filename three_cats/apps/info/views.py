@@ -62,18 +62,6 @@ def user_logout(request):
     return redirect('/')
 
 
-def delivery(request):
-    try:
-        topic = get_object_or_404(Info, topic='delivery')
-
-    except:
-        raise Http404
-
-    return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': False, 'map': False},
-                              context_instance=RequestContext(request))
-
-
 def feedback(request):
 
     order = get_object_or_404(Info, topic='feedback')
@@ -140,15 +128,6 @@ def contacts(request):
 
     return render_to_response('info/simple_view.html',
                               {'topic': topic, 'photos': False, 'orders': orders, 'map': True, 'cart': cart},
-                              context_instance=RequestContext(request))
-
-
-def actions(request):
-
-    topic = get_object_or_404(Info, topic='actions')
-
-    return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': False, 'map': False},
                               context_instance=RequestContext(request))
 
 
@@ -228,18 +207,3 @@ def checkout(request):
     return render_to_response('info/checkout.html',
                               {'form': form, 'order': order},
                               context_instance=RequestContext(request))
-
-
-@csrf_exempt
-def simple_photo(request, id=None):
-
-    item = get_object_or_404(Infophoto, id=id)
-
-    html = render_to_string('info/simple_photo.html',
-                                {'item': item},
-                                context_instance=RequestContext(request))
-
-    response_data = {'html': html}
-
-    return HttpResponse(json.dumps(response_data),
-                            mimetype="application/json")

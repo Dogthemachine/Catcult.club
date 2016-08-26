@@ -73,10 +73,6 @@ $(document).ajaxSend(function(event, xhr, settings) {
 
 $(document).ready(function() {
 
-    $('#myCarousel').carousel()
-
-    $('#mainCarousel').carousel()
-
     $('#cs-contact-form-submit').on('click', function(e) {
         e.preventDefault();
         if ($('#cs-contact-form').is_valid()) {$('#cs-contact-form').submit();}
@@ -120,7 +116,6 @@ $(document).ready(function() {
             }
         });
     });
-
 
     $('.cs-photo-simple').on('click', function(e) {
         $('.cs-cart-confirm').data();
@@ -262,5 +257,4 @@ $(document).ready(function() {
 
     // Call to Google Maps
     initialize();
-
 });

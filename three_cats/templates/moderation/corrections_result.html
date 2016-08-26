@@ -1,0 +1,32 @@
+{% load i18n %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>{% trans 'Manager' %}</td>
+            <td>{% trans 'Number of ads' %}</td>
+            <td>{% trans 'Amount of ads' %}</td>
+            <td>{% trans 'Sum payments' %}</td>
+            <td>{% trans 'The number of customers' %}</td>
+            <td>{% trans 'Number of new customers' %}</td>
+            <td>{% trans 'The number of calls' %}</td>
+          </tr>
+        </thead>
+        {% for manager in stats %}
+          <tr>
+            <td><a class="crm-managers-result-date" href="#" data-uid="{{ manager.0 }}" >{{ manager.7 }}</a></td>
+            <td>{{ manager.1 }}</td>
+            <td>{{ manager.2 }}</td>
+            <td>{{ manager.3 }}</td>
+            <td>{{ manager.4 }}</td>
+            <td>{{ manager.5 }}</td>
+            <td>{{ manager.6 }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+{% endblock %}
