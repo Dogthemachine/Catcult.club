@@ -9,6 +9,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.db.models import Sum
 
 
 class Categories(models.Model):
@@ -73,6 +74,7 @@ class Items(models.Model):
     details = models.TextField(_('details'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
     price_description = models.CharField(_('price_description'), max_length=250, default='')
+    views_per_month = models.PositiveSmallIntegerField(_('sequence'), default=0)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -107,7 +109,12 @@ class Items(models.Model):
         return Balance.objects.filter(item=self)
 
     def get_amount(self):
-        return Balance.objects.filter(item=self)
+        return Balance.objects.filter(item=self).aggregate(Sum('amount'))
+
+
+class Items_views(models.Model):
+    item = models.ForeignKey(Items)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
 
 
 class Photo(models.Model):

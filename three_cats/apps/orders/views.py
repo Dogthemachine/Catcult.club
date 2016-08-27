@@ -13,9 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 
-from apps.orders.models import Cart, Orders, Orderitems
-from .models import Photo, Categories, Fashions, Items
-from apps.info.models import Info, Maintitle, Stores
+from .models import Cart, Orders, Orderitems
+from ..elephants.models import Items
 
 
 @json_view
@@ -24,7 +23,7 @@ def elephants_order(request, id, amount):
 
     if request.method == 'POST':
 
-        item = get_object_or_404(Item, id=id)
+        item = get_object_or_404(Items, id=id)
 
         try:
             session_key = request.session.session_key

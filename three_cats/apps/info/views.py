@@ -14,9 +14,9 @@ from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 
 from forms import ContactForm, CheckoutForm, LoginForm
-from models import Info, Infophoto
-from apps.elephants.models import Items
-from apps.orders.models import Cart, Orders, Orderitems
+from .models import Info
+from ..elephants.models import Items
+from ..orders.models import Cart, Orders, Orderitems
 
 
 def user_login(request):
