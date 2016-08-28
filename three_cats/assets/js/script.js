@@ -72,30 +72,17 @@ $(document).ajaxSend(function(event, xhr, settings) {
 
 
 $(document).ready(function() {
-
+    //---?---
     $('#cs-contact-form-submit').on('click', function(e) {
         e.preventDefault();
         if ($('#cs-contact-form').is_valid()) {$('#cs-contact-form').submit();}
     });
-    
-    $('#cs-button-order').on('click', function(e) {
-        e.preventDefault();
-        e_id = $(this).attr('el_id');
-        $.ajax({
-            url: '/order/',
-            data: JSON.stringify({'id': e_id}),
-            type: 'post',
-            success: function(response, textStatus, jqXHR) {
-                $('#cs-cart').replaceWith(response['cart']);
-            }
-        });
-    });
 
     // Order item
-    $('.cs-elephant-order-confirm').on('click', function() {
+    $('.cc-order-confirm').on('click', function() {
         //alert($(this).data('id'))
         $.ajax({
-            url: '/order/' + $(this).data('id') + '/1/',
+            url: '/order/' + $(this).data('id') + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {

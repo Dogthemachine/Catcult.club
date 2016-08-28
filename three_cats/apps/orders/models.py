@@ -2,13 +2,14 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from apps.elephants.models import Items
+from ..elephants.models import Balance
 
 
 class Orders(models.Model):
+    number = models.CharField(_('number'), max_length=20)
     name = models.CharField(_('name'), max_length=70, default='No name')
     phone = models.CharField(_('phone'), max_length=32, default='')
-    email = models.EmailField(_('email'))
+    email = models.EmailField(_('email'), default='')
     city = models.CharField(_('city'), max_length=32, default='')
     delivery = models.CharField(_('delivery'), max_length=32, default=0)
     payment = models.CharField(_('payment'), max_length=32, default=0)
@@ -28,7 +29,7 @@ class Orders(models.Model):
 
 class Orderitems(models.Model):
     order = models.ForeignKey(Orders)
-    item = models.ForeignKey(Items)
+    balance = models.ForeignKey(Balance)
 
     class Meta:
         ordering = ('order',)
@@ -40,9 +41,9 @@ class Orderitems(models.Model):
 
 
 class Cart(models.Model):
-    item = models.ForeignKey(Items)
+    balance = models.ForeignKey(Balance)
     session_key = models.CharField(_('name'), max_length=32)
-    amount = models.SmallIntegerField(_('amount'))
+    amount = models.SmallIntegerField(_('amount'), default=1)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:

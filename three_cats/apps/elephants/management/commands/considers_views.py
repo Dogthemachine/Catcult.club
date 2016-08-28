@@ -9,12 +9,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        from apps.elephants.models import Items
+        import datetime
+        from apps.elephants.models import Items, Items_views
 
-        Items_objects = Items.objects.all()
-        for Items_object in Items_objects:
-            Items_object.name_ru = Items_object.name
-            Items_object.description_ru = Items_object.description
-            Items_object.details_ru = Items_object.details
-            Items_object.price_description_ru = Items_object.price_description
-            Items_object.save()
+        items = Items.objects.all()
+        date_views = datetime.date.today() - datetime.timedelta(days=30)
+        Items_views.objects.exclude(added__gt=date_views).delete()
+        for item in items:
+            item.views_per_month = Items_views.objects.filter(item=item).count() + 1
+            item.save()

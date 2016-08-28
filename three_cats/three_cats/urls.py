@@ -26,15 +26,18 @@ urlpatterns = patterns('',
     url(r'^advent/$', 'apps.moderation.views.advent', name='advent'),
     url(r'^correction/$', 'apps.moderation.views.correction', name='correction'),
 
-    url(r'^order/(?P<id>\d+)/(?P<amount>\d+)/$', 'apps.elephants.views.elephants_order', name='elephants_order'),
+    url(r'^cart/$', 'apps.orders.views.cart', name='cart'),
+    url(r'^orders/$', 'apps.orders.views.orders', name='all_orders'),
+    url(r'^orders/(?P<status>\d+)/$', 'apps.orders.views.orders', name='orders_status'),
+    url(r'^order_position/(?P<id>\d+)/$', 'apps.orders.views.order_position', name='order_position'),
+    url(r'^order/(?P<id>\d+)/$', 'apps.orders.views.elephants_order', name='elephants_order'),
+
+
+
     url(r'^feedback_order/(?P<id>\d+)/$', 'apps.info.views.feedback_order', name='feedback_order'),
-    url(r'^cart/$', 'apps.elephants.views.cart', name='cart'),
     url(r'^cart_remove/(?P<id>\d+)/$', 'apps.elephants.views.cart_remove', name='cart_remove'),
     url(r'^checkout/$', 'apps.info.views.checkout', name='checkout'),
-    url(r'^orders/$', 'apps.elephants.views.orders', name='orders_table'),
-    url(r'^orders/(?P<status>\d+)/$', 'apps.elephants.views.orders', name='orders_table'),
-    url(r'^orders/(?P<status>\d+)/(?P<id>\d+)/$', 'apps.elephants.views.orders', name='orders_table'),
-    url(r'^order_position/$', 'apps.elephants.views.order_position', name='order_position'),
+
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
