@@ -17,33 +17,6 @@
 
     {% if not request.user.is_authenticated %}
 
-      {% if items %}
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12 hidden-xs-down">
-
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-main-text cs-item-title">
-                  <p><h2>{% trans 'Our partners' %}</h2></p>
-                </div>
-
-                {% for entry in items %}
-
-                    <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-4 cc-card">
-
-                      <a href="/fashions/{{ entry.id }}/" title="{% trans 'Show details' %}">
-                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.small_image }}"  alt="Card image cap">
-                      </a>
-                      <div class="card-block">
-                        <h4 class="card-title">{{ entry.name }}</h4>
-                        <p class="card-text">{{ entry.details }}</p>
-                      </div>
-                    </div>
-
-                {% endfor %}
-
-            </div>
-        </div>
-      {% endif %}
-
       <div class="row">
         <p>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
@@ -60,9 +33,17 @@
       <div id="delivery" class="row">
         <p>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
-              <p><h2>{{ delivery.title|safe }}</h2></p>
+              <h2>{{ delivery.title|safe }}</h2>
             </div>
         </p>
+        {% if delivery.image %}
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <img class="center-block" crop="center" src="{{ MEDIA_URL}}{{ delivery.image }}">
+              </div>
+            </div>
+          </div>
+        {% endif %}
         <p>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
               {{ delivery.info|safe }}

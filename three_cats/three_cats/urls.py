@@ -18,6 +18,8 @@ urlpatterns = patterns('',
 
     url(r'^feedback/$', 'apps.info.views.feedback', name='feedback'),
     url(r'^contacts/$', 'apps.info.views.contacts', name='contacts'),
+    url(r'^about/$', 'apps.info.views.about', name='about_as'),
+    url(r'^partners/$', 'apps.info.views.partners', name='partners'),
 
     url(r'^showcase/(?P<category_id>\d+)/(?P<fashion_id>\d+)/$', 'apps.elephants.views.showcase', name='showcase'),
     url(r'^item_details/(?P<id>\d+)/$', 'apps.elephants.views.item_details', name='item_details'),
@@ -35,7 +37,7 @@ urlpatterns = patterns('',
 
 
     url(r'^feedback_order/(?P<id>\d+)/$', 'apps.info.views.feedback_order', name='feedback_order'),
-    url(r'^cart_remove/(?P<id>\d+)/$', 'apps.elephants.views.cart_remove', name='cart_remove'),
+    url(r'^cart_remove/(?P<id>\d+)/$', 'apps.orders.views.cart_remove', name='cart_remove'),
     url(r'^checkout/$', 'apps.info.views.checkout', name='checkout'),
 
 

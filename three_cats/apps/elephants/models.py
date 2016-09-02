@@ -18,7 +18,7 @@ class Categories(models.Model):
     icon_b = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
     icon_c = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
     details = models.TextField(_('details'), blank=True)
-    sorting = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -39,7 +39,7 @@ class Fashions(models.Model):
     icon_b = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
     icon_c = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
     details = models.TextField(_('details'), blank=True, default='')
-    sorting = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -54,7 +54,7 @@ class Sizes(models.Model):
     name = models.CharField(_('name'), max_length=20)
     categories = models.ForeignKey(Categories)
     description = models.TextField(_('description'), blank=True, default='')
-    sorting = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -73,7 +73,7 @@ class Items(models.Model):
     description = models.TextField(_('description'), blank=True, default='')
     details = models.TextField(_('details'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
-    price_description = models.CharField(_('price_description'), max_length=250, default='грн.')
+    price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
     views_per_month = models.PositiveSmallIntegerField(_('sequence'), default=0)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 

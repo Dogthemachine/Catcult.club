@@ -24,9 +24,9 @@ def lang(t):
 
 
 class ContactForm(forms.Form):
-    name = forms.CharField(label=_('Name'), max_length=70, widget=forms.TextInput(attrs={'class': 'span6'}))
-    email = forms.EmailField(label=_('Email'), max_length=40, widget=forms.TextInput(attrs={'class': 'span6'}))
-    message = forms.CharField(label=_('Message'), max_length=1000, widget=forms.Textarea(attrs={'rows': 4, 'class': 'span6'}))
+    name = forms.CharField(label=_('Name'), max_length=70, widget=forms.TextInput(attrs={'class': 'span9'}))
+    email = forms.EmailField(label=_('Email'), max_length=40, widget=forms.TextInput(attrs={'class': 'span9'}))
+    message = forms.CharField(label=_('Message'), max_length=1000, widget=forms.Textarea(attrs={'rows': 4, 'class': 'span9'}))
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()

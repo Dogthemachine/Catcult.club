@@ -242,6 +242,17 @@ $(document).ready(function() {
 
     });
 
+    $('.cs-zoom img').elevateZoom({
+        responsive: true,
+        easing: true,
+        zoomType: 'inner',
+        cursor: 'crosshair',
+        gallery: 'cs-product-photos',
+        galleryActiveClass: 'cs-product-active-photo',
+        imageCrossfade: true,
+        loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
+    });
+
     // Call to Google Maps
     initialize();
 });

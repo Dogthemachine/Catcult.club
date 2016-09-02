@@ -14,7 +14,7 @@ from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 
 from forms import ContactForm, CheckoutForm, LoginForm
-from .models import Info
+from .models import Info, Stores
 from ..elephants.models import Items
 from ..orders.models import Cart, Orders, Orderitems
 
@@ -92,42 +92,32 @@ def feedback(request):
                               context_instance=RequestContext(request))
 
 
-def feedback_order(request, id):
-
-    order = get_object_or_404(Info, topic='feedback')
-
-    form = ContactForm()
-
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            subject = _('[Contact form] New order. Items kod ') + str(id)
-            message = (form.cleaned_data.get('name') + '\n\n' +
-                       form.cleaned_data.get('email') + '\n\n' +
-                       form.cleaned_data.get('message'))
-            from_email = settings.EMAIL_HOST_USER
-            recipient_list = [settings.CONTACT_EMAIL]
-            fail_silently = True
-
-            send_mail(subject, message, from_email,
-                      recipient_list, fail_silently)
-
-            messages.add_message(request, messages.SUCCESS,
-                                 _('The message was successfully sent.'))
-
-            return redirect('feedback')
-
-    return render_to_response('info/feedback.html',
-                              {'form': form, 'order': order},
-                              context_instance=RequestContext(request))
-
-
 def contacts(request):
 
     topic = get_object_or_404(Info, topic='contacts')
 
     return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': False, 'orders': orders, 'map': True, 'cart': cart},
+                              {'topic': topic, 'photos': False, 'map': False},
+                              context_instance=RequestContext(request))
+
+
+def about(request):
+
+    topic = get_object_or_404(Info, topic='about_as')
+
+    return render_to_response('info/simple_view.html',
+                              {'topic': topic, 'photos': False, 'map': False},
+                              context_instance=RequestContext(request))
+
+
+def partners(request):
+
+    topic = get_object_or_404(Info, topic='partners')
+    items = Stores.objects.all()
+
+    return render_to_response('info/partners.html',
+                              {'topic': topic,
+                               'items': items},
                               context_instance=RequestContext(request))
 
 
@@ -205,5 +195,35 @@ def checkout(request):
             return redirect('/')
 
     return render_to_response('info/checkout.html',
+                              {'form': form, 'order': order},
+                              context_instance=RequestContext(request))
+
+
+def feedback_order(request, id):
+
+    order = get_object_or_404(Info, topic='feedback')
+
+    form = ContactForm()
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = _('[Contact form] New order. Items kod ') + str(id)
+            message = (form.cleaned_data.get('name') + '\n\n' +
+                       form.cleaned_data.get('email') + '\n\n' +
+                       form.cleaned_data.get('message'))
+            from_email = settings.EMAIL_HOST_USER
+            recipient_list = [settings.CONTACT_EMAIL]
+            fail_silently = True
+
+            send_mail(subject, message, from_email,
+                      recipient_list, fail_silently)
+
+            messages.add_message(request, messages.SUCCESS,
+                                 _('The message was successfully sent.'))
+
+            return redirect('feedback')
+
+    return render_to_response('info/feedback.html',
                               {'form': form, 'order': order},
                               context_instance=RequestContext(request))

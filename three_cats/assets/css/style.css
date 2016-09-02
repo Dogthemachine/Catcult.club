@@ -81,37 +81,33 @@ legend {
 }
 
 @media (min-width: 1200px) {
-.cs-logo {
-    width: 200px;
-    margin-left: 22px;
-}
-.cs-logo-partner {
-    width: 125px;
+.cc-logo {
+    width: 300px;
 }
 }
 
 @media (min-width: 980px) and (max-width: 1199px) {
-.cs-logo {
-    width: 175px;
-    margin-left: 10px;
-}
-.cs-logo-partner {
-    width: 100px;
+.cc-logo {
+    width: 250px;
 }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-.cs-logo {
-    width: 100px;
-}
-.cs-logo-partner {
-    width: 73px;
+.cc-logo {
+    width: 150px;
 }
 }
 
-.cs-logo-mini {
-    width: 125px;
+@media (max-width: 767px) {
+.cc-logo {
+    width: 150px;
 }
+}
+
+.cc-logo-mini {
+     width: 125px;
+}
+
 
 @media (min-width: 1200px) {
 .cs-photo-ligth2 {
@@ -211,43 +207,13 @@ legend {
     margin-top: 10px;
 }
 
-.cs-menu {
-    padding: 0;
-    margin-top: 15px;
+/* base.html */
+.cc-sn img {
+    width: 30px;
 }
 
-.cs-menu li a {
-    position: relative;
-    z-index: 2;
-    padding: 9px 15px;
-    border-top: 2px solid #111;
-    border-right: 2px solid #111;
-    border-left: 2px solid #111;
-    background-color: #fff;
-}
-
-.cs-menu li:first-child > a {
-    border-radius: 0px 0px 0 0;
-}
-
-.cs-menu li:last-child > a {
-    border-radius: 0 0 0px 0px;
-    border-bottom: 2px solid #111;
-}
-
-.cs-menu .icon-chevron-right {
-    float: right;
-    opacity: 0.3;
-    margin-top: 2px;
-}
-
-.cs-menu img {
-    width: 50px;
-}
-
-.cs-sn img {
-    width: 50px;
-    margin-top: 20px;
+.cc-contacts {
+    margin-left: 30px;
 }
 
 .cs-info {
@@ -335,12 +301,13 @@ legend {
 }
 
 
-.cs-main-menu-color {
-    color: #999;
+.cc-main-menu-color {
+    color: rgb(255, 255, 255);
 }
 
-.cs-main-menu-color:hover, .cs-main-menu-color:focus {
-    color: #111;
+.cc-main-menu-color:hover,
+.cc-main-menu-color:focus {
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .cs-delivery-video{

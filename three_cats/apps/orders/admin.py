@@ -4,14 +4,13 @@ from modeltranslation.admin import TranslationAdmin
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('item', 'amount', 'session_key',)
-
+    list_display = ('balance', 'amount', 'session_key',)
 
 class OrdersAdmin(admin.ModelAdmin):
     list_display = ('name', 'phone', 'email', 'city', 'delivery', 'payment', 'massage', 'cost', 'status',)
 
 class OrderitemsAdmin(admin.ModelAdmin):
-    list_display = ('order', 'item',)
+    list_display = ('order', 'balance',)
 
 admin.site.register(Cart, CartAdmin)
 
