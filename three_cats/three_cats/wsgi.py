@@ -14,6 +14,9 @@ framework.
 
 """
 import os
+import dotenv
+
+dotenv.read_dotenv()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "three_cats.settings")
 
