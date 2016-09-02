@@ -14,12 +14,14 @@
         <tr>
           <th>#</th>
           <th>{% trans 'Items Name' %}</th>
+          <th>#</th>
+          <th>#</th>
         </tr>
       </thead>
       <tbody>
         {% for entry in items %}
             <tr>
-              <th scope="row">{{ forloop.counter }}</th>
+              <td scope="row">{{ forloop.counter }}</td>
               <td>{{ entry.name }}</td>
               <td><input type="text" class="cs-balance-{{ entry.id }}"></td>
               <td><button class="btn cs-save-balance" data-balance="{{ entry.id }}">{% trans "Save" %}</button></td>

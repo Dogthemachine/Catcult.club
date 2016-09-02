@@ -4,17 +4,21 @@ from cStringIO import StringIO
 from PIL import Image
 
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.db.models.signals import post_save, post_delete
 from django.db import models
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.db.models import Sum
 
 
 class Categories(models.Model):
     name = models.CharField(_('name'), max_length=70)
-    image = models.ImageField(upload_to='photos/%Y/%m/%d')
-    small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
+    icon_a = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
+    icon_b = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
+    icon_c = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
     details = models.TextField(_('details'), blank=True)
-    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    sorting = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -24,34 +28,18 @@ class Categories(models.Model):
     def __unicode__(self):
         return u'%s' % self.name
 
-    def save(self, *args, **kwargs):
-        SIZE = (300, 300)
-
-        image = Image.open(self.image)
-
-        small_image = image.copy()
-
-        small_image.thumbnail(SIZE, Image.ANTIALIAS)
-
-        temp_handle = StringIO()
-        small_image.save(temp_handle, 'JPEG')
-        temp_handle.seek(0)
-
-        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1][:-4] + '.jpg',
-                                 temp_handle.read(),
-                                 content_type='image/jpeg')
-        self.small_image.save(suf.name, suf, save=False)
-
-        super(Categories, self).save(*args, **kwargs)
+    def get_fashions(self):
+        return Fashions.objects.filter(categories=self)
 
 
 class Fashions(models.Model):
     name = models.CharField(_('name'), max_length=70, default='No name')
     categories = models.ForeignKey(Categories)
-    image = models.ImageField(upload_to='photos/%Y/%m/%d')
-    small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
+    icon_a = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
+    icon_b = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
+    icon_c = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
     details = models.TextField(_('details'), blank=True, default='')
-    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    sorting = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -61,32 +49,12 @@ class Fashions(models.Model):
     def __unicode__(self):
         return u'%s' % self.name
 
-    def save(self, *args, **kwargs):
-        SIZE = (300, 300)
-
-        image = Image.open(self.image)
-
-        small_image = image.copy()
-
-        small_image.thumbnail(SIZE, Image.ANTIALIAS)
-
-        temp_handle = StringIO()
-        small_image.save(temp_handle, 'JPEG')
-        temp_handle.seek(0)
-
-        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1][:-4] + '.jpg',
-                                 temp_handle.read(),
-                                 content_type='image/jpeg')
-        self.small_image.save(suf.name, suf, save=False)
-
-        super(Fashions, self).save(*args, **kwargs)
-
 
 class Sizes(models.Model):
     name = models.CharField(_('name'), max_length=20)
     categories = models.ForeignKey(Categories)
     description = models.TextField(_('description'), blank=True, default='')
-    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    sorting = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
         ordering = ('sequence',)
@@ -97,45 +65,6 @@ class Sizes(models.Model):
         return u'%s' % self.name
 
 
-class Stores(models.Model):
-    name = models.CharField(_('name'), max_length=250)
-    image = models.ImageField(upload_to='photos/%Y/%m/%d')
-    small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
-    description = models.TextField(_('description'), blank=True, default='')
-    order_is_available = models.PositiveSmallIntegerField(_('order is available'), default=0)
-    web_address = models.CharField(_('web_address'), max_length=250, blank=True, null=True, default=None)
-    added = models.DateTimeField(_('added'), auto_now_add=True)
-    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
-
-    class Meta:
-        ordering = ('sequence',)
-        verbose_name = _('stores')
-        verbose_name_plural = _('stores')
-
-    def __unicode__(self):
-        return u'%s' % self.name
-
-    def save(self, *args, **kwargs):
-        SIZE = (300, 300)
-
-        image = Image.open(self.image)
-
-        small_image = image.copy()
-
-        small_image.thumbnail(SIZE, Image.ANTIALIAS)
-
-        temp_handle = StringIO()
-        small_image.save(temp_handle, 'JPEG')
-        temp_handle.seek(0)
-
-        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1][:-4] + '.jpg',
-                                 temp_handle.read(),
-                                 content_type='image/jpeg')
-        self.small_image.save(suf.name, suf, save=False)
-
-        super(Stores, self).save(*args, **kwargs)
-
-
 class Items(models.Model):
     name = models.CharField(_('name'), max_length=250)
     fashions = models.ForeignKey(Fashions)
@@ -144,7 +73,8 @@ class Items(models.Model):
     description = models.TextField(_('description'), blank=True, default='')
     details = models.TextField(_('details'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
-    price_description = models.CharField(_('price_description'), max_length=250, default='')
+    price_description = models.CharField(_('price_description'), max_length=250, default='грн.')
+    views_per_month = models.PositiveSmallIntegerField(_('sequence'), default=0)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -175,6 +105,18 @@ class Items(models.Model):
 
         super(Items, self).save(*args, **kwargs)
 
+    def get_balance(self):
+        return Balance.objects.filter(item=self)
+
+    def sorting(self):
+        return Balance.objects.filter(item=self).aggregate(Sum('amount')) * self.views_per_month
+
+
+class Items_views(models.Model):
+    item = models.ForeignKey(Items)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+
+
 class Photo(models.Model):
     item = models.ForeignKey(Items)
     image = models.ImageField(upload_to='photos/%Y/%m/%d')
@@ -200,3 +142,23 @@ class Balance(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.item
+
+
+@receiver(post_save, sender=Items)
+def create_item_balance(sender, instance, created, **kwargs):
+    if created:
+        category = instance.fashions.categories
+        sizes = Sizes.objects.filter(categories=category)
+        for size in sizes:
+            balance = Balance(item=instance, size=size)
+            balance.save()
+
+
+@receiver(post_save, sender=Sizes)
+def create_size_balance(sender, instance, created, **kwargs):
+    if created:
+        category = instance.categories
+        items = Items.objects.filter(fashions__categories=category)
+        for item in items:
+            balance = Balance(item=item, size=instance)
+            balance.save()

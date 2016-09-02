@@ -46,6 +46,45 @@ class Maintitle(models.Model):
         return u'%s' % self.added
 
 
+class Stores(models.Model):
+    name = models.CharField(_('name'), max_length=250)
+    image = models.ImageField(upload_to='photos/%Y/%m/%d')
+    small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
+    description = models.TextField(_('description'), blank=True, default='')
+    order_is_available = models.PositiveSmallIntegerField(_('order is available'), default=0)
+    web_address = models.CharField(_('web_address'), max_length=250, blank=True, null=True, default=None)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+
+    class Meta:
+        ordering = ('sequence',)
+        verbose_name = _('stores')
+        verbose_name_plural = _('stores')
+
+    def __unicode__(self):
+        return u'%s' % self.name
+
+    def save(self, *args, **kwargs):
+        SIZE = (300, 300)
+
+        image = Image.open(self.image)
+
+        small_image = image.copy()
+
+        small_image.thumbnail(SIZE, Image.ANTIALIAS)
+
+        temp_handle = StringIO()
+        small_image.save(temp_handle, 'JPEG')
+        temp_handle.seek(0)
+
+        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1][:-4] + '.jpg',
+                                 temp_handle.read(),
+                                 content_type='image/jpeg')
+        self.small_image.save(suf.name, suf, save=False)
+
+        super(Stores, self).save(*args, **kwargs)
+
+
 class Infophoto(models.Model):
     info = models.ForeignKey(Info)
     image = models.ImageField(upload_to='info')

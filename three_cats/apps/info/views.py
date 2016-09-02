@@ -14,9 +14,9 @@ from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 
 from forms import ContactForm, CheckoutForm, LoginForm
-from models import Info, Infophoto
-from apps.elephants.models import Items
-from apps.orders.models import Cart, Orders, Orderitems
+from .models import Info
+from ..elephants.models import Items
+from ..orders.models import Cart, Orders, Orderitems
 
 
 def user_login(request):
@@ -60,18 +60,6 @@ def user_logout(request):
                              _('You were successfully logged out.'))
 
     return redirect('/')
-
-
-def delivery(request):
-    try:
-        topic = get_object_or_404(Info, topic='delivery')
-
-    except:
-        raise Http404
-
-    return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': False, 'map': False},
-                              context_instance=RequestContext(request))
 
 
 def feedback(request):
@@ -140,15 +128,6 @@ def contacts(request):
 
     return render_to_response('info/simple_view.html',
                               {'topic': topic, 'photos': False, 'orders': orders, 'map': True, 'cart': cart},
-                              context_instance=RequestContext(request))
-
-
-def actions(request):
-
-    topic = get_object_or_404(Info, topic='actions')
-
-    return render_to_response('info/simple_view.html',
-                              {'topic': topic, 'photos': False, 'map': False},
                               context_instance=RequestContext(request))
 
 
@@ -228,18 +207,3 @@ def checkout(request):
     return render_to_response('info/checkout.html',
                               {'form': form, 'order': order},
                               context_instance=RequestContext(request))
-
-
-@csrf_exempt
-def simple_photo(request, id=None):
-
-    item = get_object_or_404(Infophoto, id=id)
-
-    html = render_to_string('info/simple_photo.html',
-                                {'item': item},
-                                context_instance=RequestContext(request))
-
-    response_data = {'html': html}
-
-    return HttpResponse(json.dumps(response_data),
-                            mimetype="application/json")

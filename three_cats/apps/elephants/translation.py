@@ -1,23 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from modeltranslation.translator import translator, TranslationOptions
-from apps.elephants.models import Items, Stores, Categories, Fashions
+from apps.elephants.models import Items, Categories, Fashions
 
 
 class ItemsTranslationOptions(TranslationOptions):
     """
-    Класс настроек интернационализации полей модели Items.
+    Класс настроек интернационализации полей модели Orders.
     """
 
     fields = ('name', 'description', 'details', 'price_description',)
-
-
-class StoresTranslationOptions(TranslationOptions):
-    """
-    Класс настроек интернационализации полей модели Stores.
-    """
-
-    fields = ('name', 'description',)
 
 
 class FashionsTranslationOptions(TranslationOptions):
@@ -37,8 +29,6 @@ class CategoriesTranslationOptions(TranslationOptions):
 
 
 translator.register(Items, ItemsTranslationOptions)
-
-translator.register(Stores, StoresTranslationOptions)
 
 translator.register(Fashions, FashionsTranslationOptions)
 
