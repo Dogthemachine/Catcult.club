@@ -1,32 +1,101 @@
 import json
 from jsonview.decorators import json_view
+
 from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render_to_response, get_object_or_404, render
+from django.template import RequestContext, loader, Context
+from django.utils.translation import ugettext as _
 from django.db.models import Sum
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 
-from .models import Cart, Orders, Orderitems
-from ..elephants.models import Balance
+from .forms import CheckoutForm
+from .models import Cart, CartItem, Orders, Orderitems
+from apps.elephants.models import Balance
 
 
+@json_view
 def cart(request):
+    cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
 
-    try:
-        cart = Cart.objects.select_related('balance__item').filter(session_key=request.session.session_key)
-    except:
-        raise Http404
+    if not created:
+        cart_items = CartItem.objects.filter(cart=cart)
 
-    return render_to_response('orders/cart.html', {'cart': cart
-                                                   },
-                              context_instance=RequestContext(request))
+    t = loader.get_template('orders/cart.html')
+    c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})
+    html = t.render(c)
+
+    return {'html': html}
+
+
+@json_view
+def cart_remove(request, id):
+    cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
+
+    if not created:
+        try:
+            cart_item = CartItem.objects.get(id=id)
+        except CartItem.DoesNotExist:
+            return {'success': False}
+        else:
+            cart_item.delete()
+            cart_items = CartItem.objects.filter(cart=cart)
+    else:
+        return {'success': False}
+
+    t = loader.get_template('orders/cart.html')
+    c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})
+    html = t.render(c)
+
+    return {'html': html, 'count': cart_items.count()}
+
+
+@json_view
+def cart_checkout(request):
+    cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
+
+    if created:
+        return {'success': False}
+
+    form = CheckoutForm()
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            order = Orders()
+            order.name = form.cleaned_data['name']
+            order.phone = form.cleaned_data['phone']
+            order.save()
+
+            cart_items = CartItem.objects.filter(cart=cart)
+
+            for item in cart_items:
+                balance = Balance.objects.get(item=item.item, size=item.size)
+                balance.amount = balance.amount - item.amount
+                balance.save()
+
+            cart.delete()
+
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                _('Your order has been placed. We will contact you shortly.')
+            )
+
+            return {'form': False}
+
+    t = loader.get_template('orders/cart_checkout.html')
+    c = RequestContext(request, {'form': form})
+    html = t.render(c)
+
+    button_text = _('Place the order')
+
+    return {'form': True, 'html': html, 'button_text': button_text}
 
 
 def orders(request, status=None):
@@ -105,17 +174,3 @@ def order_position(request):
 
     else:
         raise PermissionDenied()
-
-
-@json_view
-def cart_remove(request, id):
-
-    if request.method == 'POST':
-
-        try:
-            Cart.objects.get(id=id).delete()
-        except:
-            raise
-
-    return {'success': True}
-

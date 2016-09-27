@@ -1,46 +1,54 @@
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.conf.urls.static import static
 
+from apps.main_page.views import construction_page, main_page
+from apps.info.views import user_login, user_logout, feedback, contacts, about, partners, feedback_order, checkout
+from apps.elephants.views import showcase, item_details
+from apps.moderation.views import balances, advent, correction
+from apps.orders.views import cart, cart_checkout, orders, order_position, elephants_order, cart_remove
+
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    url(r'^$', 'apps.main_page.views.construction_page', name='construction'),
-    url(r'^4321/$', 'apps.main_page.views.main_page', name='main_page'),
+urlpatterns = [
+    #url(r'^$', construction_page, name='construction'),
+    url(r'^$', main_page, name='main_page'),
 
-    url(r'^grappelli/', include('grappelli.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
+    url(r'^login/$', user_login, name='user_login'),
+    url(r'^logout/$', user_logout, name='user_logout'),
 
-    url(r'^login/$', 'apps.info.views.user_login', name='user_login'),
-    url(r'^logout/$', 'apps.info.views.user_logout', name='user_logout'),
+    # Store
+    url(r'^feedback/$', feedback, name='feedback'),
+    url(r'^contacts/$', contacts, name='contacts'),
+    url(r'^about/$', about, name='about_us'),
+    url(r'^partners/$', partners, name='partners'),
 
-    url(r'^feedback/$', 'apps.info.views.feedback', name='feedback'),
-    url(r'^contacts/$', 'apps.info.views.contacts', name='contacts'),
-    url(r'^about/$', 'apps.info.views.about', name='about_as'),
-    url(r'^partners/$', 'apps.info.views.partners', name='partners'),
+    # Shop
+    url(r'^showcase/$', showcase, name='showcase'),
+    url(r'^showcase/(?P<category_id>\d+)/$', showcase, name='showcase_cat'),
+    url(r'^showcase/(?P<category_id>\d+)/(?P<fashion_id>\d+)/$', showcase, name='showcase_cat_fas'),
+    url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
 
-    url(r'^showcase/(?P<category_id>\d+)/(?P<fashion_id>\d+)/$', 'apps.elephants.views.showcase', name='showcase'),
-    url(r'^item_details/(?P<id>\d+)/$', 'apps.elephants.views.item_details', name='item_details'),
+    # Moderator
+    url(r'^balances/$', balances, name='balances'),
+    url(r'^advent/$', advent, name='advent'),
+    url(r'^correction/$', correction, name='correction'),
 
-    url(r'^balances/$', 'apps.moderation.views.balances', name='balances'),
-    url(r'^advent/$', 'apps.moderation.views.advent', name='advent'),
-    url(r'^correction/$', 'apps.moderation.views.correction', name='correction'),
-
-    url(r'^cart/$', 'apps.orders.views.cart', name='cart'),
-    url(r'^orders/$', 'apps.orders.views.orders', name='all_orders'),
-    url(r'^orders/(?P<status>\d+)/$', 'apps.orders.views.orders', name='orders_status'),
-    url(r'^order_position/(?P<id>\d+)/$', 'apps.orders.views.order_position', name='order_position'),
-    url(r'^order/(?P<id>\d+)/$', 'apps.orders.views.elephants_order', name='elephants_order'),
-
-
-
-    url(r'^feedback_order/(?P<id>\d+)/$', 'apps.info.views.feedback_order', name='feedback_order'),
-    url(r'^cart_remove/(?P<id>\d+)/$', 'apps.orders.views.cart_remove', name='cart_remove'),
-    url(r'^checkout/$', 'apps.info.views.checkout', name='checkout'),
+    # Orders
+    url(r'^cart/$', cart, name='cart'),
+    url(r'^cart/(?P<id>\d+)/remove/$', cart_remove, name='cart_remove'),
+    url(r'^cart/checkout/$', cart_checkout, name='cart_checkout'),
+    url(r'^orders/$', orders, name='all_orders'),
+    url(r'^orders/(?P<status>\d+)/$', orders, name='orders_status'),
+    url(r'^order_position/(?P<id>\d+)/$', order_position, name='order_position'),
+    url(r'^order/(?P<id>\d+)/$', elephants_order, name='elephants_order'),
+    url(r'^feedback_order/(?P<id>\d+)/$', feedback_order, name='feedback_order'),
+    url(r'^checkout/$', checkout, name='checkout'),
 
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

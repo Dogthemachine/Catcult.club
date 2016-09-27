@@ -1,38 +1,36 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load bootstrap_pagination %}
 
 {% block title %}
   {% trans topic.title %}
 {% endblock %}
 
 {% block content %}
+  {% include 'elephants/menu.html' %}
 
   <div class="row">
-
+    {% for entry in itm %}
+      <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+        {% if entry.get_amount  %}
+          <a href="{% url 'item_details' entry.id %}" title="{% trans 'Show details' %}">
+            <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ entry.image_small }}">
+          </a>
+        {% else %}
+          <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ entry.image_small }}">
+        {% endif %}
+        <h3 class="text-center">{{ entry.name }}</h3>
+        <p class="text-center">{{ entry.details|safe }}</p>
+        {% if entry.get_amount  %}
+          <p class="text-center">{{ entry.price }} {{ entry.price_description }}</p>
+        {% else %}
+          <p class="text-center">{% trans 'Sorry, this item in unavailable now.' %}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
   </div>
 
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-        {% for entry in items %}
-
-             <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                {% if entry.get_amount > 0 %}
-                    <a href="/item_details/{{ entry.id }}/" title="{% trans 'Show details' %}">
-                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.small_image }}"  alt="Card image cap">
-                    </a>
-                {% else %}
-                    <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.small_image }}"  alt="Card image cap">
-                {% endif %}
-                <div class="card-block">
-                    <h4 class="card-title">{{ entry.name }}</h4>
-                    <p class="card-text">{{ entry.details|safe }}</p>
-                </div>
-             </div>
-
-        {% endfor %}
-
-    </div>
+    {% bootstrap_paginate itm range=12 %}
   </div>
-
 {% endblock %}

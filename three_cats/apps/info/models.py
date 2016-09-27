@@ -1,7 +1,7 @@
 import os
 from pygeocoder import Geocoder
 
-from cStringIO import StringIO
+from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from django.db import models
@@ -23,7 +23,7 @@ class Info(models.Model):
         verbose_name = _('Info')
         verbose_name_plural = _('Info')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.topic
 
     def save(self, *args, **kwargs):
@@ -73,7 +73,7 @@ class Stores(models.Model):
 
         small_image.thumbnail(SIZE, Image.ANTIALIAS)
 
-        temp_handle = StringIO()
+        temp_handle = BytesIO()
         small_image.save(temp_handle, 'JPEG')
         temp_handle.seek(0)
 
@@ -108,7 +108,7 @@ class Infophoto(models.Model):
 
         small_image.thumbnail(SIZE, Image.ANTIALIAS)
 
-        temp_handle = StringIO()
+        temp_handle = BytesIO()
         small_image.save(temp_handle, 'JPEG')
         temp_handle.seek(0)
 

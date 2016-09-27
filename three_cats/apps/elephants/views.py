@@ -1,50 +1,95 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Photo, Categories, Items, Sizes, Items_views
+from .forms import AddToCartForm
+from .models import Photo, Categories, Fashions, Items, Sizes, Items_views
+from apps.orders.models import Cart, CartItem
 
 
-def showcase(request, category_id, fashion_id):
+def showcase(request, category_id=None, fashion_id=None):
+    category = None
+    fashion = None
+    items = None
 
-    categories = Categories.objects.all().order_by('sorting')
-    if fashion_id > 0:
-        items = Items.objects.filter(fashions__id=fashion_id).order_by('-sorting')
+    if category_id:
+        category = get_object_or_404(Categories, id=category_id)
+
+    if fashion_id:
+        fashion = get_object_or_404(Fashions, id=fashion_id)
+
+    categories = Categories.objects.all()
+
+    fashions = None
+
+    if category and fashion:
+        fashions = Fashions.objects.filter(categories=category)
+        items = Items.objects.filter(fashions=fashion)
+
+    elif category:
+        items = Items.objects.filter(fashions__categories=category)
+        fashions = Fashions.objects.filter(categories=category)
+
     else:
-        if category_id > 0:
-            items = Items.objects.filter(fashions__categories__id=category_id).order_by('-sorting')
-        else:
-            items = Items.objects.all().order_by('-sorting')
+        items = Items.objects.all()
 
+    paginator = Paginator(items, 12)
 
-    return render_to_response('elephants/showcase.html', {'categories': categories,
-                                                          'category_id': category_id,
-                                                          'fashion_id': fashion_id,
-                                                          'items': items},
-                              context_instance=RequestContext(request))
+    page = request.GET.get('page')
+
+    try:
+        itm = paginator.page(page)
+    except PageNotAnInteger:
+        itm = paginator.page(1)
+    except EmptyPage:
+        itm = paginator.page(paginator.num_pages)
+
+    return render(request,
+                  'elephants/showcase.html',
+                  {'category': category,
+                   'categories': categories,
+                   'fashion': fashion,
+                   'fashions': fashions,
+                   'items': items,
+                   'itm': itm})
 
 
 def item_details(request, id):
-
     item = get_object_or_404(Items, id=id)
+
     photos = Photo.objects.filter(item=item).order_by('added')
 
-    views = Items_views(item=item)
-    views.save()
+    sizes = Sizes.objects.select_related().filter(balance__item=item, balance__amount__gt=0).count()
 
-    try:
-        session_key = request.session.session_key
-        if not session_key:
-            request.session.create()
+    if sizes > 0:
+        form = AddToCartForm(item=item)
+    else:
+        form = None
 
-    except:
-        request.session.create()
-        photos = Photo.objects.filter(item=item).order_by('added')
+    if request.method == 'POST':
+        form = AddToCartForm(request.POST, item=item)
+        if form.is_valid():
+            cart, cart_created = Cart.objects.get_or_create(session_key=request.session.session_key)
+            cart_item = CartItem(
+                cart = cart,
+                item = item,
+                size = form.cleaned_data['size'],
+                amount = form.cleaned_data['quantity']
+            )
+            cart_item.save()
 
-    if len(photos) == 0:
-        photos = [{'name': _('There is no photos of this image now')}]
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                _('%s was added to your cart.') % item.name
+            )
 
-    return render_to_response('elephants/item_details.html', {'photos': photos,
-                                                              'item': item},
-                              context_instance=RequestContext(request))
+            request.cart_amount += 1
 
+            return redirect('item_details', id=item.id)
+
+    return render(request,
+                  'elephants/item_details.html',
+                  {'photos': photos, 'item': item, 'form': form})

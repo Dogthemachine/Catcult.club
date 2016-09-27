@@ -1,0 +1,40 @@
+{% load i18n %}
+<div id="footer" class="bg-inverse">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+            <p class="first"><a class="nav-link cc-contacts cc-main-menu-color" href="{% url 'contacts' %}" title="{% trans 'Contacts' %}">
+              {% trans 'Contacts' %}
+            </a></p>
+            <p><a class="nav-link cc-sn cc-main-menu-color" href="http://facebook.com/thecommonsense" target="_blank">
+              <img src="{{ STATIC_URL }}img/facebook-icon-w.png"> http://facebook.com/3kotakotakota
+            </a></p>
+            <p><a  class="nav-link cc-sn cc-main-menu-color" href="http://vk.com/the.common.sense" target="_blank">
+              <img crop="center" src="{{ STATIC_URL }}img/vk-icon-w.png"> //vk.com/3kotakotakota
+            </a></p>
+             <p><a  class="nav-link cc-sn cc-main-menu-color" href="http://instagram.com/thecommonsense" target="_blank">
+              <img src="{{ STATIC_URL }}img/instagram-icon-w.png"> http://instagram.com/_3kota_
+            </a></p>
+          </div>
+
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <p class="first"><a class="nav-link cc-main-menu-color" href="{% url 'about_us' %}" title="{% trans 'About us' %}">
+              {% trans 'About us' %}
+            </a></p>
+            <p class="footer-spacing-first"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}#delivery" title="{% trans 'Delivery' %}">
+              {% trans 'Delivery' %}
+            </a></p>
+            <p class="footer-spacing-second"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}#payment" title="{% trans 'How to Pay' %}">
+              {% trans 'Payment' %}
+            </a></p>
+            <p class="footer-spacing-third"><a class="nav-link cc-main-menu-color" href="{% url 'partners' %}" title="{% trans 'Partners' %}">
+              {% trans 'Partners' %}
+            </a></p>
+          </div>
+        </div>
+      </div> <!--- container --->
+    </div>
+  </div>
+</div>

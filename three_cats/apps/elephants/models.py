@@ -1,22 +1,22 @@
 import os
-from cStringIO import StringIO
+from io import BytesIO
 
+from django_resized import ResizedImageField
 from PIL import Image
 
+from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db.models.signals import post_save, post_delete
 from django.db import models
+from django.db.models import Sum
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
-from django.db.models import Sum
 
 
 class Categories(models.Model):
     name = models.CharField(_('name'), max_length=70)
-    icon_a = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
-    icon_b = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
-    icon_c = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
+    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
+    image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
     details = models.TextField(_('details'), blank=True)
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
@@ -25,7 +25,7 @@ class Categories(models.Model):
         verbose_name = _('Categories of items')
         verbose_name_plural = _('Categories of items')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.name
 
     def get_fashions(self):
@@ -35,9 +35,8 @@ class Categories(models.Model):
 class Fashions(models.Model):
     name = models.CharField(_('name'), max_length=70, default='No name')
     categories = models.ForeignKey(Categories)
-    icon_a = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
-    icon_b = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
-    icon_c = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False, default='')
+    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
+    image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
     details = models.TextField(_('details'), blank=True, default='')
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
@@ -46,7 +45,7 @@ class Fashions(models.Model):
         verbose_name = _('Fashions of items')
         verbose_name_plural = _('Fashions of items')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.name
 
 
@@ -61,15 +60,15 @@ class Sizes(models.Model):
         verbose_name = _('Sizes of items')
         verbose_name_plural = _('Sizes of items')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.name
 
 
 class Items(models.Model):
     name = models.CharField(_('name'), max_length=250)
     fashions = models.ForeignKey(Fashions)
-    image = models.ImageField(upload_to='photos/%Y/%m/%d')
-    small_image = models.ImageField(upload_to='small_photos/%Y/%m/%d', blank=True, editable=False)
+    image = ResizedImageField(size=[1500, 1500], upload_to='photos/%Y/%m/%d')
+    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d')
     description = models.TextField(_('description'), blank=True, default='')
     details = models.TextField(_('details'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
@@ -82,31 +81,18 @@ class Items(models.Model):
         verbose_name = _('items')
         verbose_name_plural = _('items')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.name
-
-    def save(self, *args, **kwargs):
-        SIZE = (300, 300)
-
-        image = Image.open(self.image)
-
-        small_image = image.copy()
-
-        small_image.thumbnail(SIZE, Image.ANTIALIAS)
-
-        temp_handle = StringIO()
-        small_image.save(temp_handle, 'JPEG')
-        temp_handle.seek(0)
-
-        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1][:-4] + '.jpg',
-                                 temp_handle.read(),
-                                 content_type='image/jpeg')
-        self.small_image.save(suf.name, suf, save=False)
-
-        super(Items, self).save(*args, **kwargs)
 
     def get_balance(self):
         return Balance.objects.filter(item=self)
+
+    def get_amount(self):
+        balances = Balance.objects.filter(item=self)
+        for balance in balances:
+            if balance.amount > 0:
+                return True
+        return False
 
     def sorting(self):
         return Balance.objects.filter(item=self).aggregate(Sum('amount')) * self.views_per_month
@@ -119,29 +105,30 @@ class Items_views(models.Model):
 
 class Photo(models.Model):
     item = models.ForeignKey(Items)
-    image = models.ImageField(upload_to='photos/%Y/%m/%d')
+    image = ResizedImageField(size=[1500, 1500], upload_to='photos/%Y/%m/%d')
+    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d')
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
         ordering = ('added',)
         verbose_name = _('Photo')
-        verbose_name_plural = _('Photo')
+        verbose_name_plural = _('Photos')
 
-    def __unicode__(self):
-        return u'%s' % self.added
+    def __str__(self):
+        return u'%s - %s' % (self.item.name, self.added)
 
 
 class Balance(models.Model):
     item = models.ForeignKey(Items)
     size = models.ForeignKey(Sizes)
-    amount = models.PositiveSmallIntegerField(_('amount'), default=0)
+    amount = models.IntegerField(_('amount'), default=0)
 
     class Meta:
         verbose_name = _('Amount of items')
         verbose_name_plural = _('Amount of items')
 
-    def __unicode__(self):
-        return u'%s' % self.item
+    def __str__(self):
+        return u'%s - %s - %s' % (self.item.name, self.size.name, self.amount)
 
 
 @receiver(post_save, sender=Items)

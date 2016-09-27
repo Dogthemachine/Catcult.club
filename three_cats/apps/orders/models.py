@@ -2,18 +2,17 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from ..elephants.models import Balance
+from apps.elephants.models import Balance, Items, Sizes
 
 
 class Orders(models.Model):
-    number = models.CharField(_('number'), max_length=20)
-    name = models.CharField(_('name'), max_length=70, default='No name')
-    phone = models.CharField(_('phone'), max_length=32, default='')
+    name = models.CharField(_('name'), max_length=70)
+    phone = models.CharField(_('phone'), max_length=32)
     email = models.EmailField(_('email'), default='')
     city = models.CharField(_('city'), max_length=32, default='')
     delivery = models.CharField(_('delivery'), max_length=32, default=0)
     payment = models.CharField(_('payment'), max_length=32, default=0)
-    massage = models.TextField(_('massage'), default='')
+    message = models.TextField(_('message'), default='')
     cost = models.IntegerField(_('cost'), default=0)
     status = models.IntegerField(_('status'), choices=settings.ORDER_STATUS, default=0)
     added = models.DateTimeField(_('added'), auto_now_add=True)
@@ -41,15 +40,27 @@ class Orderitems(models.Model):
 
 
 class Cart(models.Model):
-    balance = models.ForeignKey(Balance)
     session_key = models.CharField(_('name'), max_length=32)
-    amount = models.SmallIntegerField(_('amount'), default=1)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
         ordering = ('added',)
         verbose_name = _('Cart')
-        verbose_name_plural = _('Cart')
+        verbose_name_plural = _('Carts')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.session_key
+
+    def get_total(self):
+        items = CartItem.objects.filter(cart=self)
+        total = 0
+        for item in items:
+            total += item.item.price * item.amount
+        return total
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart)
+    item = models.ForeignKey(Items)
+    size = models.ForeignKey(Sizes)
+    amount = models.PositiveSmallIntegerField()

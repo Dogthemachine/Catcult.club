@@ -1,76 +1,58 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load crispy_forms_tags %}
-{% crispy form form.helper %}
 
 {% block title %}
-  {% if item %}{{ item.name }}{% endif %}
+  {{ item.name }}
 {% endblock %}
 
 {% block content %}
 
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12 cs-item-title hidden-xs-down">
-      <h2>{{ item.name }}</h2>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+      <h1>{{ item.name }}</h1>
     </div>
   </div>
 
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="cs-zoom">
-                <img class="img-responsive" src="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="http://i-like-robots.github.io/EasyZoom/example-images/3_zoom_1.jpg"/>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div id="cs-product-photos">
-              {% for entry in photos %}
-                 <div class="card col-xs-4 col-sm-3 col-md-3 col-lg-3">
-                    <a href="" data-image="{{ MEDIA_URL }}{{ entry.image }}" data-zoom-image="http://i-like-robots.github.io/EasyZoom/example-images/3_zoom_1.jpg"{% if forloop.first %} class="mf-product-active-photo"{% endif %}>
-                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.image }}"  data-zoom-image="http://i-like-robots.github.io/EasyZoom/example-images/3_zoom_1.jpg" data-id="{{ entry.id }}" alt="Card image cap">'
-                    </a>
-                 </div>
-              {% endfor %}
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-zoom">
+          <div class="row">
+            <img class="img-responsive img-rounded" src="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}"/>
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          {% for entry in item.get_balance %}
-            {% if entry.amount %}
+          <div id="cc-product-photos">
+            <div class="row">
               <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
-                  <a class="btn btn-success cc-order-confirm" href="#" data-id="{{ entry.id }}" type="button">
-                    {{ entry.size.name }} {% trans 'Add to cart' %}
+                <div class="cc-product-photo">
+                  <a class="cc-product-active-photo" href="#" data-image="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}">
+                    <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ item.image_small }}">
                   </a>
-                  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                    ? {{ entry.size.name }}
-                  </button>
+                </div>
               </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-      {{ item.details|safe }}
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title" id="myModalLabel">{{ entry.size.name }}</h4>
-        </div>
-        <div class="modal-body">
-          {{ entry.size.details|safe }}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
+              {% for entry in photos %}
+                <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                  <div class="cc-product-photo">
+                    <a href="#" data-image="{{ MEDIA_URL }}{{ entry.image }}" data-zoom-image="{{ MEDIA_URL }}{{ entry.image }}">
+                      <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ entry.image_small }}">
+                    </a>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
       </div>
     </div>
-  </div>
 
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
+      <h3>{{ item.price }} {{ item.price_description }}</h3>
+      <p>{{ item.details|safe }}</p>
+      {% if form %}
+        {% crispy form form.helper %}
+      {% else %}
+        {% trans 'Sorry, product is currently unavailable' %}
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

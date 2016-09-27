@@ -1,15 +1,18 @@
-from django.contrib import admin
-from apps.elephants.models import Items, Photo, Categories, Fashions, Sizes, Balance
 from modeltranslation.admin import TranslationAdmin
+
+from django.contrib import admin
+
+from apps.elephants.models import Items, Photo, Categories, Fashions, Sizes, Balance
+
+
+class PhotoInline(admin.TabularInline):
+    model = Photo
 
 
 class ItemsAdmin(TranslationAdmin):
+    inlines = [PhotoInline]
 
     list_display = ('name', 'added', 'price', 'price_description', 'description', 'fashions',)
-
-    fieldsets = [
-        (u'Items', {'fields': ('name', 'image', 'description', 'details', 'price', 'price_description', 'fashions',)})
-    ]
 
     class Media:
         js = [
@@ -25,15 +28,12 @@ class ItemsAdmin(TranslationAdmin):
         }
 
 
-class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('item', 'image',)
 
-
-class CategoriesAdmin(admin.ModelAdmin):
+class CategoriesAdmin(TranslationAdmin):
     list_display = ('name', 'details', 'sequence',)
 
 
-class FashionsAdmin(admin.ModelAdmin):
+class FashionsAdmin(TranslationAdmin):
     list_display = ('name', 'categories', 'details', 'sequence',)
 
 
@@ -46,9 +46,6 @@ class BalanceAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Items, ItemsAdmin)
-
-
-admin.site.register(Photo, PhotoAdmin)
 
 
 admin.site.register(Categories, CategoriesAdmin)

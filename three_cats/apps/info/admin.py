@@ -2,7 +2,7 @@ from django.contrib import admin
 from apps.info.models import Info, Maintitle, Infophoto, Stores
 from modeltranslation.admin import TranslationAdmin
 
-class InfoAdmin(TranslationAdmin):
+class InfoAdmin(admin.ModelAdmin):
     fieldsets = [
         (u'Info', {'fields': ('topic', 'title', 'image', 'video', 'info', 'address',)})
     ]
@@ -13,7 +13,7 @@ class InfoAdmin(TranslationAdmin):
             '/static/grappelli/tinymce_setup/tinymce_setup.js',
         ]
 
-class StoresAdmin(TranslationAdmin):
+class StoresAdmin(admin.ModelAdmin):
     fieldsets = [
         (u'Stores', {'fields': ('name', 'image', 'description', 'web_address', 'order_is_available',)})
     ]

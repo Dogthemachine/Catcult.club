@@ -1,0 +1,33 @@
+{% load i18n %}
+<nav class="navbar navbar-inverse bg-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+        <img class="cc-logo-mini" src="{{ STATIC_URL }}img/cc-logo-w.png" class="img-circle">
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'feedback' %}" title="{% trans 'Feedback' %}">
+          {% trans 'Feedback' %}
+        </a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item">
+          <a id="cc-cart-link" class="nav-link cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
+            <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{% if request.cart_amount %}{{ request.cart_amount }}</span>{% else %}{% trans 'Empty' %}{% endif %}
+          </a>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
+</nav>

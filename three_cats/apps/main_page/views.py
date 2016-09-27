@@ -1,6 +1,5 @@
-from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 from ..info.models import Maintitle, Info, Stores
 
@@ -8,9 +7,7 @@ def main_page(request):
 
     if request.user.is_authenticated():
 
-        return render_to_response('main_page/main_page_mod.html', {
-                                                                  },
-                                  context_instance=RequestContext(request))
+        return render(request, 'main_page/main_page_mod.html', {})
 
     else:
 
@@ -24,16 +21,11 @@ def main_page(request):
         except:
             raise
 
-        return render_to_response('main_page/main_page.html', {'mainpage': mainpage,
-                                                               'items': items,
-                                                               'maintitle': maintitle,
-                                                               'delivery': delivery,
-                                                               'payment': payment},
-                                  context_instance=RequestContext(request))
+        return render(request, 'main_page/main_page.html',
+                      {'mainpage': mainpage, 'items': items, 'maintitle': maintitle,
+                       'delivery': delivery, 'payment': payment})
 
 
 def construction_page(request):
 
-        return render_to_response('main_page/construction_page.html', {
-                                                               },
-                                  context_instance=RequestContext(request))
+        return render(request, 'main_page/construction_page.html', {})

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.http import Http404
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render_to_response, get_object_or_404, redirect, render
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
@@ -13,20 +13,19 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 
-from forms import ContactForm, CheckoutForm, LoginForm
+from .forms import ContactForm, CheckoutForm, LoginForm
 from .models import Info, Stores
 from ..elephants.models import Items
 from ..orders.models import Cart, Orders, Orderitems
 
 
 def user_login(request):
-
     if request.user.is_authenticated():
         return redirect('/logout/')
 
     form = LoginForm()
 
-    order = get_object_or_404(Info, topic='feedback')
+    order = None
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -41,11 +40,10 @@ def user_login(request):
 
             return redirect('/')
 
-    return render_to_response('info/login.html',
+    return render(request, 'info/login.html',
                               {'form': form,
                                'order': order,
-                               },
-                              context_instance=RequestContext(request))
+                               })
 
 
 def user_logout(request):
@@ -87,9 +85,8 @@ def feedback(request):
 
             return redirect('feedback')
 
-    return render_to_response('info/feedback.html',
-                              {'form': form, 'order': order},
-                              context_instance=RequestContext(request))
+    return render(request, 'info/feedback.html',
+                              {'form': form, 'order': order})
 
 
 def contacts(request):

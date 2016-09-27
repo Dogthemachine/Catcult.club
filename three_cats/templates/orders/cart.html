@@ -1,21 +1,22 @@
 {% load i18n %}
-
-  <div>
-      <table class="table table-striped">
-        {% for b in cart %}
-          <tr>
-            <td>
-                <img src="{{ MEDIA_URL }}{{ b.item.image }}" width="100px" />
-            </td>
-            <td>
-                <p><h3>{{ b.item.name }}</h3></p>
-            </td>
-            <td>
-                <button class="btn btn-danger cs-cart-remove" href="#" data-id="{{ b.id }}" data-toggle="modal" type="button">
-                    <i class="glyphicon glyphicon-remove icon-white"></i>
-                </button>
-            </td>
-          </tr>
-        {% endfor %}
-      </table>
-  </div>
+<div>
+  <table class="table table-striped">
+    {% for i in cart_items %}
+      <tr>
+        <td class="hidden-xs">
+          <img class="img-circle" src="/media/{{ i.item.image_small }}" width="100px" />
+        </td>
+        <td>
+          <p class="cc-cart-title">{{ i.item.name }}</p>
+          <p>{% trans 'Size' %}: {{ i.size.name }}<br />{{ i.amount }} {% trans 'units' %}</p>
+        </td>
+        <td>
+          <a class="btn btn-danger cc-cart-remove" href="#" data-id="{{ i.id }}">
+            {% trans 'Remove' %}
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <h3>{% trans 'Total' %}: {{ cart.get_total }} {% trans 'UAH' %}</h3>
+</div>
