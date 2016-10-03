@@ -1,0 +1,70 @@
+{% extends 'base_mod.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% trans 'Log' %}
+{% endblock %}
+
+{% block content %}
+  <div class="row cc-mod-filter">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="cc-date-from">{% trans 'Date from' %}</label>
+          <input type="text" class="form-control" id="cc-date-from" value="{{ date_from }}">
+        </div>
+        <div class="form-group">
+          <label for="cc-date-to">{% trans 'Date to' %}</label>
+          <input type="text" class="form-control" id="cc-date-to" value="{{ date_to }}">
+        </div>
+        <a href="#" id="cc-log-filter" class="btn btn-default">{% trans 'Filter' %}</a>
+      </form>
+    </div>
+  </div>
+  <div class="row cc-table-margin">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <table id="cs-balances" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>{% trans 'Datetime' %}</th>
+            <th>{% trans 'Type' %}</th>
+            <th>{% trans 'Old value -> New value' %}</th>
+            <th>{% trans 'User' %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in logs %}
+            <tr>
+              <td>
+                {{ item.change_time }}
+              </td>
+              <td>
+                {% if item.arrival %}
+                  {% trans 'Added' %}
+                {% else %}
+                  {% trans 'Corrected' %}
+                {% endif %}
+              </td>
+              <td>
+                {{ item.old_value }} -> {{ item.new_value }}
+              </td>
+              <td>
+                {{ item.user }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>{% trans 'Datetime' %}</td>
+            <td>{% trans 'Type' %}</td>
+            <td>{% trans 'Old value -> New value' %}</td>
+            <td>{% trans 'User' %}</td>
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,13 +1,13 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
-from django.contrib import admin
 from django.conf.urls.static import static
+from django.contrib import admin
 
 from apps.main_page.views import construction_page, main_page
 from apps.info.views import user_login, user_logout, feedback, contacts, about, partners, feedback_order, checkout
 from apps.elephants.views import showcase, item_details
-from apps.moderation.views import balances, advent, correction
+from apps.moderation.views import balances, arrival, log, balances_update
 from apps.orders.views import cart, cart_checkout, orders, order_position, elephants_order, cart_remove
 
 admin.autodiscover()
@@ -33,9 +33,13 @@ urlpatterns = [
     url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
 
     # Moderator
-    url(r'^balances/$', balances, name='balances'),
-    url(r'^advent/$', advent, name='advent'),
-    url(r'^correction/$', correction, name='correction'),
+    url(r'^check_orders/$', balances, name='orders'),
+    url(r'^make_order/$', balances, name='make_an_order'),
+    url(r'^balances/$', balances, name='balances'), #done
+    url(r'^balances/update/$', balances_update, name='balances_update'), #done
+    url(r'^arrival/$', arrival, name='arrival'), #done
+    url(r'^arrival/update/$', balances_update, {'arrival': True}, name='balances_update'), #done
+    url(r'^log/$', log, name='log'), #done
 
     # Orders
     url(r'^cart/$', cart, name='cart'),

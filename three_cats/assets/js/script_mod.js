@@ -97,4 +97,47 @@ $(document).ready(function() {
 
     $('#cs-balances').DataTable();
 
+    $('.cc-save-balance').on('click', function() {
+        var balance = $(this).data('balance-id');
+        var balance_amount = $('#cc-sizes-' + balance).val();
+        $.ajax({
+            url: 'update/',
+            type: 'post',
+            data: {'id': balance, 'amount': balance_amount},
+            success: function(data) {
+                if(data.success) {
+                    $('#cc-mod-messages').html(
+                        '<div class="alert alert-success">' +
+                        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                        data.message +
+                        '</div>'
+                    );
+                } else {
+                    $('#cc-mod-messages').html(
+                        '<div class="alert alert-danger">' +
+                        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                        data.message +
+                        '</div>'
+                    );
+                }
+            }
+        });
+    });
+
+    $('#cc-date-from').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+    $('#cc-date-to').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+    $('#cc-log-filter').on('click', function(e) {
+        e.preventDefault();
+
+        var date_from = $('#cc-date-from').val();
+        var date_to = $('#cc-date-to').val();
+
+        location.search = '?date_from=' + date_from + '&date_to=' + date_to;
+    });
 });

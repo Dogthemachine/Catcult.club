@@ -5,6 +5,7 @@ from django_resized import ResizedImageField
 from PIL import Image
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.db.models import Sum
@@ -124,11 +125,29 @@ class Balance(models.Model):
     amount = models.IntegerField(_('amount'), default=0)
 
     class Meta:
+        ordering = ('id',)
         verbose_name = _('Amount of items')
         verbose_name_plural = _('Amount of items')
 
     def __str__(self):
         return u'%s - %s - %s' % (self.item.name, self.size.name, self.amount)
+
+
+class BalanceLog(models.Model):
+    balance = models.ForeignKey(Balance)
+    old_value = models.IntegerField(_('old value'))
+    new_value = models.IntegerField(_('new value'))
+    arrival = models.BooleanField(_('arrival'), default=False)
+    user = models.ForeignKey(User)
+    change_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-change_time',)
+        verbose_name = _('Balance log')
+        verbose_name_plural = _('Balance logs')
+
+    def __str__(self):
+        return "%s - %s" % (self.balance, self.change_time)
 
 
 @receiver(post_save, sender=Items)

@@ -21,11 +21,6 @@ legend {
     font-size: 1.7em;
 }
 
-#cs-balances_paginate ul li {
-    display: inline;
-    margin-left: 10px;
-}
-
 @media (min-width: 1200px) {
 .cs-photo-ligth {
     width: 270px;
@@ -442,6 +437,22 @@ body {
 
 .cc-product-photo {
     margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.cc-navbar-mod-margin {
+    margin-bottom: 25px;
+}
+
+.cc-table-margin {
+    margin-bottom: 15px;
+}
+
+#cc-mod-messages {
+    margin-bottom: 15px;
+}
+
+.cc-mod-filter {
     margin-bottom: 25px;
 }
 

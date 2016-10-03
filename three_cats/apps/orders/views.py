@@ -21,7 +21,9 @@ from apps.elephants.models import Balance
 
 @json_view
 def cart(request):
-    cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
+    cart, created = Cart.objects.get_or_create()
+    cart.session = request.session.session_key
+    cart.save()
 
     if not created:
         cart_items = CartItem.objects.filter(cart=cart)

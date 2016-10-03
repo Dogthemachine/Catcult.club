@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-  {% trans 'Items balance' %}
+  {% trans 'Items arrival' %}
 {% endblock %}
 
 {% block content %}
@@ -40,7 +40,7 @@
                 {% for balance in item.balance_set.all %}
                   <div class="cc-table-margin">
                     <input id="cc-sizes-{{ balance.id }}" class="form-control" type="text" value="{{ balance.amount }}">
-                    <button class="btn cc-save-balance" data-balance-id="{{ balance.id }}">{% trans 'Update' %}</button>
+                    <button class="btn cc-save-balance" data-balance-id="{{ balance.id }}">{% trans 'Add' %}</button>
                   </div>
                 {% endfor %}
               </td>
