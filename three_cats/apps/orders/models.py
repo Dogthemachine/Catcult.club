@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
@@ -8,13 +10,11 @@ from apps.elephants.models import Balance, Items, Sizes
 class Orders(models.Model):
     name = models.CharField(_('name'), max_length=70)
     phone = models.CharField(_('phone'), max_length=32)
-    email = models.EmailField(_('email'), default='')
-    city = models.CharField(_('city'), max_length=32, default='')
-    delivery = models.CharField(_('delivery'), max_length=32, default=0)
-    payment = models.CharField(_('payment'), max_length=32, default=0)
-    message = models.TextField(_('message'), default='')
-    cost = models.IntegerField(_('cost'), default=0)
+    comment = models.TextField(_('comment'), default='')
+    delivery = models.IntegerField(_('delivery'), choices=settings.DELIVERY, default=0)
+    payment = models.IntegerField(_('payment'), choices=settings.PAYMENT, default=0)
     status = models.IntegerField(_('status'), choices=settings.ORDER_STATUS, default=0)
+    archived = models.BooleanField(_('archived'), default=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -25,13 +25,25 @@ class Orders(models.Model):
     def __unicode__(self):
         return u'%s' % self.name
 
+    def get_total_price(self):
+        items = Orderitems.objects.filter(order=self)
+        sum = 0
+
+        for i in items:
+            print(i)
+            sum += i.balance.item.price
+
+        return sum
+
 
 class Orderitems(models.Model):
     order = models.ForeignKey(Orders)
     balance = models.ForeignKey(Balance)
+    amount = models.PositiveIntegerField(_('amount'))
+    added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
-        ordering = ('order',)
+        ordering = ('added',)
         verbose_name = _('Order items')
         verbose_name_plural = _('Order items')
 
@@ -64,3 +76,18 @@ class CartItem(models.Model):
     item = models.ForeignKey(Items)
     size = models.ForeignKey(Sizes)
     amount = models.PositiveSmallIntegerField()
+
+
+@receiver(post_save, sender=Orderitems)
+def update_balance_on_order(sender, instance, created, **kwargs):
+    if created:
+        balance = instance.balance
+        balance.amount = balance.amount - instance.amount
+        balance.save()
+
+
+@receiver(post_delete, sender=Orderitems)
+def update_balance_or_order_delete(sender, instance, **kwargs):
+    balance = instance.balance
+    balance.amount = balance.amount + instance.amount
+    balance.save()

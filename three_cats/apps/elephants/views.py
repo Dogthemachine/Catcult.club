@@ -71,7 +71,7 @@ def item_details(request, id):
     if request.method == 'POST':
         form = AddToCartForm(request.POST, item=item)
         if form.is_valid():
-            cart, cart_created = Cart.objects.get_or_create()
+            cart, cart_created = Cart.objects.get_or_create(session_key=request.session.session_key)
             cart.session = request.session.session_key
             cart.save()
 

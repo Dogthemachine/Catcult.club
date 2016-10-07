@@ -142,22 +142,25 @@ MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'ru'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 DELIVERY = (
-    (0, gettext('New Post')),
-    (1, gettext('Delivery to Odessa')),
-    (2, gettext('Another embodiment')),
+    (0, gettext('---')),
+    (1, gettext('Nova Post')),
+    (2, gettext('Delivery to Odessa')),
+    (3, gettext('Another embodiment')),
 )
 
 PAYMENT = (
-    (0, gettext('Cash on delivery')),
-    (1, gettext('At stake Privat')),
-    (2, gettext('Payment by courier')),
+    (0, gettext('---')),
+    (1, gettext('Cash on delivery')),
+    (2, gettext('At stake Privat')),
+    (3, gettext('Payment by courier')),
 )
 
 ORDER_STATUS = (
-    (0, gettext('New')),
-    (1, gettext('Decorated')),
-    (2, gettext('Ready to ship')),
-    (3, gettext('Sent')),
+    (0, gettext('---')),
+    (1, gettext('New')),
+    (2, gettext('Decorated')),
+    (3, gettext('Ready to ship')),
+    (4, gettext('Sent')),
 )
 
 # Activation days for Users app.

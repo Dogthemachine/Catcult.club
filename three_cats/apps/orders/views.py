@@ -21,7 +21,7 @@ from apps.elephants.models import Balance
 
 @json_view
 def cart(request):
-    cart, created = Cart.objects.get_or_create()
+    cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
     cart.session = request.session.session_key
     cart.save()
 
@@ -78,8 +78,13 @@ def cart_checkout(request):
 
             for item in cart_items:
                 balance = Balance.objects.get(item=item.item, size=item.size)
-                balance.amount = balance.amount - item.amount
-                balance.save()
+
+                orderitem = Orderitems()
+                orderitem.order = order
+                orderitem.balance = balance
+                orderitem.amount = item.amount
+                orderitem.save()
+
 
             cart.delete()
 

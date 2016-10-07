@@ -7,7 +7,7 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ('session_key',)
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'email', 'city', 'delivery', 'payment', 'message', 'cost', 'status',)
+    list_display = ('name', 'phone')
 
 class OrderitemsAdmin(admin.ModelAdmin):
     list_display = ('order', 'balance',)

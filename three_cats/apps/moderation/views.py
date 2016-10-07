@@ -1,13 +1,17 @@
 from jsonview.decorators import json_view
+import csv
 import json
 import datetime
 
+from django.http import HttpResponse
 from django.contrib.auth.decorators import permission_required, login_required
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from apps.elephants.models import Balance, Items, BalanceLog
+from apps.orders.forms import CommentForm
+from apps.orders.models import Orders
 
 
 @login_required(login_url='/login/')
@@ -94,3 +98,28 @@ def log(request):
     print(date_from, date_to)
 
     return render(request, 'moderation/log.html', {'logs': logs, 'date_from': date_from, 'date_to': date_to})
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def export_balance(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="catcult-balance-%s.csv"' % datetime.datetime.strftime(datetime.date.today(), '%Y-%m-%d')
+
+    writer = csv.writer(response)
+    writer.writerow([_('Category'), _('Fashion'), _('Item'), _('Size'), _('Balance')])
+
+    for balance in Balance.objects.all().order_by('item'):
+        writer.writerow([balance.item.fashions.categories, balance.item.fashions, balance.item, balance.size, balance.amount])
+
+    return response
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def manage_orders(request):
+    orders = Orders.objects.filter(archived=False)
+
+    comment_form = CommentForm()
+
+    return render(request, 'moderation/orders.html', {'orders': orders, 'comment_form': comment_form})
