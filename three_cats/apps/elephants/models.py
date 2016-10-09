@@ -1,8 +1,4 @@
-import os
-from io import BytesIO
-
 from django_resized import ResizedImageField
-from PIL import Image
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -97,11 +93,6 @@ class Items(models.Model):
 
     def sorting(self):
         return Balance.objects.filter(item=self).aggregate(Sum('amount')) * self.views_per_month
-
-
-class Items_views(models.Model):
-    item = models.ForeignKey(Items)
-    added = models.DateTimeField(_('added'), auto_now_add=True)
 
 
 class Photo(models.Model):

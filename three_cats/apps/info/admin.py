@@ -1,6 +1,9 @@
-from django.contrib import admin
-from apps.info.models import Info, Maintitle, Infophoto, Stores
 from modeltranslation.admin import TranslationAdmin
+
+from django.contrib import admin
+
+from apps.info.models import Info, Carousel, Infophoto, Stores
+
 
 class InfoAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -12,6 +15,7 @@ class InfoAdmin(admin.ModelAdmin):
             '/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
             '/static/grappelli/tinymce_setup/tinymce_setup.js',
         ]
+
 
 class StoresAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -31,16 +35,22 @@ class StoresAdmin(admin.ModelAdmin):
             'screen': ('/static/modeltranslation/css/tabbed_translation_fields.css',),
         }
 
-class MaintitleAdmin(admin.ModelAdmin):
+
+class CarouselAdmin(admin.ModelAdmin):
     list_display = ('image', 'order',)
+
 
 class InfophotoAdmin(admin.ModelAdmin):
     list_display = ('info', 'image',)
 
+
 admin.site.register(Info, InfoAdmin)
 
-admin.site.register(Maintitle, MaintitleAdmin)
+
+admin.site.register(Carousel, CarouselAdmin)
+
 
 admin.site.register(Infophoto, InfophotoAdmin)
+
 
 admin.site.register(Stores, StoresAdmin)

@@ -92,7 +92,6 @@ WSGI_APPLICATION = 'three_cats.wsgi.application'
 
 LOCALE_PATHS = (
     get_env_variable('TC_LOCALE_DIR'),
-
 )
 
 INSTALLED_APPS = [
@@ -142,25 +141,26 @@ MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'ru'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 DELIVERY = (
-    (0, gettext('---')),
-    (1, gettext('Nova Post')),
+    (0, gettext('* Delivery')),
+    (1, gettext('Nova Poshta')),
     (2, gettext('Delivery to Odessa')),
     (3, gettext('Another embodiment')),
 )
 
 PAYMENT = (
-    (0, gettext('---')),
+    (0, gettext('* Payment')),
     (1, gettext('Cash on delivery')),
     (2, gettext('At stake Privat')),
     (3, gettext('Payment by courier')),
 )
 
 ORDER_STATUS = (
-    (0, gettext('---')),
+    (0, gettext('* Status')),
     (1, gettext('New')),
     (2, gettext('Decorated')),
     (3, gettext('Ready to ship')),
     (4, gettext('Sent')),
+    (9, gettext('Archived')),
 )
 
 # Activation days for Users app.

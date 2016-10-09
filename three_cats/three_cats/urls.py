@@ -5,10 +5,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from apps.elephants.views import showcase, item_details
-from apps.info.views import user_login, user_logout, feedback, contacts, about, partners, feedback_order, checkout
+from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import construction_page, main_page
 from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders
-from apps.orders.views import cart, cart_checkout, orders, order_position, elephants_order, cart_remove
+from apps.orders.views import cart, cart_checkout, cart_remove
 
 admin.autodiscover()
 
@@ -20,11 +20,11 @@ urlpatterns = [
     url(r'^login/$', user_login, name='user_login'),
     url(r'^logout/$', user_logout, name='user_logout'),
 
-    # Store
+    # Info
     url(r'^feedback/$', feedback, name='feedback'),
-    url(r'^contacts/$', contacts, name='contacts'),
-    url(r'^about/$', about, name='about_us'),
-    url(r'^partners/$', partners, name='partners'),
+    url(r'^contacts/$', topic_view, {'topic': 'contacts'}, name='contacts'),
+    url(r'^about/$', topic_view, {'topic': 'about_us'}, name='about_us'),
+    url(r'^partners/$', topic_view, {'topic': 'partners'}, name='partners'),
 
     # Shop
     url(r'^showcase/$', showcase, name='showcase'),
@@ -34,24 +34,17 @@ urlpatterns = [
 
     # Moderator
     url(r'^check_orders/$', manage_orders, name='orders'),
-    url(r'^balances/$', balances, name='balances'), #done
-    url(r'^balances/update/$', balances_update, {'arrival': False}, name='balances_update'), #done
-    url(r'^balances/download/$', export_balance, name='export_balance'), #done
-    url(r'^arrival/$', arrival, name='arrival'), #done
-    url(r'^arrival/update/$', balances_update, {'arrival': True}, name='balances_update'), #done
-    url(r'^log/$', log, name='log'), #done
+    url(r'^balances/$', balances, name='balances'),
+    url(r'^balances/update/$', balances_update, {'arrival': False}, name='balances_update'),
+    url(r'^balances/download/$', export_balance, name='export_balance'),
+    url(r'^arrival/$', arrival, name='arrival'),
+    url(r'^arrival/update/$', balances_update, {'arrival': True}, name='balances_update'),
+    url(r'^log/$', log, name='log'),
 
-    # Orders
+    # Cart
     url(r'^cart/$', cart, name='cart'),
     url(r'^cart/(?P<id>\d+)/remove/$', cart_remove, name='cart_remove'),
     url(r'^cart/checkout/$', cart_checkout, name='cart_checkout'),
-    url(r'^orders/$', orders, name='all_orders'),
-    url(r'^orders/(?P<status>\d+)/$', orders, name='orders_status'),
-    url(r'^order_position/(?P<id>\d+)/$', order_position, name='order_position'),
-    url(r'^order/(?P<id>\d+)/$', elephants_order, name='elephants_order'),
-    url(r'^feedback_order/(?P<id>\d+)/$', feedback_order, name='feedback_order'),
-    url(r'^checkout/$', checkout, name='checkout'),
-
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 

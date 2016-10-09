@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 from .forms import AddToCartForm
-from .models import Photo, Categories, Fashions, Items, Sizes, Items_views
+from .models import Photo, Categories, Fashions, Items, Sizes
 from apps.orders.models import Cart, CartItem
 
 

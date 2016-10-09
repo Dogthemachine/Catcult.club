@@ -14,19 +14,18 @@ class Orders(models.Model):
     delivery = models.IntegerField(_('delivery'), choices=settings.DELIVERY, default=0)
     payment = models.IntegerField(_('payment'), choices=settings.PAYMENT, default=0)
     status = models.IntegerField(_('status'), choices=settings.ORDER_STATUS, default=0)
-    archived = models.BooleanField(_('archived'), default=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
         ordering = ('-added',)
-        verbose_name = _('orders')
-        verbose_name_plural = _('orders')
+        verbose_name = _('Orders')
+        verbose_name_plural = _('Orders')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.name
 
     def get_total_price(self):
-        items = Orderitems.objects.filter(order=self)
+        items = OrderItems.objects.filter(order=self)
         sum = 0
 
         for i in items:
@@ -36,7 +35,7 @@ class Orders(models.Model):
         return sum
 
 
-class Orderitems(models.Model):
+class OrderItems(models.Model):
     order = models.ForeignKey(Orders)
     balance = models.ForeignKey(Balance)
     amount = models.PositiveIntegerField(_('amount'))
@@ -44,10 +43,10 @@ class Orderitems(models.Model):
 
     class Meta:
         ordering = ('added',)
-        verbose_name = _('Order items')
+        verbose_name = _('Order item')
         verbose_name_plural = _('Order items')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.order
 
 
@@ -78,7 +77,7 @@ class CartItem(models.Model):
     amount = models.PositiveSmallIntegerField()
 
 
-@receiver(post_save, sender=Orderitems)
+@receiver(post_save, sender=OrderItems)
 def update_balance_on_order(sender, instance, created, **kwargs):
     if created:
         balance = instance.balance
@@ -86,7 +85,7 @@ def update_balance_on_order(sender, instance, created, **kwargs):
         balance.save()
 
 
-@receiver(post_delete, sender=Orderitems)
+@receiver(post_delete, sender=OrderItems)
 def update_balance_or_order_delete(sender, instance, **kwargs):
     balance = instance.balance
     balance.amount = balance.amount + instance.amount

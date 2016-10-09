@@ -9,7 +9,7 @@ def get_django_env():
     from os import environ
 
     try:
-        env = environ['CS_DJANGO_SETTINGS_MODULE']
+        env = environ['TC_DJANGO_SETTINGS_MODULE']
     except KeyError:
         env = 'three_cats.settings.prod'
 

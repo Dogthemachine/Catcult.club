@@ -1,9 +1,9 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Field
-from django.conf import settings
-from django.contrib.auth import authenticate
 
 from django import forms
+from django.conf import settings
+from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
@@ -25,7 +25,8 @@ def lang(t):
 
 class ContactForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=70, widget=forms.TextInput(attrs={'class': 'span9'}))
-    email = forms.EmailField(label=_('Email'), max_length=40, widget=forms.TextInput(attrs={'class': 'span9'}))
+    phone = forms.CharField(label=_('Phone'), max_length=40, required=False, widget=forms.TextInput(attrs={'class': 'span9'}))
+    email = forms.EmailField(label=_('Email'), max_length=40, required=False, widget=forms.TextInput(attrs={'class': 'span9'}))
     message = forms.CharField(label=_('Message'), max_length=1000, widget=forms.Textarea(attrs={'rows': 4, 'class': 'span9'}))
 
     def __init__(self, *args, **kwargs):
@@ -37,57 +38,11 @@ class ContactForm(forms.Form):
         super(ContactForm, self).__init__(*args, **kwargs)
 
 
-class CheckoutForm(forms.Form):
-    name = forms.CharField(label=_('Name'), max_length=70,
-                           widget=forms.TextInput(attrs={'class': 'span4'}))
-    phone = forms.CharField(label=_('Phone'), max_length=32, required=False,
-                            widget=forms.TextInput(attrs={'class': 'span4'}))
-    email = forms.EmailField(label=_('Email'), max_length=40,
-                             widget=forms.TextInput(attrs={'class': 'span4'}))
-    city = forms.CharField(label=_('City'), max_length=32,
-                           required=False)
-    delivery = forms.ChoiceField(label=_('Delivery'),
-                                 choices=lang(settings.DELIVERY), required=False)
-    payment = forms.ChoiceField(label=_('Payment'),
-                                choices=lang(settings.PAYMENT), required=False)
-    message = forms.CharField(label=_('Message'), max_length=1000,
-                              required=False, widget=forms.Textarea(attrs={'rows': 4, 'class': 'span6'}))
-
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_action = '.'
-        self.helper.layout = Layout(
-            Div(Div(Field('name'), css_class='span4'),
-                Div(Field('phone'), css_class='span4'),
-                Div(Field('email'), css_class='span4'),
-                Div(Field('city'), css_class='span4'),
-                Div(Field('delivery'), css_class='span4'),
-                Div(Field('payment'), css_class='span4'), css_class='row'),
-            Div(Div(Field('message'), rows='4', css_class='span6'), css_class='row'),
-            Div(Submit('Checkout', ugettext(u'Checkout'), css_class='btn-success pull-right')),
-        )
-
-        super(CheckoutForm, self).__init__(*args, **kwargs)
-
-
 class LoginForm(forms.Form):
-
-    login = forms.CharField(
-        label=_('Login'),
-        widget=forms.TextInput(attrs={'class': 'span4'})
-    )
-
-    password = forms.CharField(
-        label=_('Password'),
-        widget=forms.PasswordInput(attrs={'class': 'span4'})
-    )
+    login = forms.CharField(label=_('Login'), widget=forms.TextInput(attrs={'class': 'span4'}))
+    password = forms.CharField(label=_('Password'), widget=forms.PasswordInput(attrs={'class': 'span4'}))
 
     def __init__(self, *args, **kwargs):
-        """
-        Extend __init__() for Crispy forms configuration.
-
-        """
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'

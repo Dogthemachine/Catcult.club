@@ -10,8 +10,8 @@ from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from apps.elephants.models import Balance, Items, BalanceLog
-from apps.orders.forms import CommentForm
 from apps.orders.models import Orders
+from .forms import CommentForm, StatusesForm, DeleteForm
 
 
 @login_required(login_url='/login/')
@@ -122,4 +122,11 @@ def manage_orders(request):
 
     comment_form = CommentForm()
 
-    return render(request, 'moderation/orders.html', {'orders': orders, 'comment_form': comment_form})
+    statuses_form = StatusesForm()
+
+    delete_form = DeleteForm()
+
+    return render(request, 'moderation/orders.html', {
+        'orders': orders, 'comment_form': comment_form, 'statuses_form': statuses_form,
+        'delete_form': delete_form
+    })

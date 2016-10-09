@@ -37,7 +37,7 @@
                 {% for item in order.orderitems_set.all %}
                   {{ item.balance.item }} - {{ item.balance.size }} - {{ item.amount }}<br/>
                 {% endfor %}
-                <a href="">{% trans 'Edit' %}</a>
+                <a class="btn btn-primary" href="">{% trans 'Edit' %}</a>
               </td>
               <td>
                 <form class="" action="{{ order.id }}/comment" method="post">
@@ -45,10 +45,14 @@
                 </form>
               </td>
               <td>
-                <button class="btn" data-balance-id="{{ balance.id }}">{% trans 'Update' %}</button>
+                <form class="" action="{{ order.id }}/statuses" method="post">
+                  {% crispy statuses_form statuses_form.helper %}
+                </form>
               </td>
               <td>
-                <button class="btn" data-balance-id="{{ balance.id }}">{% trans 'Update' %}</button>
+                <form class="" action="{{ order.id }}/delete" method="post">
+                  {% crispy delete_form delete_form.helper %}
+                </form>
               </td>
             </tr>
           {% endfor %}

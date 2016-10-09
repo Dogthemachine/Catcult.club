@@ -15,7 +15,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 
 from .forms import CheckoutForm
-from .models import Cart, CartItem, Orders, Orderitems
+from .models import Cart, CartItem, Orders, OrderItems
 from apps.elephants.models import Balance
 
 
@@ -79,7 +79,7 @@ def cart_checkout(request):
             for item in cart_items:
                 balance = Balance.objects.get(item=item.item, size=item.size)
 
-                orderitem = Orderitems()
+                orderitem = OrderItems()
                 orderitem.order = order
                 orderitem.balance = balance
                 orderitem.amount = item.amount
@@ -103,81 +103,3 @@ def cart_checkout(request):
     button_text = _('Place the order')
 
     return {'form': True, 'html': html, 'button_text': button_text}
-
-
-def orders(request, status=None):
-
-    if not request.user.is_authenticated():
-        return redirect('/')
-
-
-    status_select = [{'name': _('All status'), 'id': 4}]
-    for status_position in settings.ORDER_STATUS:
-        status_select = status_select + [{'name': _(status_position[1]), 'id': status_position[0]}]
-
-    if status:
-        orders = Orders.objects.filter(status=status).count()
-        status_name = _(settings.ORDER_STATUS[int(status)][1])
-    else:
-        orders = Orders.objects.all()
-        status_name = _('All status')
-
-    i = 0
-    for order in orders:
-        order[i].status_name = _(settings.ORDER_STATUS[int(order.status)][1])
-        i = i + 1
-
-    return render_to_response('elephants/orders.html', {'status_name': status_name,
-                                                        'status_select': status_select,
-                                                        'orders': orders},
-                              context_instance=RequestContext(request))
-
-
-@json_view
-@csrf_exempt
-def elephants_order(request, id):
-
-    if request.method == 'POST':
-
-        item = get_object_or_404(Balance, id=id)
-
-        try:
-            session_key = request.session.session_key
-        except:
-            request.session.create()
-            session_key = request.session.session_key
-
-        b = Cart(balance=item, session_key=session_key)
-        b.save()
-
-        messages.add_message(request, messages.SUCCESS, _(u'Added to cart: %s') % item.item.name)
-
-    return {'success': True}
-
-
-
-
-
-
-def order_position(request):
-
-    if request.is_ajax():
-
-        order_id = request.GET.get('order_id', 0)
-
-        order = get_object_or_404(Orders, id=order_id)
-        items = Orderitems.objects.filter(order=order)
-        delivery = settings.DELIVERY[int(order.delivery)][1]
-        payment = settings.PAYMENT[int(order.payment)][1]
-
-        html = render_to_string('elephants/order_position.html',
-                                {'order': order, 'items': items, 'delivery': delivery, 'payment': payment},
-                                context_instance=RequestContext(request))
-
-        response_data = {'html': html}
-
-        return HttpResponse(json.dumps(response_data),
-                        mimetype="application/json")
-
-    else:
-        raise PermissionDenied()

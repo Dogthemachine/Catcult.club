@@ -1,71 +1,40 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block main %}
-
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      {{ about.info|safe }}
-    </div>
-  </div><!-- /.row -->
-
-{% endblock %}
-
 {% block content %}
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
+      <h2>{{ mainpage.title|safe }}</h2>
+    </div>
 
-  <div class="container">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
+      {{ mainpage.info|safe }}
+    </div>
+  </div>
 
-    {% if not request.user.is_authenticated %}
-
+  <div id="delivery" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
+      <h2>{{ delivery.title|safe }}</h2>
+    </div>
+    {% if delivery.image %}
       <div class="row">
-        <p>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
-              <p><h2>{{ mainpage.title|safe }}</h2></p>
-            </div>
-        </p>
-        <p>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
-              {{ mainpage.info|safe }}
-            </div>
-        </p>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <img class="img-fluid center-block" crop="center" src="{{ MEDIA_URL}}{{ delivery.image }}">
+        </div>
       </div>
-
-      <div id="delivery" class="row">
-        <p>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
-              <h2>{{ delivery.title|safe }}</h2>
-            </div>
-        </p>
-        {% if delivery.image %}
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <img class="img-fluid center-block" crop="center" src="{{ MEDIA_URL}}{{ delivery.image }}">
-              </div>
-            </div>
-          </div>
-        {% endif %}
-        <p>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
-              {{ delivery.info|safe }}
-            </div>
-        </p>
-      </div>
-
-      <div id="payment" class="row">
-        <p>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
-              <p><h2>{{ payment.title|safe }}</h2></p>
-            </div>
-        </p>
-        <p>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
-              {{ payment.info|safe }}
-            </div>
-        </p>
-      </div>
-
     {% endif %}
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
+      {{ delivery.info|safe }}
+    </div>
+  </div>
 
+  <div id="payment" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
+      <h2>{{ payment.title|safe }}</h2>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
+      {{ payment.info|safe }}
+    </div>
   </div>
 
 {% endblock %}
