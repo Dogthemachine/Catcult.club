@@ -5,13 +5,13 @@ import datetime
 
 from django.http import HttpResponse
 from django.contrib.auth.decorators import permission_required, login_required
-from django.shortcuts import render_to_response, render
+from django.shortcuts import get_object_or_404, render
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from apps.elephants.models import Balance, Items, BalanceLog
-from apps.orders.models import Orders
-from .forms import CommentForm, StatusesForm, DeleteForm
+from apps.orders.models import Orders, OrderItems
+from .forms import FilterForm, OrderForm
 
 
 @login_required(login_url='/login/')
@@ -118,15 +118,48 @@ def export_balance(request):
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
 def manage_orders(request):
-    orders = Orders.objects.filter(archived=False)
+    if request.method == 'POST':
+        filter_form = FilterForm(request.POST)
+        if filter_form.is_valid():
+            data = filter_form.cleaned_data
+            orders = Orders.objects.filter(
+                delivery=data.get('delivery'),
+                payment=data.get('payment'),
+                status=data.get('status')
+            )
 
-    comment_form = CommentForm()
+        else:
+            filter_form = FilterForm()
 
-    statuses_form = StatusesForm()
+            orders = Orders.objects.exclude(status=9)
+    else:
+        filter_form = FilterForm()
 
-    delete_form = DeleteForm()
+        orders = Orders.objects.exclude(status=9)
 
     return render(request, 'moderation/orders.html', {
-        'orders': orders, 'comment_form': comment_form, 'statuses_form': statuses_form,
-        'delete_form': delete_form
+        'orders': orders, 'filter_form': filter_form
+    })
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def manage_order(request, id):
+    order = get_object_or_404(Orders, id=id)
+
+    order_items = OrderItems.objects.filter(order=order)
+
+    items = Items.objects.all()
+
+    if request.method == 'POST':
+        order_form = OrderForm(request.POST, instance=order)
+        if order_form.is_valid():
+            order_form.save()
+    else:
+        order_form = OrderForm(instance=order)
+
+
+    return render(request, 'moderation/order.html', {
+        'order': order, 'order_form': order_form, 'order_items': order_items,
+        'items': items
     })

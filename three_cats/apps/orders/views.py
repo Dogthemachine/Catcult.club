@@ -27,6 +27,8 @@ def cart(request):
 
     if not created:
         cart_items = CartItem.objects.filter(cart=cart)
+    else:
+        cart_items = []
 
     t = loader.get_template('orders/cart.html')
     c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})

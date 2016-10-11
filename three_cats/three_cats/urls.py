@@ -7,7 +7,7 @@ from django.contrib import admin
 from apps.elephants.views import showcase, item_details
 from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import construction_page, main_page
-from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders
+from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders, manage_order
 from apps.orders.views import cart, cart_checkout, cart_remove
 
 admin.autodiscover()
@@ -33,7 +33,8 @@ urlpatterns = [
     url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
 
     # Moderator
-    url(r'^check_orders/$', manage_orders, name='orders'),
+    url(r'^orders/$', manage_orders, name='orders'),
+    url(r'^orders/(?P<id>\d+)/$', manage_order, name='manage_order'),
     url(r'^balances/$', balances, name='balances'),
     url(r'^balances/update/$', balances_update, {'arrival': False}, name='balances_update'),
     url(r'^balances/download/$', export_balance, name='export_balance'),

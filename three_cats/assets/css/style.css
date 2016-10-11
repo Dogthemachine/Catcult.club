@@ -372,8 +372,21 @@ legend {
   height: auto;
 }
 
-.carousel-item img{
-    margin: 0 auto;
+#cc-pics {
+    margin-top: -20px;
+}
+
+.flex-control-paging {
+    margin-bottom: 60px;
+}
+
+.cc-styled-h {
+    z-index: 1001;
+}
+
+.cc-styled-p {
+    border: dashed;
+    padding: 35px 25px 10px;
 }
 
 .overlay {

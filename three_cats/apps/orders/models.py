@@ -10,10 +10,11 @@ from apps.elephants.models import Balance, Items, Sizes
 class Orders(models.Model):
     name = models.CharField(_('name'), max_length=70)
     phone = models.CharField(_('phone'), max_length=32)
-    comment = models.TextField(_('comment'), default='')
+    comment = models.TextField(_('comment'), default='', blank=True)
     delivery = models.IntegerField(_('delivery'), choices=settings.DELIVERY, default=0)
     payment = models.IntegerField(_('payment'), choices=settings.PAYMENT, default=0)
     status = models.IntegerField(_('status'), choices=settings.ORDER_STATUS, default=0)
+    ttn = models.IntegerField(_('TTN'), default=0)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -29,7 +30,6 @@ class Orders(models.Model):
         sum = 0
 
         for i in items:
-            print(i)
             sum += i.balance.item.price
 
         return sum

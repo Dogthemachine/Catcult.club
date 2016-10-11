@@ -240,7 +240,9 @@ $(document).ready(function() {
 
     $('.cc-cat-image').hover(sourceSwap, sourceSwap);
 
-    $('#cc-pics').carousel();
+    $('#cc-pics').flexslider({
+        animation: "slide"
+    });
 
     $('.cc-zoom img').elevateZoom({
         responsive: true,
@@ -253,6 +255,4 @@ $(document).ready(function() {
         loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
     });
 
-    // Call to Google Maps
-    initialize();
 });

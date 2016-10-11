@@ -7,9 +7,9 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 pull-right">
-      <div class="pull-right"><a href="">{% trans 'Archive' %}</a></div>
+  <div class="row cc-table-margin">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      {% crispy filter_form filter_form.helper %}
     </div>
   </div>
   <div class="row cc-table-margin">
@@ -20,50 +20,38 @@
           <tr>
             <th>{% trans 'Order' %}</th>
             <th>{% trans 'Items' %}</th>
-            <th>{% trans 'Comment' %}</th>
-            <th>{% trans 'Statuses' %}</th>
-            <th>{% trans 'Delete' %}</th>
+            <th>{% trans 'Edit' %}</th>
           </tr>
         </thead>
         <tbody>
           {% for order in orders %}
-            <tr>
-              <td>
+            <tr id="cc-order-{{ order.id }}">
+              <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <b>{{ order.name }}</b><br/>
-                {{ order.phone }}<br/>
-                {{ order.get_total_price }} {% trans 'UAH' %}
+                <b>{{ order.phone }}</b><br/>
+                {{ order.get_delivery_display }}<br/>
+                {{ order.get_payment_display }}<br/>
+                {{ order.get_status_display }}<br/>
+                {{ order.ttn }}<br/>
+                {{ order.comment }}<br/>
               </td>
-              <td>
+              <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                {{ order.get_total_price }} {% trans 'UAH' %}<br/>
                 {% for item in order.orderitems_set.all %}
                   {{ item.balance.item }} - {{ item.balance.size }} - {{ item.amount }}<br/>
                 {% endfor %}
-                <a class="btn btn-primary" href="">{% trans 'Edit' %}</a>
               </td>
-              <td>
-                <form class="" action="{{ order.id }}/comment" method="post">
-                  {% crispy comment_form comment_form.helper %}
-                </form>
-              </td>
-              <td>
-                <form class="" action="{{ order.id }}/statuses" method="post">
-                  {% crispy statuses_form statuses_form.helper %}
-                </form>
-              </td>
-              <td>
-                <form class="" action="{{ order.id }}/delete" method="post">
-                  {% crispy delete_form delete_form.helper %}
-                </form>
+              <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <a class="btn btn-primary" href="{% url 'manage_order' order.id %}">{% trans 'Edit' %}</a>
               </td>
             </tr>
           {% endfor %}
         </tbody>
         <tfoot>
           <tr>
-            <td>{% trans 'Name' %}</td>
-            <td>{% trans 'Phone' %}</td>
-            <td>{% trans 'Total price' %}</td>
-            <td>{% trans 'Comment' %}</td>
-            <td>{% trans 'Delivery' %}</td>
+            <td>{% trans 'Order' %}</td>
+            <td>{% trans 'Items' %}</td>
+            <td>{% trans 'Edit' %}</td>
           </tr>
         </tfoot>
       </table>

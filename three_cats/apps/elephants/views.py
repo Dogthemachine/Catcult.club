@@ -35,6 +35,27 @@ def showcase(request, category_id=None, fashion_id=None):
     else:
         items = Items.objects.all()
 
+    avail_items = []
+    not_avail_items = []
+
+    for item in items:
+        for balance in item.balance_set.all():
+            if balance.amount > 0:
+                avail_items.append(item)
+                break
+
+    for item in items:
+        amount = []
+
+        for balance in item.balance_set.all():
+            if balance.amount == 0:
+                amount.append(balance)
+
+        if len(amount) == item.balance_set.count():
+            not_avail_items.append(item)
+
+    items = avail_items + not_avail_items
+
     paginator = Paginator(items, 12)
 
     page = request.GET.get('page')

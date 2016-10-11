@@ -140,4 +140,16 @@ $(document).ready(function() {
 
         location.search = '?date_from=' + date_from + '&date_to=' + date_to;
     });
+
+    $('.cc-order-update').on('click', function(e) {
+        var id = $(this).data('id');
+        var ttn_form = $('#cc-ttn-form-' + id);
+        var delete_form = $('#cc-delete-form-' + id);
+        var comment_form = $('#cc-comment-form-' + id);
+        var statuses_form = $('#cc-statuses-form-' + id);
+
+        if ($('#id_confirm', delete_form).is(':checked')) {
+            console.log('gotcha!');
+        }
+    });
 });
