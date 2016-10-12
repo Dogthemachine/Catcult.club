@@ -69,6 +69,22 @@ def cart_checkout(request):
 
     form = CheckoutForm()
 
+    no_avail_items = 0
+
+    cart_items = CartItem.objects.filter(cart=cart)
+
+    for item in cart_items:
+        if not item.check_avail():
+            no_avail_items += 1
+
+    if no_avail_items:
+
+        t = loader.get_template('orders/cart.html')
+        c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})
+        html = t.render(c)
+
+        return {'form': False, 'html': html}
+
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
@@ -91,10 +107,18 @@ def cart_checkout(request):
 
             cart.delete()
 
+            message = _('Your order has been placed. We will contact you shortly.<br/>Order details:<br/>')
+            message += order.name + '<br/>' + str(order.phone) + '<br/>'
+            for item in order.orderitems_set.all():
+                message += item.balance.item.name + ' - '
+                message += item.balance.size.name + ' - '
+                message += str(item.amount) + '<br/>'
+                message += _('Total:') + ' ' + str(order.get_total_price()) + ' ' + _('UAH') + '<br/>'
+
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('Your order has been placed. We will contact you shortly.')
+                message
             )
 
             return {'form': False}

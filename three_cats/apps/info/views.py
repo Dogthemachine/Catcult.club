@@ -66,6 +66,7 @@ def feedback(request):
             subject = _('[Contact form] New message')
             message = (form.cleaned_data.get('name') + '\n\n' +
                        form.cleaned_data.get('email') + '\n\n' +
+                       form.cleaned_data.get('phone') + '\n\n' +
                        form.cleaned_data.get('message'))
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [settings.INFO_EMAIL]

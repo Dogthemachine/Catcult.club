@@ -9,6 +9,7 @@
         <td>
           <p class="cc-cart-title">{{ i.item.name }}</p>
           <p>{% trans 'Size' %}: {{ i.size.name }}<br />{{ i.amount }} {% trans 'units' %}</p>
+          {% if not i.check_avail %}<p class="cc-error">{% trans 'This item is unavailable. You can delete it and checkout.' %}</p>{% endif %}
         </td>
         <td>
           <a class="btn btn-danger cc-cart-remove" href="#" data-id="{{ i.id }}">

@@ -37,7 +37,7 @@ def balances_update(request, arrival):
         except:
             return {'success': False, 'message': _('Error')}
 
-        if id and amount:
+        if id and amount >= 0:
             try:
                 balance = Balance.objects.get(id=id)
 

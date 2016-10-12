@@ -206,7 +206,11 @@ $(document).ready(function() {
                     $('#cc-cart-checkout').html(data.button_text);
                     $('#cc-cart-checkout').data('ready', 1);
                 } else {
-                    location.reload();
+                    if (data.html) {
+                        $('#cc-cart-content').html(data.html);
+                    } else {
+                        location.reload();
+                    }
                 }
             }
         });

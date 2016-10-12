@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-12 13:55+0300\n"
+"POT-Creation-Date: 2016-10-12 22:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,8 @@ msgstr "Добавить в корзину"
 msgid ""
 "Sorry, these quantities are unavailable. Please choose another quantity."
 msgstr ""
-"Извините, это количество для заказа недоступно. Пожалуйста, выберите другое количество."
+"Извините, это количество для заказа недоступно. Пожалуйста, выберите другое "
+"количество."
 
 #: apps/elephants/models.py:14 apps/elephants/models.py:33
 #: apps/elephants/models.py:50 apps/elephants/models.py:65
@@ -176,7 +177,8 @@ msgstr "Введенный пароль не соответствует введ
 
 #: apps/info/forms.py:74
 msgid "User is blocked. If you have any questions please contact us."
-msgstr "Пользователь заблокирован. Если у вас возникли вопросы свяжитесь с нами."
+msgstr ""
+"Пользователь заблокирован. Если у вас возникли вопросы свяжитесь с нами."
 
 #: apps/info/models.py:9
 msgid "topic"
@@ -246,7 +248,7 @@ msgstr "Вы успешно вышли."
 msgid "[Contact form] New message"
 msgstr "[Контактная форма] Новое сообщение"
 
-#: apps/info/views.py:78
+#: apps/info/views.py:79
 msgid "The message was successfully sent."
 msgstr "Сообщение успешно отправлено."
 
@@ -375,11 +377,24 @@ msgstr "Корзина"
 msgid "Carts"
 msgstr "Корзины"
 
-#: apps/orders/views.py:97
-msgid "Your order has been placed. We will contact you shortly."
-msgstr "Ваш заказ принят. Мы скоро свяжемся с вами."
+#: apps/orders/views.py:110
+msgid ""
+"Your order has been placed. We will contact you shortly.<br/>Order details:"
+"<br/>"
+msgstr "Ваш заказ принят. Мы скоро свяжемся с вами.<br/>Детали заказа:"
+"<br/>"
 
-#: apps/orders/views.py:106
+#: apps/orders/views.py:116
+msgid "Total:"
+msgstr "Всего:"
+
+#: apps/orders/views.py:116 templates/moderation/items.html:2
+#: templates/moderation/order.html:17 templates/moderation/orders.html:40
+#: templates/orders/cart.html:22
+msgid "UAH"
+msgstr "грн"
+
+#: apps/orders/views.py:130
 msgid "Place the order"
 msgstr "Разместить заказ"
 
@@ -456,11 +471,6 @@ msgstr "Скачать"
 #: templates/moderation/balances.html:48
 msgid "Update"
 msgstr "Обновить"
-
-#: templates/moderation/items.html:2 templates/moderation/order.html:17
-#: templates/moderation/orders.html:40 templates/orders/cart.html:21
-msgid "UAH"
-msgstr "грн"
 
 #: templates/moderation/items.html:9 templates/moderation/order.html:24
 msgid "Size and amount"
@@ -558,11 +568,15 @@ msgstr "Магазин"
 msgid "units"
 msgstr "шт."
 
-#: templates/orders/cart.html:15
+#: templates/orders/cart.html:12
+msgid "This item is unavailable. You can delete it and checkout."
+msgstr "Этот товар недоступен. Вы можете удалить его и оформить заказ."
+
+#: templates/orders/cart.html:16
 msgid "Remove"
 msgstr "Удалить"
 
-#: templates/orders/cart.html:21
+#: templates/orders/cart.html:22
 msgid "Total"
 msgstr "Всего"
 

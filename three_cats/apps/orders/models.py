@@ -77,6 +77,14 @@ class CartItem(models.Model):
     size = models.ForeignKey(Sizes)
     amount = models.PositiveSmallIntegerField()
 
+    def check_avail(self):
+        balance = Balance.objects.get(item=self.item, size=self.size)
+
+        if balance.amount == 0:
+            return False
+        else:
+            return True
+
 
 @receiver(post_save, sender=OrderItems)
 def update_balance_on_order(sender, instance, created, **kwargs):

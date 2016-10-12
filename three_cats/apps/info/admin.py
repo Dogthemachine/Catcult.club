@@ -7,7 +7,7 @@ from apps.info.models import Info, Carousel, Infophoto, Stores
 
 class InfoAdmin(admin.ModelAdmin):
     fieldsets = [
-        (u'Info', {'fields': ('topic', 'title', 'image', 'video', 'info', 'address',)})
+        (u'Info', {'fields': ('topic', 'title', 'image', 'video', 'info')})
     ]
 
     class Media:

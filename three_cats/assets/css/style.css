@@ -472,6 +472,10 @@ body {
     padding: 25px 50px;
 }
 
+.cc-error {
+    color: red;
+}
+
 #cc-orders-link {
     margin-right: 15px;
 }
