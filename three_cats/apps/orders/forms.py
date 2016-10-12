@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class CheckoutForm(forms.Form):
     name = forms.CharField(label='Name', max_length=64)
-    phone = forms.CharField(label='Phone', max_length=32)
+    phone = forms.CharField(label='Phone')
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()

@@ -3,18 +3,18 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
-      <h2>{{ mainpage.title|safe }}</h2>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="cc-header"><h2>{{ mainpage.title|safe }}</h2></div>
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
-      {{ mainpage.info|safe }}
+      <p class="cc-p">{{ mainpage.info|safe }}</div>
     </div>
   </div>
 
   <div id="delivery" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
-      <h2>{{ delivery.title|safe }}</h2>
+      <div class="cc-header"><h2>{{ delivery.title|safe }}</h2></div>
     </div>
     {% if delivery.image %}
       <div class="row">
@@ -24,16 +24,16 @@
       </div>
     {% endif %}
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
-      {{ delivery.info|safe }}
+      <p class="cc-p">{{ delivery.info|safe }}</p>
     </div>
   </div>
 
   <div id="payment" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-item-title">
-      <h2>{{ payment.title|safe }}</h2>
+      <div class="cc-header"><h2>{{ payment.title|safe }}</h2></div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cs-info">
-      {{ payment.info|safe }}
+      <p class="cc-p">{{ payment.info|safe }}</p>
     </div>
   </div>
 

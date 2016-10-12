@@ -11,6 +11,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       {% crispy filter_form filter_form.helper %}
     </div>
+    <a href="{% url 'create_order' %}">{% trans 'Create order' %}</a>
   </div>
   <div class="row cc-table-margin">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

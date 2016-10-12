@@ -70,11 +70,13 @@ class Items(models.Model):
     details = models.TextField(_('details'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
     price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
-    views_per_month = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    views = models.PositiveIntegerField(_('views'), default=0)
+    views_today = models.PositiveIntegerField(_('views today'), default=0)
+    views_month = models.CharField(_('views month'), default=0, max_length=512)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
-        ordering = ('added',)
+        ordering = ('-views',)
         verbose_name = _('items')
         verbose_name_plural = _('items')
 

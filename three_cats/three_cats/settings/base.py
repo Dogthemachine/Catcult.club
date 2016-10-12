@@ -179,3 +179,6 @@ EMAIL_HOST = get_env_variable('TC_EMAIL_HOST')
 EMAIL_HOST_USER = get_env_variable('TC_EMAIL_USER')
 EMAIL_HOST_PASSWORD = get_env_variable('TC_EMAIL_PASSWORD')
 EMAIL_PORT = 587
+
+SMS_PUBLIC_KEY = get_env_variable('TC_SMS_PUBLIC_KEY')
+SMS_PRIVATE_KEY = get_env_variable('TC_SMS_PRIVATE_KEY')

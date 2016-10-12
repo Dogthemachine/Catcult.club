@@ -32,8 +32,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
-          <a id="cc-cart-link" class="nav-link cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
-            <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{% if request.cart_amount %}{{ request.cart_amount }}</span>{% else %}{% trans 'Empty' %}{% endif %}
+          <a id="cc-orders-link" class="nav-link cc-main-menu-color" href="{% url 'orders' %}">
           </a>
         </li>
       </ul>

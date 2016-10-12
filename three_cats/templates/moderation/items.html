@@ -1,0 +1,24 @@
+{% load i18n %}
+{{ order.get_total_price }} {% trans 'UAH' %}<br/>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>{% trans 'Category' %}</th>
+      <th>{% trans 'Fashion' %}</th>
+      <th>{% trans 'Item' %}</th>
+      <th>{% trans 'Size and amount' %}</th>
+      <th>{% trans 'Delete' %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order.orderitems_set.all %}
+      <tr>
+        <td>{{ item.balance.item.fashions.categories.name }}</td>
+        <td>{{ item.balance.item.fashions.name }}</td>
+        <td>{{ item.balance.item.name }}</td>
+        <td>{{ item.balance.size }} - {{ item.amount }}</td>
+        <td><a class="cc-order-item-delete" href="#" data-id="{{ item.id }}">{% trans 'Delete' %}</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</tbody>

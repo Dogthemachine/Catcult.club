@@ -457,6 +457,25 @@ body {
     margin-bottom: 25px;
 }
 
+.cc-header {
+    background-color: white;
+    margin: 0 auto;
+    margin-bottom: -50px;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    width: 25%;
+}
+
+.cc-p {
+    border: 1px solid black;
+    padding: 25px 50px;
+}
+
+#cc-orders-link {
+    margin-right: 15px;
+}
+
 .cc-table-margin {
     margin-bottom: 15px;
 }

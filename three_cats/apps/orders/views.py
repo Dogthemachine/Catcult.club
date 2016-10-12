@@ -17,6 +17,7 @@ from django.db.models import Count
 from .forms import CheckoutForm
 from .models import Cart, CartItem, Orders, OrderItems
 from apps.elephants.models import Balance
+from apps.helpers import normalize_phone
 
 
 @json_view
@@ -73,7 +74,7 @@ def cart_checkout(request):
         if form.is_valid():
             order = Orders()
             order.name = form.cleaned_data['name']
-            order.phone = form.cleaned_data['phone']
+            order.phone = normalize_phone(form.cleaned_data['phone'])
             order.save()
 
             cart_items = CartItem.objects.filter(cart=cart)

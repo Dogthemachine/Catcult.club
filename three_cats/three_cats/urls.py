@@ -7,7 +7,7 @@ from django.contrib import admin
 from apps.elephants.views import showcase, item_details
 from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import construction_page, main_page
-from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders, manage_order
+from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders, manage_order, delete_order_item, add_order_item, create_order, delete_order, check_orders
 from apps.orders.views import cart, cart_checkout, cart_remove
 
 admin.autodiscover()
@@ -34,7 +34,12 @@ urlpatterns = [
 
     # Moderator
     url(r'^orders/$', manage_orders, name='orders'),
+    url(r'^orders/new/$', create_order, name='create_order'),
+    url(r'^orders/check/$', check_orders, name='check_orders'),
     url(r'^orders/(?P<id>\d+)/$', manage_order, name='manage_order'),
+    url(r'^orders/delete/(?P<id>\d+)/$', delete_order, name='delete_order'),
+    url(r'^orders/(?P<id>\d+)/delete/(?P<item_id>\d+)/$', delete_order_item, name='delete_order_item'),
+    url(r'^orders/(?P<id>\d+)/add/(?P<balance_id>\d+)/$', add_order_item, name='add_order_item'),
     url(r'^balances/$', balances, name='balances'),
     url(r'^balances/update/$', balances_update, {'arrival': False}, name='balances_update'),
     url(r'^balances/download/$', export_balance, name='export_balance'),

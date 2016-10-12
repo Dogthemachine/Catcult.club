@@ -152,4 +152,62 @@ $(document).ready(function() {
             console.log('gotcha!');
         }
     });
+
+    $(document).on('click', '.cc-order-item-delete', function(e) {
+        e.preventDefault();
+
+        $.post({
+            url: 'delete/' + $(this).data('id') + '/',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    $('#cc-mod-messages').html(
+                        '<div class="alert alert-danger">' +
+                        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                        data.message +
+                        '</div>'
+                    );
+
+                }
+            }
+        });
+    });
+    $('.cc-order-item-add').on('click', function(e) {
+        e.preventDefault();
+        var balance = $(this).data('balance-id');
+        var balance_amount = $('#cc-order-balance-' + balance).val();
+        $.ajax({
+            url: 'add/' + balance + '/',
+            type: 'post',
+            data: {'amount': balance_amount},
+            success: function(data) {
+                if(data.success) {
+                    location.reload();
+                } else {
+                    $('#cc-mod-messages').html(
+                        '<div class="alert alert-danger">' +
+                        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                        data.message +
+                        '</div>'
+                    );
+                }
+            }
+        });
+    });
+
+
+    function doPoll(){
+        $.get('/orders/check/', function(data) {
+            if (data.new) {
+                $('#cc-orders-link').html(
+                    '<b><span class="icon-star"></span> ' + data.count + '</b>'
+                );
+            }
+            setTimeout(doPoll, 15000);
+        });
+    }
+
+    doPoll();
+
 });

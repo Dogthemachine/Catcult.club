@@ -113,6 +113,9 @@ def item_details(request, id):
             request.cart_amount += 1
 
             return redirect('item_details', id=item.id)
+    else:
+        item.views_today = item.views + 1
+        item.save()
 
     return render(request,
                   'elephants/item_details.html',

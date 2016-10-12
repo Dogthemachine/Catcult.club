@@ -4,14 +4,18 @@ import json
 import datetime
 
 from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
-from django.shortcuts import get_object_or_404, render
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404, render, redirect
+from django.template import RequestContext, loader, Context
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 
+from apps.helpers import send_sms
 from apps.elephants.models import Balance, Items, BalanceLog
 from apps.orders.models import Orders, OrderItems
 from .forms import FilterForm, OrderForm
+from .models import LastOrdersCheck
 
 
 @login_required(login_url='/login/')
@@ -118,6 +122,9 @@ def export_balance(request):
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
 def manage_orders(request):
+    last, created = LastOrdersCheck.objects.get_or_create(id=1)
+    last.save()
+
     if request.method == 'POST':
         filter_form = FilterForm(request.POST)
         if filter_form.is_valid():
@@ -144,17 +151,64 @@ def manage_orders(request):
 
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+def create_order(request):
+    order_form = OrderForm()
+
+    if request.method == 'POST':
+        order_form = OrderForm(request.POST)
+        if order_form.is_valid():
+            order = order_form.save()
+
+            return redirect('manage_order', order.id)
+
+    return render(request, 'moderation/order.html', {
+        'order_form': order_form
+    })
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def delete_order(request, id):
+    order = get_object_or_404(Orders, id=id)
+
+    order.delete()
+
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        _('Order %s was deleted.') % id
+    )
+
+    return redirect('orders')
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
 def manage_order(request, id):
     order = get_object_or_404(Orders, id=id)
 
     order_items = OrderItems.objects.filter(order=order)
 
-    items = Items.objects.all()
+    all_items = Items.objects.select_related().all()
+
+    items = []
+
+    for item in all_items:
+        for balance in item.balance_set.all():
+            if balance.amount > 0:
+                items.append(item)
+                break
 
     if request.method == 'POST':
         order_form = OrderForm(request.POST, instance=order)
         if order_form.is_valid():
             order_form.save()
+
+            if order.ttn > 0 and not order.sms_sent:
+                text = _('TTN: %s. CatCult' % order.ttn)
+                send_sms(order.phone, text)
+                order.sms_sent = True
+                order.save()
     else:
         order_form = OrderForm(instance=order)
 
@@ -163,3 +217,59 @@ def manage_order(request, id):
         'order': order, 'order_form': order_form, 'order_items': order_items,
         'items': items
     })
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def check_orders(request):
+    last, created = LastOrdersCheck.objects.get_or_create(id=1)
+    orders = Orders.objects.filter(added__gte=last.datetime).count()
+    if orders:
+        return {'new': True, 'count': orders}
+    else:
+        return {'new': False}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def delete_order_item(request, id, item_id):
+    try:
+        order = Orders.objects.get(id=id)
+        item = OrderItems.objects.get(id=item_id)
+    except:
+        return {'success': False, 'message': _('Something went wrong.')}
+    else:
+        item.delete()
+
+        items = OrderItems.objects.filter(order=order)
+
+        t = loader.get_template('moderation/items.html')
+        c = RequestContext(request, {'order': order})
+        html = t.render(c)
+
+        return {'success': True, 'html': html}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def add_order_item(request, id, balance_id):
+    try:
+        order = Orders.objects.get(id=id)
+        balance = Balance.objects.get(id=balance_id)
+    except:
+        return {'success': False, 'message': _('Something went wrong.')}
+    else:
+        order_item = OrderItems()
+        order_item.order = order
+        order_item.balance = balance
+        try:
+            order_item.amount = int(request.POST.get('amount', None))
+        except:
+            raise
+            return {'success': False, 'message': _('Something went wrong.')}
+        order_item.save()
+
+        return {'success': True}

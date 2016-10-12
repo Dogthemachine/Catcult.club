@@ -15,6 +15,7 @@ class Orders(models.Model):
     payment = models.IntegerField(_('payment'), choices=settings.PAYMENT, default=0)
     status = models.IntegerField(_('status'), choices=settings.ORDER_STATUS, default=0)
     ttn = models.IntegerField(_('TTN'), default=0)
+    sms_sent = models.BooleanField(_('SMS sent'), default=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -30,7 +31,7 @@ class Orders(models.Model):
         sum = 0
 
         for i in items:
-            sum += i.balance.item.price
+            sum += i.balance.item.price * i.amount
 
         return sum
 
