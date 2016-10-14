@@ -8,3 +8,4 @@ django-modeltranslation==0.12
 django-resized==0.3.5
 ipython==5.1.0
 Pillow==3.3.1
+requests==2.11.1
