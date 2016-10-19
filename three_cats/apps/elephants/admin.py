@@ -34,7 +34,7 @@ class CategoriesAdmin(TranslationAdmin):
 
 
 class FashionsAdmin(TranslationAdmin):
-    list_display = ('name', 'categories', 'details', 'sequence',)
+    list_display = ('name', 'categories', 'details', 'displayed', 'sequence',)
 
 
 class SizesAdmin(admin.ModelAdmin):

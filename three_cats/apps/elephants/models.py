@@ -35,6 +35,7 @@ class Fashions(models.Model):
     image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
     image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
     details = models.TextField(_('details'), blank=True, default='')
+    displayed = models.BooleanField(_('displayed'), default=True)
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:

@@ -86,6 +86,7 @@ def feedback(request):
 def topic_view(request, topic=None):
     topic = get_object_or_404(Info, topic=topic)
 
+    stores = None
     if topic == 'partners':
         stores = Stores.objects.all()
 
