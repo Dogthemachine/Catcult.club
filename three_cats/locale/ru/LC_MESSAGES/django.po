@@ -53,7 +53,7 @@ msgstr "Категории товаров"
 
 #: apps/elephants/models.py:38
 msgid "displayed"
-msgstr ""
+msgstr "отображать в меню"
 
 #: apps/elephants/models.py:43 apps/elephants/models.py:44
 msgid "Fashions of items"
