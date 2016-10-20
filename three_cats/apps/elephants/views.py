@@ -25,12 +25,12 @@ def showcase(request, category_id=None, fashion_id=None):
     fashions = None
 
     if category and fashion:
-        fashions = Fashions.objects.filter(categories=category)
+        fashions = Fashions.objects.filter(categories=category, displayed=True)
         items = Items.objects.filter(fashions=fashion)
 
     elif category:
         items = Items.objects.filter(fashions__categories=category)
-        fashions = Fashions.objects.filter(categories=category)
+        fashions = Fashions.objects.filter(categories=category, displayed=True)
 
     else:
         items = Items.objects.all()
