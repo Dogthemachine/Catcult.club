@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-12 22:13+0300\n"
+"POT-Creation-Date: 2016-10-20 09:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,19 +31,19 @@ msgstr ""
 "количество."
 
 #: apps/elephants/models.py:14 apps/elephants/models.py:33
-#: apps/elephants/models.py:50 apps/elephants/models.py:65
+#: apps/elephants/models.py:51 apps/elephants/models.py:66
 #: apps/info/models.py:10 apps/info/models.py:38 apps/orders/models.py:11
 #: apps/orders/models.py:55
 msgid "name"
 msgstr "имя"
 
 #: apps/elephants/models.py:17 apps/elephants/models.py:37
-#: apps/elephants/models.py:70
+#: apps/elephants/models.py:71
 msgid "details"
 msgstr "детали"
 
-#: apps/elephants/models.py:18 apps/elephants/models.py:38
-#: apps/elephants/models.py:53 apps/info/models.py:45
+#: apps/elephants/models.py:18 apps/elephants/models.py:39
+#: apps/elephants/models.py:54 apps/info/models.py:45
 msgid "sequence"
 msgstr "последовательность"
 
@@ -51,86 +51,90 @@ msgstr "последовательность"
 msgid "Categories of items"
 msgstr "Категории товаров"
 
-#: apps/elephants/models.py:42 apps/elephants/models.py:43
+#: apps/elephants/models.py:38
+msgid "displayed"
+msgstr ""
+
+#: apps/elephants/models.py:43 apps/elephants/models.py:44
 msgid "Fashions of items"
 msgstr "Фасоны товаров"
 
-#: apps/elephants/models.py:52 apps/elephants/models.py:69
+#: apps/elephants/models.py:53 apps/elephants/models.py:70
 #: apps/info/models.py:41
 msgid "description"
 msgstr "описание"
 
-#: apps/elephants/models.py:57 apps/elephants/models.py:58
+#: apps/elephants/models.py:58 apps/elephants/models.py:59
 msgid "Sizes of items"
 msgstr "Размеры товаров"
 
-#: apps/elephants/models.py:71
+#: apps/elephants/models.py:72
 msgid "price"
 msgstr "цена"
 
-#: apps/elephants/models.py:72
+#: apps/elephants/models.py:73
 msgid "price_description"
 msgstr "описание цены"
 
-#: apps/elephants/models.py:72
+#: apps/elephants/models.py:73
 msgid "Grn."
 msgstr "грн."
 
-#: apps/elephants/models.py:73
+#: apps/elephants/models.py:74
 msgid "views"
 msgstr "просмотры"
 
-#: apps/elephants/models.py:74
+#: apps/elephants/models.py:75
 msgid "views today"
 msgstr "просмотры за сегодня"
 
-#: apps/elephants/models.py:75
+#: apps/elephants/models.py:76
 msgid "views month"
 msgstr "просмотры за месяц"
 
-#: apps/elephants/models.py:76 apps/elephants/models.py:104
+#: apps/elephants/models.py:77 apps/elephants/models.py:105
 #: apps/info/models.py:26 apps/info/models.py:44 apps/info/models.py:60
 #: apps/orders/models.py:19 apps/orders/models.py:43 apps/orders/models.py:56
 msgid "added"
 msgstr "добавлено"
 
-#: apps/elephants/models.py:80 apps/elephants/models.py:81
+#: apps/elephants/models.py:81 apps/elephants/models.py:82
 msgid "items"
 msgstr "товары"
 
-#: apps/elephants/models.py:108
+#: apps/elephants/models.py:109
 msgid "Photo"
 msgstr "Фото"
 
-#: apps/elephants/models.py:109
+#: apps/elephants/models.py:110
 msgid "Photos"
 msgstr "Фото"
 
-#: apps/elephants/models.py:118 apps/orders/models.py:42
+#: apps/elephants/models.py:119 apps/orders/models.py:42
 msgid "amount"
 msgstr "количество"
 
-#: apps/elephants/models.py:122 apps/elephants/models.py:123
+#: apps/elephants/models.py:123 apps/elephants/models.py:124
 msgid "Amount of items"
 msgstr "Количество единиц"
 
-#: apps/elephants/models.py:131
+#: apps/elephants/models.py:132
 msgid "old value"
 msgstr "старое значение"
 
-#: apps/elephants/models.py:132
+#: apps/elephants/models.py:133
 msgid "new value"
 msgstr "новое значение"
 
-#: apps/elephants/models.py:133
+#: apps/elephants/models.py:134
 msgid "arrival"
 msgstr "приход"
 
-#: apps/elephants/models.py:139
+#: apps/elephants/models.py:140
 msgid "Balance log"
 msgstr "Журнал баланса"
 
-#: apps/elephants/models.py:140
+#: apps/elephants/models.py:141
 msgid "Balance logs"
 msgstr "Журналы баланса"
 
@@ -381,8 +385,7 @@ msgstr "Корзины"
 msgid ""
 "Your order has been placed. We will contact you shortly.<br/>Order details:"
 "<br/>"
-msgstr "Ваш заказ принят. Мы скоро свяжемся с вами.<br/>Детали заказа:"
-"<br/>"
+msgstr "Ваш заказ принят. Мы скоро свяжемся с вами.<br/>Детали заказа:<br/>"
 
 #: apps/orders/views.py:116
 msgid "Total:"
