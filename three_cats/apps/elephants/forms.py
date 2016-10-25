@@ -8,7 +8,7 @@ from .models import Sizes, Balance
 
 
 class AddToCartForm(forms.Form):
-    size = forms.ModelChoiceField(label='Size', queryset=None, empty_label=None)
+    size = forms.ModelChoiceField(label='Size', queryset=None, empty_label=None, widget=forms.RadioSelect())
     quantity = forms.IntegerField(label='Quantity', min_value=1, max_value=10, initial=1)
 
     def __init__(self, *args, **kwargs):
