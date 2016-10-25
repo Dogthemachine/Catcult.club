@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Fieldset, Layout, Submit
+from crispy_forms.layout import Fieldset, Layout, Submit, Div, Field
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -8,7 +8,7 @@ from .models import Sizes, Balance
 
 
 class AddToCartForm(forms.Form):
-    size = forms.ModelChoiceField(label='Size', queryset=None, empty_label=None)
+    size = forms.ModelChoiceField(label='Size', queryset=None, empty_label=None, widget=forms.RadioSelect())
     quantity = forms.IntegerField(label='Quantity', min_value=1, max_value=10, initial=1)
 
     def __init__(self, *args, **kwargs):
@@ -16,7 +16,11 @@ class AddToCartForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = '.'
-        self.helper.add_input(Submit('submit', _('Add to cart'), css_class="btn btn-success pull-right"))
+        self.helper.layout = Layout(
+            Div(Field('size', css_class='form-tooltip', data_title=_('Size'), template='elephants/size_field.html')),
+            Div(Field('quantity', data_title=_('Quantity'))),
+            Div(Submit('submit', _('Add to cart'), template='elephants/button_field.html'))
+        )
 
         super(AddToCartForm, self).__init__(*args, **kwargs)
 

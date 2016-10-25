@@ -7,12 +7,12 @@
           <p></p>
           <div class="hidden-xs">
             <div class="col-sm-12 col-md-12 col-lg-12">
-              <a href="{% url 'showcase' %}"><img class="cc-logo center-block" crop="centre" src="{{ STATIC_URL }}img/3kota.png"></a>
+              <img class="cc-logo center-block" crop="centre" src="{{ STATIC_URL }}img/3kota.png">
             </div>
-            <a href="{% url 'showcase' %}"><img class="img-responsive" src="{{ STATIC_URL }}img/slogan.png"></a>
           </div>
+          <img class="img-responsive" src="{{ STATIC_URL }}img/slogan.png">
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <a href="{% url 'showcase' %}"><img class="cc-logo center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.png"></a>
+            <a href="{% url 'showcase' %}"><img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.png"></a>
           </div>
         </div>
       </div>
@@ -21,6 +21,6 @@
           <li><img class="img-responsive" src="{{ MEDIA_URL}}{{ entry.image }}"></li>
         {% endfor %}
       </ul>
-   </div>
+    </div>
   </div>
 </div> <!--- row --->

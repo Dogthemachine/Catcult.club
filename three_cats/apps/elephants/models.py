@@ -65,8 +65,8 @@ class Sizes(models.Model):
 class Items(models.Model):
     name = models.CharField(_('name'), max_length=250)
     fashions = models.ForeignKey(Fashions)
-    image = ResizedImageField(size=[1500, 1500], upload_to='photos/%Y/%m/%d')
-    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d')
+    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
+    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
     description = models.TextField(_('description'), blank=True, default='')
     details = models.TextField(_('details'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
@@ -84,6 +84,11 @@ class Items(models.Model):
     def __str__(self):
         return u'%s' % self.name
 
+    def save(self, *args, **kwargs):
+        if not self.image._committed:
+            self.image_small = self.image.file
+        super().save(*args, **kwargs)
+
     def get_balance(self):
         return Balance.objects.filter(item=self)
 
@@ -100,14 +105,19 @@ class Items(models.Model):
 
 class Photo(models.Model):
     item = models.ForeignKey(Items)
-    image = ResizedImageField(size=[1500, 1500], upload_to='photos/%Y/%m/%d')
-    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d')
+    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
+    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
         ordering = ('added',)
         verbose_name = _('Photo')
         verbose_name_plural = _('Photos')
+
+    def save(self, *args, **kwargs):
+        if not self.image._committed:
+            self.image_small = self.image.file
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return u'%s - %s' % (self.item.name, self.added)

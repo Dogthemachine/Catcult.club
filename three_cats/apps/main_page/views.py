@@ -20,7 +20,3 @@ def main_page(request):
             'mainpage': mainpage, 'items': items, 'carousel': carousel,
             'delivery': delivery, 'payment': payment
         })
-
-
-def construction_page(request):
-        return render(request, 'main_page/construction_page.html', {})

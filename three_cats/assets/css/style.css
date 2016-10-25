@@ -59,30 +59,54 @@ legend {
 
 @media (min-width: 1200px) {
 .cc-logo {
-    width: 300px;
+    width: 200px;
 }
 }
 
 @media (min-width: 980px) and (max-width: 1199px) {
 .cc-logo {
-    width: 250px;
+    width: 160px;
 }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
 .cc-logo {
-    width: 150px;
+    width: 120px;
 }
 }
 
 @media (max-width: 767px) {
 .cc-logo {
-    width: 150px;
+    width: 80px;
 }
 }
 
 .cc-logo-mini {
      width: 125px;
+}
+
+@media (min-width: 1200px) {
+.cc-logo-button {
+    width: 180px;
+}
+}
+
+@media (min-width: 980px) and (max-width: 1199px) {
+.cc-logo-button {
+    width: 140px;
+}
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+.cc-logo-button {
+    width: 100px;
+}
+}
+
+@media (max-width: 767px) {
+.cc-logo-button {
+    width: 80px;
+}
 }
 
 

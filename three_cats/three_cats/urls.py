@@ -6,14 +6,13 @@ from django.contrib import admin
 
 from apps.elephants.views import showcase, item_details
 from apps.info.views import user_login, user_logout, feedback, topic_view
-from apps.main_page.views import construction_page, main_page
+from apps.main_page.views import main_page
 from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders, manage_order, delete_order_item, add_order_item, create_order, delete_order, check_orders
 from apps.orders.views import cart, cart_checkout, cart_remove
 
 admin.autodiscover()
 
 urlpatterns = [
-    #url(r'^$', construction_page, name='construction'),
     url(r'^$', main_page, name='main_page'),
 
     url(r'^admin/', admin.site.urls),

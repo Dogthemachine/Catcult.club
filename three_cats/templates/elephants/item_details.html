@@ -42,17 +42,25 @@
               {% endfor %}
             </div>
           </div>
-      </div>
+        </div>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-      <h3>{{ item.price }} {{ item.price_description }}</h3>
-      <p>{{ item.details|safe }}</p>
-      {% if form %}
-        {% crispy form form.helper %}
-      {% else %}
-        {% trans 'Sorry, product is currently unavailable' %}
-      {% endif %}
-    </div>
+    {% if item.get_amount  %}
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
+        <h3>{{ item.price }} {{ item.price_description }}</h3>
+        <p>{{ item.details|safe }}</p>
+        {% if form %}
+          {% crispy form form.helper %}
+        {% else %}
+          {% trans 'Sorry, product is currently unavailable' %}
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
+        <h4><p class="text-center">{% trans 'Sorry, this item in unavailable now.' %}</p></h4>
+        <p>{{ item.details|safe }}</p>
+      </div>
+    {% endif %}
+
   </div>
 {% endblock %}
