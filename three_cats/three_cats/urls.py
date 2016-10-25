@@ -13,12 +13,8 @@ from apps.orders.views import cart, cart_checkout, cart_remove
 admin.autodiscover()
 
 urlpatterns = [
-<<<<<<< HEAD
-    url(r'^$', main_page, name='main_page'),
-=======
     url(r'^$', construction_page, name='construction'),
     url(r'^4321/$', main_page, name='main_page'),
->>>>>>> 9ed4851c51661587f00a23bd4d3aa67810e074c1
 
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', user_login, name='user_login'),
