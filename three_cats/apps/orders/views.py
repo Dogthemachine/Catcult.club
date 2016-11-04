@@ -112,20 +112,6 @@ def cart_checkout(request):
 
             cart.delete()
 
-            if order.payment_method == 3:
-                liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-                payment_form = liqpay.cnb_form({
-                    'action': 'pay',
-                    'amount': order.get_total_price(),
-                    'currency': 'UAH',
-                    'description': 'CatCult order',
-                    'order_id': order.id,
-                    'server_url': settings.LIQPAY_CALLBACK,
-                    'result_url': settings.LIQPAY_SUCCESS
-                })
-
-                return {'payment_form': payment_form}
-
             if order.payment_method == 2:
                 text = _('Your order has been taken. Card number is %s (%s) and sum is %s. CatCult' % [settings.PRIVAT_CARD, settings.PRIVAT_NAME, order.get_total_price()])
                 send_sms(order.phone, text)
@@ -146,6 +132,20 @@ def cart_checkout(request):
                 messages.SUCCESS,
                 message
             )
+
+            if order.payment_method == 3:
+                liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
+                payment_form = liqpay.cnb_form({
+                    'action': 'pay',
+                    'amount': order.get_total_price(),
+                    'currency': 'UAH',
+                    'description': 'CatCult order',
+                    'order_id': order.id,
+                    'server_url': settings.LIQPAY_CALLBACK,
+                    'result_url': settings.LIQPAY_SUCCESS
+                })
+
+                return {'payment_form': payment_form}
 
             return {'form': False}
 

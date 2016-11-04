@@ -179,3 +179,6 @@ PRIVAT_NAME = get_env_variable('TC_PRIVAT_NAME')
 
 LIQPAY_PUBLIC_KEY = get_env_variable('TC_LIQPAY_PUBLIC_KEY')
 LIQPAY_PRIVATE_KEY = get_env_variable('TC_LIQPAY_PRIVATE_KEY')
+
+LIQPAY_CALLBACK = get_env_variable('TC_LIQPAY_CALLBACK')
+LIQPAY_SUCCESS = get_env_variable('TC_LIQPAY_SUCCESS')
