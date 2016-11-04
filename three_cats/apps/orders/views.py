@@ -163,7 +163,7 @@ def liqpay_callback(request):
     if request.method == 'POST':
         raw = PaymentRaw()
         raw.data = request.POST.get('data', '')
-        raw.sign = request.POST.get('sign', '')
+        raw.sign = request.POST.get('signature', '')
         raw.save()
 
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
@@ -173,8 +173,8 @@ def liqpay_callback(request):
             settings.LIQPAY_PRIVATE_KEY
         )
 
-        if request.POST.get('sign', '') == sign:
-            response = json.loads(base64.b64decode(request.POST.get('data')))
+        if request.POST.get('signature', '') == sign:
+            response = json.loads(base64.b64decode(request.POST.get('data')).decode())
 
             if response['status'] == 'success':
                 try:
