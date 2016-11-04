@@ -11,9 +11,12 @@ class Orders(models.Model):
     name = models.CharField(_('name'), max_length=70)
     phone = models.CharField(_('phone'), max_length=32)
     comment = models.TextField(_('comment'), default='', blank=True)
-    delivery = models.IntegerField(_('delivery'), choices=settings.DELIVERY, default=0)
-    payment = models.IntegerField(_('payment'), choices=settings.PAYMENT, default=0)
-    status = models.IntegerField(_('status'), choices=settings.ORDER_STATUS, default=0)
+    delivered = models.BooleanField(_('delivered'), default=False)
+    paid = models.BooleanField(_('paid'), default=False)
+    date_of_delivery = models.DateField(_('date_of_delivery'), blank=True, null=True)
+    delivery_method = models.IntegerField(_('delivery_method'), choices=settings.DELIVERY, default=0)
+    payment_method = models.IntegerField(_('payment_method'), choices=settings.PAYMENT, default=0)
+    user_comment = models.CharField(_('user comment'), max_length=512, blank=True)
     ttn = models.IntegerField(_('TTN'), default=0)
     sms_sent = models.BooleanField(_('SMS sent'), default=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
@@ -35,6 +38,20 @@ class Orders(models.Model):
 
         return sum
 
+    def get_total_paid(self):
+        items = Payment.objects.filter(order=self)
+        sum = 0
+
+        for i in items:
+            print(sum)
+            sum += i.amount
+            print(sum)
+
+        return sum
+
+    def get_remaining_amount(self):
+        return self.get_total_price() - self.get_total_paid()
+
 
 class OrderItems(models.Model):
     order = models.ForeignKey(Orders)
@@ -49,6 +66,21 @@ class OrderItems(models.Model):
 
     def __str__(self):
         return u'%s' % self.order
+
+
+class Payment(models.Model):
+    order = models.ForeignKey(Orders)
+    amount = models.PositiveIntegerField(_('amount'))
+    comment = models.CharField(_('comment'), max_length=512)
+    token = models.CharField(_('liqpay token'), max_length=512, blank=True)
+    sender_phone = models.CharField(_('liqpay sender phone'), max_length=64, blank=True)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+
+
+class PaymentRaw(models.Model):
+    data = models.TextField(_('data'))
+    sign = models.TextField(_('sign'))
+    added = models.DateTimeField(_('added'), auto_now_add=True)
 
 
 class Cart(models.Model):

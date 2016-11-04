@@ -7,14 +7,14 @@ from django.contrib import admin
 from apps.elephants.views import showcase, item_details
 from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import main_page
-from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders, manage_order, delete_order_item, add_order_item, create_order, delete_order, check_orders
+from apps.moderation.views import balances, arrival, log, balances_update, export_balance, manage_orders, manage_order, \
+    delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, order_payment, j_order_info, j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete
 from apps.orders.views import cart, cart_checkout, cart_remove
 
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', construction_page, name='construction'),
-    url(r'^4321/$', main_page, name='main_page'),
+    url(r'^$', main_page, name='main_page'),
 
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', user_login, name='user_login'),
@@ -34,9 +34,14 @@ urlpatterns = [
 
     # Moderator
     url(r'^orders/$', manage_orders, name='orders'),
-    url(r'^orders/new/$', create_order, name='create_order'),
     url(r'^orders/check/$', check_orders, name='check_orders'),
     url(r'^orders/(?P<id>\d+)/$', manage_order, name='manage_order'),
+    url(r'^orders/(?P<id>\d+)/info/$', j_order_info, name='order_info'),
+    url(r'^orders/(?P<id>\d+)/delete/$', j_order_delete, name='order_delete'),
+    url(r'^orders/(?P<id>\d+)/comment/$', j_order_comment, name='order_comment'),
+    url(r'^orders/(?P<id>\d+)/delivery/$', j_order_delivery, name='order_delivery'),
+    url(r'^orders/(?P<id>\d+)/payment/$', j_order_payment, name='order_payment'),
+    url(r'^orders/payment/(?P<id>\d+)/delete/$', j_order_payment_delete, name='order_payment_delete'),
     url(r'^orders/delete/(?P<id>\d+)/$', delete_order, name='delete_order'),
     url(r'^orders/(?P<id>\d+)/delete/(?P<item_id>\d+)/$', delete_order_item, name='delete_order_item'),
     url(r'^orders/(?P<id>\d+)/add/(?P<balance_id>\d+)/$', add_order_item, name='add_order_item'),
@@ -46,11 +51,18 @@ urlpatterns = [
     url(r'^arrival/$', arrival, name='arrival'),
     url(r'^arrival/update/$', balances_update, {'arrival': True}, name='balances_update'),
     url(r'^log/$', log, name='log'),
+    url(r'^order_info/(?P<id>\d+)/$', order_comment, name='order_payment'),
+    url(r'^order_comment/(?P<id>\d+)/$', order_comment, name='order_comment'),
+    url(r'^order_delivery/(?P<id>\d+)/$', order_comment, name='order_delivery'),
+    url(r'^order_payment/(?P<id>\d+)/$', order_comment, name='order_payment'),
 
     # Cart
     url(r'^cart/$', cart, name='cart'),
     url(r'^cart/(?P<id>\d+)/remove/$', cart_remove, name='cart_remove'),
     url(r'^cart/checkout/$', cart_checkout, name='cart_checkout'),
+
+    url(r'^liqpay_callback/$', cart_checkout, name='liqpay_callback'),
+    url(r'^succes/$', cart_checkout, name='payment_success'),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 

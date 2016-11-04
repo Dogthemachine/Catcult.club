@@ -210,4 +210,142 @@ $(document).ready(function() {
 
     doPoll();
 
+//----------------------------------------------------------------------------------------------------------------------
+
+    $('.cc-order-link').on('click', function() {
+        $.ajax({
+            url: $(this).data('order-id') + '/info/',
+            type: 'get',
+            success: function(data) {
+                $('#cc-order-modal .modal-title').html(data.title);
+                $('#cc-order-modal .modal-body').html(data.html);
+                $('#cc-order-buttons').html(data.buttons);
+            }
+        });
+    });
+
+    $(document).on('click', '#cc-order-delete', function() {
+        if (confirm('Удалить?')) {
+            var order_id = $(this).data('order-id')
+
+            $.ajax({
+                url: order_id + '/delete/',
+                type: 'post',
+                success: function(data) {
+                    $('#cc-order-' + order_id).remove();
+                    $('#cc-order-modal').hide();
+                    $('.modal-backdrop').remove();
+                }
+            });
+        }
+    });
+
+    $('.cc-comment-link').on('click', function() {
+        $.ajax({
+            url: $(this).data('order-id') + '/comment/',
+            type: 'get',
+            success: function(data) {
+                $('#cc-order-modal .modal-title').html(data.title);
+                $('#cc-order-modal .modal-body').html(data.html);
+                $('#cc-order-buttons').html(data.buttons);
+            }
+        });
+    });
+
+    $(document).on('click', '#cc-order-comment-save', function() {
+        var order_id = $(this).data('order-id')
+
+        $.ajax({
+            url: order_id + '/comment/',
+            type: 'post',
+            data: $('#cc-order-comment-form').serialize(),
+            success: function(data) {
+                $('#cc-order-comment-' + order_id).html(data.html)
+                $('#cc-order-modal').hide();
+                $('.modal-backdrop').remove();
+            }
+        });
+    });
+
+    $(document).on('click', '.cc-delivery-link', function() {
+        $.ajax({
+            url: $(this).data('order-id') + '/delivery/',
+            type: 'get',
+            success: function(data) {
+                $('#cc-order-modal .modal-title').html(data.title);
+                $('#cc-order-modal .modal-body').html(data.html);
+                $('#cc-order-buttons').html(data.buttons);
+                $('#cc-order-delivery-form #id_date').datetimepicker({
+                    format: 'DD.MM.YYYY'
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '#cc-order-delivery-save', function() {
+        var order_id = $(this).data('order-id')
+
+        $.ajax({
+            url: order_id + '/delivery/',
+            type: 'post',
+            data: $('#cc-order-delivery-form').serialize(),
+            success: function(data) {
+                if (data.success) {
+                    $('#cc-order-delivery-' + order_id).html(data.html)
+                    $('#cc-order-modal').hide();
+                    $('.modal-backdrop').remove();
+                } else {
+                    $('#cc-order-modal .modal-body').html(data.html);
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.cc-payment-link', function() {
+        $.ajax({
+            url: $(this).data('order-id') + '/payment/',
+            type: 'get',
+            success: function(data) {
+                $('#cc-order-modal .modal-title').html(data.title);
+                $('#cc-order-modal .modal-body').html(data.html);
+                $('#cc-order-buttons').html(data.buttons);
+            }
+        });
+    });
+
+    $(document).on('click', '#cc-order-payment-save', function() {
+        var order_id = $(this).data('order-id')
+
+        $.ajax({
+            url: order_id + '/payment/',
+            type: 'post',
+            data: $('#cc-order-payment-form').serialize(),
+            success: function(data) {
+                if (data.success) {
+                    $('#cc-order-payment-' + order_id).html(data.html)
+                    $('#cc-order-modal').hide();
+                    $('.modal-backdrop').remove();
+                } else {
+                    $('#cc-order-modal .modal-body').html(data.html);
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.cc-order-payment-delete', function() {
+        var order_id = $(this).data('order-id')
+        var payment_id = $(this).data('payment-id')
+
+        $.ajax({
+            url: 'payment/' + payment_id + '/delete/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    $('#cc-order-payment-sum-' + payment_id).remove();
+                    $('#cc-order-payment-' + order_id).html(data.html)
+                }
+            }
+        });
+    });
+
 });

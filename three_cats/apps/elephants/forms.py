@@ -8,7 +8,7 @@ from .models import Sizes, Balance
 
 
 class AddToCartForm(forms.Form):
-    size = forms.ModelChoiceField(label='Size', queryset=None, empty_label=None, widget=forms.RadioSelect())
+    size = forms.ModelChoiceField(label='Size', queryset=None, empty_label=None, widget=forms.RadioSelect(), error_messages={'required': _('* Please choose a size'), 'invalid': _('* Please choose another size')})
     quantity = forms.IntegerField(label='Quantity', min_value=1, max_value=10, initial=1)
 
     def __init__(self, *args, **kwargs):
@@ -27,9 +27,10 @@ class AddToCartForm(forms.Form):
         self.fields['size'].queryset = Sizes.objects.select_related().filter(balance__item=self.item, balance__amount__gt=0)
 
     def clean_quantity(self, *args, **kwargs):
-        balance = Balance.objects.get(size=self.cleaned_data['size'], item=self.item)
-        if self.cleaned_data['quantity'] > balance.amount:
-            raise forms.ValidationError(
-                _('Sorry, these quantities are unavailable. Please choose another quantity.')
-            )
-        return self.cleaned_data['quantity']
+        if self.cleaned_data.get('size', None):
+            balance = Balance.objects.get(size=self.cleaned_data['size'], item=self.item)
+            if self.cleaned_data['quantity'] > balance.amount:
+                raise forms.ValidationError(
+                    _('Sorry, these quantities are unavailable. Please choose another quantity.')
+                )
+            return self.cleaned_data['quantity']

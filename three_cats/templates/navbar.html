@@ -20,6 +20,21 @@
         <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'feedback' %}" title="{% trans 'Feedback' %}">
           {% trans 'Feedback' %}
         </a></li>
+        {% if LANGUAGE_CODE == "en" %}
+          <li class="nav-item">
+              <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-en">En</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-ru">Ru</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-en">En</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-ru">Ru</a>
+          </li>
+        {% endif %}
         {% if request.user.is_authenticated %}
           <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}" title="{% trans 'Mod' %}">
             {% trans 'Mod' %}
@@ -29,7 +44,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
           <a id="cc-cart-link" class="nav-link cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
-            <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{% if request.cart_amount %}{{ request.cart_amount }}</span>{% else %}{% trans 'Empty' %}{% endif %}
+            <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{% if request.cart_amount %}{{ request.cart_amount }}{% else %}{% trans 'Empty' %}{% endif %}</span>
           </a>
         </li>
       </ul>

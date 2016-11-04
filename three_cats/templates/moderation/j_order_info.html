@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{{ order.name }}<br />
+{{ order.phone }}<br />
+{{ order.get_total_price }} {% trans 'UAH' %}<br />
+
+{% for item in order.orderitems_set.all %}
+    {{ item.balance.item.name }} - {{ item.balance.size }} - {{ item.amount }}<br />
+{% endfor %}

@@ -7,52 +7,123 @@
 {% endblock %}
 
 {% block content %}
+
+  <div class="row cc-mod-filter">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="cc-date-from">{% trans 'Date from' %}</label>
+          <input type="text" class="form-control" id="cc-date-from" value="{{ date_from }}">
+        </div>
+        <div class="form-group">
+          <label for="cc-date-to">{% trans 'Date to' %}</label>
+          <input type="text" class="form-control" id="cc-date-to" value="{{ date_to }}">
+        </div>
+        <a href="#" id="cc-orders-filter" class="btn btn-default">{% trans 'Filter' %}</a>
+      </form>
+    </div>
+  </div>
+  <!--
   <div class="row cc-table-margin">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       {% crispy filter_form filter_form.helper %}
     </div>
-    <a href="{% url 'create_order' %}">{% trans 'Create order' %}</a>
   </div>
+  -->
   <div class="row cc-table-margin">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
       <table id="cs-balances" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
           <tr>
+            <th>{% trans 'Added' %}</th>
             <th>{% trans 'Order' %}</th>
-            <th>{% trans 'Items' %}</th>
-            <th>{% trans 'Edit' %}</th>
+            <th>{% trans 'Delivery' %}</th>
+            <th>{% trans 'Payment' %}</th>
           </tr>
         </thead>
         <tbody>
           {% for order in orders %}
             <tr id="cc-order-{{ order.id }}">
-              <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <b>{{ order.name }}</b><br/>
-                <b>{{ order.phone }}</b><br/>
-                {{ order.get_delivery_display }}<br/>
-                {{ order.get_payment_display }}<br/>
-                {{ order.get_status_display }}<br/>
-                {{ order.ttn }}<br/>
-                {{ order.comment }}<br/>
+              <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <b>{{ order.added }}</b><br/>
+              </td>
+              <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+                <a class="cc-order-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                  <b>{{ order.name }}</b>
+                </a>
+
+                <br/>
+
+                <div id="cc-order-comment-{{ order.id }}">
+                  {% if order.comment %}{{ order.comment }}<br/>{% endif %}
+                </div>
+
+                <a class="cc-comment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                  {% if order.comment %}{% trans 'Change comment' %}{% else %}{% trans 'Add comment' %}{% endif %}
+                </a>
+
+                <br/>
+
+                <br/>
               </td>
               <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                {{ order.get_total_price }} {% trans 'UAH' %}<br/>
-                {% for item in order.orderitems_set.all %}
-                  {{ item.balance.item }} - {{ item.balance.size }} - {{ item.amount }}<br/>
-                {% endfor %}
+                <div id="cc-order-delivery-{{ order.id }}">
+                  {% if order.delivered %}
+                    <span class="icon-checkmark cc-icon-green"></span>
+                  {% else %}
+                    <span class="icon-cross cc-icon-red"></span>
+                  {% endif %}
+
+                  {% if order.date_of_delivery %}
+                    <a class="cc-delivery-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                      <b>{{ order.date_of_delivery }}</b>
+                    </a>
+                  {% endif %}
+                  {{ order.get_delivery_method_display }}<br/>
+                  {% if order.user_comment %}{{ order.user_comment }}<br/>{% endif %}
+                  {% if order.ttn %}{% trans 'TTN' %}: {{ order.ttn }}<br/>{% endif %}
+
+                  {% if not order.delivered %}
+                    <a class="cc-delivery-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                      <span class="btn btn-primary">{% trans 'Delivery' %}</span>
+                    </a>
+                  {% endif %}
+                </div>
               </td>
-              <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                <a class="btn btn-primary" href="{% url 'manage_order' order.id %}">{% trans 'Edit' %}</a>
+              <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div id="cc-order-payment-{{ order.id }}">
+                  {% if order.paid %}
+                    <span class="icon-checkmark cc-icon-green"></span>
+                  {% else %}
+                    <span class="icon-cross cc-icon-red"></span>
+                  {% endif %}
+
+		  {% if order.paid %}
+                    <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                      {{ order.get_payment_method_display }} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
+                    </a>
+                  {% else %}
+                    {{ order.get_payment_method_display }} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
+                  {% endif %}
+
+                  {% if not order.paid %}
+                    <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                      <span class="btn btn-primary">{% trans 'Payment' %}</span>
+                    </a>
+                  {% endif %}
+                </div>
               </td>
             </tr>
           {% endfor %}
         </tbody>
         <tfoot>
           <tr>
+            <td>{% trans 'Added' %}</td>
             <td>{% trans 'Order' %}</td>
-            <td>{% trans 'Items' %}</td>
-            <td>{% trans 'Edit' %}</td>
+            <td>{% trans 'Delivery' %}</td>
+            <td>{% trans 'Payment' %}</td>
           </tr>
         </tfoot>
       </table>
@@ -60,4 +131,24 @@
     </div>
   </div>
 
+  <div id="cc-order-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <a id="cc-orderinfo-cancel" class="btn btn-default" href="#" data-dismiss="modal">{% trans 'Close' %}</a>
+          <span id="cc-order-buttons">
+	  </span>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
 {% endblock %}
+
+

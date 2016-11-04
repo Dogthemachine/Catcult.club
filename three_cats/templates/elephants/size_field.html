@@ -9,7 +9,7 @@
       {% if not inline_class %}<div class="radio">{% endif %}
         <label class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">
             <input type="radio"{% if choice.0|stringformat:"s" == field.value|stringformat:"s" %} checked="checked"{% endif %} name="{{ field.html_name }}" id="id_{{ field.html_name }}_{{ forloop.counter }}" value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }}>{{ choice.1|unlocalize }}
-            <span class="icon-info"></span>{% get_size_desc choice.0 %}
+            <span class="icon-info cc-tooltip" data-toggle="tooltip" data-original-title="{% get_size_desc choice.0 %}"></span>
         </label>
       {% if not inline_class %}</div>{% endif %}
     {% endfor %}

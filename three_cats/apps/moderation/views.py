@@ -13,8 +13,8 @@ from django.utils.translation import ugettext as _
 
 from apps.helpers import send_sms
 from apps.elephants.models import Balance, Items, BalanceLog
-from apps.orders.models import Orders, OrderItems
-from .forms import FilterForm, OrderForm
+from apps.orders.models import Orders, OrderItems, Payment
+from .forms import FilterForm, OrderForm, CommentForm, DeliveryForm, PaymentForm
 from .models import LastOrdersCheck
 
 
@@ -131,38 +131,20 @@ def manage_orders(request):
             data = filter_form.cleaned_data
             orders = Orders.objects.filter(
                 delivery=data.get('delivery'),
-                payment=data.get('payment'),
-                status=data.get('status')
+                payment=data.get('payment')
             )
 
         else:
             filter_form = FilterForm()
 
-            orders = Orders.objects.exclude(status=9)
+            orders = Orders.objects.exclude(delivered=True, paid=True)
     else:
         filter_form = FilterForm()
 
-        orders = Orders.objects.exclude(status=9)
+        orders = Orders.objects.exclude(delivered=True, paid=True)
 
     return render(request, 'moderation/orders.html', {
         'orders': orders, 'filter_form': filter_form
-    })
-
-
-@login_required(login_url='/login/')
-@permission_required('info.delete_info', login_url='/login/')
-def create_order(request):
-    order_form = OrderForm()
-
-    if request.method == 'POST':
-        order_form = OrderForm(request.POST)
-        if order_form.is_valid():
-            order = order_form.save()
-
-            return redirect('manage_order', order.id)
-
-    return render(request, 'moderation/order.html', {
-        'order_form': order_form
     })
 
 
@@ -234,6 +216,200 @@ def check_orders(request):
 @json_view()
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+def j_order_info(request, id):
+    try:
+        order = Orders.objects.get(id=id)
+    except:
+        return {'success': False}
+
+    title = _('Order info')
+
+    t = loader.get_template('moderation/j_order_info.html')
+    c = RequestContext(request, {'order': order})
+    html = t.render(c)
+
+    t = loader.get_template('moderation/j_order_info_buttons.html')
+    c = RequestContext(request, {'order': order})
+    buttons = t.render(c)
+
+    return {'success': True, 'title': title, 'html': html, 'buttons': buttons}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def j_order_delete(request, id):
+    try:
+        order = Orders.objects.get(id=id)
+    except:
+        return {'success': False}
+
+    order.delete()
+
+    return {'success': True}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def j_order_comment(request, id):
+    try:
+        order = Orders.objects.get(id=id)
+    except:
+        return {'success': False}
+
+    title = _('Comment')
+
+    form = CommentForm(initial={'comment': order.comment})
+    t = loader.get_template('moderation/j_order_comment.html')
+    c = RequestContext(request, {'form': form})
+    html = t.render(c)
+
+    t = loader.get_template('moderation/j_order_comment_buttons.html')
+    c = RequestContext(request, {'order': order})
+    buttons = t.render(c)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            order.comment = form.cleaned_data.get('comment', '')
+            order.save()
+
+            return {'success': True, 'html': order.comment}
+
+    return {'success': True, 'title': title, 'html': html, 'buttons': buttons}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def j_order_delivery(request, id):
+    try:
+        order = Orders.objects.get(id=id)
+    except:
+        return {'success': False}
+
+    title = _('Delivery')
+
+    form = DeliveryForm(initial={'delivery': order.delivery_method, 'ttn': order.ttn, 'date': order.date_of_delivery})
+    t = loader.get_template('moderation/j_order_delivery.html')
+    c = RequestContext(request, {'form': form})
+    html = t.render(c)
+
+    t = loader.get_template('moderation/j_order_delivery_buttons.html')
+    c = RequestContext(request, {'order': order})
+    buttons = t.render(c)
+
+    if request.method == 'POST':
+        form = DeliveryForm(request.POST)
+        if form.is_valid():
+            order.delivery_method = form.cleaned_data.get('delivery')
+            order.ttn = form.cleaned_data.get('ttn', 0)
+            order.date_of_delivery = form.cleaned_data.get('date', None)
+            order.save()
+
+            if order.ttn > 0 and not order.sms_sent:
+                text = _('TTN: %s. CatCult' % order.ttn)
+                send_sms(order.phone, text)
+                order.sms_sent = True
+                order.save()
+
+            if order.date_of_delivery:
+                order.delivered = True
+                order.save()
+            else:
+                order.delivered = False
+                order.save()
+
+            t = loader.get_template('moderation/j_order_delivery_success.html')
+            c = RequestContext(request, {'order': order})
+            html = t.render(c)
+
+            return {'success': True, 'html': html}
+
+        else:
+            return {'success': False, 'html': html}
+
+    return {'success': True, 'title': title, 'html': html, 'buttons': buttons}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def j_order_payment(request, id):
+    try:
+        order = Orders.objects.get(id=id)
+    except:
+        return {'success': False}
+
+    title = _('Payment')
+
+    form = PaymentForm(initial={'amount': order.get_remaining_amount})
+    t = loader.get_template('moderation/j_order_payment.html')
+    c = RequestContext(request, {'form': form, 'order': order})
+    html = t.render(c)
+
+    t = loader.get_template('moderation/j_order_payment_buttons.html')
+    c = RequestContext(request, {'order': order})
+    buttons = t.render(c)
+
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            payment = Payment()
+            payment.order = order
+            payment.amount = form.cleaned_data.get('amount')
+            payment.comment = form.cleaned_data.get('comment', '')
+            payment.save()
+
+            if order.get_total_price() == order.get_total_paid():
+                order.paid = True
+                order.save()
+            else:
+                order.paid = False
+                order.save()
+
+            t = loader.get_template('moderation/j_order_payment_success.html')
+            c = RequestContext(request, {'order': order})
+            html = t.render(c)
+
+            return {'success': True, 'html': html}
+
+        else:
+            return {'success': False, 'html': html}
+
+    return {'success': True, 'title': title, 'html': html, 'buttons': buttons}
+
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def j_order_payment_delete(request, id):
+    try:
+        payment = Payment.objects.get(id=id)
+    except:
+        return {'success': False}
+
+    payment.delete()
+
+    if payment.order.get_total_price() == payment.order.get_total_paid():
+        payment.order.paid = True
+        payment.order.save()
+    else:
+        payment.order.paid = False
+        payment.order.save()
+
+    t = loader.get_template('moderation/j_order_payment_success.html')
+    c = RequestContext(request, {'order': payment.order})
+    html = t.render(c)
+
+    return {'success': True, 'html': html}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
 def delete_order_item(request, id, item_id):
     try:
         order = Orders.objects.get(id=id)
@@ -273,3 +449,35 @@ def add_order_item(request, id, balance_id):
         order_item.save()
 
         return {'success': True}
+
+
+@json_view
+def order_comment(request, id):
+
+    html = loader.get_template('moderation/order_comment.html')
+
+    return {'html': html}
+
+
+@json_view
+def order_delivery(request, id):
+
+    html = loader.get_template('moderation/order_delivery.html')
+
+    return {'html': html}
+
+
+@json_view
+def order_payment(request, id):
+
+    html = loader.get_template('moderation/order_payment.html')
+
+    return {'html': html}
+
+
+@json_view
+def order_info(request, id):
+
+    html = loader.get_template('moderation/order_info.html')
+
+    return {'html': html}

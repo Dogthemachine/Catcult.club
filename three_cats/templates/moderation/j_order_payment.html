@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<table class="table table-striped">
+  <tbody>
+    {% for payment in order.payment_set.all %}
+      <tr id="cc-order-payment-sum-{{ payment.id }}">
+        <td>{{ payment.amount }} {% trans 'UAH' %}</td>
+        <td>{{ payment.comment }}</td>
+        <td>{{ payment.added }}</td>
+        <td><a class="cc-order-payment-delete" href="#" data-order-id="{{ payment.order.id }}" data-payment-id="{{ payment.id }}">{% trans 'Delete' %}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% crispy form form.helper %}

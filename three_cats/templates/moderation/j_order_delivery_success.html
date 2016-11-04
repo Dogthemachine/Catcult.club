@@ -1,0 +1,21 @@
+{% load i18n %}
+{% if order.delivered %}
+  <span class="icon-checkmark cc-icon-green"></span>
+{% else %}
+  <span class="icon-cross cc-icon-red"></span>
+{% endif %}
+
+{% if order.date_of_delivery %}
+  <a class="cc-delivery-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+    <b>{{ order.date_of_delivery }}</b>
+  </a>
+{% endif %}
+{{ order.get_delivery_method_display }}<br/>
+{% if order.user_comment %}{{ order.user_comment }}<br/>{% endif %}
+{% if order.ttn %}{% trans 'TTN' %}: {{ order.ttn }}<br/>{% endif %}
+
+{% if not order.delivered %}
+  <a class="cc-delivery-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+    <span class="btn btn-primary">{% trans 'Delivery' %}</span>
+  </a>
+{% endif %}

@@ -141,26 +141,17 @@ MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'ru'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 DELIVERY = (
-    (0, gettext('* Delivery')),
-    (1, gettext('Nova Poshta')),
-    (2, gettext('Delivery to Odessa')),
-    (3, gettext('Another embodiment')),
+    (0, gettext('Nova Poshta')),
+    (1, gettext('Nova Poshta courier')),
+    (2, gettext('Odessa courier')),
+    (3, gettext('Another')),
 )
 
 PAYMENT = (
-    (0, gettext('* Payment')),
+    (0, gettext('In Nova Poshta branch')),
     (1, gettext('Cash on delivery')),
-    (2, gettext('At stake Privat')),
-    (3, gettext('Payment by courier')),
-)
-
-ORDER_STATUS = (
-    (0, gettext('* Status')),
-    (1, gettext('New')),
-    (2, gettext('Decorated')),
-    (3, gettext('Ready to ship')),
-    (4, gettext('Sent')),
-    (9, gettext('Archived')),
+    (2, gettext('Private terminal')),
+    (3, gettext('Online payment')),
 )
 
 # Activation days for Users app.
@@ -182,3 +173,9 @@ EMAIL_PORT = 587
 
 SMS_PUBLIC_KEY = get_env_variable('TC_SMS_PUBLIC_KEY')
 SMS_PRIVATE_KEY = get_env_variable('TC_SMS_PRIVATE_KEY')
+
+PRIVAT_CARD = get_env_variable('TC_PRIVAT_CARD')
+PRIVAT_NAME = get_env_variable('TC_PRIVAT_NAME')
+
+LIQPAY_PUBLIC_KEY = get_env_variable('TC_LIQPAY_PUBLIC_KEY')
+LIQPAY_PRIVATE_KEY = get_env_variable('TC_LIQPAY_PRIVATE_KEY')

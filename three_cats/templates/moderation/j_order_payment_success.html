@@ -1,0 +1,20 @@
+{% load i18n %}
+{% if order.paid %}
+  <span class="icon-checkmark cc-icon-green"></span>
+{% else %}
+  <span class="icon-cross cc-icon-red"></span>
+{% endif %}
+
+{% if order.paid %}
+  <a id="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-payment-modal" data-order-id="{{ order.id }}">
+    {{ order.get_payment_method_display }} {% trans 'UAH' %}<br/>
+  </a>
+{% else %}
+  {{ order.get_payment_method_display }} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
+{% endif %}
+
+{% if not order.paid %}
+  <a id="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-payment-modal" data-order-id="{{ order.id }}">
+    <span class="btn btn-primary">{% trans 'Payment' %}</span>
+  </a>
+{% endif %}

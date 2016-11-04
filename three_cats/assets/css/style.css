@@ -22,42 +22,6 @@ legend {
 }
 
 @media (min-width: 1200px) {
-.cs-photo-ligth {
-    width: 270px;
-}
-}
-
-@media (min-width: 980px) and (max-width: 1199px) {
-.cs-photo-ligth {
-    width: 220px;
-}
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-.cs-photo-ligth {
-    width: 166px;
-}
-}
-
-@media (min-width: 1200px) {
-.cs-menu {
-    width: 250px;
-}
-}
-
-@media (min-width: 980px) and (max-width: 1199px) {
-.cs-menu {
-    width: 200px;
-}
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-.cs-menu {
-    width: 146px;
-}
-}
-
-@media (min-width: 1200px) {
 .cc-logo {
     width: 200px;
 }
@@ -109,90 +73,8 @@ legend {
 }
 }
 
-
-@media (min-width: 1200px) {
-.cs-photo-ligth2 {
-    width: 570px;
-}
-}
-
-@media (min-width: 980px) and (max-width: 1199px) {
-.cs-photo-ligth2 {
-    width: 460px;
-}
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-.cs-photo-ligth2 {
-    width: 352px;
-}
-}
-
-#map_canvas {
-    height: 400px;}
-
-
 .cc-card {
      margin: 20px;
-}
-
-.cs-construction{
-  display: block;
-  height: auto;
-  max-width: 100%;
-}
-
-.cs-photo-heavy{
-    height: 500px;
-}
-
-.cs-bla{
-    margin-top: 25px;
-}
-
-.cs-photo-simple {
-    margin-top: 20px;
-}
-
-.cs-message{
-    margin-top: 45px;
-}
-
-.cs-modal{
-    left: 10%;
-}
-
-.cs-showcase {
-    border-radius: 0 0 0px 0px;
-    border: 2px solid #111;
-    background-color: #fff;
-    text-align: center;
-}
-
-.cs-stores {
-    text-align: left;
-    margin-bottom: 30px;
-}
-
-.cs-stores-image {
-    text-align: center;
-    height: 100px;
-}
-
-.cs-stores-home {
-    text-align: center;
-    height: 200px;
-}
-
-.cs-stores-logo {
-    height: 50px;
-    margin-right: 30px;
-}
-
-.cs-showcase-0 {
-    border-radius: 0 0 0px 0px;
-    border: none;
-    background-color: #fff;
 }
 
 .alert{
@@ -201,11 +83,6 @@ legend {
 
 .cs-icon-shopping-cart {
     margin-top: 2px;
-}
-
-.cs-shopping-cart {
-    font-size: 20px;
-    margin-top: 10px;
 }
 
 /* base.html */
@@ -239,52 +116,6 @@ legend {
       width: auto;
 }
 
-.fixed-menu {
-      display: block;
-      width: auto;
-      min-height: 0;
-}
-
-.cs-fixed-button {
-    top: 0;
-    position: fixed;
-    z-index: 1030;
-}
-
-.cs-cart-order {
-    border-radius: 0 0 0px 0px;
-    border: 2px solid #111;
-}
-
-.cs-cart-order-admin {
-    border-radius: 0 0 0px 0px;
-    border: 2px solid #111;
-}
-
-.cs-elephant-name {
-    text-align: center;
-    text-indent: 0px;
-}
-
-.cs-elephant-details {
-    text-align: center;
-    text-indent: 0px;
-}
-
-.cs-elephant-name0 {
-    text-align: center;
-    color: #999;
-}
-
-.cs-elephant-price {
-    text-align: right;
-}
-
-.cs-elephant-stores {
-    text-align: left;
-    color: #999;
-}
-
 .cs-item-title {
     text-align: center;
 }
@@ -295,71 +126,6 @@ legend {
     border-radius: 0px;
     padding: 0px;
     margin-top: 10px;
-}
-
-
-.cs-delivery-video{
-
-}
-
-.cs-auto a {
-    margin: 0 auto;
-    width: 50px;
-}
-
-.cs-order-tab-header {
-    background-color: #eee;
-}
-
-.cs-order-detail {
-    border-radius: 0 0 0px 0px;
-    border: 2px solid #111;
-}
-
-.cs-order-detail-position {
-    margin-top: 10px;
-}
-
-.cs-order-detail-position-p {
-    margin: 10px 10px 10px;
-}
-
-.cs-orders-name {
-    color: #4A9406;
-}
-
-.cs-prepend {
-    border-radius: 10px 0px 0px 10px;
-}
-
-.cs-append {
-    border-radius: 0px 10px 10px 0px;
-}
-
-.cs-main-text {
-    /*
-    border-radius: 15px 15px 15px 15px;
-    background-color: #B6E05C;
-    */
-    text-align: center;
-}
-
-.icon-white, .icon-white a {
-  color: #fff;
-}
-
-.cs-local {
-    background: rgba(255,255,255,1);
-    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 70%, rgba(255,255,255,0) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(70%, rgba(255,255,255,0.9)), color-stop(100%, rgba(255,255,255,0)));
-    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 70%, rgba(255,255,255,0) 100%);
-    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 70%, rgba(255,255,255,0) 100%);
-    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 70%, rgba(255,255,255,0) 100%);
-    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 70%, rgba(255,255,255,0) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );
-    padding: 10px;
-    position: fixed;
-    z-index: 1001;
 }
 
 /** new **/
@@ -529,6 +295,18 @@ body {
 
 .cc-mod-filter {
     margin-bottom: 25px;
+}
+
+.cc-rotate-90 {
+    transform: rotate(-90deg);
+}
+
+.cc-icon-red {
+    color: red;
+}
+
+.cc-icon-green {
+    color: green;
 }
 
 /* Large Devices, Wide Screens */
