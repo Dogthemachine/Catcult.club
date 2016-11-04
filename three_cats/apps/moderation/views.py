@@ -14,7 +14,7 @@ from django.utils.translation import ugettext as _
 from apps.helpers import send_sms
 from apps.elephants.models import Balance, Items, BalanceLog
 from apps.orders.models import Orders, OrderItems, Payment
-from .forms import FilterForm, OrderForm, CommentForm, DeliveryForm, PaymentForm
+from .forms import OrderForm, CommentForm, DeliveryForm, PaymentForm
 from .models import LastOrdersCheck
 
 
@@ -95,11 +95,9 @@ def log(request):
         change_time__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
         change_time__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
     )
-    print(date_from, date_to)
 
     date_from = '-'.join(list(map(str, date_from)))
     date_to = '-'.join(list(map(str, date_to)))
-    print(date_from, date_to)
 
     return render(request, 'moderation/log.html', {'logs': logs, 'date_from': date_from, 'date_to': date_to})
 
@@ -125,26 +123,38 @@ def manage_orders(request):
     last, created = LastOrdersCheck.objects.get_or_create(id=1)
     last.save()
 
-    if request.method == 'POST':
-        filter_form = FilterForm(request.POST)
-        if filter_form.is_valid():
-            data = filter_form.cleaned_data
-            orders = Orders.objects.filter(
-                delivery=data.get('delivery'),
-                payment=data.get('payment')
-            )
+    date_from = request.GET.get('date_from', None)
+    date_to = request.GET.get('date_to', None)
 
-        else:
-            filter_form = FilterForm()
+    show_archived = False
 
-            orders = Orders.objects.exclude(delivered=True, paid=True)
+    if date_from or date_to:
+        show_archived = True
+
+    if date_from:
+        date_from = list(map(int, date_from.split('-')))
     else:
-        filter_form = FilterForm()
+        date_from = list(map(int, datetime.datetime.strftime(datetime.date.today() - datetime.timedelta(days=30), '%Y-%m-%d').split('-')))
 
+
+    if date_to:
+        date_to = list(map(int, date_to.split('-')))
+    else:
+        date_to = list(map(int, datetime.datetime.strftime(datetime.date.today(), '%Y-%m-%d').split('-')))
+
+    if show_archived:
+        orders = Orders.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        )
+    else:
         orders = Orders.objects.exclude(delivered=True, paid=True)
 
+    date_from = '-'.join(list(map(str, date_from)))
+    date_to = '-'.join(list(map(str, date_to)))
+
     return render(request, 'moderation/orders.html', {
-        'orders': orders, 'filter_form': filter_form
+        'orders': orders, 'date_from': date_from, 'date_to': date_to
     })
 
 
@@ -291,7 +301,9 @@ def j_order_delivery(request, id):
 
     title = _('Delivery')
 
-    form = DeliveryForm(initial={'delivery': order.delivery_method, 'ttn': order.ttn, 'date': order.date_of_delivery})
+    form_date = order.date_of_delivery if order.date_of_delivery else datetime.date.today()
+
+    form = DeliveryForm(initial={'delivery': order.delivery_method, 'ttn': order.ttn, 'date': form_date})
     t = loader.get_template('moderation/j_order_delivery.html')
     c = RequestContext(request, {'form': form})
     html = t.render(c)

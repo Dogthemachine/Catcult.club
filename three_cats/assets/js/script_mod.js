@@ -95,8 +95,6 @@ $(document).ready(function() {
 
     //$('#cs-correction-date').datepicker();
 
-    $('#cs-balances').DataTable();
-
     $('.cc-save-balance').on('click', function() {
         var balance = $(this).data('balance-id');
         var balance_amount = $('#cc-sizes-' + balance).val();
@@ -347,5 +345,7 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#cs-balances').DataTable();
 
 });

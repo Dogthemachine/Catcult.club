@@ -24,19 +24,6 @@ def lang(t):
     return x
 
 
-class FilterForm(forms.Form):
-    delivery = forms.ChoiceField(label='', choices=lang(settings.DELIVERY))
-    payment = forms.ChoiceField(label='', choices=lang(settings.PAYMENT))
-
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_action = '.'
-        self.helper.add_input(Submit('submit', _(u'Filter')))
-
-        super(FilterForm, self).__init__(*args, **kwargs)
-
-
 class CommentForm(forms.Form):
     comment = forms.CharField(label=_('Comment'), max_length=1024, required=False, widget=forms.Textarea())
 
