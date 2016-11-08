@@ -10,6 +10,7 @@ from apps.orders.models import Cart, CartItem
 
 
 def showcase(request, category_id=None, fashion_id=None):
+    print(request.LANGUAGE_CODE)
     category = None
     fashion = None
     items = None

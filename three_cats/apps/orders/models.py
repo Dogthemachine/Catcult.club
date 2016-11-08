@@ -16,6 +16,7 @@ class Orders(models.Model):
     date_of_delivery = models.DateField(_('date_of_delivery'), blank=True, null=True)
     delivery_method = models.IntegerField(_('delivery_method'), choices=settings.DELIVERY, default=0)
     payment_method = models.IntegerField(_('payment_method'), choices=settings.PAYMENT, default=0)
+    liqpay_wait_accept = models.BooleanField(_('LiqPay wait accept'), default=False)
     user_comment = models.CharField(_('user comment'), max_length=512, blank=True)
     ttn = models.IntegerField(_('TTN'), default=0)
     sms_sent = models.BooleanField(_('SMS sent'), default=False)
@@ -43,9 +44,7 @@ class Orders(models.Model):
         sum = 0
 
         for i in items:
-            print(sum)
             sum += i.amount
-            print(sum)
 
         return sum
 

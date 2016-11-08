@@ -1,3 +1,5 @@
 {% load i18n %}
 
+{% if not order.paid %}
 <a id="cc-order-payment-save" class="btn btn-primary" data-order-id="{{ order.id }}">{% trans 'Add' %}</a>
+{% endif %}

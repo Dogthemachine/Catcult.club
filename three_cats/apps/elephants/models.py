@@ -14,6 +14,8 @@ class Categories(models.Model):
     name = models.CharField(_('name'), max_length=70)
     image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
     image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
+    image_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
+    image_hover_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
     details = models.TextField(_('details'), blank=True)
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
@@ -34,6 +36,8 @@ class Fashions(models.Model):
     categories = models.ForeignKey(Categories)
     image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
     image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
+    image_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
+    image_hover_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
     details = models.TextField(_('details'), blank=True, default='')
     displayed = models.BooleanField(_('displayed'), default=True)
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)

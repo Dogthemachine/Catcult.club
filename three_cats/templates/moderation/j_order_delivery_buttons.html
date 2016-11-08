@@ -1,3 +1,7 @@
 {% load i18n %}
 
-<a id="cc-order-delivery-save" class="btn btn-primary" data-order-id="{{ order.id }}">{% trans 'Save' %}</a>
+{% if not order.delivered %}
+  <a id="cc-order-delivery-save" class="btn btn-primary" data-order-id="{{ order.id }}">{% trans 'Save' %}</a>
+{% else %}
+  <a id="cc-order-delivery-reset" class="btn btn-primary" data-order-id="{{ order.id }}">{% trans 'Reset' %}</a>
+{% endif %}

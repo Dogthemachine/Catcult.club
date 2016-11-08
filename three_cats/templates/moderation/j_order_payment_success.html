@@ -6,15 +6,15 @@
 {% endif %}
 
 {% if order.paid %}
-  <a id="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-payment-modal" data-order-id="{{ order.id }}">
-    {{ order.get_payment_method_display }} {% trans 'UAH' %}<br/>
+  <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+    {% trans order.get_payment_method_display %} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
   </a>
 {% else %}
-  {{ order.get_payment_method_display }} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
+  {% trans order.get_payment_method_display %} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
 {% endif %}
 
 {% if not order.paid %}
-  <a id="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-payment-modal" data-order-id="{{ order.id }}">
+  <a id="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
     <span class="btn btn-primary">{% trans 'Payment' %}</span>
   </a>
 {% endif %}

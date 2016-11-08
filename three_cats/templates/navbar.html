@@ -21,19 +21,15 @@
           {% trans 'Feedback' %}
         </a></li>
         {% if LANGUAGE_CODE == "en" %}
+          <li class="nav-item cc-nav-language">{% trans 'Eng' %}</li>
           <li class="nav-item">
-              <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-en">En</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-ru">Ru</a>
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-ru">{% trans 'Rus' %}</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-en">En</a>
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-en">{% trans 'Eng' %}</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color" href="#" id="cs-locate-ru">Ru</a>
-          </li>
+          <li class="nav-item cc-nav-language">{% trans 'Rus' %}</li>
         {% endif %}
         {% if request.user.is_authenticated %}
           <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}" title="{% trans 'Mod' %}">

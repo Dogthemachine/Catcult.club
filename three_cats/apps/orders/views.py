@@ -113,11 +113,13 @@ def cart_checkout(request):
             cart.delete()
 
             if order.payment_method == 2:
-                text = _('Your order has been taken. Card number is %s (%s) and sum is %s. CatCult' % [settings.PRIVAT_CARD, settings.PRIVAT_NAME, order.get_total_price()])
-                send_sms(order.phone, text)
+                text = r'Your order has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s. CatCult'
+                context = {'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                send_sms(order.phone, text, context)
             else:
-                text = _('Your order has been taken. Total price is %s. CatCult' % order.get_total_price())
-                send_sms(order.phone, text)
+                text = r'Your order has been taken. Total price is %(sum)s. CatCult'
+                context = {'sum': order.get_total_price()}
+                send_sms(order.phone, text, context)
 
             message = _('Your order has been placed. We will contact you shortly.<br/>Order details:<br/>')
             message += order.name + '<br/>' + str(order.phone) + '<br/>'
@@ -173,20 +175,20 @@ def liqpay_callback(request):
             settings.LIQPAY_PRIVATE_KEY
         )
 
-        if request.POST.get('signature', '') == sign:
+        if request.POST.get('signature', '') == sign.decode():
             response = json.loads(base64.b64decode(request.POST.get('data')).decode())
 
             if response['status'] == 'success':
                 try:
-                    order = Orders.objects.get(id=id)
+                    order = Orders.objects.get(id=int(response['order_id']))
                 except:
                     return HttpResponse()
 
                 payment = Payment()
                 payment.order = order
-                payment.amount = response['amount']
+                payment.amount = int(response['amount'])
                 payment.comment = 'LiqPay'
-                payment.token = response['token']
+                payment.token = response['liqpay_order_id']
                 payment.sender_phone = response['sender_phone']
                 payment.save()
 
@@ -197,4 +199,14 @@ def liqpay_callback(request):
                     order.paid = False
                     order.save()
 
+                return HttpResponse()
+
+            else:
+                try:
+                    order = Orders.objects.get(id=int(response['order_id']))
+                except:
+                    return HttpResponse()
+
+                order.liqpay_wait_accept = True
+                order.save()
                 return HttpResponse()

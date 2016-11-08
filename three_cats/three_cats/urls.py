@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^orders/(?P<id>\d+)/delete/$', j_order_delete, name='order_delete'),
     url(r'^orders/(?P<id>\d+)/comment/$', j_order_comment, name='order_comment'),
     url(r'^orders/(?P<id>\d+)/delivery/$', j_order_delivery, name='order_delivery'),
+    url(r'^orders/(?P<id>\d+)/delivery/reset/$', j_order_delivery, {'reset': True}, name='order_delivery_reset'),
     url(r'^orders/(?P<id>\d+)/payment/$', j_order_payment, name='order_payment'),
     url(r'^orders/payment/(?P<id>\d+)/delete/$', j_order_payment_delete, name='order_payment_delete'),
     url(r'^orders/delete/(?P<id>\d+)/$', delete_order, name='delete_order'),
@@ -48,8 +49,10 @@ urlpatterns = [
     url(r'^balances/$', balances, name='balances'),
     url(r'^balances/update/$', balances_update, {'arrival': False}, name='balances_update'),
     url(r'^balances/download/$', export_balance, name='export_balance'),
+
     url(r'^arrival/$', arrival, name='arrival'),
     url(r'^arrival/update/$', balances_update, {'arrival': True}, name='balances_update'),
+
     url(r'^log/$', log, name='log'),
     url(r'^order_info/(?P<id>\d+)/$', order_comment, name='order_payment'),
     url(r'^order_comment/(?P<id>\d+)/$', order_comment, name='order_comment'),

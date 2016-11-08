@@ -197,8 +197,9 @@ def manage_order(request, id):
             order_form.save()
 
             if order.ttn > 0 and not order.sms_sent:
-                text = _('TTN: %s. CatCult' % order.ttn)
-                send_sms(order.phone, text)
+                text = r'TTN: %(ttn)s. CatCult'
+                context = {'ttn': order.ttn}
+                send_sms(order.phone, text, context)
                 order.sms_sent = True
                 order.save()
     else:
@@ -293,11 +294,17 @@ def j_order_comment(request, id):
 @json_view()
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
-def j_order_delivery(request, id):
+def j_order_delivery(request, id, reset=False):
     try:
         order = Orders.objects.get(id=id)
     except:
         return {'success': False}
+
+    if request.method == 'POST' and reset == True:
+        order.delivered = False
+        order.date_of_delivery = None
+        order.ttn = 0
+        order.save()
 
     title = _('Delivery')
 
@@ -305,14 +312,14 @@ def j_order_delivery(request, id):
 
     form = DeliveryForm(initial={'delivery': order.delivery_method, 'ttn': order.ttn, 'date': form_date})
     t = loader.get_template('moderation/j_order_delivery.html')
-    c = RequestContext(request, {'form': form})
+    c = RequestContext(request, {'form': form, 'order': order})
     html = t.render(c)
 
     t = loader.get_template('moderation/j_order_delivery_buttons.html')
     c = RequestContext(request, {'order': order})
     buttons = t.render(c)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and reset == False:
         form = DeliveryForm(request.POST)
         if form.is_valid():
             order.delivery_method = form.cleaned_data.get('delivery')
@@ -321,8 +328,9 @@ def j_order_delivery(request, id):
             order.save()
 
             if order.ttn > 0 and not order.sms_sent:
-                text = _('TTN: %s. CatCult' % order.ttn)
-                send_sms(order.phone, text)
+                text = r'TTN: %(ttn)s. CatCult'
+                context = {'ttn': order.ttn}
+                send_sms(order.phone, text, context)
                 order.sms_sent = True
                 order.save()
 
@@ -416,7 +424,16 @@ def j_order_payment_delete(request, id):
     c = RequestContext(request, {'order': payment.order})
     html = t.render(c)
 
-    return {'success': True, 'html': html}
+    form = PaymentForm(initial={'amount': payment.order.get_remaining_amount})
+    t = loader.get_template('moderation/j_order_payment.html')
+    c = RequestContext(request, {'order': payment.order, 'form': form})
+    modal_html = t.render(c)
+
+    t = loader.get_template('moderation/j_order_payment_buttons.html')
+    c = RequestContext(request, {'order': payment.order})
+    buttons = t.render(c)
+
+    return {'success': True, 'html': html, 'modal_html': modal_html, 'buttons': buttons}
 
 
 @json_view()

@@ -271,6 +271,39 @@ body {
 }
 }
 
+@media (min-width: 1200px) {
+.cc-showcase-item {
+    height: 450px;
+}
+}
+
+@media (min-width: 980px) and (max-width: 1199px) {
+.cc-showcase-item {
+    height: 450px;
+}
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+.cc-showcase-item {
+    height: 400px;
+}
+}
+
+@media (min-width: 500px) and (max-width: 767px) {
+.cc-showcase-item {
+    height: 450px;
+}
+}
+
+@media (max-width: 499px) {
+.cc-showcase-item {
+    height: 400px;
+}
+}
+
+.cc-nav-language {
+    margin-top: 15px;
+}
 
 .cc-p {
     border: 1px solid black;
@@ -338,4 +371,8 @@ body {
   #footer {
       height: 360px;
   }
+}
+
+.cc-lang {
+    text-decoration: underline;
 }

@@ -101,6 +101,10 @@
                     {% trans order.get_payment_method_display %} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
                   {% endif %}
 
+                  {% if order.liqpay_wait_accept %}
+                    {% trans 'Processing payment...' %}
+                  {% endif %}
+
                   {% if not order.paid %}
                     <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
                       <span class="btn btn-primary">{% trans 'Payment' %}</span>

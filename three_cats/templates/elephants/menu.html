@@ -2,12 +2,22 @@
 <div class="row">
   {% for cat in categories %}
     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-      {% if cat.id == category.id %}
-        <img class="img-responsive" src="{{ MEDIA_URL }}{{ cat.image_hover }}">
+      {% if LANGUAGE_CODE == "en" %}
+        {% if cat.id == category.id %}
+          <img class="img-responsive" src="{{ MEDIA_URL }}{{ cat.image_hover_en }}">
+        {% else %}
+          <a href="{% url 'showcase_cat' cat.id %}">
+            <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ cat.image_en }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover_en }}">
+          </a>
+        {% endif %}
       {% else %}
-        <a href="{% url 'showcase_cat' cat.id %}">
-          <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ cat.image }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover }}">
-        </a>
+        {% if cat.id == category.id %}
+          <img class="img-responsive" src="{{ MEDIA_URL }}{{ cat.image_hover }}">
+        {% else %}
+          <a href="{% url 'showcase_cat' cat.id %}">
+            <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ cat.image }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover }}">
+          </a>
+        {% endif %}
       {% endif %}
     </div>
   {% endfor %}
@@ -16,12 +26,22 @@
 <div class="row cc-fas">
   {% for fas in fashions %}
     <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-     {% if fas.id == fashion.id %}
-        <img class="img-responsive" src="{{ MEDIA_URL }}{{ fas.image_hover }}">
+      {% if LANGUAGE_CODE == "en" %}
+        {% if fas.id == fashion.id %}
+          <img class="img-responsive" src="{{ MEDIA_URL }}{{ fas.image_hover_en }}">
+        {% else %}
+          <a href="{% url 'showcase_cat_fas' category.id fas.id %}">
+            <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ fas.image_en }}" data-hover-src="{{ MEDIA_URL }}{{ fas.image_hover_en }}">
+          </a>
+        {% endif %}
       {% else %}
-        <a href="{% url 'showcase_cat_fas' category.id fas.id %}">
-          <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ fas.image }}" data-hover-src="{{ MEDIA_URL }}{{ fas.image_hover }}">
-        </a>
+        {% if fas.id == fashion.id %}
+          <img class="img-responsive" src="{{ MEDIA_URL }}{{ fas.image_hover }}">
+        {% else %}
+          <a href="{% url 'showcase_cat_fas' category.id fas.id %}">
+            <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ fas.image }}" data-hover-src="{{ MEDIA_URL }}{{ fas.image_hover }}">
+          </a>
+        {% endif %}
       {% endif %}
     </div>
   {% endfor %}

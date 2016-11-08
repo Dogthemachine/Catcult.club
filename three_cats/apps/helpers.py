@@ -2,15 +2,16 @@ import requests
 from hashlib import md5
 
 from django.conf import settings
+from django.utils.translation import ugettext as _
 
 
-def send_sms(phone, text):
+def send_sms(phone, text, context):
     keys = {}
     keys['version'] = '3.0'
     keys['action'] = 'sendSMS'
     keys['key'] = settings.SMS_PUBLIC_KEY
     keys['sender'] = 'catcult'
-    keys['text'] = text
+    keys['text'] = _(text) % context
     keys['phone'] = phone
     keys['datetime'] = ''
     keys['sms_lifetime'] = '0'

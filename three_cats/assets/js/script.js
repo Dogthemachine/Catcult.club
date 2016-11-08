@@ -110,6 +110,8 @@ $(document).ready(function() {
 
     // Translate
     $('#cs-locate-ru').on('click', function(e) {
+          e.preventDefault();
+
           $.ajax({
               url: '/i18n/setlang/',
               data: 'language=ru',

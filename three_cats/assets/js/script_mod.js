@@ -299,6 +299,26 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '#cc-order-delivery-reset', function() {
+        var order_id = $(this).data('order-id')
+
+        $.ajax({
+            url: order_id + '/delivery/reset/',
+            type: 'post',
+            success: function(data) {
+		console.log(data);
+                if (data.success) {
+                    $('#cc-order-modal .modal-title').html(data.title);
+                    $('#cc-order-modal .modal-body').html(data.html);
+                    $('#cc-order-buttons').html(data.buttons);
+                    $('#cc-order-delivery-form #id_date').datetimepicker({
+                        format: 'DD.MM.YYYY'
+                    });
+                }
+            }
+        });
+    });
+
     $(document).on('click', '.cc-payment-link', function() {
         $.ajax({
             url: $(this).data('order-id') + '/payment/',
@@ -341,6 +361,8 @@ $(document).ready(function() {
                 if (data.success) {
                     $('#cc-order-payment-sum-' + payment_id).remove();
                     $('#cc-order-payment-' + order_id).html(data.html)
+                    $('#cc-order-modal .modal-body').html(data.modal_html);
+                    $('#cc-order-buttons').html(data.buttons);
                 }
             }
         });
