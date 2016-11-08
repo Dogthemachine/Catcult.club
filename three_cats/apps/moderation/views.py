@@ -29,11 +29,12 @@ def balances(request):
 @json_view
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
-def balances_update(request, arrival):
+def balances_update(request):
     if request.method == 'POST':
         try:
             id = int(request.POST.get('id', None))
             amount = int(request.POST.get('amount', None))
+            arrival = bool(request.POST.get('arrival', None))
         except:
             return {'success': False, 'message': _('Error')}
 
@@ -64,14 +65,6 @@ def balances_update(request, arrival):
 
         else:
             return {'success': False, 'message': _('Error')}
-
-
-@login_required(login_url='/login/')
-@permission_required('info.delete_info', login_url='/login/')
-def arrival(request):
-    items = Items.objects.all()
-
-    return render(request, 'moderation/arrival.html', {'items': items})
 
 
 @login_required(login_url='/login/')
@@ -305,6 +298,12 @@ def j_order_delivery(request, id, reset=False):
         order.date_of_delivery = None
         order.ttn = 0
         order.save()
+
+        t = loader.get_template('moderation/j_order_delivery_success.html')
+        c = RequestContext(request, {'order': order})
+        html = t.render(c)
+
+        return {'success': True, 'html': html}
 
     title = _('Delivery')
 

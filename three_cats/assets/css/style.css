@@ -21,55 +21,217 @@ legend {
     font-size: 1.7em;
 }
 
-@media (min-width: 1200px) {
-.cc-logo {
-    width: 200px;
-}
-}
-
-@media (min-width: 980px) and (max-width: 1199px) {
-.cc-logo {
-    width: 160px;
-}
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-.cc-logo {
-    width: 120px;
-}
-}
-
-@media (max-width: 767px) {
-.cc-logo {
-    width: 80px;
-}
-}
-
 .cc-logo-mini {
      width: 125px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1551px) {
 .cc-logo-button {
-    width: 180px;
+    margin-top: 100px;
+    width: 130px;
+}
+.cc-logo-slogan {
+    margin-top: 300px;
+}
+.cc-logo {
+    margin-top: 30px;
+    width: 170px;
 }
 }
 
-@media (min-width: 980px) and (max-width: 1199px) {
+@media (min-width: 1451px) and (max-width: 1550px) {
 .cc-logo-button {
-    width: 140px;
+    margin-top: 80px;
+    width: 130px;
+}
+.cc-logo-slogan {
+    margin-top: 290px;
+}
+.cc-logo {
+    margin-top: 30px;
+    width: 160px;
 }
 }
 
-@media (min-width: 768px) and (max-width: 979px) {
+@media (min-width: 1351px) and (max-width: 1450px) {
 .cc-logo-button {
+    margin-top: 75px;
+    width: 120px;
+}
+.cc-logo-slogan {
+    margin-top: 260px;
+}
+.cc-logo {
+    margin-top: 30px;
+    width: 150px;
+}
+}
+
+@media (min-width: 1251px) and (max-width: 1350px) {
+.cc-logo-button {
+    margin-top: 50px;
+    width: 120px;
+}
+.cc-logo-slogan {
+    margin-top: 250px;
+}
+.cc-logo {
+    margin-top: 20px;
+    width: 150px;
+}
+}
+
+@media (min-width: 1151px) and (max-width: 1250px) {
+.cc-logo-button {
+    margin-top: 40px;
+    width: 110px;
+}
+.cc-logo-slogan {
+    margin-top: 230px;
+}
+.cc-logo {
+    margin-top: 20px;
+    width: 130px;
+}
+}
+
+@media (min-width: 1051px) and (max-width: 1150px) {
+.cc-logo-button {
+    margin-top: 40px;
+    width: 100px;
+}
+.cc-logo-slogan {
+    margin-top: 210px;
+}
+.cc-logo {
+    margin-top: 10px;
+    width: 120px;
+}
+}
+
+@media (min-width: 951px) and (max-width: 1050px) {
+.cc-logo-button {
+    margin-top: 40px;
+    width: 100px;
+}
+.cc-logo-slogan {
+    margin-top: 180px;
+}
+.cc-logo {
+    margin-top: 10px;
+    width: 110px;
+}
+}
+
+@media (min-width: 851px) and (max-width: 950px) {
+.cc-logo-button {
+    margin-top: 25px;
+    width: 90px;
+}
+.cc-logo-slogan {
+    margin-top: 170px;
+}
+.cc-logo {
+    margin-top: 10px;
     width: 100px;
 }
 }
 
-@media (max-width: 767px) {
+@media (min-width: 751px) and (max-width: 850px) {
 .cc-logo-button {
-    width: 80px;
+    margin-top: 20px;
+    width: 90px;
+}
+.cc-logo-slogan {
+    margin-top: 130px;
+}
+.cc-logo {
+    margin-top: 0px;
+    width: 90px;
+}
+}
+
+@media (min-width: 651px) and (max-width: 750px) {
+.cc-logo-button {
+    margin-top: 20px;
+    width: 100px;
+}
+.cc-logo-slogan {
+    margin-top: 80px;
+}
+.cc-logo {
+    margin-top: 0px;
+    width: 90px;
+}
+}
+
+@media (min-width: 551px) and (max-width: 650px) {
+.cc-logo-button {
+    margin-top: 10px;
+    width: 90px;
+}
+.cc-logo-slogan {
+    margin-top: 70px;
+}
+.cc-logo {
+    margin-top: 0px;
+    width: 90px;
+}
+}
+
+@media (min-width: 451px) and (max-width: 550px) {
+.cc-logo-button {
+    margin-top: 10px;
+    width: 70px;
+}
+.cc-logo-slogan {
+    margin-top: 60px;
+}
+.cc-logo {
+    margin-top: 0px;
+    width: 90px;
+}
+}
+
+@media (min-width: 351px) and (max-width: 450px) {
+.cc-logo-button {
+    margin-top: 5px;
+    width: 60px;
+}
+.cc-logo-slogan {
+    margin-top: 40px;
+}
+.cc-logo {
+    margin-top: 0px;
+    width: 90px;
+}
+}
+
+@media (min-width: 251px) and (max-width: 350px) {
+.cc-logo-button {
+    margin-top: 0px;
+    width: 60px;
+}
+.cc-logo-slogan {
+    margin-top: 20px;
+}
+.cc-logo {
+    margin-top: 0px;
+    width: 90px;
+}
+}
+
+@media (max-width: 250px) {
+.cc-logo-button {
+    margin-top: 0px;
+    width: 60px;
+}
+.cc-logo-slogan {
+    margin-top: 0px;
+}
+.cc-logo {
+    margin-top: 0px;
+    width: 90px;
 }
 }
 
@@ -164,10 +326,6 @@ legend {
 
 #cc-pics {
     margin-top: -20px;
-}
-
-.flex-control-paging {
-    margin-bottom: 60px;
 }
 
 .cc-styled-h {
@@ -289,15 +447,22 @@ body {
 }
 }
 
-@media (min-width: 500px) and (max-width: 767px) {
+@media (min-width: 600px) and (max-width: 767px) {
 .cc-showcase-item {
-    height: 450px;
+    height: 470px;
+}
+}
+
+
+@media (min-width: 500px) and (max-width: 599px) {
+.cc-showcase-item {
+    height: 400px;
 }
 }
 
 @media (max-width: 499px) {
 .cc-showcase-item {
-    height: 400px;
+    height: 350px;
 }
 }
 

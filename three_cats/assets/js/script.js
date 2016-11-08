@@ -229,6 +229,15 @@ $(document).ready(function() {
 
     $('.cc-cat-image').hover(sourceSwap, sourceSwap);
 
+    var showcaseSwap = function () {
+        var $this = $(this);
+        var newSource = $this.data('hover-src');
+        $this.data('hover-src', $this.attr('src'));
+        $this.attr('src', newSource);
+    }
+
+    $('.cc-logo-button').hover(showcaseSwap, showcaseSwap);
+
     $('#cc-pics').flexslider({
         animation: "slide"
     });
