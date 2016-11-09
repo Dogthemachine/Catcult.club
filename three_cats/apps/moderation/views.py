@@ -72,6 +72,11 @@ def balances_update(request):
 def log(request):
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
+    arrival = request.GET.get('arrival', None)
+    if arrival == 'true':
+        arrival = 'True'
+    else:
+        arrival = 'False'
 
     if date_from:
         date_from = list(map(int, date_from.split('-')))
@@ -86,13 +91,14 @@ def log(request):
 
     logs = BalanceLog.objects.filter(
         change_time__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        change_time__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        change_time__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+        arrival=arrival
     )
 
     date_from = '-'.join(list(map(str, date_from)))
     date_to = '-'.join(list(map(str, date_to)))
 
-    return render(request, 'moderation/log.html', {'logs': logs, 'date_from': date_from, 'date_to': date_to})
+    return render(request, 'moderation/log.html', {'logs': logs, 'date_from': date_from, 'date_to': date_to, 'arrival': arrival})
 
 
 @login_required(login_url='/login/')

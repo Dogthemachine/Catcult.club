@@ -98,7 +98,7 @@ $(document).ready(function() {
     $('.cc-save-balance').on('click', function() {
         var balance = $(this).data('balance-id');
         var balance_amount = $('#cc-sizes-' + balance).val();
-        var arrival = false;
+        var arrival = $("#cc-arrival-cb").prop("checked");
         $.ajax({
             url: 'update/',
             type: 'post',
@@ -136,8 +136,9 @@ $(document).ready(function() {
 
         var date_from = $('#cc-date-from').val();
         var date_to = $('#cc-date-to').val();
+        var arrival = $("#cc-arrival-cb").prop("checked");
 
-        location.search = '?date_from=' + date_from + '&date_to=' + date_to;
+        location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&arrival=' + arrival;
     });
 
     $('.cc-order-update').on('click', function(e) {

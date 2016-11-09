@@ -17,6 +17,10 @@
           <label for="cc-date-to">{% trans 'Date to' %}</label>
           <input type="text" class="form-control" id="cc-date-to" value="{{ date_to }}">
         </div>
+        <label>
+          <div>
+            <input type="checkbox" name="cc-arrival-cb" value="0" id="cc-arrival-cb" checked>   {% trans 'Arrival' %}</div>
+        </label>
         <a href="#" id="cc-log-filter" class="btn btn-default">{% trans 'Filter' %}</a>
       </form>
     </div>

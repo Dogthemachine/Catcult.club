@@ -7,6 +7,14 @@
 
 {% block content %}
   <div class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right">
+      <label>
+        <div class="pull-right">
+          <input type="checkbox" name="cc-arrival-cb" value="1" id="cc-arrival-cb" checked>   {% trans 'Arrival' %}</div>
+      </label>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 pull-right">
       <div class="pull-right"><a href="{% url 'export_balance' %}">{% trans 'Download' %}</a></div>
     </div>
