@@ -11,6 +11,7 @@ class Orders(models.Model):
     name = models.CharField(_('name'), max_length=70)
     phone = models.CharField(_('phone'), max_length=32)
     comment = models.TextField(_('comment'), default='', blank=True)
+    lang_code = models.CharField(_('lang code'), default='ru', blank=True, max_length=2)
     delivered = models.BooleanField(_('delivered'), default=False)
     paid = models.BooleanField(_('paid'), default=False)
     date_of_delivery = models.DateField(_('date_of_delivery'), blank=True, null=True)

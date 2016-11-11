@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-08 02:06+0200\n"
+"POT-Creation-Date: 2016-11-11 10:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "* Выберите размер пожалуйста"
 msgid "* Please choose another size"
 msgstr "* Выберите другой размер пожалуйста"
 
-#: apps/elephants/forms.py:20 apps/moderation/views.py:112
+#: apps/elephants/forms.py:20 apps/moderation/views.py:111
 #: templates/orders/cart.html:11
 msgid "Size"
 msgstr "Размер"
@@ -50,7 +50,7 @@ msgstr ""
 #: apps/elephants/models.py:14 apps/elephants/models.py:35
 #: apps/elephants/models.py:55 apps/elephants/models.py:70
 #: apps/info/models.py:10 apps/info/models.py:38 apps/orders/models.py:11
-#: apps/orders/models.py:86
+#: apps/orders/models.py:87
 msgid "name"
 msgstr "имя"
 
@@ -112,7 +112,7 @@ msgstr "просмотры за месяц"
 #: apps/elephants/models.py:81 apps/elephants/models.py:114
 #: apps/info/models.py:26 apps/info/models.py:44 apps/info/models.py:60
 #: apps/orders/models.py:23 apps/orders/models.py:59 apps/orders/models.py:76
-#: apps/orders/models.py:82 apps/orders/models.py:87
+#: apps/orders/models.py:83 apps/orders/models.py:88
 msgid "added"
 msgstr "добавлено"
 
@@ -162,11 +162,11 @@ msgstr "Журналы баланса"
 msgid "%s was added to your cart."
 msgstr "%s был добавлен в вашу корзину."
 
-#: apps/info/forms.py:27
+#: apps/info/forms.py:27 apps/orders/forms.py:26
 msgid "Name"
 msgstr "Имя"
 
-#: apps/info/forms.py:28
+#: apps/info/forms.py:28 apps/orders/forms.py:27
 msgid "Phone"
 msgstr "Телефон"
 
@@ -276,12 +276,12 @@ msgid "The message was successfully sent."
 msgstr "Сообщение успешно отправлено."
 
 #: apps/moderation/forms.py:28 apps/moderation/forms.py:55
-#: apps/moderation/views.py:272
+#: apps/moderation/views.py:271 apps/orders/forms.py:42
 msgid "Comment"
 msgstr "Комментарий"
 
-#: apps/moderation/forms.py:40 apps/moderation/views.py:309
-#: templates/footer.html:26 templates/footer.html:27
+#: apps/moderation/forms.py:40 apps/moderation/views.py:314
+#: apps/orders/forms.py:29 templates/footer.html:26 templates/footer.html:27
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:83
 #: templates/moderation/orders.html:122
@@ -313,68 +313,65 @@ msgstr "Сохранить"
 msgid "datetime"
 msgstr "дата и время"
 
-#: apps/moderation/views.py:38 apps/moderation/views.py:66
+#: apps/moderation/views.py:39 apps/moderation/views.py:67
 msgid "Error"
 msgstr "Ошибка"
 
-#: apps/moderation/views.py:45
+#: apps/moderation/views.py:46
 msgid "Error: no balance."
 msgstr "Ошибка: нет баланса"
 
-#: apps/moderation/views.py:62
+#: apps/moderation/views.py:63
 #, python-format
 msgid "Balance was saved. Old value: %s, new value: %s"
 msgstr "Баланс был сохранен. Старое значение: %s, новое значение: %s"
 
-#: apps/moderation/views.py:112 templates/moderation/arrival.html:15
-#: templates/moderation/arrival.html:52 templates/moderation/balances.html:20
-#: templates/moderation/balances.html:57 templates/moderation/items.html:6
+#: apps/moderation/views.py:111 templates/moderation/balances.html:28
+#: templates/moderation/balances.html:65 templates/moderation/items.html:6
 #: templates/moderation/order.html:21 templates/moderation/order.html:45
 #: templates/moderation/order.html:86
 msgid "Category"
 msgstr "Категория"
 
-#: apps/moderation/views.py:112 templates/moderation/arrival.html:16
-#: templates/moderation/arrival.html:53 templates/moderation/balances.html:21
-#: templates/moderation/balances.html:58 templates/moderation/items.html:7
+#: apps/moderation/views.py:111 templates/moderation/balances.html:29
+#: templates/moderation/balances.html:66 templates/moderation/items.html:7
 #: templates/moderation/order.html:22 templates/moderation/order.html:46
 #: templates/moderation/order.html:87
 msgid "Fashion"
 msgstr "Фасон"
 
-#: apps/moderation/views.py:112 templates/moderation/arrival.html:17
-#: templates/moderation/arrival.html:54 templates/moderation/balances.html:22
-#: templates/moderation/balances.html:59 templates/moderation/items.html:8
+#: apps/moderation/views.py:111 templates/moderation/balances.html:30
+#: templates/moderation/balances.html:67 templates/moderation/items.html:8
 #: templates/moderation/order.html:23 templates/moderation/order.html:47
 #: templates/moderation/order.html:88
 msgid "Item"
 msgstr "Товар"
 
-#: apps/moderation/views.py:112 templates/moderation/arrival.html:19
-#: templates/moderation/arrival.html:56 templates/moderation/balances.html:24
-#: templates/moderation/balances.html:61 templates/navbar_mod.html:20
+#: apps/moderation/views.py:111 templates/moderation/balances.html:32
+#: templates/moderation/balances.html:69 templates/navbar_mod.html:20
 #: templates/navbar_mod.html:21
 msgid "Balance"
 msgstr "Баланс"
 
-#: apps/moderation/views.py:171
+#: apps/moderation/views.py:170
 #, python-format
 msgid "Order %s was deleted."
 msgstr "Заказ %s был удален."
 
-#: apps/moderation/views.py:236
+#: apps/moderation/views.py:235
 msgid "Order info"
 msgstr "Информация по заказу"
 
-#: apps/moderation/views.py:365 templates/footer.html:30
-#: templates/moderation/j_order_payment_success.html:18
+#: apps/moderation/views.py:370 apps/orders/forms.py:28
+#: templates/footer.html:30
+#: templates/moderation/j_order_payment_success.html:22
 #: templates/moderation/orders.html:35 templates/moderation/orders.html:110
 #: templates/moderation/orders.html:123
 msgid "Payment"
 msgstr "Платеж"
 
-#: apps/moderation/views.py:447 apps/moderation/views.py:468
-#: apps/moderation/views.py:477
+#: apps/moderation/views.py:452 apps/moderation/views.py:473
+#: apps/moderation/views.py:482
 msgid "Something went wrong."
 msgstr "Что-то пошло не так."
 
@@ -452,11 +449,15 @@ msgstr "данные"
 msgid "sign"
 msgstr "подпись"
 
-#: apps/orders/models.py:91 templates/base.html:78
+#: apps/orders/models.py:82
+msgid "data decoded"
+msgstr "декодированные данные"
+
+#: apps/orders/models.py:92 templates/base.html:78
 msgid "Cart"
 msgstr "Корзина"
 
-#: apps/orders/models.py:92
+#: apps/orders/models.py:93
 msgid "Carts"
 msgstr "Корзины"
 
@@ -525,31 +526,23 @@ msgstr "Партнеры"
 msgid "Send mail"
 msgstr "Отправить письмо"
 
-#: templates/moderation/arrival.html:5
-msgid "Items arrival"
-msgstr "Приход товара"
-
-#: templates/moderation/arrival.html:18 templates/moderation/arrival.html:55
-#: templates/moderation/balances.html:23 templates/moderation/balances.html:60
-msgid "Sizes"
-msgstr "Размеры"
-
-#: templates/moderation/arrival.html:43
-#: templates/moderation/j_order_payment_buttons.html:4
-#: templates/moderation/order.html:49 templates/moderation/order.html:76
-#: templates/moderation/order.html:90
-msgid "Add"
-msgstr "Добавить"
-
 #: templates/moderation/balances.html:5
 msgid "Items balance"
 msgstr "Баланс товара"
 
-#: templates/moderation/balances.html:11
+#: templates/moderation/balances.html:13 templates/moderation/log.html:22
+msgid "Arrival"
+msgstr "Приход товара"
+
+#: templates/moderation/balances.html:19
 msgid "Download"
 msgstr "Скачать"
 
-#: templates/moderation/balances.html:48
+#: templates/moderation/balances.html:31 templates/moderation/balances.html:68
+msgid "Sizes"
+msgstr "Размеры"
+
+#: templates/moderation/balances.html:56
 msgid "Update"
 msgstr "Обновить"
 
@@ -565,7 +558,7 @@ msgstr "Удалить"
 
 #: templates/moderation/j_order_delivery_buttons.html:6
 msgid "Reset"
-msgstr ""
+msgstr "Сбросить"
 
 #: templates/moderation/j_order_info_buttons.html:3
 #: templates/moderation/order.html:13
@@ -576,8 +569,19 @@ msgstr "Удалить заказ"
 msgid "Edit"
 msgstr "Редактировать"
 
-#: templates/moderation/log.html:5 templates/navbar_mod.html:28
-#: templates/navbar_mod.html:29
+#: templates/moderation/j_order_payment_buttons.html:4
+#: templates/moderation/order.html:49 templates/moderation/order.html:76
+#: templates/moderation/order.html:90
+msgid "Add"
+msgstr "Добавить"
+
+#: templates/moderation/j_order_payment_success.html:17
+#: templates/moderation/orders.html:105
+msgid "Processing payment..."
+msgstr "Платеж в обработке..."
+
+#: templates/moderation/log.html:5 templates/navbar_mod.html:23
+#: templates/navbar_mod.html:24
 msgid "Log"
 msgstr "Журнал"
 
@@ -589,32 +593,32 @@ msgstr "Дата от"
 msgid "Date to"
 msgstr "Дата по"
 
-#: templates/moderation/log.html:20 templates/moderation/orders.html:22
+#: templates/moderation/log.html:24 templates/moderation/orders.html:22
 msgid "Filter"
 msgstr "Фильтр"
 
-#: templates/moderation/log.html:29 templates/moderation/log.html:59
+#: templates/moderation/log.html:33 templates/moderation/log.html:63
 msgid "Datetime"
 msgstr "Дата и время"
 
-#: templates/moderation/log.html:30 templates/moderation/log.html:60
+#: templates/moderation/log.html:34 templates/moderation/log.html:64
 msgid "Type"
 msgstr "Тип"
 
-#: templates/moderation/log.html:31 templates/moderation/log.html:61
+#: templates/moderation/log.html:35 templates/moderation/log.html:65
 msgid "Old value -> New value"
 msgstr "Старое значение -> Новое значение"
 
-#: templates/moderation/log.html:32 templates/moderation/log.html:62
+#: templates/moderation/log.html:36 templates/moderation/log.html:66
 msgid "User"
 msgstr "Пользователь"
 
-#: templates/moderation/log.html:43 templates/moderation/orders.html:32
+#: templates/moderation/log.html:47 templates/moderation/orders.html:32
 #: templates/moderation/orders.html:120
 msgid "Added"
 msgstr "Добавлен"
 
-#: templates/moderation/log.html:45
+#: templates/moderation/log.html:49
 msgid "Corrected"
 msgstr "Отредактирован"
 
@@ -635,23 +639,9 @@ msgstr "Изменить комментарий"
 msgid "Add comment"
 msgstr "Добавить комментарий"
 
-#: templates/moderation/orders.html:105
-msgid "Processing payment..."
-msgstr "Платеж в обработке..."
-
 #: templates/navbar.html:20 templates/navbar.html:21
 msgid "Feedback"
 msgstr "Обратная связь"
-
-#: templates/navbar.html:24 templates/navbar.html:30
-#| msgid "English"
-msgid "Eng"
-msgstr "Eng"
-
-#: templates/navbar.html:26 templates/navbar.html:32
-#| msgid "Russian"
-msgid "Rus"
-msgstr "Рус"
 
 #: templates/navbar.html:35 templates/navbar.html:36
 msgid "Mod"
@@ -661,11 +651,7 @@ msgstr "Модерация"
 msgid "Empty"
 msgstr "Пусто"
 
-#: templates/navbar_mod.html:24 templates/navbar_mod.html:25
-msgid "Arrival"
-msgstr "Приход товара"
-
-#: templates/navbar_mod.html:31 templates/navbar_mod.html:32
+#: templates/navbar_mod.html:26 templates/navbar_mod.html:27
 msgid "Shop"
 msgstr "Магазин"
 
@@ -725,16 +711,29 @@ msgstr "Терминал Приват Банка"
 msgid "Online payment"
 msgstr "Оплата онлайн"
 
-msgid "TTN: %(ttn)s. CatCult"
-msgstr "ТТН: %(ttn)s. CatCult"
+#~ msgid "Items arrival"
+#~ msgstr "Приход товара"
 
-msgid ""
-"Your order has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s. CatCult"
-msgstr ""
-"Ваш заказ был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s грн. CatCult"
+#~| msgid "English"
+#~ msgid "Eng"
+#~ msgstr "Eng"
 
-msgid "Your order has been taken. Total price is %(sum)s. CatCult"
-msgstr "Ваш заказ был принят. Сумма к оплате %(sum)s. CatCult"
+#~| msgid "Russian"
+#~ msgid "Rus"
+#~ msgstr "Рус"
+
+#~ msgid "TTN: %(ttn)s. CatCult"
+#~ msgstr "ТТН: %(ttn)s. CatCult"
+
+#~ msgid ""
+#~ "Your order has been taken. Card number is %(card)s (%(name)s) and sum is "
+#~ "%(sum)s. CatCult"
+#~ msgstr ""
+#~ "Ваш заказ был принят. Номер карты %(card)s (%(name)s). Сумма к оплате "
+#~ "%(sum)s грн. CatCult"
+
+#~ msgid "Your order has been taken. Total price is %(sum)s. CatCult"
+#~ msgstr "Ваш заказ был принят. Сумма к оплате %(sum)s. CatCult"
 
 #~ msgid "status"
 #~ msgstr "статус"

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from jsonview.decorators import json_view
 import csv
 import json
@@ -196,9 +197,14 @@ def manage_order(request, id):
             order_form.save()
 
             if order.ttn > 0 and not order.sms_sent:
-                text = r'TTN: %(ttn)s. CatCult'
-                context = {'ttn': order.ttn}
-                send_sms(order.phone, text, context)
+                if order.lang_code == 'en':
+                    text = 'TTN: %(ttn)s. CatCult' % {'ttn': order.ttn}
+                elif order.lang_code == 'ru':
+                    text = 'ТТН: %(ttn)s. CatCult' % {'ttn': order.ttn}
+                else:
+                    text = ''
+
+                send_sms(order.phone, text)
                 order.sms_sent = True
                 order.save()
     else:
@@ -333,9 +339,14 @@ def j_order_delivery(request, id, reset=False):
             order.save()
 
             if order.ttn > 0 and not order.sms_sent:
-                text = r'TTN: %(ttn)s. CatCult'
-                context = {'ttn': order.ttn}
-                send_sms(order.phone, text, context)
+                if order.lang_code == 'en':
+                    text = 'TTN: %(ttn)s. CatCult' % {'ttn': order.ttn}
+                elif order.lang_code == 'ru':
+                    text = 'ТТН: %(ttn)s. CatCult' % {'ttn': order.ttn}
+                else:
+                    text = ''
+
+                send_sms(order.phone, text)
                 order.sms_sent = True
                 order.save()
 

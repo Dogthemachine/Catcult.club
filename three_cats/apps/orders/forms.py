@@ -23,10 +23,10 @@ def lang(t):
 
 
 class CheckoutForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=64)
-    phone = forms.CharField(label='Phone')
-    payment = forms.TypedChoiceField(choices=lang(settings.PAYMENT), coerce=int, widget=forms.RadioSelect())
-    delivery = forms.TypedChoiceField(choices=lang(settings.DELIVERY), coerce=int, widget=forms.RadioSelect())
+    name = forms.CharField(label=_('Name'), max_length=64)
+    phone = forms.CharField(label=_('Phone'))
+    payment = forms.TypedChoiceField(label=_('Payment'), choices=lang(settings.PAYMENT), coerce=int, widget=forms.RadioSelect())
+    delivery = forms.TypedChoiceField(label=_('Delivery'), choices=lang(settings.DELIVERY), coerce=int, widget=forms.RadioSelect())
     comment = forms.CharField(label=_('City and Nova Poshta branch or your address'), max_length=512)
 
     def __init__(self, *args, **kwargs):
@@ -39,7 +39,7 @@ class CheckoutForm(forms.Form):
 
 
 class CommentForm(forms.Form):
-    comment = forms.CharField(label='Comment')
+    comment = forms.CharField(label=_('Comment'))
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import base64
 import json
 from jsonview.decorators import json_view
@@ -94,6 +95,7 @@ def cart_checkout(request):
             order = Orders()
             order.name = form.cleaned_data['name']
             order.phone = normalize_phone(form.cleaned_data['phone'])
+            order.lang_code = request.LANGUAGE_CODE
             order.payment_method = form.cleaned_data['payment']
             order.delivery_method = form.cleaned_data['delivery']
             order.user_comment = form.cleaned_data['comment']
@@ -113,13 +115,24 @@ def cart_checkout(request):
             cart.delete()
 
             if order.payment_method == 2:
-                text = r'Your order has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s. CatCult'
-                context = {'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
-                send_sms(order.phone, text, context)
+                if order.lang_code == 'en':
+                    text = 'Your order has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s. CatCult' % {'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                elif order.lang_code == 'ru':
+                    text = 'Ваш заказ был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s грн. CatCult' % {'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                else:
+                    text = ''
+
+                send_sms(order.phone, text)
+
             else:
-                text = r'Your order has been taken. Total price is %(sum)s. CatCult'
-                context = {'sum': order.get_total_price()}
-                send_sms(order.phone, text, context)
+                if order.lang_code == 'en':
+                    text = 'Your order has been taken. Total price is %(sum)s. CatCult' % {'sum': order.get_total_price()}
+                elif order.lang_code == 'ru':
+                    text = 'Ваш заказ был принят. Сумма к оплате %(sum)s. CatCult' % {'sum': order.get_total_price()}
+                else:
+                    text = ''
+
+                send_sms(order.phone, text)
 
             message = _('Your order has been placed. We will contact you shortly.<br/>Order details:<br/>')
             message += order.name + '<br/>' + str(order.phone) + '<br/>'
@@ -166,6 +179,10 @@ def liqpay_callback(request):
         raw = PaymentRaw()
         raw.data = request.POST.get('data', '')
         raw.sign = request.POST.get('signature', '')
+        try:
+            raw.data_decoded = base64.b64decode(request.POST.get('data', '')).decode()
+        except:
+            pass
         raw.save()
 
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
