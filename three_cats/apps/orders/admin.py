@@ -15,6 +15,10 @@ class OrderItemsAdmin(admin.ModelAdmin):
     list_display = ('order', 'balance',)
 
 
+class PaymentRawAdmin(admin.ModelAdmin):
+    list_display = ('added',)
+
+
 admin.site.register(Cart, CartAdmin)
 
 
@@ -27,4 +31,4 @@ admin.site.register(OrderItems, OrderItemsAdmin)
 admin.site.register(Payment)
 
 
-admin.site.register(PaymentRaw)
+admin.site.register(PaymentRaw, PaymentRawAdmin)

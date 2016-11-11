@@ -79,6 +79,7 @@ class Payment(models.Model):
 class PaymentRaw(models.Model):
     data = models.TextField(_('data'))
     sign = models.TextField(_('sign'))
+    data_decoded = models.TextField(_('data decoded'))
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
 
