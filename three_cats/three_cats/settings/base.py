@@ -162,8 +162,8 @@ ACTIVATION_DAYS = 3
 PASSWORD_RESET_DAYS = 2
 
 # Contact email
-CONTACT_EMAIL = 'order@thecommonsen.se'
-INFO_EMAIL = 'info@thecommonsen.se'
+CONTACT_EMAIL = 'danileyko@gmail.com'
+INFO_EMAIL = 'danileyko@gmail.com'
 
 # Email config
 EMAIL_USE_TLS = True
