@@ -4,12 +4,16 @@
 
 <div class="controls {{ field_class }}"{% if flat_attrs %} {{ flat_attrs|safe }}{% endif %}>
     {% include 'bootstrap3/layout/field_errors_block.html' %}
-    <!--{% if {% sizes_count field.field.choices %} == 1 %}111{% else %}222{% endif %}-->
+
     {% for choice in field.field.choices %}
       {% if not inline_class %}<div class="radio">{% endif %}
         <label class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">
+          {% if forloop.first == forloop.last %}
+            <input type="radio" checked="checked" name="{{ field.html_name }}" id="id_{{ field.html_name }}_{{ forloop.counter }}" value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }}>{{ choice.1|unlocalize }}
+          {% else %}
             <input type="radio"{% if choice.0|stringformat:"s" == field.value|stringformat:"s" %} checked="checked"{% endif %} name="{{ field.html_name }}" id="id_{{ field.html_name }}_{{ forloop.counter }}" value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }}>{{ choice.1|unlocalize }}
-            <span class="icon-info cc-tooltip" data-toggle="tooltip" data-original-title="{% get_size_desc choice.0 %}"></span>
+          {% endif %}
+          <span class="icon-info cc-tooltip" data-toggle="tooltip" data-original-title="{% get_size_desc choice.0 %}"></span>
         </label>
       {% if not inline_class %}</div>{% endif %}
     {% endfor %}
