@@ -42,7 +42,7 @@
                 {{ item.fashions.name }}
               </td>
               <td>
-                {{ item.name }}
+                {{ item.name }}</br>{{ item.description|safe }}
               </td>
               <td>
                 {% for balance in item.balance_set.all %}

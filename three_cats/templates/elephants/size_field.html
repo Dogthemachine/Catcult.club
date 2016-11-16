@@ -4,7 +4,7 @@
 
 <div class="controls {{ field_class }}"{% if flat_attrs %} {{ flat_attrs|safe }}{% endif %}>
     {% include 'bootstrap3/layout/field_errors_block.html' %}
-
+    <!--{% if {% sizes_count field.field.choices %} == 1 %}111{% else %}222{% endif %}-->
     {% for choice in field.field.choices %}
       {% if not inline_class %}<div class="radio">{% endif %}
         <label class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">

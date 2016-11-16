@@ -292,6 +292,11 @@ legend {
 
 /** new **/
 
+
+#error_1_id_size {
+    color: green;
+}
+
 .alert {
     border: 0;
 }
