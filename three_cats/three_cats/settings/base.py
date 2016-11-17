@@ -142,17 +142,18 @@ MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'ru'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 DELIVERY = (
-    (0, gettext('Nova Poshta')),
-    (1, gettext('Nova Poshta courier')),
-    (2, gettext('Odessa courier')),
-    (3, gettext('Another')),
+    (0, gettext('Warehouse-to-warehouse delivery at the nearest Nova Poshta branch (in Ukraine);')),
+    (1, gettext('Nova Poshta door-to-door delivery (in Ukraine);')),
+    (2, gettext('Courier delivery across Odessa;')),
+    (3, gettext('Worldwide Delivery.')),
 )
 
 PAYMENT = (
-    (0, gettext('In Nova Poshta branch')),
-    (1, gettext('Cash on delivery')),
-    (2, gettext('Private terminal')),
-    (3, gettext('Online payment')),
+    (3, gettext('Via LiqPay (onlive);')),
+    (2, gettext('By any other bank Visa or MasterCard;')),
+    (1, gettext('Settle in cash in the case of courier "door-to-door" delivery;')),
+    (0, gettext('Cash on delivery upon receipt of order at the Nova Poshta branch;')),
+    (5, gettext('Through any system of international money transfer (in the case of overseas delivery).')),
 )
 
 # Activation days for Users app.

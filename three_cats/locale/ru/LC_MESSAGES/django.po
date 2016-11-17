@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-11 10:40+0200\n"
+"POT-Creation-Date: 2016-11-17 14:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,11 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
+#: apps/elephants/forms.py:11 apps/elephants/forms.py:20
+#: apps/moderation/views.py:112 templates/orders/cart.html:11
+msgid "Size"
+msgstr "Размер"
+
 #: apps/elephants/forms.py:11
 msgid "* Please choose a size"
 msgstr "* Выберите размер пожалуйста"
@@ -27,12 +32,7 @@ msgstr "* Выберите размер пожалуйста"
 msgid "* Please choose another size"
 msgstr "* Выберите другой размер пожалуйста"
 
-#: apps/elephants/forms.py:20 apps/moderation/views.py:111
-#: templates/orders/cart.html:11
-msgid "Size"
-msgstr "Размер"
-
-#: apps/elephants/forms.py:21
+#: apps/elephants/forms.py:12 apps/elephants/forms.py:21
 msgid "Quantity"
 msgstr "Количество"
 
@@ -50,7 +50,7 @@ msgstr ""
 #: apps/elephants/models.py:14 apps/elephants/models.py:35
 #: apps/elephants/models.py:55 apps/elephants/models.py:70
 #: apps/info/models.py:10 apps/info/models.py:38 apps/orders/models.py:11
-#: apps/orders/models.py:87
+#: apps/orders/models.py:88
 msgid "name"
 msgstr "имя"
 
@@ -111,8 +111,8 @@ msgstr "просмотры за месяц"
 
 #: apps/elephants/models.py:81 apps/elephants/models.py:114
 #: apps/info/models.py:26 apps/info/models.py:44 apps/info/models.py:60
-#: apps/orders/models.py:23 apps/orders/models.py:59 apps/orders/models.py:76
-#: apps/orders/models.py:83 apps/orders/models.py:88
+#: apps/orders/models.py:24 apps/orders/models.py:60 apps/orders/models.py:77
+#: apps/orders/models.py:84 apps/orders/models.py:89
 msgid "added"
 msgstr "добавлено"
 
@@ -128,8 +128,8 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фото"
 
-#: apps/elephants/models.py:133 apps/orders/models.py:58
-#: apps/orders/models.py:72
+#: apps/elephants/models.py:133 apps/orders/models.py:59
+#: apps/orders/models.py:73
 msgid "amount"
 msgstr "сумма"
 
@@ -162,11 +162,11 @@ msgstr "Журналы баланса"
 msgid "%s was added to your cart."
 msgstr "%s был добавлен в вашу корзину."
 
-#: apps/info/forms.py:27 apps/orders/forms.py:26
+#: apps/info/forms.py:27
 msgid "Name"
 msgstr "Имя"
 
-#: apps/info/forms.py:28 apps/orders/forms.py:27
+#: apps/info/forms.py:28
 msgid "Phone"
 msgstr "Телефон"
 
@@ -276,19 +276,19 @@ msgid "The message was successfully sent."
 msgstr "Сообщение успешно отправлено."
 
 #: apps/moderation/forms.py:28 apps/moderation/forms.py:55
-#: apps/moderation/views.py:271 apps/orders/forms.py:42
+#: apps/moderation/views.py:277 apps/orders/forms.py:42
 msgid "Comment"
 msgstr "Комментарий"
 
-#: apps/moderation/forms.py:40 apps/moderation/views.py:314
-#: apps/orders/forms.py:29 templates/footer.html:26 templates/footer.html:27
+#: apps/moderation/forms.py:40 apps/moderation/views.py:320
+#: templates/footer.html:26 templates/footer.html:27
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:83
 #: templates/moderation/orders.html:122
 msgid "Delivery"
 msgstr "Доставка"
 
-#: apps/moderation/forms.py:41 apps/orders/models.py:21
+#: apps/moderation/forms.py:41 apps/orders/models.py:22
 #: templates/moderation/j_order_delivery.html:10
 #: templates/moderation/j_order_delivery_success.html:15
 #: templates/moderation/orders.html:79
@@ -313,165 +313,186 @@ msgstr "Сохранить"
 msgid "datetime"
 msgstr "дата и время"
 
-#: apps/moderation/views.py:39 apps/moderation/views.py:67
+#: apps/moderation/views.py:40 apps/moderation/views.py:68
 msgid "Error"
 msgstr "Ошибка"
 
-#: apps/moderation/views.py:46
+#: apps/moderation/views.py:47
 msgid "Error: no balance."
 msgstr "Ошибка: нет баланса"
 
-#: apps/moderation/views.py:63
+#: apps/moderation/views.py:64
 #, python-format
 msgid "Balance was saved. Old value: %s, new value: %s"
 msgstr "Баланс был сохранен. Старое значение: %s, новое значение: %s"
 
-#: apps/moderation/views.py:111 templates/moderation/balances.html:28
+#: apps/moderation/views.py:112 templates/moderation/balances.html:28
 #: templates/moderation/balances.html:65 templates/moderation/items.html:6
 #: templates/moderation/order.html:21 templates/moderation/order.html:45
 #: templates/moderation/order.html:86
 msgid "Category"
 msgstr "Категория"
 
-#: apps/moderation/views.py:111 templates/moderation/balances.html:29
+#: apps/moderation/views.py:112 templates/moderation/balances.html:29
 #: templates/moderation/balances.html:66 templates/moderation/items.html:7
 #: templates/moderation/order.html:22 templates/moderation/order.html:46
 #: templates/moderation/order.html:87
 msgid "Fashion"
 msgstr "Фасон"
 
-#: apps/moderation/views.py:111 templates/moderation/balances.html:30
+#: apps/moderation/views.py:112 templates/moderation/balances.html:30
 #: templates/moderation/balances.html:67 templates/moderation/items.html:8
 #: templates/moderation/order.html:23 templates/moderation/order.html:47
 #: templates/moderation/order.html:88
 msgid "Item"
 msgstr "Товар"
 
-#: apps/moderation/views.py:111 templates/moderation/balances.html:32
+#: apps/moderation/views.py:112 templates/moderation/balances.html:32
 #: templates/moderation/balances.html:69 templates/navbar_mod.html:20
 #: templates/navbar_mod.html:21
 msgid "Balance"
 msgstr "Баланс"
 
-#: apps/moderation/views.py:170
+#: apps/moderation/views.py:171
 #, python-format
 msgid "Order %s was deleted."
 msgstr "Заказ %s был удален."
 
-#: apps/moderation/views.py:235
+#: apps/moderation/views.py:241
 msgid "Order info"
 msgstr "Информация по заказу"
 
-#: apps/moderation/views.py:370 apps/orders/forms.py:28
-#: templates/footer.html:30
+#: apps/moderation/views.py:381 templates/footer.html:30
 #: templates/moderation/j_order_payment_success.html:22
 #: templates/moderation/orders.html:35 templates/moderation/orders.html:110
 #: templates/moderation/orders.html:123
 msgid "Payment"
 msgstr "Платеж"
 
-#: apps/moderation/views.py:452 apps/moderation/views.py:473
-#: apps/moderation/views.py:482
+#: apps/moderation/views.py:463 apps/moderation/views.py:484
+#: apps/moderation/views.py:493
 msgid "Something went wrong."
 msgstr "Что-то пошло не так."
 
+#: apps/orders/forms.py:26
+msgid "Your name:"
+msgstr "Ваше имя:"
+
+#: apps/orders/forms.py:27
+msgid "Phone number:"
+msgstr "Номер телефона:"
+
+#: apps/orders/forms.py:28
+#| msgid "payment_method"
+msgid "Payment Method"
+msgstr "Способ оплаты:"
+
+#: apps/orders/forms.py:29
+#| msgid "delivery_method"
+msgid "Delivery Method"
+msgstr "Способ доставки:"
+
 #: apps/orders/forms.py:30
-msgid "City and Nova Poshta branch or your address"
-msgstr "Город и отделение Новой почты или Ваш адрес"
+msgid "Your address:"
+msgstr "Город и отделение Новой Почты или ваш адрес."
 
 #: apps/orders/models.py:12
 msgid "phone"
 msgstr "телефон"
 
-#: apps/orders/models.py:13 apps/orders/models.py:73
+#: apps/orders/models.py:13 apps/orders/models.py:74
 msgid "comment"
 msgstr "комментарий"
 
 #: apps/orders/models.py:14
+msgid "lang code"
+msgstr ""
+
+#: apps/orders/models.py:15
 msgid "delivered"
 msgstr "доставлено"
 
-#: apps/orders/models.py:15
+#: apps/orders/models.py:16
 msgid "paid"
 msgstr "оплачено"
 
-#: apps/orders/models.py:16
+#: apps/orders/models.py:17
 msgid "date_of_delivery"
 msgstr "дата доставки"
 
-#: apps/orders/models.py:17
+#: apps/orders/models.py:18
 msgid "delivery_method"
 msgstr "тип доставки"
 
-#: apps/orders/models.py:18
+#: apps/orders/models.py:19
 msgid "payment_method"
 msgstr "тип платежа"
 
-#: apps/orders/models.py:19
+#: apps/orders/models.py:20
 msgid "LiqPay wait accept"
 msgstr ""
 
-#: apps/orders/models.py:20
+#: apps/orders/models.py:21
 msgid "user comment"
 msgstr "комментарий пользователя"
 
-#: apps/orders/models.py:22
+#: apps/orders/models.py:23
 msgid "SMS sent"
 msgstr "СМС отправлено"
 
-#: apps/orders/models.py:27 apps/orders/models.py:28
+#: apps/orders/models.py:28 apps/orders/models.py:29
 #: templates/moderation/orders.html:6 templates/navbar_mod.html:17
 #: templates/navbar_mod.html:18
 msgid "Orders"
 msgstr "Заказы"
 
-#: apps/orders/models.py:63
+#: apps/orders/models.py:64
 msgid "Order item"
 msgstr "Товар заказа"
 
-#: apps/orders/models.py:64
+#: apps/orders/models.py:65
 msgid "Order items"
 msgstr "Товары заказов"
 
-#: apps/orders/models.py:74
+#: apps/orders/models.py:75
 msgid "liqpay token"
 msgstr "токен LiqPay"
 
-#: apps/orders/models.py:75
+#: apps/orders/models.py:76
 msgid "liqpay sender phone"
 msgstr "номер телефона в LiqPay"
 
-#: apps/orders/models.py:80
+#: apps/orders/models.py:81
 msgid "data"
 msgstr "данные"
 
-#: apps/orders/models.py:81
+#: apps/orders/models.py:82
 msgid "sign"
 msgstr "подпись"
 
-#: apps/orders/models.py:82
+#: apps/orders/models.py:83
 msgid "data decoded"
 msgstr "декодированные данные"
 
-#: apps/orders/models.py:92 templates/base.html:78
+#: apps/orders/models.py:93 templates/base.html:78
 msgid "Cart"
 msgstr "Корзина"
 
-#: apps/orders/models.py:93
+#: apps/orders/models.py:94
 msgid "Carts"
 msgstr "Корзины"
 
-#: apps/orders/views.py:124
+#: apps/orders/views.py:137
 msgid ""
 "Your order has been placed. We will contact you shortly.<br/>Order details:"
 "<br/>"
 msgstr "Ваш заказ принят. Мы скоро свяжемся с вами.<br/>Детали заказа:<br/>"
 
-#: apps/orders/views.py:130
+#: apps/orders/views.py:143
 msgid "Total:"
 msgstr "Всего:"
 
-#: apps/orders/views.py:130 templates/moderation/items.html:2
+#: apps/orders/views.py:143 templates/moderation/items.html:2
 #: templates/moderation/j_order_info.html:5
 #: templates/moderation/j_order_payment.html:8
 #: templates/moderation/j_order_payment_success.html:10
@@ -481,7 +502,7 @@ msgstr "Всего:"
 msgid "UAH"
 msgstr "грн"
 
-#: apps/orders/views.py:158
+#: apps/orders/views.py:171
 msgid "Place the order"
 msgstr "Разместить заказ"
 
@@ -639,15 +660,15 @@ msgstr "Изменить комментарий"
 msgid "Add comment"
 msgstr "Добавить комментарий"
 
-#: templates/navbar.html:20 templates/navbar.html:21
+#: templates/navbar.html:24 templates/navbar.html:25
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: templates/navbar.html:35 templates/navbar.html:36
+#: templates/navbar.html:41 templates/navbar.html:42
 msgid "Mod"
 msgstr "Модерация"
 
-#: templates/navbar.html:43
+#: templates/navbar.html:49
 msgid "Empty"
 msgstr "Пусто"
 
@@ -680,36 +701,71 @@ msgid "English"
 msgstr "Английский"
 
 #: three_cats/settings/base.py:145
-msgid "Nova Poshta"
-msgstr "Новая Почта"
+msgid ""
+"Warehouse-to-warehouse delivery at the nearest Nova Poshta branch (in Ukraine);"
+msgstr "Доставка до ближайшего отделения Новой Почты (по Украине);"
 
 #: three_cats/settings/base.py:146
-msgid "Nova Poshta courier"
-msgstr "Курьер Новой Почты"
+msgid "Nova Poshta door-to-door delivery (in Ukraine);"
+msgstr "Адресная доставка Новой Почтой «до двери» (по Украине);"
 
 #: three_cats/settings/base.py:147
-msgid "Odessa courier"
-msgstr "Курьер по Одессе"
+#| msgid "Delivery to Odessa"
+msgid "Courier delivery across Odessa;"
+msgstr "Курьерская доставка по Одессе;"
 
 #: three_cats/settings/base.py:148
-msgid "Another"
-msgstr "Любой другой вариант"
+#| msgid "* Delivery"
+msgid "Worldwide Delivery."
+msgstr "Доставка в любую точку мира любым перевозчиком на Ваш выбор, или согласно нашей рекомендации."
 
 #: three_cats/settings/base.py:152
-msgid "In Nova Poshta branch"
-msgstr "В отделении Новой Почты"
+msgid "Via LiqPay (onlive);"
+msgstr "Онлайн (LiqPay);"
 
 #: three_cats/settings/base.py:153
-msgid "Cash on delivery"
-msgstr "При получении"
+msgid "By any other bank Visa or MasterCard;"
+msgstr "На карту Приват Банка;"
 
 #: three_cats/settings/base.py:154
-msgid "Private terminal"
-msgstr "Терминал Приват Банка"
+msgid "Settle in cash in the case of courier \"door-to-door\" delivery;"
+msgstr "Наличными в случае курьерской доставки «до двери»;"
 
 #: three_cats/settings/base.py:155
-msgid "Online payment"
-msgstr "Оплата онлайн"
+msgid "Cash on delivery upon receipt of order at the Nova Poshta branch;"
+msgstr "Наложенным платежом при получении заказа на Новой Почте;"
+
+#: three_cats/settings/base.py:156
+msgid ""
+"Through any system of international money transfer (in the case of overseas delivery)."
+msgstr "Любой системой международных денежных переводов. (в случае доставки за границу)."
+
+#~ msgid "City and Nova Poshta branch or your address"
+#~ msgstr "Город и отделение Новой почты или Ваш адрес"
+
+#~ msgid "Nova Poshta"
+#~ msgstr "Новая Почта"
+
+#~ msgid "Nova Poshta courier"
+#~ msgstr "Курьер Новой Почты"
+
+#~ msgid "Odessa courier"
+#~ msgstr "Курьер по Одессе"
+
+#~ msgid "Another"
+#~ msgstr "Любой другой вариант"
+
+#~ msgid "In Nova Poshta branch"
+#~ msgstr "В отделении Новой Почты"
+
+#~ msgid "Cash on delivery"
+#~ msgstr "При получении"
+
+#~ msgid "Private terminal"
+#~ msgstr "Терминал Приват Банка"
+
+#~ msgid "Online payment"
+#~ msgstr "Оплата онлайн"
 
 #~ msgid "Items arrival"
 #~ msgstr "Приход товара"
@@ -743,12 +799,6 @@ msgstr "Оплата онлайн"
 
 #~ msgid "Items"
 #~ msgstr "Товары"
-
-#~ msgid "* Delivery"
-#~ msgstr "* Доставка"
-
-#~ msgid "Delivery to Odessa"
-#~ msgstr "Доставка по Одессе"
 
 #~ msgid "Another embodiment"
 #~ msgstr "Другая доставка"
