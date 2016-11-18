@@ -12,9 +12,15 @@
           </div>
           <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan.png">
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <a href="{% url 'showcase' %}">
-              <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.png" data-hover-src="{{ STATIC_URL }}img/showcase_hover.png">
-            </a>
+            {% if LANGUAGE_CODE == "en" %}
+              <a href="{% url 'showcase' %}">
+                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_en.png" data-hover-src="{{ STATIC_URL }}img/showcase_en_hover.png">
+              </a>
+            {% else %}
+              <a href="{% url 'showcase' %}">
+                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.png" data-hover-src="{{ STATIC_URL }}img/showcase_hover.png">
+              </a>
+            {% endif %}
           </div>
         </div>
       </div>

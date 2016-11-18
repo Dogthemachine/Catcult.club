@@ -5,7 +5,7 @@ from django.contrib import admin
 from apps.info.models import Info, Carousel, Infophoto, Stores
 
 
-class InfoAdmin(admin.ModelAdmin):
+class InfoAdmin(TranslationAdmin):
     fieldsets = [
         (u'Info', {'fields': ('topic', 'title', 'image', 'video', 'info')})
     ]
@@ -17,7 +17,7 @@ class InfoAdmin(admin.ModelAdmin):
         ]
 
 
-class StoresAdmin(admin.ModelAdmin):
+class StoresAdmin(TranslationAdmin):
     fieldsets = [
         (u'Stores', {'fields': ('name', 'image', 'description', 'web_address', 'order_is_available',)})
     ]
