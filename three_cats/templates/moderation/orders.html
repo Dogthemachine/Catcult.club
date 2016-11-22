@@ -93,7 +93,7 @@
                     <span class="icon-cross cc-icon-red"></span>
                   {% endif %}
 
-		  {% if order.paid %}
+		          {% if order.paid %}
                     <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
                       {% trans order.get_payment_method_display %} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
                     </a>
