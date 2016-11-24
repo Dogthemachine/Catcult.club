@@ -110,6 +110,7 @@ def cart_checkout(request):
                 orderitem.order = order
                 orderitem.balance = balance
                 orderitem.amount = item.amount
+                orderitem.price = item.item.get_actual_price()
                 orderitem.save()
 
             cart.delete()

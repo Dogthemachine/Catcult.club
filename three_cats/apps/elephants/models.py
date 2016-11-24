@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models import Sum
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -106,6 +107,31 @@ class Items(models.Model):
     def sorting(self):
         return Balance.objects.filter(item=self).aggregate(Sum('amount')) * self.views_per_month
 
+    def get_actual_price(self):
+        price = self.price
+
+        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+
+        if not global_stock:
+            stock = Stocks.objects.filter(categories=self.fashions.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        else:
+            stock = global_stock
+
+        if stock:
+            price = price - price * stock[0].discount // 100
+
+        return price
+
+    def get_discount_name(self):
+        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+
+        if not global_stock:
+            stock = Stocks.objects.filter(categories=self.fashions.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        else:
+            stock = global_stock
+
+        return stock[0].name
+
 
 class Photo(models.Model):
     item = models.ForeignKey(Items)
@@ -139,6 +165,24 @@ class Balance(models.Model):
 
     def __str__(self):
         return u'%s - %s - %s' % (self.item.name, self.size.name, self.amount)
+
+
+class Stocks(models.Model):
+    name = models.CharField(_('name'), max_length=250)
+    categories = models.ForeignKey(Categories, blank=True, null=True)
+    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d', blank=True)
+    description = models.TextField(_('description'), blank=True, default='')
+    discount = models.PositiveSmallIntegerField(_('discount'), default=0)
+    action_begin = models.DateField(_('action_begin'))
+    action_end = models.DateField(_('action_end'))
+
+    class Meta:
+        ordering = ('action_begin',)
+        verbose_name = _('stocks')
+        verbose_name_plural = _('stocks')
+
+    def __str__(self):
+        return u'%s' % self.name
 
 
 class BalanceLog(models.Model):

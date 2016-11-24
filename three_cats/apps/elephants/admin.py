@@ -2,7 +2,7 @@ from modeltranslation.admin import TranslationAdmin
 
 from django.contrib import admin
 
-from apps.elephants.models import Items, Photo, Categories, Fashions, Sizes, Balance
+from apps.elephants.models import Items, Photo, Categories, Fashions, Sizes, Balance, Stocks
 
 
 class PhotoInline(admin.TabularInline):
@@ -45,6 +45,10 @@ class BalanceAdmin(admin.ModelAdmin):
     list_display = ('item', 'size', 'amount',)
 
 
+class StocksAdmin(TranslationAdmin):
+    list_display = ('action_begin', 'action_end', 'name', 'categories', 'discount',)
+
+
 admin.site.register(Items, ItemsAdmin)
 
 
@@ -58,3 +62,6 @@ admin.site.register(Sizes, SizesAdmin)
 
 
 admin.site.register(Balance, BalanceAdmin)
+
+
+admin.site.register(Stocks, StocksAdmin)

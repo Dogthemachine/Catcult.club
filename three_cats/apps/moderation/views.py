@@ -464,8 +464,6 @@ def delete_order_item(request, id, item_id):
     else:
         item.delete()
 
-        items = OrderItems.objects.filter(order=order)
-
         t = loader.get_template('moderation/items.html')
         c = RequestContext(request, {'order': order})
         html = t.render(c)
@@ -486,6 +484,7 @@ def add_order_item(request, id, balance_id):
         order_item = OrderItems()
         order_item.order = order
         order_item.balance = balance
+        order_item.price = balance.item.get_actual_price()
         try:
             order_item.amount = int(request.POST.get('amount', None))
         except:

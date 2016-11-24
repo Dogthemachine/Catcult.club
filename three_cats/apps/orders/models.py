@@ -36,7 +36,7 @@ class Orders(models.Model):
         sum = 0
 
         for i in items:
-            sum += i.balance.item.price * i.amount
+            sum += i.price * i.amount
 
         return sum
 
@@ -57,6 +57,7 @@ class OrderItems(models.Model):
     order = models.ForeignKey(Orders)
     balance = models.ForeignKey(Balance)
     amount = models.PositiveIntegerField(_('amount'))
+    price = models.PositiveIntegerField(_('price'), default=0)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -100,7 +101,7 @@ class Cart(models.Model):
         items = CartItem.objects.filter(cart=self)
         total = 0
         for item in items:
-            total += item.item.price * item.amount
+            total += item.item.get_actual_price() * item.amount
         return total
 
 

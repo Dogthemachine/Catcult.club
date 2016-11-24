@@ -33,12 +33,14 @@ def get_categories():
 
 
 @register.simple_tag
-def sizes_count(sizes):
-    try:
-        n = 0
-        for size in sizes:
-            n = n + 1
-    except:
-        return n
+def get_price(entry):
+    price = entry.price
+    discount_price = entry.get_actual_price()
+    if price == discount_price:
+        html = '%s' % entry.get_actual_price()
+    else:
+        name = entry.get_discount_name()
+        html = '<span class="icon-info cc-tooltip" data-toggle="tooltip" data-original-title="%s"></span>' % name
+        html += ' <del>%s</del> %s' % (price, discount_price)
 
-    return n
+    return mark_safe(html)

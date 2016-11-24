@@ -1,6 +1,6 @@
 from modeltranslation.translator import translator, TranslationOptions
 
-from apps.elephants.models import Items, Categories, Fashions, Sizes
+from apps.elephants.models import Items, Categories, Fashions, Sizes, Stocks
 
 
 class ItemsTranslationOptions(TranslationOptions):
@@ -19,6 +19,10 @@ class SizesTranslationOptions(TranslationOptions):
     fields = ('name', 'description',)
 
 
+class StocksTranslationOptions(TranslationOptions):
+    fields = ('name', 'description',)
+
+
 translator.register(Items, ItemsTranslationOptions)
 
 
@@ -29,3 +33,6 @@ translator.register(Categories, CategoriesTranslationOptions)
 
 
 translator.register(Sizes, SizesTranslationOptions)
+
+
+translator.register(Stocks, StocksTranslationOptions)

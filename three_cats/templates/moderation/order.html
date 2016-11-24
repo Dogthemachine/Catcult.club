@@ -30,7 +30,7 @@
               <tr>
                 <td>{{ item.balance.item.fashions.categories.name }}</td>
                 <td>{{ item.balance.item.fashions.name }}</td>
-                <td>{{ item.balance.item.name }} - {{ item.balance.item.description|safe }}</td>
+                <td>{{ item.balance.item.name }} - {{ item.balance.item.description }}</td>
                 <td>{{ item.balance.size }} - {{ item.amount }}</td>
                 <td><a class="cc-order-item-delete" href="#" data-id="{{ item.id }}">{% trans 'Delete' %}</a></td>
               </tr>
@@ -59,7 +59,7 @@
                 {{ item.fashions.name }}
               </td>
               <td>
-                {{ item.name }} - {{ item.description|safe }}
+                {{ item.name }} - {{ item.description }}
               </td>
               <td>
                 {% for balance in item.balance_set.all %}
