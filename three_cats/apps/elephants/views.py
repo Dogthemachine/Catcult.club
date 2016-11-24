@@ -97,12 +97,17 @@ def item_details(request, id):
             cart.session = request.session.session_key
             cart.save()
 
-            cart_item = CartItem(
-                cart = cart,
-                item = item,
-                size = form.cleaned_data['size'],
-                amount = form.cleaned_data['quantity']
-            )
+            cart_item = CartItem.objects.filter(cart=cart, item=item, size=form.cleaned_data['size'])
+            if cart_item:
+                cart_item = cart_item[0]
+                cart_item.amount += form.cleaned_data['quantity']
+            else:
+                cart_item = CartItem(
+                    cart = cart,
+                    item = item,
+                    size = form.cleaned_data['size'],
+                    amount = form.cleaned_data['quantity']
+                )
             cart_item.save()
 
             messages.add_message(
