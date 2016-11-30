@@ -116,7 +116,7 @@ def item_details(request, id):
                 _('%s was added to your cart.') % item.name
             )
 
-            request.cart_amount += 1
+            request.cart_amount += cart_item.amount
 
             return redirect('item_details', id=item.id)
     else:
