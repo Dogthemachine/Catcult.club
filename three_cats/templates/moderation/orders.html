@@ -44,7 +44,7 @@
               <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 
                 <a class="cc-order-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
-                  <b>{{ order.name }}</b>
+                  <b>{% trans 'Number ' %} {{ order.get_number }} -- {{ order.name }}</b>
                 </a>
 
                 <br/>

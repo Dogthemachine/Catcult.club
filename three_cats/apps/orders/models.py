@@ -52,6 +52,9 @@ class Orders(models.Model):
     def get_remaining_amount(self):
         return self.get_total_price() - self.get_total_paid()
 
+    def get_number(self):
+        return self.id
+
 
 class OrderItems(models.Model):
     order = models.ForeignKey(Orders)
