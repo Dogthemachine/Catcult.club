@@ -117,9 +117,9 @@ def cart_checkout(request):
 
             if order.payment_method == 2:
                 if order.lang_code == 'en':
-                    text = 'Your order %(number)s has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s. CatCult' % {'number': order.get_number, 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                    text = 'Your order #%(number)s has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
                 elif order.lang_code == 'ru':
-                    text = 'Ваш заказ %(number)s был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s грн. CatCult' % {'number': order.get_number, 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                    text = 'Ваш заказ №%(number)s был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s грн. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
                 else:
                     text = ''
 
@@ -127,9 +127,9 @@ def cart_checkout(request):
 
             else:
                 if order.lang_code == 'en':
-                    text = 'Your order %(number)s has been taken. Total price is %(sum)s. CatCult' % {'number': order.get_number, 'sum': order.get_total_price()}
+                    text = 'Your order #%(number)s has been taken. Total price is %(sum)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price()}
                 elif order.lang_code == 'ru':
-                    text = 'Ваш заказ %(number)s был принят. Сумма к оплате %(sum)s. CatCult' % {'number': order.get_number, 'sum': order.get_total_price()}
+                    text = 'Ваш заказ №%(number)s был принят. Сумма к оплате %(sum)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price()}
                 else:
                     text = ''
 

@@ -37,6 +37,17 @@ class CheckoutForm(forms.Form):
 
         super(CheckoutForm, self).__init__(*args, **kwargs)
 
+    def clean(self):
+
+        payment = self.cleaned_data.get('payment')
+        delivery = self.cleaned_data.get('delivery')
+
+        if delivery==3 and payment<2:
+            msg = _(u'This payment method is not available when sending abroad.')
+            self._errors['payment'] = self.error_class([msg])
+
+        return self.cleaned_data
+
 
 class CommentForm(forms.Form):
     comment = forms.CharField(label=_('Comment'))

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-30 16:32+0200\n"
+"POT-Creation-Date: 2016-12-02 12:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 #: apps/elephants/models.py:15 apps/elephants/models.py:36
 #: apps/elephants/models.py:56 apps/elephants/models.py:71
 #: apps/elephants/models.py:171 apps/info/models.py:10 apps/info/models.py:38
-#: apps/orders/models.py:11 apps/orders/models.py:89
+#: apps/orders/models.py:11 apps/orders/models.py:92
 msgid "name"
 msgstr "имя"
 
@@ -85,7 +85,7 @@ msgstr "описание"
 msgid "Sizes of items"
 msgstr "Размеры товаров"
 
-#: apps/elephants/models.py:77 apps/orders/models.py:60
+#: apps/elephants/models.py:77 apps/orders/models.py:63
 msgid "price"
 msgstr "цена"
 
@@ -111,8 +111,8 @@ msgstr "просмотры за месяц"
 
 #: apps/elephants/models.py:82 apps/elephants/models.py:140
 #: apps/info/models.py:26 apps/info/models.py:44 apps/info/models.py:60
-#: apps/orders/models.py:24 apps/orders/models.py:61 apps/orders/models.py:78
-#: apps/orders/models.py:85 apps/orders/models.py:90
+#: apps/orders/models.py:24 apps/orders/models.py:64 apps/orders/models.py:81
+#: apps/orders/models.py:88 apps/orders/models.py:93
 msgid "added"
 msgstr "добавлено"
 
@@ -128,8 +128,8 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фото"
 
-#: apps/elephants/models.py:159 apps/orders/models.py:59
-#: apps/orders/models.py:74
+#: apps/elephants/models.py:159 apps/orders/models.py:62
+#: apps/orders/models.py:77
 msgid "amount"
 msgstr "сумма"
 
@@ -143,11 +143,11 @@ msgstr "скидка"
 
 #: apps/elephants/models.py:176
 msgid "action_begin"
-msgstr ""
+msgstr "Начало акции"
 
 #: apps/elephants/models.py:177
 msgid "action_end"
-msgstr ""
+msgstr "Конец акции"
 
 #: apps/elephants/models.py:181 apps/elephants/models.py:182
 msgid "stocks"
@@ -292,7 +292,7 @@ msgid "The message was successfully sent."
 msgstr "Сообщение успешно отправлено."
 
 #: apps/moderation/forms.py:28 apps/moderation/forms.py:55
-#: apps/moderation/views.py:277 apps/orders/forms.py:42
+#: apps/moderation/views.py:277 apps/orders/forms.py:53
 msgid "Comment"
 msgstr "Комментарий"
 
@@ -391,7 +391,6 @@ msgid "Something went wrong."
 msgstr "Что-то пошло не так."
 
 #: apps/orders/forms.py:26
-#| msgid "Your name:"
 msgid "Your full name:"
 msgstr "Ваше полное имя:"
 
@@ -411,11 +410,15 @@ msgstr "Способ доставки:"
 msgid "Your address:"
 msgstr "Город и отделение Новой Почты или ваш адрес."
 
+#: apps/orders/forms.py:46
+msgid "This payment method is not available when sending abroad."
+msgstr "Этот способ оплаты не доступен при отправке за границу."
+
 #: apps/orders/models.py:12
 msgid "phone"
 msgstr "телефон"
 
-#: apps/orders/models.py:13 apps/orders/models.py:75
+#: apps/orders/models.py:13 apps/orders/models.py:78
 msgid "comment"
 msgstr "комментарий"
 
@@ -461,39 +464,39 @@ msgstr "СМС отправлено"
 msgid "Orders"
 msgstr "Заказы"
 
-#: apps/orders/models.py:65
+#: apps/orders/models.py:68
 msgid "Order item"
 msgstr "Товар заказа"
 
-#: apps/orders/models.py:66
+#: apps/orders/models.py:69
 msgid "Order items"
 msgstr "Товары заказов"
 
-#: apps/orders/models.py:76
+#: apps/orders/models.py:79
 msgid "liqpay token"
 msgstr "токен LiqPay"
 
-#: apps/orders/models.py:77
+#: apps/orders/models.py:80
 msgid "liqpay sender phone"
 msgstr "номер телефона в LiqPay"
 
-#: apps/orders/models.py:82
+#: apps/orders/models.py:85
 msgid "data"
 msgstr "данные"
 
-#: apps/orders/models.py:83
+#: apps/orders/models.py:86
 msgid "sign"
 msgstr "подпись"
 
-#: apps/orders/models.py:84
+#: apps/orders/models.py:87
 msgid "data decoded"
 msgstr "декодированные данные"
 
-#: apps/orders/models.py:94 templates/base.html:78
+#: apps/orders/models.py:97 templates/base.html:78
 msgid "Cart"
 msgstr "Корзина"
 
-#: apps/orders/models.py:95
+#: apps/orders/models.py:98
 msgid "Carts"
 msgstr "Корзины"
 
@@ -666,6 +669,10 @@ msgstr "Заказ"
 #: templates/moderation/order.html:48 templates/moderation/order.html:89
 msgid "Sizes and balance"
 msgstr "Размеры и баланс"
+
+#: templates/moderation/orders.html:47
+msgid "Number "
+msgstr "№ "
 
 #: templates/moderation/orders.html:57
 msgid "Change comment"

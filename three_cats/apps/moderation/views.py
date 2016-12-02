@@ -198,9 +198,9 @@ def manage_order(request, id):
 
             if order.ttn > 0 and not order.sms_sent:
                 if order.lang_code == 'en':
-                    text = 'TTN: %(ttn)s. CatCult' % {'ttn': order.ttn}
+                    text = 'Your order #%(number)s has been sent. TTN: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 elif order.lang_code == 'ru':
-                    text = 'ТТН: %(ttn)s. CatCult' % {'ttn': order.ttn}
+                    text = 'Ваш заказ №%(number)s был отправлен. ТТН: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 else:
                     text = ''
 
@@ -340,9 +340,9 @@ def j_order_delivery(request, id, reset=False):
 
             if order.ttn > 0 and not order.sms_sent:
                 if order.lang_code == 'en':
-                    text = 'Your order %(number)s has been sent. TTN: %(ttn)s. CatCult' % {'number': order.get_number, 'ttn': order.ttn}
+                    text = 'Your order #%(number)s has been sent. TTN: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 elif order.lang_code == 'ru':
-                    text = 'Ваш заказ %(number)s был отправлен. ТТН: %(ttn)s. CatCult' % {'number': order.get_number, 'ttn': order.ttn}
+                    text = 'Ваш заказ №%(number)s был отправлен. ТТН: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 else:
                     text = ''
 
