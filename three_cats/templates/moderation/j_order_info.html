@@ -5,5 +5,5 @@
 {{ order.get_total_price }} {% trans 'UAH' %}<br />
 
 {% for item in order.orderitems_set.all %}
-    {{ item.balance.item.fashions.categories.name }} - <b>{{ item.balance.item.name }}</b> - {{ item.balance.item.description }} - {{ item.balance.size }} - {{ item.amount }}<br />
+    <hr>{{ item.balance.item.fashions.categories.name }} - {{ item.balance.item.fashions.name }} - <b>{{ item.balance.item.name }}</b> - {{ item.balance.item.description }} - {{ item.balance.size }} - <b>{{ item.amount }}</b><br />
 {% endfor %}
