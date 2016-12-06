@@ -42,7 +42,7 @@
                 <b>{{ order.added }}</b><br/>
               </td>
               <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-
+                <b>{{ order.get_total_price }} {% trans 'UAH' %}</b> <br/>
                 <a class="cc-order-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
                   <b>{% trans 'Number ' %} {{ order.get_number }} -- {{ order.name }}</b>
                 </a>
@@ -87,29 +87,33 @@
               </td>
               <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <div id="cc-order-payment-{{ order.id }}">
-                  {% if order.paid %}
-                    <span class="icon-checkmark cc-icon-green"></span>
-                  {% else %}
-                    <span class="icon-cross cc-icon-red"></span>
-                  {% endif %}
+                  <div {% if not order.paid and order.delivery_method == 1 %} class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-paymant-1"
+                       {% elif not order.paid and order.delivery_method == 3 %} class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-paymant-3"
+                       {% else %} class="col-xs-12 col-sm-12 col-md-12 col-lg-12" {% endif %}>
+                    {% if order.paid %}
+                      <span class="icon-checkmark cc-icon-green"></span>
+                    {% else %}
+                      <span class="icon-cross cc-icon-red"></span>
+                    {% endif %}
 
-		          {% if order.paid %}
-                    <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                    {% if order.paid %}
+                      <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                        {% trans order.get_payment_method_display %} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
+                      </a>
+                    {% else %}
                       {% trans order.get_payment_method_display %} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
-                    </a>
-                  {% else %}
-                    {% trans order.get_payment_method_display %} - {{ order.get_total_paid }} {% trans 'UAH' %}<br/>
-                  {% endif %}
+                    {% endif %}
 
-                  {% if order.liqpay_wait_accept %}
-                    {% trans 'Processing payment...' %}
-                  {% endif %}
+                    {% if order.liqpay_wait_accept %}
+                      {% trans 'Processing payment...' %}
+                    {% endif %}
 
-                  {% if not order.paid %}
-                    <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
-                      <span class="btn btn-primary">{% trans 'Payment' %}</span>
-                    </a>
-                  {% endif %}
+                    {% if not order.paid %}
+                      <a class="cc-payment-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
+                        <span class="btn btn-primary">{% trans 'Payment' %}</span>
+                      </a>
+                    {% endif %}
+                  </div>
                 </div>
               </td>
             </tr>

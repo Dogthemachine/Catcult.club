@@ -512,14 +512,6 @@ def order_delivery(request, id):
 
 
 @json_view
-def order_payment(request, id):
-
-    html = loader.get_template('moderation/order_payment.html')
-
-    return {'html': html}
-
-
-@json_view
 def order_info(request, id):
 
     html = loader.get_template('moderation/order_info.html')
