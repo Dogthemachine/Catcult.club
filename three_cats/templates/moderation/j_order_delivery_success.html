@@ -10,7 +10,7 @@
     <b>{{ order.date_of_delivery }}</b>
   </a>
 {% endif %}
-{{ order.get_delivery_method_display }}<br/>
+{% trans order.get_delivery_method_display %}<br/>
 {% if order.user_comment %}{{ order.user_comment }}<br/>{% endif %}
 {% if order.ttn %}{% trans 'TTN' %}: {{ order.ttn }}<br/>{% endif %}
 

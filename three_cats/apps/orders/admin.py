@@ -9,7 +9,7 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ('session_key',)
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone')
+    list_display = ('id', 'name', 'phone')
 
 class OrderItemsAdmin(admin.ModelAdmin):
     list_display = ('order', 'balance',)

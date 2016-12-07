@@ -455,6 +455,26 @@ def j_order_payment_delete(request, id):
 @json_view()
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+def j_order_packed(request, id):
+    try:
+        order = Orders.objects.get(id=id)
+    except:
+        return {'success': False}
+
+    if request.method == 'POST':
+        order.packed = True
+        order.save()
+
+        t = loader.get_template('moderation/j_order_delivery_success.html')
+        c = RequestContext(request, {'order': order})
+        html = t.render(c)
+
+        return {'success': True, 'html': html}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
 def delete_order_item(request, id, item_id):
     try:
         order = Orders.objects.get(id=id)

@@ -21,6 +21,7 @@ class Orders(models.Model):
     user_comment = models.CharField(_('user comment'), max_length=512, blank=True)
     ttn = models.IntegerField(_('TTN'), default=0)
     sms_sent = models.BooleanField(_('SMS sent'), default=False)
+    packed = models.BooleanField(_('Packed'), default=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:

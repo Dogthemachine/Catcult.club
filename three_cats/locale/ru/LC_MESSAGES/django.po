@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-02 12:53+0200\n"
+"POT-Creation-Date: 2016-12-07 11:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 #: apps/elephants/models.py:15 apps/elephants/models.py:36
 #: apps/elephants/models.py:56 apps/elephants/models.py:71
 #: apps/elephants/models.py:171 apps/info/models.py:10 apps/info/models.py:38
-#: apps/orders/models.py:11 apps/orders/models.py:92
+#: apps/orders/models.py:11 apps/orders/models.py:93
 msgid "name"
 msgstr "имя"
 
@@ -85,7 +85,7 @@ msgstr "описание"
 msgid "Sizes of items"
 msgstr "Размеры товаров"
 
-#: apps/elephants/models.py:77 apps/orders/models.py:63
+#: apps/elephants/models.py:77 apps/orders/models.py:64
 msgid "price"
 msgstr "цена"
 
@@ -111,8 +111,8 @@ msgstr "просмотры за месяц"
 
 #: apps/elephants/models.py:82 apps/elephants/models.py:140
 #: apps/info/models.py:26 apps/info/models.py:44 apps/info/models.py:60
-#: apps/orders/models.py:24 apps/orders/models.py:64 apps/orders/models.py:81
-#: apps/orders/models.py:88 apps/orders/models.py:93
+#: apps/orders/models.py:25 apps/orders/models.py:65 apps/orders/models.py:82
+#: apps/orders/models.py:89 apps/orders/models.py:94
 msgid "added"
 msgstr "добавлено"
 
@@ -128,8 +128,8 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фото"
 
-#: apps/elephants/models.py:159 apps/orders/models.py:62
-#: apps/orders/models.py:77
+#: apps/elephants/models.py:159 apps/orders/models.py:63
+#: apps/orders/models.py:78
 msgid "amount"
 msgstr "сумма"
 
@@ -300,7 +300,7 @@ msgstr "Комментарий"
 #: templates/footer.html:26 templates/footer.html:27
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:83
-#: templates/moderation/orders.html:122
+#: templates/moderation/orders.html:129
 msgid "Delivery"
 msgstr "Доставка"
 
@@ -379,14 +379,14 @@ msgid "Order info"
 msgstr "Информация по заказу"
 
 #: apps/moderation/views.py:381 templates/footer.html:30
-#: templates/moderation/j_order_payment_success.html:22
-#: templates/moderation/orders.html:35 templates/moderation/orders.html:110
-#: templates/moderation/orders.html:123
+#: templates/moderation/j_order_payment_success.html:24
+#: templates/moderation/orders.html:35 templates/moderation/orders.html:116
+#: templates/moderation/orders.html:130
 msgid "Payment"
 msgstr "Платеж"
 
-#: apps/moderation/views.py:463 apps/moderation/views.py:482
-#: apps/moderation/views.py:492
+#: apps/moderation/views.py:483 apps/moderation/views.py:502
+#: apps/moderation/views.py:512
 msgid "Something went wrong."
 msgstr "Что-то пошло не так."
 
@@ -418,7 +418,7 @@ msgstr "Этот способ оплаты не доступен при отпр
 msgid "phone"
 msgstr "телефон"
 
-#: apps/orders/models.py:13 apps/orders/models.py:78
+#: apps/orders/models.py:13 apps/orders/models.py:79
 msgid "comment"
 msgstr "комментарий"
 
@@ -458,45 +458,49 @@ msgstr "комментарий пользователя"
 msgid "SMS sent"
 msgstr "СМС отправлено"
 
-#: apps/orders/models.py:28 apps/orders/models.py:29
+#: apps/orders/models.py:24 templates/moderation/orders.html:88
+msgid "Packed"
+msgstr "Уаковано"
+
+#: apps/orders/models.py:29 apps/orders/models.py:30
 #: templates/moderation/orders.html:6 templates/navbar_mod.html:17
 #: templates/navbar_mod.html:18
 msgid "Orders"
 msgstr "Заказы"
 
-#: apps/orders/models.py:68
+#: apps/orders/models.py:69
 msgid "Order item"
 msgstr "Товар заказа"
 
-#: apps/orders/models.py:69
+#: apps/orders/models.py:70
 msgid "Order items"
 msgstr "Товары заказов"
 
-#: apps/orders/models.py:79
+#: apps/orders/models.py:80
 msgid "liqpay token"
 msgstr "токен LiqPay"
 
-#: apps/orders/models.py:80
+#: apps/orders/models.py:81
 msgid "liqpay sender phone"
 msgstr "номер телефона в LiqPay"
 
-#: apps/orders/models.py:85
+#: apps/orders/models.py:86
 msgid "data"
 msgstr "данные"
 
-#: apps/orders/models.py:86
+#: apps/orders/models.py:87
 msgid "sign"
 msgstr "подпись"
 
-#: apps/orders/models.py:87
+#: apps/orders/models.py:88
 msgid "data decoded"
 msgstr "декодированные данные"
 
-#: apps/orders/models.py:97 templates/base.html:78
+#: apps/orders/models.py:98 templates/base.html:78
 msgid "Cart"
 msgstr "Корзина"
 
-#: apps/orders/models.py:98
+#: apps/orders/models.py:99
 msgid "Carts"
 msgstr "Корзины"
 
@@ -513,10 +517,11 @@ msgstr "Всего:"
 #: apps/orders/views.py:144 templates/moderation/items.html:2
 #: templates/moderation/j_order_info.html:5
 #: templates/moderation/j_order_payment.html:8
-#: templates/moderation/j_order_payment_success.html:10
-#: templates/moderation/j_order_payment_success.html:13
-#: templates/moderation/order.html:17 templates/moderation/orders.html:98
-#: templates/moderation/orders.html:101 templates/orders/cart.html:25
+#: templates/moderation/j_order_payment_success.html:12
+#: templates/moderation/j_order_payment_success.html:15
+#: templates/moderation/order.html:17 templates/moderation/orders.html:45
+#: templates/moderation/orders.html:104 templates/moderation/orders.html:107
+#: templates/orders/cart.html:25
 msgid "UAH"
 msgstr "грн"
 
@@ -524,7 +529,7 @@ msgstr "грн"
 msgid "Place the order"
 msgstr "Разместить заказ"
 
-#: templates/base.html:84 templates/moderation/orders.html:141
+#: templates/base.html:84 templates/moderation/orders.html:148
 msgid "Close"
 msgstr "Закрыть"
 
@@ -614,8 +619,8 @@ msgstr "Редактировать"
 msgid "Add"
 msgstr "Добавить"
 
-#: templates/moderation/j_order_payment_success.html:17
-#: templates/moderation/orders.html:105
+#: templates/moderation/j_order_payment_success.html:19
+#: templates/moderation/orders.html:111
 msgid "Processing payment..."
 msgstr "Платеж в обработке..."
 
@@ -653,7 +658,7 @@ msgid "User"
 msgstr "Пользователь"
 
 #: templates/moderation/log.html:47 templates/moderation/orders.html:32
-#: templates/moderation/orders.html:120
+#: templates/moderation/orders.html:127
 msgid "Added"
 msgstr "Добавлен"
 
@@ -662,7 +667,7 @@ msgid "Corrected"
 msgstr "Отредактирован"
 
 #: templates/moderation/order.html:6 templates/moderation/orders.html:33
-#: templates/moderation/orders.html:121
+#: templates/moderation/orders.html:128
 msgid "Order"
 msgstr "Заказ"
 
@@ -738,7 +743,7 @@ msgstr "Курьерская доставка по Одессе;"
 
 #: three_cats/settings/base.py:148
 msgid "Worldwide Delivery."
-msgstr ""
+msgstr "Давка за рубеж"
 "Доставка в любую точку мира любым перевозчиком на Ваш выбор, или согласно "
 "нашей рекомендации."
 

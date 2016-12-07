@@ -1,7 +1,6 @@
 {% load i18n %}
-<div {% if not order.paid and order.delivery_method == 1 %} class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-paymant-1"
-     {% elif not order.paid and order.delivery_method == 3 %} class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-paymant-3"
-     {% else %} class="col-xs-12 col-sm-12 col-md-12 col-lg-12" {% endif %}>
+<div {% if not order.paid and order.payment_method == 0 %} class="cc-paymant-0"
+     {% elif not order.paid and order.payment_method == 2 %} class="cc-paymant-2" {% endif %}>
   {% if order.paid %}
     <span class="icon-checkmark cc-icon-green"></span>
   {% else %}

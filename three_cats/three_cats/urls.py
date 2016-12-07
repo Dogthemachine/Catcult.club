@@ -8,7 +8,8 @@ from apps.elephants.views import showcase, item_details
 from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import main_page
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
-    delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete
+    delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
+    j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed
 from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback
 
 admin.autodiscover()
@@ -40,6 +41,7 @@ urlpatterns = [
     url(r'^orders/(?P<id>\d+)/delete/$', j_order_delete, name='order_delete'),
     url(r'^orders/(?P<id>\d+)/comment/$', j_order_comment, name='order_comment'),
     url(r'^orders/(?P<id>\d+)/delivery/$', j_order_delivery, name='order_delivery'),
+    url(r'^orders/(?P<id>\d+)/packed/$', j_order_packed, name='order_packed'),
     url(r'^orders/(?P<id>\d+)/delivery/reset/$', j_order_delivery, {'reset': True}, name='order_delivery_reset'),
     url(r'^orders/(?P<id>\d+)/payment/$', j_order_payment, name='order_payment'),
     url(r'^orders/payment/(?P<id>\d+)/delete/$', j_order_payment_delete, name='order_payment_delete'),

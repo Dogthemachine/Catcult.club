@@ -318,6 +318,24 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '#cc-order-packed-save', function() {
+        var order_id = $(this).data('order-id')
+        $.ajax({
+            url: order_id + '/packed/',
+            type: 'post',
+            data: $('#cc-order-delivery-form').serialize(),
+            success: function(data) {
+                if (data.success) {
+                    $('#cc-order-delivery-' + order_id).html(data.html)
+                    $('#cc-order-modal').hide();
+                    $('.modal-backdrop').remove();
+                } else {
+                    $('#cc-order-modal .modal-body').html(data.html);
+                }
+            }
+        });
+    });
+
     $(document).on('click', '.cc-payment-link', function() {
         $.ajax({
             url: $(this).data('order-id') + '/payment/',
