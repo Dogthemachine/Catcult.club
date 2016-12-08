@@ -10,11 +10,21 @@
               <img class="cc-logo center-block" crop="centre" src="{{ STATIC_URL }}img/3kota.png">
             </div>
           </div>
-          <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan.png">
+          {% if LANGUAGE_CODE == "en" %}
+            <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan_en.png">
+          {% elif LANGUAGE_CODE == "uk" %}
+            <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan_uk.png">
+          {% else %}
+            <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan.png">
+          {% endif %}
           <div class="col-sm-12 col-md-12 col-lg-12">
             {% if LANGUAGE_CODE == "en" %}
               <a href="{% url 'showcase' %}">
                 <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_en.png" data-hover-src="{{ STATIC_URL }}img/showcase_en_hover.png">
+              </a>
+            {% elif LANGUAGE_CODE == "uk" %}
+              <a href="{% url 'showcase' %}">
+                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_uk.png" data-hover-src="{{ STATIC_URL }}img/showcase_uk_hover.png">
               </a>
             {% else %}
               <a href="{% url 'showcase' %}">

@@ -26,17 +26,49 @@
         </a></li>
       </ul>
       <ul class="nav navbar-nav">
+
+        <!------------------------- Language selector ------------------------
         {% if LANGUAGE_CODE == "en" %}
-          <li class="nav-item cc-nav-language">Eng</li>
           <li class="nav-item">
             <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-ru">Рус</a>
           </li>
-        {% else %}
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-uk">Укр</a>
+          </li>
+          <li class="nav-item cc-nav-language">Eng</li>
+        {% elif LANGUAGE_CODE == "uk" %}
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-ru">Рус</a>
+          </li>
+          <li class="nav-item cc-nav-language">Укр</li>
           <li class="nav-item">
             <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-en">Eng</a>
           </li>
+        {% else %}
           <li class="nav-item cc-nav-language">Рус</li>
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-uk">Укр</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-en">Eng</a>
+          </li>
         {% endif %}
+        ------------------------- Language selector ------------------------->
+
+        <!------------------------- Language selector ------------------------->
+        {% if LANGUAGE_CODE == "en" %}
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-ru">Рус</a>
+          </li>
+          <li class="nav-item cc-nav-language">Eng</li>
+        {% else %}
+          <li class="nav-item cc-nav-language">Рус</li>
+          <li class="nav-item">
+            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-en">Eng</a>
+          </li>
+        {% endif %}
+        <!------------------------- Language selector ------------------------->
+
         {% if request.user.is_authenticated %}
           <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}" title="{% trans 'Mod' %}">
             {% trans 'Mod' %}

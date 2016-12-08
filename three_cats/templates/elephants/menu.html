@@ -10,6 +10,14 @@
             <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ cat.image_en }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover_en }}">
           </a>
         {% endif %}
+      {% elif LANGUAGE_CODE == "uk" %}
+        {% if cat.id == category.id %}
+          <img class="img-responsive" src="{{ MEDIA_URL }}{{ cat.image_hover_uk }}">
+        {% else %}
+          <a href="{% url 'showcase_cat' cat.id %}">
+            <img class="cc-cat-image img-responsive" src="{{ MEDIA_URL }}{{ cat.image_uk }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover_uk }}">
+          </a>
+        {% endif %}
       {% else %}
         {% if cat.id == category.id %}
           <img class="img-responsive" src="{{ MEDIA_URL }}{{ cat.image_hover }}">

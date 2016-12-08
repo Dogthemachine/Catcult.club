@@ -125,10 +125,6 @@ $(document).ready(function() {
 
     });
 
-    //Tooltips
-    $('.cc-tooltip').tooltip();
-
-    // Перевод
     $('#cs-locate-en').on('click', function(e) {
         e.preventDefault();
           $.ajax({
@@ -143,6 +139,25 @@ $(document).ready(function() {
           });
 
     });
+
+    $('#cs-locate-uk').on('click', function(e) {
+        e.preventDefault();
+          $.ajax({
+              url: '/i18n/setlang/',
+              data: 'language=uk',
+              type: 'post',
+              success: function() {
+                  location.reload();
+              },
+              error: function() {
+              }
+          });
+
+    });
+
+
+    //Tooltips
+    $('.cc-tooltip').tooltip();
 
     // Orders
     $('#cs-order-select-btn').on('click', function(e) {

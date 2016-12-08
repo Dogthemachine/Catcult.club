@@ -201,6 +201,8 @@ def manage_order(request, id):
                     text = 'Your order #%(number)s has been sent. TTN: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 elif order.lang_code == 'ru':
                     text = 'Ваш заказ №%(number)s был отправлен. ТТН: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
+                elif order.lang_code == 'uk':
+                    text = 'Ваше замовлення №%(number)s було відправлено. ТТН: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 else:
                     text = ''
 
@@ -343,6 +345,8 @@ def j_order_delivery(request, id, reset=False):
                     text = 'Your order #%(number)s has been sent. TTN: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 elif order.lang_code == 'ru':
                     text = 'Ваш заказ №%(number)s был отправлен. ТТН: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
+                elif order.lang_code == 'uk':
+                    text = 'Ваше замовлення №%(number)s було відправлено. ТТН: %(ttn)s. CatCult' % {'number': order.get_number(), 'ttn': order.ttn}
                 else:
                     text = ''
 

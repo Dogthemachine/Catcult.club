@@ -132,6 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGES = (
     ('ru', gettext('Russian')),
+    ('uk', gettext('Ukrainian')),
     ('en', gettext('English')),
 )
 
