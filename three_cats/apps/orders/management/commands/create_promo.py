@@ -14,7 +14,8 @@ class Command(BaseCommand):
 
         while n > 0:
 
-            code = ''.join(choice(ascii_lowercase+ascii_uppercase+'0123456789') for i in range(5))
+            #code = ''.join(choice(ascii_lowercase+ascii_uppercase+'0123456789') for i in range(5))
+            code = ''.join(choice('0123456789') for i in range(5))
             promo = Promo.objects.filter(code=code, used=False)
 
             if not promo:
