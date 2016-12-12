@@ -25,6 +25,10 @@ legend {
      width: 125px;
 }
 
+.cc-lang-flag {
+     width: 30px;
+}
+
 @media (min-width: 1551px) {
 .cc-logo-button {
     margin-top: 100px;
@@ -407,6 +411,7 @@ body {
 .cc-main-menu-color:hover,
 .cc-main-menu-color:focus {
     color: rgba(255, 255, 255, 0.75) !important;
+    background-contacts: rgba(100, 100, 100);
 }
 
 .cc-product-photo {
@@ -483,6 +488,11 @@ body {
     margin-top: 15px;
 }
 
+
+.cc-nav-lang {
+    margin-top: 10px;
+}
+
 .cc-p {
     border: 1px solid black;
     padding: 25px 50px;
@@ -553,4 +563,9 @@ body {
 
 .cc-lang {
     text-decoration: underline;
+}
+
+.cc-lang-color {
+    background: #69c;
+    color: #ffe
 }

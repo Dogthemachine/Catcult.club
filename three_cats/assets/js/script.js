@@ -155,6 +155,23 @@ $(document).ready(function() {
 
     });
 
+    $('#cc-language').on('change', function(e) {
+        var lang = $("#cc-language").val();
+        e.preventDefault();
+          $.ajax({
+              url: '/i18n/setlang/',
+              data: 'language=' + lang,
+              type: 'post',
+              success: function() {
+                  location.reload();
+              },
+              error: function() {
+              }
+          });
+
+    });
+
+
 
     //Tooltips
     $('.cc-tooltip').tooltip();

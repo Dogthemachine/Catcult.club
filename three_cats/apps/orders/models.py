@@ -9,7 +9,7 @@ from apps.elephants.models import Balance, Items, Sizes
 
 class Orders(models.Model):
     name = models.CharField(_('name'), max_length=70)
-    phone = models.CharField(_('phone'), max_length=32)
+    phone = models.CharField(_('phone'), max_length=32, db_index=True)
     comment = models.TextField(_('comment'), default='', blank=True)
     lang_code = models.CharField(_('lang code'), default='ru', blank=True, max_length=2)
     delivered = models.BooleanField(_('delivered'), default=False)
@@ -20,6 +20,8 @@ class Orders(models.Model):
     liqpay_wait_accept = models.BooleanField(_('LiqPay wait accept'), default=False)
     user_comment = models.CharField(_('user comment'), max_length=512, blank=True)
     ttn = models.IntegerField(_('TTN'), default=0)
+    discount_promo = models.PositiveIntegerField(_('discount from promo'), default=0)
+    discount_stocks = models.PositiveIntegerField(_('discount from stocks'), default=0)
     sms_sent = models.BooleanField(_('SMS sent'), default=False)
     packed = models.BooleanField(_('Packed'), default=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
@@ -73,6 +75,20 @@ class OrderItems(models.Model):
         return u'%s' % self.order
 
 
+class Phones(models.Model):
+    phone = models.CharField(_('phone'), max_length=32, unique=True)
+    news = models.BooleanField(_('news'), default=False)
+    lang_code = models.CharField(_('lang code'), default='ru', blank=True, max_length=2)
+
+    class Meta:
+        ordering = ('phone',)
+        verbose_name = _('Phone')
+        verbose_name_plural = _('Phone')
+
+    def __str__(self):
+        return self.phone
+
+
 class Payment(models.Model):
     order = models.ForeignKey(Orders)
     amount = models.PositiveIntegerField(_('amount'))
@@ -92,6 +108,7 @@ class PaymentRaw(models.Model):
 class Cart(models.Model):
     session_key = models.CharField(_('name'), max_length=32)
     added = models.DateTimeField(_('added'), auto_now_add=True)
+    comment = models.CharField(_('comment'), max_length=512, blank=True)
 
     class Meta:
         ordering = ('added',)
@@ -122,6 +139,20 @@ class CartItem(models.Model):
             return False
         else:
             return True
+
+
+class Promo(models.Model):
+    code = models.CharField(_('Code'), max_length=250)
+    discount = models.PositiveSmallIntegerField(_('Discount'), default=0)
+    used = models.BooleanField(_('Used'), default=False)
+
+    class Meta:
+        ordering = ('code',)
+        verbose_name = _('code')
+        verbose_name_plural = _('code')
+
+    def __str__(self):
+        return u'%s' % self.code
 
 
 @receiver(post_save, sender=OrderItems)

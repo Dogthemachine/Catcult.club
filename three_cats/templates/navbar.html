@@ -25,7 +25,7 @@
           {% trans 'Feedback' %}
         </a></li>
       </ul>
-      <ul class="nav navbar-nav">
+      <span class="nav navbar-nav">
 
         <!------------------------- Language selector ------------------------
         {% if LANGUAGE_CODE == "en" %}
@@ -68,6 +68,16 @@
           </li>
         {% endif %}
         <!------------------------- Language selector ------------------------->
+
+        <!------------------------- Language selector -------------------------
+        <div class="cc-nav-lang col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <select class="selectpicker" id="cc-language">
+            <option value="ru">Рус</option>
+            <option value="uk">Укр</option>
+            <option value="en">Eng</option>
+          </select>
+        </div>
+        ------------------------- Language selector ------------------------->
 
         {% if request.user.is_authenticated %}
           <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}" title="{% trans 'Mod' %}">
