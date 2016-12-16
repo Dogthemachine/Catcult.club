@@ -117,7 +117,7 @@ class Items(models.Model):
         else:
             stock = global_stock
 
-        if stock:
+        if stock and stock[0].type == 0:
             price = price - price * stock[0].discount // 100
 
         return price
@@ -169,7 +169,9 @@ class Balance(models.Model):
 
 class Stocks(models.Model):
     name = models.CharField(_('name'), max_length=250)
-    categories = models.ForeignKey(Categories, blank=True, null=True)
+    categories = models.ManyToManyField(Categories, blank=True)
+    type = models.PositiveSmallIntegerField(_('type'), choices=settings.STOCKS_TYPES)
+    items_count = models.PositiveSmallIntegerField(_('items count'), blank=True)
     image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d', blank=True)
     description = models.TextField(_('description'), blank=True, default='')
     discount = models.PositiveSmallIntegerField(_('discount'), default=0)

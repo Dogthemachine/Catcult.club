@@ -18,10 +18,12 @@ from django.db.models import Count
 from django.urls import reverse
 
 from .forms import CheckoutForm
-from .models import Cart, CartItem, Orders, OrderItems, Payment, PaymentRaw
+from .models import Cart, CartItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
 from apps.liqpay import LiqPay
 from apps.elephants.models import Balance
 from apps.helpers import normalize_phone, send_sms
+
+from django.core.urlresolvers import reverse
 
 
 @json_view
@@ -92,6 +94,62 @@ def cart_checkout(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
+
+            discount_promo = 0
+            if form.cleaned_data['promo']:
+                if not cart.discount_stocks:
+                    codes = Promo.objects.filter(code=form.cleaned_data['promo'], used=False)
+                    if codes:
+                        code = codes[0]
+                        discount_promo = code.discount
+                        code.used = True
+                        code.save()
+
+                        message1 = _('Thank you. Your bonus %s percent activated.') % code.discount
+                        messages.add_message(
+                            request,
+                            messages.SUCCESS,
+                            message1
+                        )
+                else:
+                    message1 = _('Your discount on the share is %s grn.<br/>') % cart.discount_stocks
+                    message1 += _('Your promo-code is not activated.')
+                    messages.add_message(
+                        request,
+                        messages.SUCCESS,
+                        message1
+                    )
+
+            phone = Phones.objects.filter(phone=normalize_phone(form.cleaned_data['phone']))
+
+            if phone:
+                p = phone[0]
+                if not cart.discount_stocks and discount_promo == 0 and p.active:
+                    discount_promo = settings.DISCOUNT_PHONE
+
+                    message0 = _('Thank you. Your discount is %s percent.<br/>') % settings.DISCOUNT_PHONE
+                    messages.add_message(
+                        request,
+                        messages.SUCCESS,
+                        message0
+                    )
+                p.news = True
+                p.save()
+
+            else:
+                p = Phones()
+                p.phone = normalize_phone(form.cleaned_data['phone'])
+                p.lang_code = request.LANGUAGE_CODE
+                p.save()
+
+                message0 = _('Thank you. After payment of the order your discount will be %s percent.<br/>') % settings.DISCOUNT_PHONE
+                message0 += '<a href="%(url)s">%(text)s</a>' % ({'url': reverse('messages_off', args=(p.id,)), 'text': _('Do not recive messages about promotion.')})
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    message0
+                )
+
             order = Orders()
             order.name = form.cleaned_data['name']
             order.phone = normalize_phone(form.cleaned_data['phone'])
@@ -99,6 +157,8 @@ def cart_checkout(request):
             order.payment_method = form.cleaned_data['payment']
             order.delivery_method = form.cleaned_data['delivery']
             order.user_comment = form.cleaned_data['comment']
+            order.discount_promo = discount_promo
+            order.discount_stocks = cart.discount_stocks
             order.save()
 
             cart_items = CartItem.objects.filter(cart=cart)
@@ -221,6 +281,13 @@ def liqpay_callback(request):
                     order.paid = False
                     order.save()
 
+                try:
+                    phone = Phones.objects.get(phone=order.phone)
+                    phone.active = True
+                    phone.save()
+                except:
+                    pass
+
                 return HttpResponse()
 
             else:
@@ -232,3 +299,29 @@ def liqpay_callback(request):
                 order.liqpay_wait_accept = True
                 order.save()
                 return HttpResponse()
+
+
+def messages_off(request, id):
+    try:
+        phone = Phones.objects.get(id=id)
+        phone.news = False
+        phone.save()
+        message = _('You were successfully unsubscribed.')
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            message
+        )
+
+    except:
+        message = _('Something went wrong. Please try later or contact us.')
+        messages.add_message(
+            request,
+            messages.WARNING,
+            message
+        )
+
+    if request.is_ajax():
+        return HttpResponse(json.dumps({'message': message}), content_type = 'application/json')
+    else:
+        return redirect('showcase')

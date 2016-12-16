@@ -46,7 +46,7 @@ class BalanceAdmin(admin.ModelAdmin):
 
 
 class StocksAdmin(TranslationAdmin):
-    list_display = ('action_begin', 'action_end', 'name', 'categories', 'discount',)
+    list_display = ('action_begin', 'action_end', 'name', 'discount',)
 
 
 admin.site.register(Items, ItemsAdmin)

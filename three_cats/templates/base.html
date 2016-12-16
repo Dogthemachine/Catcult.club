@@ -47,7 +47,7 @@
       {% if messages %}
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="container">
+            <div id="cc-messages" class="container">
              {% for message in messages %}
                <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
                  <button type="button" class="close" data-dismiss="alert">×</button>

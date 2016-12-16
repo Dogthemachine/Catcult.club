@@ -14,7 +14,7 @@ from django.utils.translation import ugettext as _
 
 from apps.helpers import send_sms
 from apps.elephants.models import Balance, Items, BalanceLog
-from apps.orders.models import Orders, OrderItems, Payment
+from apps.orders.models import Orders, OrderItems, Payment, Phones
 from .forms import OrderForm, CommentForm, DeliveryForm, PaymentForm
 from .models import LastOrdersCheck
 
@@ -408,6 +408,13 @@ def j_order_payment(request, id):
             else:
                 order.paid = False
                 order.save()
+
+            try:
+                phone = Phones.objects.get(phone=order.phone)
+                phone.active = True
+                phone.save()
+            except:
+                pass
 
             t = loader.get_template('moderation/j_order_payment_success.html')
             c = RequestContext(request, {'order': order})

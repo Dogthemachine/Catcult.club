@@ -1,10 +1,12 @@
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.utils import timezone
+from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from apps.elephants.models import Balance, Items, Sizes
+from apps.elephants.models import Balance, Items, Sizes, Stocks
 
 
 class Orders(models.Model):
@@ -41,6 +43,9 @@ class Orders(models.Model):
         for i in items:
             sum += i.price * i.amount
 
+        sum -= self.discount_stocks
+        sum = sum - sum * self.discount_promo // 100
+
         return sum
 
     def get_total_paid(self):
@@ -76,9 +81,10 @@ class OrderItems(models.Model):
 
 
 class Phones(models.Model):
-    phone = models.CharField(_('phone'), max_length=32, unique=True)
-    news = models.BooleanField(_('news'), default=False)
+    phone = models.CharField(_('phone'), max_length=32, unique=True, db_index=True)
     lang_code = models.CharField(_('lang code'), default='ru', blank=True, max_length=2)
+    news = models.BooleanField(_('news'), default=False)
+    active = models.BooleanField(_('active'), default=False)
 
     class Meta:
         ordering = ('phone',)
@@ -108,6 +114,7 @@ class PaymentRaw(models.Model):
 class Cart(models.Model):
     session_key = models.CharField(_('name'), max_length=32)
     added = models.DateTimeField(_('added'), auto_now_add=True)
+    discount_stocks = models.PositiveIntegerField(_('discount from stocks'), default=0)
     comment = models.CharField(_('comment'), max_length=512, blank=True)
 
     class Meta:
@@ -123,7 +130,53 @@ class Cart(models.Model):
         total = 0
         for item in items:
             total += item.item.get_actual_price() * item.amount
+        total -= self.discount_stocks
         return total
+
+    def get_items_count(self):
+        stock = Stocks.objects.filter(type=1, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+
+        message = ''
+
+        if stock:
+            count = 0
+
+            cart_items = CartItem.objects.filter(cart=self).order_by('-item__price')
+
+            for i in cart_items:
+                count += i.amount
+
+            items = count // (stock[0].items_count + 1)
+
+            sum = 0
+
+            discounted_items = []
+
+            for i in cart_items:
+                for j in range(0, i.amount):
+                    discounted_items.append(i.item.price)
+
+            n = 0
+            for i in discounted_items:
+                n += 1
+                if n % (stock[0].items_count + 1) == 0:
+                    sum += i
+
+            self.discount_stocks = sum
+            self.comment = ugettext('Your discount is %s UAH.') % sum
+            self.save()
+
+            if sum:
+                message = ugettext('You have %(items)s discounted items for %(sum)s UAH.') % {'items': items, 'sum': sum}
+
+            modulo = count % (stock[0].items_count + 1)
+            if modulo == stock[0].items_count:
+                message += ugettext('You can add one more item and get a discount.')
+
+
+
+        return message
+
 
 
 class CartItem(models.Model):

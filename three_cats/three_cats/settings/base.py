@@ -132,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGES = (
     ('ru', gettext('Russian')),
-    ('uk', gettext('Ukrainian')),
+#    ('uk', gettext('Ukrainian')),
     ('en', gettext('English')),
 )
 
@@ -157,11 +157,8 @@ PAYMENT = (
     (5, gettext('Through any system of international money transfer (in the case of overseas delivery).')),
 )
 
-# Activation days for Users app.
-ACTIVATION_DAYS = 3
-
-# Password reset days for Users app.
-PASSWORD_RESET_DAYS = 2
+# Discount for regular users.
+DISCOUNT_PHONE = int(get_env_variable('TC_DISCOUNT_PHONE'))
 
 # Contact email
 CONTACT_EMAIL = 'danileyko@gmail.com'
@@ -185,3 +182,9 @@ LIQPAY_PRIVATE_KEY = get_env_variable('TC_LIQPAY_PRIVATE_KEY')
 
 LIQPAY_CALLBACK = get_env_variable('TC_LIQPAY_CALLBACK')
 LIQPAY_SUCCESS = get_env_variable('TC_LIQPAY_SUCCESS')
+
+STOCKS_TYPES = (
+    (0, 'Unconditional'),
+    (1, 'Order items count'),
+    (2, 'Conditional')
+)

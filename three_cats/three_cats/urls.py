@@ -10,7 +10,7 @@ from apps.main_page.views import main_page
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
     delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
     j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed
-from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback
+from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, messages_off
 
 admin.autodiscover()
 
@@ -56,6 +56,9 @@ urlpatterns = [
     url(r'^order_comment/(?P<id>\d+)/$', order_comment, name='order_comment'),
     url(r'^order_delivery/(?P<id>\d+)/$', order_comment, name='order_delivery'),
     url(r'^order_payment/(?P<id>\d+)/$', order_comment, name='order_payment'),
+
+    #Orders
+    url(r'^messages_off/(?P<id>\d+)/$', messages_off, name='messages_off'),
 
     # Cart
     url(r'^cart/$', cart, name='cart'),

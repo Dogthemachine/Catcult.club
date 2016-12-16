@@ -493,6 +493,10 @@ body {
     margin-top: 10px;
 }
 
+.cc-nav-cart {
+    margin-top: 5px;
+}
+
 .cc-p {
     border: 1px solid black;
     padding: 25px 50px;
@@ -561,11 +565,13 @@ body {
   }
 }
 
-.cc-lang {
-    text-decoration: underline;
+.cc-discount-text {
+    background-color: #449d44;
+    color: #FFF;
+    padding: 10px;
 }
 
-.cc-lang-color {
-    background: #69c;
-    color: #ffe
+#cc-language {
+    background: #373a3c;
+    color:#FFF;
 }

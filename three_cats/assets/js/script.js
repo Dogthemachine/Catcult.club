@@ -285,4 +285,16 @@ $(document).ready(function() {
         loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
     });
 
+    $('document').on('click', '#cc-unsubscribe', function(e) {
+        e.preventDefault;
+
+        $.ajax({
+            url: $(this).attr('href'),
+            type: 'post',
+            success: function(data) {
+                $('#cc-messages').html(data.message)
+            }
+        });
+    });
+
 });

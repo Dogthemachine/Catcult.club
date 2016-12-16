@@ -22,5 +22,6 @@
       </tr>
     {% endfor %}
   </table>
+  {% if cart.get_items_count %}<p class="cc-discount-text">{{ cart.get_items_count }}</p>{% endif %}
   <h3>{% trans 'Total' %}: {{ cart.get_total }} {% trans 'UAH' %}</h3>
 </div>

@@ -49,3 +49,5 @@ admin.site.register(Promo, PromoAdmin)
 
 
 admin.site.register(PaymentRaw, PaymentRawAdmin)
+
+admin.site.register(Phones, PhonesAdmin)

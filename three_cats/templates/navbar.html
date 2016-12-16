@@ -21,66 +21,23 @@
         {% get_categories %}
       </ul>
       <ul class="nav navbar-nav">
-        <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'feedback' %}" title="{% trans 'Feedback' %}">
+        <li class="nav-item"><a class="cc-main-menu-color" href="{% url 'feedback' %}" title="{% trans 'Feedback' %}">
           {% trans 'Feedback' %}
         </a></li>
-      </ul>
-      <span class="nav navbar-nav">
 
-        <!------------------------- Language selector ------------------------
-        {% if LANGUAGE_CODE == "en" %}
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-ru">Рус</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-uk">Укр</a>
-          </li>
-          <li class="nav-item cc-nav-language">Eng</li>
-        {% elif LANGUAGE_CODE == "uk" %}
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-ru">Рус</a>
-          </li>
-          <li class="nav-item cc-nav-language">Укр</li>
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-en">Eng</a>
-          </li>
-        {% else %}
-          <li class="nav-item cc-nav-language">Рус</li>
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-uk">Укр</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-en">Eng</a>
-          </li>
-        {% endif %}
-        ------------------------- Language selector ------------------------->
-
-        <!------------------------- Language selector ------------------------->
-        {% if LANGUAGE_CODE == "en" %}
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-ru">Рус</a>
-          </li>
-          <li class="nav-item cc-nav-language">Eng</li>
-        {% else %}
-          <li class="nav-item cc-nav-language">Рус</li>
-          <li class="nav-item">
-            <a class="nav-link cc-main-menu-color cc-lang" href="#" id="cs-locate-en">Eng</a>
-          </li>
-        {% endif %}
-        <!------------------------- Language selector ------------------------->
-
-        <!------------------------- Language selector -------------------------
-        <div class="cc-nav-lang col-xs-2 col-sm-2 col-md-2 col-lg-2">
-          <select class="selectpicker" id="cc-language">
-            <option value="ru">Рус</option>
-            <option value="uk">Укр</option>
-            <option value="en">Eng</option>
+        <li class="cc-nav-lang">
+          <select class="form-control" id="cc-language">
+            <option {% if LANGUAGE_CODE == "en" %} selected {% endif %} value="en" title="English">Eng</option>
+            <option {% if LANGUAGE_CODE == "ru" %} selected {% endif %} value="ru" title="Русский">Рус</option>
+            <!-- <option {% if LANGUAGE_CODE == "uk" %} selected {% endif %} value="uk" title="Українська">Укр</option> -->
           </select>
-        </div>
-        ------------------------- Language selector ------------------------->
+        </li>
 
+      </ul>
+
+      <ul>
         {% if request.user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}" title="{% trans 'Mod' %}">
+          <li class="nav-item"><a class="cc-main-menu-color" href="{% url 'main_page' %}" title="{% trans 'Mod' %}">
             {% trans 'Mod' %}
           </a></li>
         {% endif %}
@@ -88,12 +45,12 @@
       <ul class="nav navbar-nav navbar-right">
         {% if request.cart_amount %}
           <li class="nav-item">
-            <a id="cc-cart-link" class="nav-link cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
+            <a id="cc-cart-link" class="cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
               <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{{ request.cart_amount }}</span>
             </a>
           </li>
         {% else %}
-        <li class="nav-item cc-nav-language">
+        <li class="nav-item cc-nav-cart">
             <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b>{% trans 'Empty' %}
         {% endif %}
       </ul>
