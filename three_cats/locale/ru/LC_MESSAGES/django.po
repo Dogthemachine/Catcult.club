@@ -485,7 +485,7 @@ msgstr "СМС отправлено"
 
 #: apps/orders/models.py:28 templates/moderation/orders.html:88
 msgid "Packed"
-msgstr "Уаковано"
+msgstr "Упаковано"
 
 #: apps/orders/models.py:33 apps/orders/models.py:34
 #: templates/moderation/orders.html:6 templates/navbar_mod.html:17
