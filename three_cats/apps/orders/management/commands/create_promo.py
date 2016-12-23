@@ -4,28 +4,32 @@ from string import ascii_lowercase, ascii_uppercase
 
 
 class Command(BaseCommand):
-    args = ''
     help = 'Creating promo codes.'
+
+    def add_arguments(self, parser):
+        parser.add_argument('n')
+        parser.add_argument('discount')
 
     def handle(self, *args, **options):
         from apps.orders.models import Promo
 
-        n = 200;
+        n = int(options['n'])
+        discount = int(options['discount'])
 
         while n > 0:
 
             #code = ''.join(choice(ascii_lowercase+ascii_uppercase+'0123456789') for i in range(5))
-            code = ''.join(choice('0123456789') for i in range(5))
+            code = ''.join(choice(ascii_uppercase) for i in range(1)) + ''.join(choice('0123456789') for i in range(4))
             promo = Promo.objects.filter(code=code, used=False)
 
             if not promo:
 
                 promo = Promo()
                 promo.code = code
-                promo.discount = 15
+                promo.discount = discount
                 promo.save()
 
-                n -= 1;
+                n -= 1
 
                 print(code)
 
