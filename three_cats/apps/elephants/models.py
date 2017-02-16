@@ -13,11 +13,12 @@ from django.utils.translation import ugettext_lazy as _
 
 class Categories(models.Model):
     name = models.CharField(_('name'), max_length=70)
-    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
-    image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
+    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
+    image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
     image_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
     image_hover_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
     details = models.TextField(_('details'), blank=True)
+    set = models.BooleanField(_('set'), default=False)
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
@@ -133,6 +134,91 @@ class Items(models.Model):
         return stock[0].name
 
 
+class Sets(models.Model):
+    name = models.CharField(_('name'), max_length=250)
+    categories = models.ForeignKey(Categories)
+    items = models.ManyToManyField(Items)
+    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
+    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
+    description = models.TextField(_('description'), blank=True, default='')
+    details = models.TextField(_('details'), blank=True, default='')
+    price = models.PositiveSmallIntegerField(_('price'), default=0)
+    price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
+    views = models.PositiveIntegerField(_('views'), default=0)
+    views_today = models.PositiveIntegerField(_('views today'), default=0)
+    views_month = models.CharField(_('views month'), default=0, max_length=512)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+
+    class Meta:
+        ordering = ('-views',)
+        verbose_name = _('Sets')
+        verbose_name_plural = _('Sets')
+
+    def __str__(self):
+        return u'%s' % self.name
+
+    def save(self, *args, **kwargs):
+        if not self.image._committed:
+            self.image_small = self.image.file
+        super().save(*args, **kwargs)
+
+    def get_balance(self):
+        return Balance.objects.filter(item__sets=self)
+
+    def get_amount(self):
+        items = Items.objects.filter(sets=self)
+        res = False
+        if items:
+            res = True
+        for item in items:
+            balances = Balance.objects.filter(item=item)
+            am = False
+            for balance in balances:
+                if balance.amount > 0:
+                    am = True
+            res = res and am
+        return res
+
+    def sorting(self):
+        items = Items.objects.filter(sets=self)
+        res = 0
+        if items:
+            res = 1
+        for item in items:
+            balances = Balance.objects.filter(item=item)
+            am = 0
+            for balance in balances:
+                if balance.amount > 0:
+                    am = 1
+            res = res * am
+        return res * self.views_per_month
+
+    def get_actual_price(self):
+        price = self.price
+
+        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+
+        if not global_stock:
+            stock = Stocks.objects.filter(categories=self.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        else:
+            stock = global_stock
+
+        if stock and stock[0].type == 0:
+            price = price - price * stock[0].discount // 100
+
+        return price
+
+    def get_discount_name(self):
+        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+
+        if not global_stock:
+            stock = Stocks.objects.filter(categories=self.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        else:
+            stock = global_stock
+
+        return stock[0].name
+
+
 class Photo(models.Model):
     item = models.ForeignKey(Items)
     image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
@@ -153,8 +239,29 @@ class Photo(models.Model):
         return u'%s - %s' % (self.item.name, self.added)
 
 
+class SetsPhoto(models.Model):
+    set = models.ForeignKey(Sets)
+    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
+    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+
+    class Meta:
+        ordering = ('added',)
+        verbose_name = _('Sets photo')
+        verbose_name_plural = _('Sets photos')
+
+    def save(self, *args, **kwargs):
+        if not self.image._committed:
+            self.image_small = self.image.file
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return u'%s - %s' % (self.set.name, self.added)
+
+
 class Balance(models.Model):
     item = models.ForeignKey(Items)
+    size = models.ForeignKey(Sizes)
     size = models.ForeignKey(Sizes)
     amount = models.IntegerField(_('amount'), default=0)
 

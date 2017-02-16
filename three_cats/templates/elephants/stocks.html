@@ -36,15 +36,19 @@
     </div>
   </div>
 
-  {% if stores %}
+  {% if stocks %}
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cs-item-title">
+      <h2>{% trans 'Existing shares' %}</h2>
+    </div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        {% for entry in items %}
+        {% for entry in stocks %}
           <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-4 cc-card">
-            <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.small_image }}"  alt="Card image cap">
+            {% if entry.image %}<img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.image }}">{% endif %}
             <div class="card-block">
-              <h4 class="card-title">{{ entry.name }}</h4>
-              <p class="card-text">{{ entry.details }}</p>
+              <h4 class="card-title"><a href="{% url 'stock_details' entry.id %}">{{ entry.name }}</a></h4>
+              <p class="card-text">{{ entry.action_begin }} - {{ entry.action_end }}</p>
+              <p class="card-text">{{ entry.description|safe }}</p>
             </div>
           </div>
         {% endfor %}

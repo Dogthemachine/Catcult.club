@@ -6,11 +6,12 @@ from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from apps.elephants.models import Balance, Items, Sizes, Stocks
+from apps.elephants.models import Balance, Items, Sizes, Stocks, Sets
 
 
 class Orders(models.Model):
-    name = models.CharField(_('name'), max_length=70)
+    name = models.CharField(_('first name'), max_length=70)
+    last_name = models.CharField(_('last name'), max_length=70)
     phone = models.CharField(_('phone'), max_length=32, db_index=True)
     comment = models.TextField(_('comment'), default='', blank=True)
     lang_code = models.CharField(_('lang code'), default='ru', blank=True, max_length=2)
@@ -24,6 +25,7 @@ class Orders(models.Model):
     ttn = models.IntegerField(_('TTN'), default=0)
     discount_promo = models.PositiveIntegerField(_('discount from promo'), default=0)
     discount_stocks = models.PositiveIntegerField(_('discount from stocks'), default=0)
+    discount_set = models.PositiveIntegerField(_('discount from set'), default=0)
     sms_sent = models.BooleanField(_('SMS sent'), default=False)
     packed = models.BooleanField(_('Packed'), default=False)
     added = models.DateTimeField(_('added'), auto_now_add=True)
@@ -44,6 +46,7 @@ class Orders(models.Model):
             sum += i.price * i.amount
 
         sum -= self.discount_stocks
+        sum -= self.discount_set
         sum = sum - sum * self.discount_promo // 100
 
         return sum
@@ -129,7 +132,9 @@ class Cart(models.Model):
         items = CartItem.objects.filter(cart=self)
         total = 0
         for item in items:
-            total += item.item.get_actual_price() * item.amount
+            total += item.item.get_actual_price() * (item.amount - item.amount_set)
+        for set in self.cartset_set.all():
+            total += set.set.get_actual_price() * set.amount
         total -= self.discount_stocks
         return total
 
@@ -165,6 +170,7 @@ class Cart(models.Model):
             self.discount_stocks = sum
             self.comment = ugettext('Your discount is %s UAH.') % sum
             self.save()
+            print(self.discount_stocks)
 
             if sum:
                 message = ugettext('You have %(items)s discounted items for %(sum)s UAH.') % {'items': items, 'sum': sum}
@@ -178,20 +184,42 @@ class Cart(models.Model):
         return message
 
 
-
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart)
     item = models.ForeignKey(Items)
     size = models.ForeignKey(Sizes)
     amount = models.PositiveSmallIntegerField()
+    amount_set = models.PositiveIntegerField(default=0)
 
     def check_avail(self):
         balance = Balance.objects.get(item=self.item, size=self.size)
 
-        if balance.amount == 0:
-            return False
-        else:
+        if balance.amount >= self.amount:
             return True
+        else:
+            return False
+
+
+class CartSet(models.Model):
+    cart = models.ForeignKey(Cart)
+    set = models.ForeignKey(Sets)
+    amount = models.PositiveIntegerField()
+
+    def check_avail(self):
+        items = self.set.items
+        for item in items:
+            balance = Balance.objects.get(item=self.item, size=self.size)
+
+            if balance.amount < self.amount:
+                return False
+
+        return True
+
+
+class CartSetItem(models.Model):
+    cartset = models.ForeignKey(CartSet)
+    item = models.ForeignKey(Items)
+    size = models.ForeignKey(Sizes)
 
 
 class Promo(models.Model):

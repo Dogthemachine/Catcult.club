@@ -4,34 +4,38 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from apps.elephants.views import showcase, item_details
+from apps.elephants.views import showcase, item_details, item_set_details, stocks, stock_details
 from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import main_page
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
     delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
-    j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed
+    j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
+    stat_sale
 from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, messages_off
 
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', main_page, name='main_page'),
+    url(r'^$', showcase, name='main_page'),
 
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', user_login, name='user_login'),
     url(r'^logout/$', user_logout, name='user_logout'),
 
     # Info
+    url(r'^main/$', main_page, name='main_info'),
     url(r'^feedback/$', feedback, name='feedback'),
     url(r'^contacts/$', topic_view, {'topic': 'contacts'}, name='contacts'),
     url(r'^about/$', topic_view, {'topic': 'about_us'}, name='about_us'),
     url(r'^partners/$', topic_view, {'topic': 'partners'}, name='partners'),
 
     # Shop
-    url(r'^showcase/$', showcase, name='showcase'),
     url(r'^showcase/(?P<category_id>\d+)/$', showcase, name='showcase_cat'),
     url(r'^showcase/(?P<category_id>\d+)/(?P<fashion_id>\d+)/$', showcase, name='showcase_cat_fas'),
     url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
+    url(r'^item-set/(?P<id>\d+)/$', item_set_details, name='item_set_details'),
+    url(r'^stocks/$', stocks, name='stocks'),
+    url(r'^stock/(?P<id>\d+)/$', stock_details, name='stock_details'),
 
     # Moderator
     url(r'^orders/$', manage_orders, name='orders'),
@@ -57,12 +61,16 @@ urlpatterns = [
     url(r'^order_delivery/(?P<id>\d+)/$', order_comment, name='order_delivery'),
     url(r'^order_payment/(?P<id>\d+)/$', order_comment, name='order_payment'),
 
+    #Statistics
+    url(r'^stat/sale/$', stat_sale, name='stat_sale'),
+
     #Orders
     url(r'^messages_off/(?P<id>\d+)/$', messages_off, name='messages_off'),
 
     # Cart
     url(r'^cart/$', cart, name='cart'),
     url(r'^cart/(?P<id>\d+)/remove/$', cart_remove, name='cart_remove'),
+    url(r'^cart/(?P<id>\d+)/remove_set/$', cart_remove, {'set': True }, name='cart_remove_set'),
     url(r'^cart/checkout/$', cart_checkout, name='cart_checkout'),
 
     url(r'^liqpay_callback/$', liqpay_callback, name='liqpay_callback'),

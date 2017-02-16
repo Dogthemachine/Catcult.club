@@ -18,7 +18,7 @@ from django.db.models import Count
 from django.urls import reverse
 
 from .forms import CheckoutForm
-from .models import Cart, CartItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
+from .models import Cart, CartItem, CartSet, CartSetItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
 from apps.liqpay import LiqPay
 from apps.elephants.models import Balance
 from apps.helpers import normalize_phone, send_sms
@@ -45,20 +45,49 @@ def cart(request):
 
 
 @json_view
-def cart_remove(request, id):
+def cart_remove(request, id, set=False):
     cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
 
     if not created:
-        try:
-            cart_item = CartItem.objects.get(id=id)
-        except CartItem.DoesNotExist:
-            return {'success': False}
+        if set:
+            try:
+                cart_set = CartSet.objects.get(id=id)
+            except:
+                raise
+                return {'success': False}
+            else:
+                set_items = CartSetItem.objects.filter(cartset=cart_set)
+                for item in set_items:
+                    try:
+                        cart_item = CartItem.objects.get(item=item.item, size=item.size)
+                    except CartItem.DoesNotExist:
+                        raise
+                        return {'success': False}
+                    else:
+                        cart_item.amount -= cart_set.amount
+                        cart_item.amount_set -= cart_set.amount
+                        cart_item.save()
+
+                        if cart_item.amount == 0:
+                            cart_item.delete()
+
+                cart_set.delete()
+
         else:
-            cart_item.delete()
-            cart_items = CartItem.objects.filter(cart=cart)
+            try:
+                cart_item = CartItem.objects.get(id=id)
+            except CartItem.DoesNotExist:
+                return {'success': False}
+            else:
+                cart_item.amount = cart_item.amount_set
+                cart_item.save()
+
+                if cart_item.amount == 0:
+                    cart_item.delete()
     else:
         return {'success': False}
 
+    cart_items = CartItem.objects.filter(cart=cart)
     t = loader.get_template('orders/cart.html')
     c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})
     html = t.render(c)
@@ -152,6 +181,7 @@ def cart_checkout(request):
 
             order = Orders()
             order.name = form.cleaned_data['name']
+            order.last_name = form.cleaned_data['last_name']
             order.phone = normalize_phone(form.cleaned_data['phone'])
             order.lang_code = request.LANGUAGE_CODE
             order.payment_method = form.cleaned_data['payment']
@@ -172,6 +202,15 @@ def cart_checkout(request):
                 orderitem.amount = item.amount
                 orderitem.price = item.item.get_actual_price()
                 orderitem.save()
+
+            items = OrderItems.objects.filter(order=order)
+            sum = 0
+
+            for i in items:
+                sum += i.price * i.amount
+
+            order.discount_set = sum - cart.get_total()
+            order.save()
 
             cart.delete()
 
@@ -205,7 +244,7 @@ def cart_checkout(request):
                 message += item.balance.item.name + ' - '
                 message += item.balance.size.name + ' - '
                 message += str(item.amount) + '<br/>'
-                message += _('Total:') + ' ' + str(order.get_total_price()) + ' ' + _('UAH') + '<br/>'
+            message += _('Total:') + ' ' + str(order.get_total_price()) + ' ' + _('UAH') + '<br/>'
 
             messages.add_message(
                 request,

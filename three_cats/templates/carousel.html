@@ -19,15 +19,15 @@
           {% endif %}
           <div class="col-sm-12 col-md-12 col-lg-12">
             {% if LANGUAGE_CODE == "en" %}
-              <a href="{% url 'showcase' %}">
+              <a href="{% url 'main_page' %}">
                 <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_en.png" data-hover-src="{{ STATIC_URL }}img/showcase_en_hover.png">
               </a>
             {% elif LANGUAGE_CODE == "uk" %}
-              <a href="{% url 'showcase' %}">
+              <a href="{% url 'main_page' %}">
                 <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_uk.png" data-hover-src="{{ STATIC_URL }}img/showcase_uk_hover.png">
               </a>
             {% else %}
-              <a href="{% url 'showcase' %}">
+              <a href="{% url 'main_page' %}">
                 <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.png" data-hover-src="{{ STATIC_URL }}img/showcase_hover.png">
               </a>
             {% endif %}

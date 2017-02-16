@@ -25,7 +25,8 @@ def lang(t):
 
 
 class CheckoutForm(forms.Form):
-    name = forms.CharField(label=_('Your full name:'), max_length=64)
+    name = forms.CharField(label=_('Your First name:'), max_length=64)
+    last_name = forms.CharField(label=_('Your Last name:'), max_length=64)
     phone = forms.CharField(label=_('Phone number:'))
     promo = forms.CharField(label=_('Promo code (if any):'), required=False)
     payment = forms.TypedChoiceField(label=_('Payment Method'), choices=lang(settings.PAYMENT), coerce=int, widget=forms.RadioSelect())

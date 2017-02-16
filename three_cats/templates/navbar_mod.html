@@ -13,26 +13,43 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
       <ul class="nav navbar-nav">
+
         <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'orders' %}" title="{% trans 'Orders' %}">
           {% trans 'Orders' %}
         </a></li>
+
         <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'balances' %}" title="{% trans 'Balance' %}">
           {% trans 'Balance' %}
         </a></li>
+
         <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'log' %}" title="{% trans 'Log' %}">
           {% trans 'Log' %}
         </a></li>
-        <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'showcase' %}" title="{% trans 'Shop' %}">
+
+        <li class="dropdown nav-item">
+          <a href="#" class="dropdown-toggle nav-link cc-main-menu-color" data-toggle="dropdown">{% trans 'Statistics' %}<b class="caret"></b></a>
+          <ul class="dropdown-menu" >
+            <li class="nav-item"><a class="nav-link" href="{% url 'stat_sale' %}" title="{% trans 'The sale' %}">
+              {% trans 'The sale' %}
+            </a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}" title="{% trans 'Shop' %}">
           {% trans 'Shop' %}
         </a></li>
+
       </ul>
+
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
           <a id="cc-orders-link" class="nav-link cc-main-menu-color" href="{% url 'orders' %}">
           </a>
         </li>
       </ul>
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
 </nav>

@@ -2,24 +2,47 @@
 {% load elephants %}
 <div>
   <table class="table table-striped">
-    {% for i in cart_items %}
+    {% for i in cart.cartset_set.all %}
       <tr>
         <td class="hidden-xs">
-          <img class="img-circle" src="/media/{{ i.item.image_small }}" width="100px" />
+          <img class="img-circle" src="/media/{{ i.set.image_small }}" width="100px" />
         </td>
         <td>
-          <p class="cc-cart-title">{{ i.item.name }}</p>
-          <p><b>{% get_price i.item %} {{ i.item.price_description }}</b></p>
-          <p>{% trans 'Size' %}: {{ i.size.name }}</p>
+          <p class="cc-cart-title">{{ i.set.name }}</p>
+          <p><b>{% get_price i.set %} {{ i.set.price_description }}</b></p>
+          <p>{% for j in i.cartsetitem_set.all %}
+            {{ j.item.name }} ({% trans 'Size' %}: {{ j.size }})<br/>
+          {% endfor %}</p>
           <p><b>{{ i.amount }} {% trans 'units' %}</b></p>
           {% if not i.check_avail %}<p class="cc-error">{% trans 'This item is unavailable. You can delete it and checkout.' %}</p>{% endif %}
         </td>
         <td>
-          <a class="btn btn-danger cc-cart-remove" href="#" data-id="{{ i.id }}">
+          <a class="btn btn-danger cc-cart-remove-set" href="#" data-id="{{ i.id }}">
             {% trans 'Remove' %}
           </a>
         </td>
       </tr>
+    {% endfor %}
+    {% for i in cart_items %}
+      {% if i.amount|subtract:i.amount_set > 0 %}
+        <tr>
+          <td class="hidden-xs">
+            <img class="img-circle" src="/media/{{ i.item.image_small }}" width="100px" />
+          </td>
+          <td>
+            <p class="cc-cart-title">{{ i.item.name }}</p>
+            <p><b>{% get_price i.item %} {{ i.item.price_description }}</b></p>
+            <p>{% trans 'Size' %}: {{ i.size.name }}</p>
+            <p><b>{{ i.amount|subtract:i.amount_set }} {% trans 'units' %}</b></p>
+            {% if not i.check_avail %}<p class="cc-error">{% trans 'This item is unavailable. You can delete it and checkout.' %}</p>{% endif %}
+          </td>
+          <td>
+            <a class="btn btn-danger cc-cart-remove" href="#" data-id="{{ i.id }}">
+              {% trans 'Remove' %}
+            </a>
+          </td>
+        </tr>
+      {% endif %}
     {% endfor %}
   </table>
   {% if cart.get_items_count %}<p class="cc-discount-text">{{ cart.get_items_count }}</p>{% endif %}

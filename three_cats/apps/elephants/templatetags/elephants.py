@@ -1,8 +1,9 @@
 from django import template
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
+from django.utils import timezone
 
-from apps.elephants.models import Sizes, Categories
+from apps.elephants.models import Sizes, Categories, Stocks, Items
 
 
 register = template.Library()
@@ -19,12 +20,23 @@ def get_size_desc(size_id):
 
 
 @register.simple_tag
+def get_item_img(item_id):
+    try:
+        item = Items.objects.get(id=item_id)
+    except:
+        return ''
+
+    return mark_safe('<img class="img-responsive" src="%s">' % item.image_small.url)
+
+
+@register.simple_tag
 def get_categories():
     try:
         categories = Categories.objects.all().order_by('sequence')
         m = ''
         for category in categories:
-            m = m + '<li class="nav-item"><a class="nav-link cc-main-menu-color" href="/showcase/%i/" title="%s">%s</a></li>' % (category.id, _(category.name), _(category.name))
+            m = m + '<li class="nav-item"><a class="nav-link cc-main-menu-color" href="/showcase/%i/" title="%s">%s</a></li>' \
+                    % (category.id, _(category.name), _(category.name))
 
     except:
         return ''
@@ -44,3 +56,25 @@ def get_price(entry):
         html += ' <del>%s</del> %s' % (price, discount_price)
 
     return mark_safe(html)
+
+
+@register.simple_tag
+def get_stocks():
+    try:
+        global_stock = Stocks.objects.filter(action_begin__lte=timezone.datetime.today(),
+                                             action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        m = ''
+        if global_stock:
+            global_stock = global_stock[0]
+            m = '<div id="marquee"><a href="/stock/%i/">%s</a>%s</div>' % (global_stock.id, _('Action!!!'),
+                                                                                    _(global_stock.name))
+
+    except:
+        return ''
+
+    return mark_safe(m)
+
+
+@register.filter
+def subtract(value, arg):
+    return value - arg

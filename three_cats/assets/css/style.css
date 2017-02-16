@@ -260,7 +260,15 @@ legend {
     background-color: #FFDAB9;
 }
 
+.cc-paymant-1 {
+    background-color: #FFDAB9;
+}
+
 .cc-paymant-2 {
+    background-color: #B0D0E6;
+}
+
+.cc-paymant-3 {
     background-color: #B0D0E6;
 }
 
@@ -414,6 +422,10 @@ body {
     background-contacts: rgba(100, 100, 100);
 }
 
+.navbar-nav > li > a {
+    padding-bottom: 5px;
+}
+
 .cc-product-photo {
     margin-top: 25px;
     margin-bottom: 25px;
@@ -494,7 +506,7 @@ body {
 }
 
 .cc-nav-cart {
-    margin-top: 5px;
+    margin-top: 15px;
 }
 
 .cc-p {
@@ -547,14 +559,14 @@ body {
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
   #footer {
-      height: 340px;
+      height: 440px;
   }
 }
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
   #footer {
-      height: 340px;
+      height: 440px;
   }
 }
 
@@ -574,4 +586,24 @@ body {
 #cc-language {
     background: #373a3c;
     color:#FFF;
+}
+
+.cc-set-form-item {
+    margin-bottom: 15px;
+}
+
+.cc-mobile-cart {
+    font-size: 1.6em;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.cc-font {
+    font-family: 'Open Sans';
+    font-size: 1.4em;
+}
+
+.cc-menu-item {
+    display: inline-block;
+    margin-right: 10px;
 }

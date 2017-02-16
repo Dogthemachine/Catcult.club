@@ -141,6 +141,15 @@ $(document).ready(function() {
         location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&arrival=' + arrival;
     });
 
+    $('#cc-stat-sale-filter').on('click', function(e) {
+        e.preventDefault();
+
+        var date_from = $('#cc-date-from').val();
+        var date_to = $('#cc-date-to').val();
+
+        location.search = '?date_from=' + date_from + '&date_to=' + date_to;
+    });
+
     $('.cc-order-update').on('click', function(e) {
         var id = $(this).data('id');
         var ttn_form = $('#cc-ttn-form-' + id);

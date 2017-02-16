@@ -1,0 +1,32 @@
+{% load i18n %}
+<div class="row">
+  <div class="xs-12 cc-font">
+    {% for cat in categories %}
+        <div class="cc-menu-item">
+          {% if cat.id == category.id %}
+            {{ cat.name }}
+          {% else %}
+            <a href="{% url 'showcase_cat' cat.id %}">
+              {{ cat.name }}
+            </a>
+          {% endif %}
+        </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="row cc-fas">
+  <div class="xs-12 cc-font">
+    {% for fas in fashions %}
+      <div class="cc-menu-item">
+        {% if fas.id == fashion.id %}
+          {{ fas.name }}
+        {% else %}
+          <a href="{% url 'showcase_cat_fas' category.id fas.id %}">
+            {{ fas.name }}
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>

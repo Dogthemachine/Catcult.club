@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load elephants %}
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -8,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=cyrillic" rel="stylesheet">
 
     <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/flexslider.css" rel="stylesheet">
@@ -42,6 +45,9 @@
 
   <body>
     <div id="wrap">
+
+      {% get_stocks %}
+
       {% include 'navbar.html' %}
 
       {% if messages %}
@@ -90,7 +96,7 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.flexslider-min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.elevateZoom-3.0.8.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>

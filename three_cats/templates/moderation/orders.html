@@ -42,12 +42,11 @@
                 <b>{{ order.added }}</b><br/>
               </td>
               <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <b>{{ order.get_total_price }} {% trans 'UAH' %}</b> <br/>
                 <a class="cc-order-link" href="#" data-toggle="modal" data-target="#cc-order-modal" data-order-id="{{ order.id }}">
-                  <b>{% trans 'Number ' %} {{ order.get_number }} -- {{ order.name }}</b>
-                </a>
+                  <b>{% trans 'Number ' %} {{ order.get_number }} -- {{ order.name }} {{ order.last_name }}</b>
+                </a> <br/>
 
-                <br/>
+                <b>{{ order.get_total_price }} {% trans 'UAH' %}</b> <br/>
 
                 <div id="cc-order-comment-{{ order.id }}">
                   {% if order.comment %}{{ order.comment }}<br/>{% endif %}
@@ -92,7 +91,9 @@
               <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <div id="cc-order-payment-{{ order.id }}">
                   <div {% if not order.paid and order.payment_method == 0 %} class="cc-paymant-0"
-                       {% elif not order.paid and order.payment_method == 2 %} class="cc-paymant-2" {% endif %}>
+                       {% elif not order.paid and order.payment_method == 1 %} class="cc-paymant-1"
+                       {% elif not order.paid and order.payment_method == 2 %} class="cc-paymant-2"
+                       {% elif not order.paid and order.payment_method == 3 %} class="cc-paymant-3" {% endif %}>
                     {% if order.paid %}
                       <span class="icon-checkmark cc-icon-green"></span>
                     {% else %}
@@ -116,6 +117,7 @@
                         <span class="btn btn-primary">{% trans 'Payment' %}</span>
                       </a>
                     {% endif %}
+
                   </div>
                 </div>
               </td>

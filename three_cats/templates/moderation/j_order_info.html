@@ -1,10 +1,10 @@
 {% load i18n %}
 
-{{ order.name }}<br />
+{{ order.name }} {{ order.last_name }}<br />
 {{ order.phone }}<br />
 {{ order.get_total_price }} {% trans 'UAH' %}<br />
 
-{% if order.discount_promo or order.discount_stocks %}
+{% if order.discount_promo or order.discount_stocks or order.discount_set %}
     <p class="cc-discount-text">
         {% trans 'Discount:' %}
         {% if order.discount_promo %}
@@ -13,9 +13,12 @@
         {% if order.discount_stocks %}
             {{ order.discount_stocks }} {% trans 'UAH.' %}
         {% endif %}
+        {% if order.discount_set %}
+            {{ order.discount_set }} {% trans 'UAH.' %}
+        {% endif %}
     </p>
 {% endif %}
 
 {% for item in order.orderitems_set.all %}
-    {{ item.balance.item.fashions.categories.name }} - {{ item.balance.item.fashions.name }} - <b>{{ item.balance.item.name }}</b> - {{ item.balance.item.description }} - {{ item.balance.size }} - <b>{{ item.amount }}<br />
+    {{ item.balance.item.fashions.categories.name }} - {{ item.balance.item.fashions.name }} - <b>{{ item.balance.item.name }}</b> - {{ item.balance.item.description }} - {{ item.balance.size }} - <b>{{ item.amount }}</b><br />
 {% endfor %}

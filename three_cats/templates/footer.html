@@ -4,7 +4,8 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <p class="first"><a class="nav-link cc-contacts cc-main-menu-color" href="{% url 'contacts' %}" title="{% trans 'Contacts' %}">
               {% trans 'Contacts' %}
             </a></p>
@@ -19,9 +20,12 @@
             </a></p>
           </div>
 
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
             <p class="first"><a class="nav-link cc-main-menu-color" href="{% url 'about_us' %}" title="{% trans 'About us' %}">
               {% trans 'About us' %}
+            </a></p>
+            <p class="footer-spacing-first"><a class="nav-link cc-main-menu-color" href="{% url 'feedback' %}" title="{% trans 'Feedback' %}">
+              {% trans 'Feedback' %}
             </a></p>
             <p class="footer-spacing-first"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}#delivery" title="{% trans 'Delivery' %}">
               {% trans 'Delivery' %}
@@ -29,10 +33,17 @@
             <p class="footer-spacing-second"><a class="nav-link cc-main-menu-color" href="{% url 'main_page' %}#payment" title="{% trans 'How to Pay' %}">
               {% trans 'Payment' %}
             </a></p>
-            <p class="footer-spacing-third"><a class="nav-link cc-main-menu-color" href="{% url 'partners' %}" title="{% trans 'Partners' %}">
+          </div>
+
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+            <p class="first"><a class="nav-link cc-main-menu-color" href="{% url 'stocks' %}" title="{% trans 'Discounts and promotions' %}">
+              {% trans 'Discounts and promotions' %}
+            </a></p>
+            <p class="footer-spacing-first"><a class="nav-link cc-main-menu-color" href="{% url 'partners' %}" title="{% trans 'Partners' %}">
               {% trans 'Partners' %}
             </a></p>
           </div>
+
         </div>
       </div> <!--- container --->
     </div>

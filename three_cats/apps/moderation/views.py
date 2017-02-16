@@ -11,9 +11,10 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext, loader, Context
 from django.utils import timezone
 from django.utils.translation import ugettext as _
+from django.db.models import Sum
 
 from apps.helpers import send_sms
-from apps.elephants.models import Balance, Items, BalanceLog
+from apps.elephants.models import Balance, Items, BalanceLog, Categories
 from apps.orders.models import Orders, OrderItems, Payment, Phones
 from .forms import OrderForm, CommentForm, DeliveryForm, PaymentForm
 from .models import LastOrdersCheck
@@ -548,3 +549,75 @@ def order_info(request, id):
     html = loader.get_template('moderation/order_info.html')
 
     return {'html': html}
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def stat_sale(request):
+    date_from = request.GET.get('date_from', None)
+    date_to = request.GET.get('date_to', None)
+
+    if date_from:
+        date_from = list(map(int, date_from.split('-')))
+    else:
+        date_from = list(map(int, datetime.datetime.strftime(datetime.date.today() - datetime.timedelta(days=30), '%Y-%m-%d').split('-')))
+
+    if date_to:
+        date_to = list(map(int, date_to.split('-')))
+    else:
+        date_to = list(map(int, datetime.datetime.strftime(datetime.date.today(), '%Y-%m-%d').split('-')))
+
+    stat = Categories.objects.all()
+    for category in stat:
+        category.amount = OrderItems.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+            balance__item__fashions__categories=category
+                                                ).aggregate(total_amount=Sum('amount'))['total_amount']
+        items = OrderItems.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+            balance__item__fashions__categories=category
+                                                ).all()
+        category.sum = 0
+        for item in items:
+            category.sum = category.sum + item.amount*item.price
+
+    total_orders = Orders.objects.filter(
+        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+    ).count()
+
+    total_payments = Payment.objects.filter(
+        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+    ).aggregate(total_sum=Sum('amount'))
+
+    items = OrderItems.objects.filter(
+        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+    ).all()
+    totat_amount = 0
+    for item in items:
+        totat_amount += item.amount * item.price
+
+    total_discount_promo = Orders.objects.filter(
+        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+    ).aggregate(total_sum=Sum('discount_promo'))
+
+    total_discount_stocks = Orders.objects.filter(
+        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+    ).aggregate(total_sum=Sum('discount_stocks'))
+
+    date_from = '-'.join(list(map(str, date_from)))
+    date_to = '-'.join(list(map(str, date_to)))
+
+    return render(request, 'moderation/stat_sale.html', {'stat': stat, 'date_from': date_from, 'date_to': date_to,
+                                                         'total_orders': total_orders,
+                                                         'total_amount': totat_amount,
+                                                         'total_payments': total_payments['total_sum'],
+                                                         'total_discount_promo': total_discount_promo['total_sum'],
+                                                         'total_discount_stocks': total_discount_stocks['total_sum']},
+                  )

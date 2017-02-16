@@ -237,18 +237,29 @@ $(document).ready(function() {
         location.reload();
     });
 
-    $('body').on('DOMNodeInserted',function(e){
-        $('.cc-cart-remove').on('click', function(e) {
-            e.preventDefault();
+    $('body').on('click', '.cc-cart-remove', function(e) {
+        e.preventDefault();
 
-            $.ajax({
-                url: '/cart/' + $(this).data('id') + '/remove/',
-                type: 'post',
-                success: function(data) {
-                    $('#cc-cart-content').html(data.html);
-                    $('#cc-cart-total').html(data.count);
-                },
-            });
+        $.ajax({
+            url: '/cart/' + $(this).data('id') + '/remove/',
+            type: 'post',
+            success: function(data) {
+                $('#cc-cart-content').html(data.html);
+                $('#cc-cart-total').html(data.count);
+            },
+        });
+    });
+
+    $('body').on('click', '.cc-cart-remove-set', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/cart/' + $(this).data('id') + '/remove_set/',
+            type: 'post',
+            success: function(data) {
+                $('#cc-cart-content').html(data.html);
+                $('#cc-cart-total').html(data.count);
+            },
         });
     });
 

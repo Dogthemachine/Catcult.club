@@ -161,8 +161,8 @@ PAYMENT = (
 DISCOUNT_PHONE = int(get_env_variable('TC_DISCOUNT_PHONE'))
 
 # Contact email
-CONTACT_EMAIL = 'danileyko@gmail.com'
-INFO_EMAIL = 'danileyko@gmail.com'
+CONTACT_EMAIL = 'info@catcult.club'
+INFO_EMAIL = 'info@catcult.club'
 
 # Email config
 EMAIL_USE_TLS = True
@@ -188,3 +188,6 @@ STOCKS_TYPES = (
     (1, 'Order items count'),
     (2, 'Conditional')
 )
+
+# 0 - image, 1 - text
+MENU_LAYOUT = 0
