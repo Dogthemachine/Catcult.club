@@ -607,3 +607,11 @@ body {
     display: inline-block;
     margin-right: 10px;
 }
+
+.cc-menu-item a {
+    text-decoration: none;
+}
+
+.cc-menu-item a:hover {
+    text-decoration: none;
+}

@@ -188,7 +188,7 @@ $(document).ready(function() {
 
     });
 
-    $('#cc-cart-link').on('click', function() {
+    $('.cc-cart-link').on('click', function() {
         $.ajax({
             url: '/cart/',
             type: 'get',

@@ -6,7 +6,7 @@
     <div class="navbar-header">
       {% if request.cart_amount %}
         <li class="nav-item visible-xs-inline-block">
-          <a id="cc-cart-link" class="visible-xs-inline-block cc-main-menu-color cc-mobile-cart" href="#" data-toggle="modal" data-target="#cc-cart-modal">
+          <a class="cc-cart-link visible-xs-inline-block cc-main-menu-color cc-mobile-cart" href="#" data-toggle="modal" data-target="#cc-cart-modal">
             <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{{ request.cart_amount }}</span>
           </a>
         </li>
@@ -54,7 +54,7 @@
         <ul class="nav navbar-nav navbar-right">
           {% if request.cart_amount %}
             <li class="nav-item hidden-xs">
-              <a id="cc-cart-link" class="cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
+              <a class="cc-cart-link cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
                 <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{{ request.cart_amount }}</span>
               </a>
             </li>
