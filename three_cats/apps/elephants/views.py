@@ -91,7 +91,6 @@ def showcase(request, category_id=None, fashion_id=None):
     not_avail_items.sort(key=lambda x: x.views, reverse=True)
 
     items = avail_items + not_avail_items
-    print(avail_items)
 
     paginator = Paginator(items, 12)
 

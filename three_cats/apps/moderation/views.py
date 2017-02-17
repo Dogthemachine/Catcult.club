@@ -595,7 +595,7 @@ def stat_sale(request):
 
     items = OrderItems.objects.filter(
         added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
     ).all()
     totat_amount = 0
     for item in items:
@@ -603,7 +603,7 @@ def stat_sale(request):
 
     items = OrderItems.objects.filter(
         added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
     ).exclude(order__discount_promo=0).all()
     total_discount_promo = 0
     for item in items:
@@ -614,10 +614,13 @@ def stat_sale(request):
         added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
     ).aggregate(total_sum=Sum('discount_stocks'))
 
-    total_discount_set = Orders.objects.filter(
+    orders = Orders.objects.filter(
         added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
         added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
-    ).aggregate(total_sum=Sum('discount_set'))
+    ).all()
+    total_discount_set = 0
+    for order in orders:
+        total_discount_set += order.discount_set
 
     date_from = '-'.join(list(map(str, date_from)))
     date_to = '-'.join(list(map(str, date_to)))
@@ -628,5 +631,5 @@ def stat_sale(request):
                                                          'total_payments': total_payments['total_sum'],
                                                          'total_discount_promo': total_discount_promo,
                                                          'total_discount_stocks': total_discount_stocks['total_sum'],
-                                                         'total_discount_set': total_discount_set['total_sum']},
+                                                         'total_discount_set': total_discount_set},
                   )

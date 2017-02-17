@@ -170,7 +170,6 @@ class Cart(models.Model):
             self.discount_stocks = sum
             self.comment = ugettext('Your discount is %s UAH.') % sum
             self.save()
-            print(self.discount_stocks)
 
             if sum:
                 message = ugettext('You have %(items)s discounted items for %(sum)s UAH.') % {'items': items, 'sum': sum}
