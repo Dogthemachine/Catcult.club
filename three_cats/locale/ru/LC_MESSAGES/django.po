@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-18 17:28+0200\n"
+"POT-Creation-Date: 2017-03-18 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -209,10 +209,8 @@ msgid "Action!!!"
 msgstr "Акция!!!"
 
 #: apps/elephants/views.py:151 apps/elephants/views.py:229
-#, fuzzy, python-format
-#| msgid "%s was added to your cart. %s"
 msgid "%(name)s was added to your cart. %(count)s"
-msgstr "%s был добавлен в вашу корзину. %s"
+msgstr "%(name)s был добавлен в вашу корзину. %(count)s"
 
 #: apps/info/forms.py:27
 msgid "Name"
@@ -375,10 +373,8 @@ msgid "Error: no balance."
 msgstr "Ошибка: нет баланса"
 
 #: apps/moderation/views.py:65
-#, fuzzy, python-format
-#| msgid "Balance was saved. Old value: %s, new value: %s"
 msgid "Balance was saved. Old value: %(old)s, new value: %(new)s"
-msgstr "Баланс был сохранен. Старое значение: %s, новое значение: %s"
+msgstr "Баланс был сохранен. Старое значение: %(old)s, новое значение: %(new)s"
 
 #: apps/moderation/views.py:113 templates/moderation/balances.html:28
 #: templates/moderation/balances.html:65 templates/moderation/items.html:6
@@ -475,8 +471,6 @@ msgid "first name"
 msgstr "Фамилия"
 
 #: apps/orders/models.py:14
-#, fuzzy
-#| msgid "name"
 msgid "last name"
 msgstr "Имя"
 
@@ -529,8 +523,6 @@ msgid "discount from stocks"
 msgstr "скидка по акции"
 
 #: apps/orders/models.py:28
-#, fuzzy
-#| msgid "discount from stocks"
 msgid "discount from set"
 msgstr "скидка по акции"
 
@@ -901,8 +893,6 @@ msgid "Total discount stocs:"
 msgstr "Всего скидок по акциям:"
 
 #: templates/moderation/stat_sale.html:51
-#, fuzzy
-#| msgid "Total discount stocs:"
 msgid "Total discount set:"
 msgstr "Всего скидок по акциям:"
 

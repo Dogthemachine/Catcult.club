@@ -148,7 +148,7 @@ def item_details(request, id):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('%(name)s was added to your cart. %(count)s') % {'name': item.name, 'cont': cart.get_items_count()}
+                _('%(name)s was added to your cart. %(count)s') % {'name': item.name, 'count': cart.get_items_count()}
             )
 
             request.cart_amount += cart_item.amount
