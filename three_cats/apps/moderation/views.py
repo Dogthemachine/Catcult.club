@@ -62,7 +62,7 @@ def balances_update(request):
                 log.user = request.user
                 log.save()
 
-                return {'success': True, 'message': _('Balance was saved. Old value: %s, new value: %s') % (log.old_value, log.new_value)}
+                return {'success': True, 'message': _('Balance was saved. Old value: %(old)s, new value: %(new)s') % {'old': log.old_value, 'new': log.new_value}}
 
 
         else:
@@ -122,6 +122,17 @@ def export_balance(request):
 @permission_required('info.delete_info', login_url='/login/')
 def manage_orders(request):
     last, created = LastOrdersCheck.objects.get_or_create(id=1)
+    orderitems = OrderItems.objects.filter(order__added__gte=last.datetime, balance__amount=0)
+    if orderitems:
+        message = _('The stock is out of stock:')
+        for orderitem in orderitems:
+            message += ' ' + _('Item') + ' - ' + orderitem.balance.item.name + '   '
+            message += _('Size') + ' - ' + orderitem.balance.size.name + ';'
+        messages.add_message(
+            request,
+            messages.WARNING,
+            message
+        )
     last.save()
 
     date_from = request.GET.get('date_from', None)

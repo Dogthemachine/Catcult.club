@@ -148,7 +148,7 @@ def item_details(request, id):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('%s was added to your cart. %s') % (item.name, cart.get_items_count())
+                _('%(name)s was added to your cart. %(count)s') % {'name': item.name, 'cont': cart.get_items_count()}
             )
 
             request.cart_amount += cart_item.amount
@@ -226,7 +226,7 @@ def item_set_details(request, id):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('%s was added to your cart. %s') % (set.name, cart.get_items_count())
+                _('%(name)s was added to your cart. %(count)s') % {'name': set.name, 'count': cart.get_items_count()}
             )
 
             request.cart_amount += form.cleaned_data['quantity']

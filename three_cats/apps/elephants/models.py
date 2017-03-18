@@ -262,7 +262,6 @@ class SetsPhoto(models.Model):
 class Balance(models.Model):
     item = models.ForeignKey(Items)
     size = models.ForeignKey(Sizes)
-    size = models.ForeignKey(Sizes)
     amount = models.IntegerField(_('amount'), default=0)
 
     class Meta:

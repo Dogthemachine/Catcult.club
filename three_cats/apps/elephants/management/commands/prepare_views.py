@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class Command(BaseCommand):
     args = ''
-    help = 'Prepare vacancies for sorting.'
+    help = 'Prepare items for sorting.'
 
     def handle(self, *args, **options):
         from apps.elephants.models import Items, Sets
