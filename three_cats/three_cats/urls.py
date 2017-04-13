@@ -10,7 +10,7 @@ from apps.main_page.views import main_page
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
     delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
     j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
-    stat_sale
+    stat_sale, stat_ending
 from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, messages_off
 
 admin.autodiscover()
@@ -63,6 +63,8 @@ urlpatterns = [
 
     #Statistics
     url(r'^stat/sale/$', stat_sale, name='stat_sale'),
+    url(r'^stat/ending0/$', stat_ending, {'rest': 0}, name='stat_ending_0'),
+    url(r'^stat/ending1/$', stat_ending, {'rest': 1}, name='stat_ending_1'),
 
     #Orders
     url(r'^messages_off/(?P<id>\d+)/$', messages_off, name='messages_off'),

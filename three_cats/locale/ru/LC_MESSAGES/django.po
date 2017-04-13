@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-18 18:07+0200\n"
+"POT-Creation-Date: 2017-04-13 14:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -209,6 +209,7 @@ msgid "Action!!!"
 msgstr "Акция!!!"
 
 #: apps/elephants/views.py:151 apps/elephants/views.py:229
+#, python-format
 msgid "%(name)s was added to your cart. %(count)s"
 msgstr "%(name)s был добавлен в вашу корзину. %(count)s"
 
@@ -373,13 +374,16 @@ msgid "Error: no balance."
 msgstr "Ошибка: нет баланса"
 
 #: apps/moderation/views.py:65
+#, python-format
 msgid "Balance was saved. Old value: %(old)s, new value: %(new)s"
 msgstr "Баланс был сохранен. Старое значение: %(old)s, новое значение: %(new)s"
 
 #: apps/moderation/views.py:113 templates/moderation/balances.html:28
 #: templates/moderation/balances.html:65 templates/moderation/items.html:6
 #: templates/moderation/order.html:21 templates/moderation/order.html:45
-#: templates/moderation/order.html:86 templates/moderation/stat_sale.html:59
+#: templates/moderation/order.html:86 templates/moderation/stat_ending.html:17
+#: templates/moderation/stat_ending.html:55
+#: templates/moderation/stat_sale.html:59
 #: templates/moderation/stat_sale.html:85
 msgid "Category"
 msgstr "Категория"
@@ -387,7 +391,8 @@ msgstr "Категория"
 #: apps/moderation/views.py:113 templates/moderation/balances.html:29
 #: templates/moderation/balances.html:66 templates/moderation/items.html:7
 #: templates/moderation/order.html:22 templates/moderation/order.html:46
-#: templates/moderation/order.html:87
+#: templates/moderation/order.html:87 templates/moderation/stat_ending.html:18
+#: templates/moderation/stat_ending.html:56
 msgid "Fashion"
 msgstr "Фасон"
 
@@ -395,11 +400,15 @@ msgstr "Фасон"
 #: templates/moderation/balances.html:30 templates/moderation/balances.html:67
 #: templates/moderation/items.html:8 templates/moderation/order.html:23
 #: templates/moderation/order.html:47 templates/moderation/order.html:88
+#: templates/moderation/stat_ending.html:19
+#: templates/moderation/stat_ending.html:57
 msgid "Item"
 msgstr "Товар"
 
 #: apps/moderation/views.py:113 templates/moderation/balances.html:32
-#: templates/moderation/balances.html:69 templates/navbar_mod.html:23
+#: templates/moderation/balances.html:69
+#: templates/moderation/stat_ending.html:21
+#: templates/moderation/stat_ending.html:59 templates/navbar_mod.html:23
 #: templates/navbar_mod.html:24
 msgid "Balance"
 msgstr "Баланс"
@@ -749,6 +758,8 @@ msgid "Download"
 msgstr "Скачать"
 
 #: templates/moderation/balances.html:31 templates/moderation/balances.html:68
+#: templates/moderation/stat_ending.html:20
+#: templates/moderation/stat_ending.html:58
 msgid "Sizes"
 msgstr "Размеры"
 
@@ -868,6 +879,21 @@ msgstr "Изменить комментарий"
 msgid "Add comment"
 msgstr "Добавить комментарий"
 
+#: templates/moderation/stat_ending.html:5 templates/navbar_mod.html:37
+#: templates/navbar_mod.html:38 templates/navbar_mod.html:40
+msgid "End of goods"
+msgstr "Распродано"
+
+#: templates/moderation/stat_ending.html:16
+#: templates/moderation/stat_ending.html:54
+msgid "End date"
+msgstr "Последняя продажа"
+
+#: templates/moderation/stat_ending.html:22
+#: templates/moderation/stat_ending.html:60
+msgid "Sales"
+msgstr "Продажи"
+
 #: templates/moderation/stat_sale.html:20
 msgid "Choose"
 msgstr "Отобрать"
@@ -917,7 +943,11 @@ msgstr "Статистика"
 msgid "The sale"
 msgstr "По продажам"
 
-#: templates/navbar_mod.html:40 templates/navbar_mod.html:41
+#: templates/navbar_mod.html:41
+msgid "Last unit"
+msgstr "Последний экземпляр"
+
+#: templates/navbar_mod.html:46 templates/navbar_mod.html:47
 msgid "Shop"
 msgstr "Магазин"
 
@@ -940,6 +970,10 @@ msgstr "Всего"
 #: three_cats/settings/base.py:134
 msgid "Russian"
 msgstr "Русский"
+
+#: three_cats/settings/base.py:135
+msgid "Ukrainian"
+msgstr "Украинский"
 
 #: three_cats/settings/base.py:136
 msgid "English"
@@ -988,9 +1022,6 @@ msgid ""
 msgstr ""
 "Любой системой международных денежных переводов. (в случае доставки за "
 "границу)."
-
-#~ msgid "Ukrainian"
-#~ msgstr "Украинский"
 
 #~ msgid "City and Nova Poshta branch or your address"
 #~ msgstr "Город и отделение Новой почты или Ваш адрес"

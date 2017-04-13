@@ -644,3 +644,22 @@ def stat_sale(request):
                                                          'total_discount_stocks': total_discount_stocks['total_sum'],
                                                          'total_discount_set': total_discount_set},
                   )
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def stat_ending(request, rest=0):
+
+    balances = Balance.objects.filter(amount=rest)
+    for balance in balances:
+        order_items = OrderItems.objects.filter(balance=balance).order_by('-added')[:1]
+        for order_item in order_items:
+            balance.ld = order_item.added
+            date_from = order_item.added - datetime.timedelta(days=30)
+
+        balance.sl = OrderItems.objects.filter(balance=balance, added__gte=date_from).count()
+
+    return render(request, 'moderation/stat_ending.html', {
+        'balances': balances
+                                                           },
+                  )
