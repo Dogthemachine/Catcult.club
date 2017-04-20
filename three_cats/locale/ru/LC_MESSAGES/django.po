@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-13 14:47+0300\n"
+"POT-Creation-Date: 2017-04-20 14:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -326,12 +326,12 @@ msgstr "[Контактная форма] Новое сообщение"
 msgid "The message was successfully sent."
 msgstr "Сообщение успешно отправлено."
 
-#: apps/moderation/forms.py:28 apps/moderation/forms.py:55
-#: apps/moderation/views.py:291 apps/orders/forms.py:64
+#: apps/moderation/forms.py:29 apps/moderation/forms.py:56
+#: apps/moderation/views.py:291 apps/orders/forms.py:65
 msgid "Comment"
 msgstr "Комментарий"
 
-#: apps/moderation/forms.py:40 apps/moderation/views.py:334
+#: apps/moderation/forms.py:41 apps/moderation/views.py:334
 #: templates/footer.html:30 templates/footer.html:31
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:82
@@ -339,23 +339,23 @@ msgstr "Комментарий"
 msgid "Delivery"
 msgstr "Доставка"
 
-#: apps/moderation/forms.py:41 apps/orders/models.py:25
+#: apps/moderation/forms.py:42 apps/orders/models.py:25
 #: templates/moderation/j_order_delivery.html:10
 #: templates/moderation/j_order_delivery_success.html:15
 #: templates/moderation/orders.html:78
 msgid "TTN"
 msgstr "ТТН"
 
-#: apps/moderation/forms.py:42
+#: apps/moderation/forms.py:43
 msgid "Date of delivery"
 msgstr "При получении"
 
-#: apps/moderation/forms.py:54 templates/moderation/stat_sale.html:60
+#: apps/moderation/forms.py:55 templates/moderation/stat_sale.html:60
 #: templates/moderation/stat_sale.html:86
 msgid "Amount"
 msgstr "Количество"
 
-#: apps/moderation/forms.py:71
+#: apps/moderation/forms.py:72
 #: templates/moderation/j_order_comment_buttons.html:3
 #: templates/moderation/j_order_delivery_buttons.html:4
 msgid "Save"
@@ -438,39 +438,39 @@ msgstr "Платеж"
 msgid "Something went wrong."
 msgstr "Что-то пошло не так."
 
-#: apps/orders/forms.py:28
+#: apps/orders/forms.py:29
 msgid "Your First name:"
 msgstr "Ваше имя:"
 
-#: apps/orders/forms.py:29
+#: apps/orders/forms.py:30
 msgid "Your Last name:"
 msgstr "Ваша фамилия:"
 
-#: apps/orders/forms.py:30
+#: apps/orders/forms.py:31
 msgid "Phone number:"
 msgstr "Номер телефона:"
 
-#: apps/orders/forms.py:31
+#: apps/orders/forms.py:32
 msgid "Promo code (if any):"
 msgstr "Промо код (при наличии)"
 
-#: apps/orders/forms.py:32
+#: apps/orders/forms.py:33
 msgid "Payment Method"
 msgstr "Способ оплаты:"
 
-#: apps/orders/forms.py:33
+#: apps/orders/forms.py:34
 msgid "Delivery Method"
 msgstr "Способ доставки:"
 
-#: apps/orders/forms.py:34
+#: apps/orders/forms.py:35
 msgid "Your address:"
 msgstr "Город и отделение Новой Почты или ваш адрес."
 
-#: apps/orders/forms.py:51
+#: apps/orders/forms.py:52
 msgid "This payment method is not available when sending abroad."
 msgstr "Этот способ оплаты не доступен при отправке за границу."
 
-#: apps/orders/forms.py:57
+#: apps/orders/forms.py:58
 msgid ""
 "This code is not valid. Please enter a valid code or leave the field empty."
 msgstr "Код недействителен. Введите верный код или оставьте поле пустым."
@@ -524,8 +524,9 @@ msgid "user comment"
 msgstr "комментарий пользователя"
 
 #: apps/orders/models.py:26
-msgid "discount from promo"
-msgstr "скидка по промо коду"
+#| msgid "discount from promo"
+msgid "discount from promo (percent)"
+msgstr "скидка по промо коду (процент)"
 
 #: apps/orders/models.py:27 apps/orders/models.py:120
 msgid "discount from stocks"
@@ -533,7 +534,7 @@ msgstr "скидка по акции"
 
 #: apps/orders/models.py:28
 msgid "discount from set"
-msgstr "скидка по акции"
+msgstr "скидка по комплектам"
 
 #: apps/orders/models.py:29
 msgid "SMS sent"
@@ -989,39 +990,34 @@ msgstr "Доставка до ближайшего отделения Новой
 msgid "Nova Poshta door-to-door delivery (in Ukraine);"
 msgstr "Адресная доставка Новой Почтой «до двери» (по Украине);"
 
-#: three_cats/settings/base.py:148
-msgid "Courier delivery across Odessa;"
-msgstr "Курьерская доставка по Одессе;"
-
-#: three_cats/settings/base.py:149
+#: three_cats/settings/base.py:150
 msgid "Worldwide Delivery."
-msgstr ""
-"Давка за рубежДоставка в любую точку мира любым перевозчиком на Ваш выбор, "
-"или согласно нашей рекомендации."
+msgstr "Доставка в любую точку мира."
 
-#: three_cats/settings/base.py:153
+#: three_cats/settings/base.py:154
 msgid "Via LiqPay (onlive);"
 msgstr "Онлайн (LiqPay);"
 
-#: three_cats/settings/base.py:154
+#: three_cats/settings/base.py:155
 msgid "By any other bank Visa or MasterCard;"
 msgstr "На карту Приват Банка;"
 
-#: three_cats/settings/base.py:155
-msgid "Settle in cash in the case of courier \"door-to-door\" delivery;"
-msgstr "Наличными в случае курьерской доставки «до двери»;"
-
-#: three_cats/settings/base.py:156
+#: three_cats/settings/base.py:158
 msgid "Cash on delivery upon receipt of order at the Nova Poshta branch;"
 msgstr "Наложенным платежом при получении заказа на Новой Почте;"
 
-#: three_cats/settings/base.py:157
-msgid ""
-"Through any system of international money transfer (in the case of overseas "
-"delivery)."
-msgstr ""
-"Любой системой международных денежных переводов. (в случае доставки за "
-"границу)."
+#~ msgid "Courier delivery across Odessa;"
+#~ msgstr "Курьерская доставка по Одессе;"
+
+#~ msgid "Settle in cash in the case of courier \"door-to-door\" delivery;"
+#~ msgstr "Наличными в случае курьерской доставки «до двери»;"
+
+#~ msgid ""
+#~ "Through any system of international money transfer (in the case of "
+#~ "overseas delivery)."
+#~ msgstr ""
+#~ "Любой системой международных денежных переводов. (в случае доставки за "
+#~ "границу)."
 
 #~ msgid "City and Nova Poshta branch or your address"
 #~ msgstr "Город и отделение Новой почты или Ваш адрес"

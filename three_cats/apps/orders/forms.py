@@ -20,7 +20,8 @@ def lang(t):
     """
     x = []
     for i in t:
-        x.append((i[0], _(i[1])))
+        if i[1]:
+            x.append((i[0], _(i[1])))
     return x
 
 

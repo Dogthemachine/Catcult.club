@@ -23,7 +23,7 @@ class Orders(models.Model):
     liqpay_wait_accept = models.BooleanField(_('LiqPay wait accept'), default=False)
     user_comment = models.CharField(_('user comment'), max_length=512, blank=True)
     ttn = models.IntegerField(_('TTN'), default=0)
-    discount_promo = models.PositiveIntegerField(_('discount from promo'), default=0)
+    discount_promo = models.PositiveIntegerField(_('discount from promo (percent)'), default=0)
     discount_stocks = models.PositiveIntegerField(_('discount from stocks'), default=0)
     discount_set = models.PositiveIntegerField(_('discount from set'), default=0)
     sms_sent = models.BooleanField(_('SMS sent'), default=False)

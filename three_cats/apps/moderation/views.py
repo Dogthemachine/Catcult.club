@@ -618,7 +618,7 @@ def stat_sale(request):
     ).exclude(order__discount_promo=0).all()
     total_discount_promo = 0
     for item in items:
-        total_discount_promo += item.amount*item.amount*item.order.discount_promo
+        total_discount_promo += int(item.amount*item.price*item.order.discount_promo/100)
 
     total_discount_stocks = Orders.objects.filter(
         added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
