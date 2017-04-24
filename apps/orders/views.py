@@ -38,7 +38,7 @@ def cart(request):
         cart_items = []
 
     t = loader.get_template('orders/cart.html')
-    c = request, {'cart': cart, 'cart_items': cart_items}
+    c = {'cart': cart, 'cart_items': cart_items}
     html = t.render(c, request)
 
     return {'html': html}
@@ -115,7 +115,7 @@ def cart_checkout(request):
     if no_avail_items:
 
         t = loader.get_template('orders/cart.html')
-        c = request, {'cart': cart, 'cart_items': cart_items}
+        c = {'cart': cart, 'cart_items': cart_items}
         html = t.render(c, request)
 
         return {'form': False, 'html': html}
