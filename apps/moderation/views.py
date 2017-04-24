@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.shortcuts import get_object_or_404, render, redirect
-from django.template import RequestContext, loader, Context
+from django.template import loader, Context
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
@@ -255,12 +255,12 @@ def j_order_info(request, id):
     title = _('Order info')
 
     t = loader.get_template('moderation/j_order_info.html')
-    c = RequestContext(request, {'order': order})
-    html = t.render(c)
+    c = {'order': order}
+    html = t.render(c, request)
 
     t = loader.get_template('moderation/j_order_info_buttons.html')
-    c = RequestContext(request, {'order': order})
-    buttons = t.render(c)
+    c = {'order': order}
+    buttons = t.render(c, request)
 
     return {'success': True, 'title': title, 'html': html, 'buttons': buttons}
 
@@ -292,12 +292,12 @@ def j_order_comment(request, id):
 
     form = CommentForm(initial={'comment': order.comment})
     t = loader.get_template('moderation/j_order_comment.html')
-    c = RequestContext(request, {'form': form})
-    html = t.render(c)
+    c = {'form': form}
+    html = t.render(c, request)
 
     t = loader.get_template('moderation/j_order_comment_buttons.html')
-    c = RequestContext(request, {'order': order})
-    buttons = t.render(c)
+    c = {'order': order}
+    buttons = t.render(c, request)
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -326,8 +326,8 @@ def j_order_delivery(request, id, reset=False):
         order.save()
 
         t = loader.get_template('moderation/j_order_delivery_success.html')
-        c = RequestContext(request, {'order': order})
-        html = t.render(c)
+        c = {'order': order}
+        html = t.render(c, request)
 
         return {'success': True, 'html': html}
 
@@ -337,12 +337,12 @@ def j_order_delivery(request, id, reset=False):
 
     form = DeliveryForm(initial={'delivery': order.delivery_method, 'ttn': order.ttn, 'date': form_date})
     t = loader.get_template('moderation/j_order_delivery.html')
-    c = RequestContext(request, {'form': form, 'order': order})
-    html = t.render(c)
+    c = {'form': form, 'order': order}
+    html = t.render(c, request)
 
     t = loader.get_template('moderation/j_order_delivery_buttons.html')
-    c = RequestContext(request, {'order': order})
-    buttons = t.render(c)
+    c = {'order': order}
+    buttons = t.render(c, request)
 
     if request.method == 'POST' and reset == False:
         form = DeliveryForm(request.POST)
@@ -374,8 +374,8 @@ def j_order_delivery(request, id, reset=False):
                 order.save()
 
             t = loader.get_template('moderation/j_order_delivery_success.html')
-            c = RequestContext(request, {'order': order})
-            html = t.render(c)
+            c = {'order': order}
+            html = t.render(c, request)
 
             return {'success': True, 'html': html}
 
@@ -398,12 +398,12 @@ def j_order_payment(request, id):
 
     form = PaymentForm(initial={'amount': order.get_remaining_amount})
     t = loader.get_template('moderation/j_order_payment.html')
-    c = RequestContext(request, {'form': form, 'order': order})
-    html = t.render(c)
+    c = {'form': form, 'order': order}
+    html = t.render(c, request)
 
     t = loader.get_template('moderation/j_order_payment_buttons.html')
-    c = RequestContext(request, {'order': order})
-    buttons = t.render(c)
+    c = {'order': order}
+    buttons = t.render(c, request)
 
     if request.method == 'POST':
         form = PaymentForm(request.POST)
@@ -429,8 +429,8 @@ def j_order_payment(request, id):
                 pass
 
             t = loader.get_template('moderation/j_order_payment_success.html')
-            c = RequestContext(request, {'order': order})
-            html = t.render(c)
+            c = {'order': order}
+            html = t.render(c, request)
 
             return {'success': True, 'html': html}
 
@@ -460,17 +460,17 @@ def j_order_payment_delete(request, id):
         payment.order.save()
 
     t = loader.get_template('moderation/j_order_payment_success.html')
-    c = RequestContext(request, {'order': payment.order})
-    html = t.render(c)
+    c = {'order': payment.order}
+    html = t.render(c, request)
 
     form = PaymentForm(initial={'amount': payment.order.get_remaining_amount})
     t = loader.get_template('moderation/j_order_payment.html')
-    c = RequestContext(request, {'order': payment.order, 'form': form})
-    modal_html = t.render(c)
+    c = {'order': payment.order, 'form': form}
+    modal_html = t.render(c, request)
 
     t = loader.get_template('moderation/j_order_payment_buttons.html')
-    c = RequestContext(request, {'order': payment.order})
-    buttons = t.render(c)
+    c = {'order': payment.order}
+    buttons = t.render(c, request)
 
     return {'success': True, 'html': html, 'modal_html': modal_html, 'buttons': buttons}
 
@@ -489,8 +489,8 @@ def j_order_packed(request, id):
         order.save()
 
         t = loader.get_template('moderation/j_order_delivery_success.html')
-        c = RequestContext(request, {'order': order})
-        html = t.render(c)
+        c = {'order': order}
+        html = t.render(c, request)
 
         return {'success': True, 'html': html}
 
@@ -508,8 +508,8 @@ def delete_order_item(request, id, item_id):
         item.delete()
 
         t = loader.get_template('moderation/items.html')
-        c = RequestContext(request, {'order': order})
-        html = t.render(c)
+        c = {'order': order}
+        html = t.render(c, request)
 
         return {'success': True, 'html': html}
 

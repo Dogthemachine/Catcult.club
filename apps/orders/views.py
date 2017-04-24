@@ -8,7 +8,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.shortcuts import render_to_response, get_object_or_404, render
-from django.template import RequestContext, loader, Context
+from django.template import loader, Context
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
 from django.template.loader import render_to_string
@@ -38,8 +38,8 @@ def cart(request):
         cart_items = []
 
     t = loader.get_template('orders/cart.html')
-    c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})
-    html = t.render(c)
+    c = request, {'cart': cart, 'cart_items': cart_items}
+    html = t.render(c, request)
 
     return {'html': html}
 
@@ -89,8 +89,8 @@ def cart_remove(request, id, set=False):
 
     cart_items = CartItem.objects.filter(cart=cart)
     t = loader.get_template('orders/cart.html')
-    c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})
-    html = t.render(c)
+    c = {'cart': cart, 'cart_items': cart_items}
+    html = t.render(c, request)
 
     return {'html': html, 'count': cart_items.count()}
 
@@ -115,8 +115,8 @@ def cart_checkout(request):
     if no_avail_items:
 
         t = loader.get_template('orders/cart.html')
-        c = RequestContext(request, {'cart': cart, 'cart_items': cart_items})
-        html = t.render(c)
+        c = request, {'cart': cart, 'cart_items': cart_items}
+        html = t.render(c, request)
 
         return {'form': False, 'html': html}
 
@@ -269,8 +269,8 @@ def cart_checkout(request):
             return {'form': False}
 
     t = loader.get_template('orders/cart_checkout.html')
-    c = RequestContext(request, {'form': form})
-    html = t.render(c)
+    c = {'form': form}
+    html = t.render(c, request)
 
     button_text = _('Place the order')
 
