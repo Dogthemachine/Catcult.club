@@ -13,7 +13,6 @@ from apps.moderation.views import balances, log, balances_update, export_balance
     stat_sale, stat_ending
 from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, messages_off
 
-admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', showcase, name='main_page'),

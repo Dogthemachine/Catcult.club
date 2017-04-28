@@ -1,5 +1,5 @@
 """
-WSGI config for media_region project.
+WSGI config for three_cats project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
