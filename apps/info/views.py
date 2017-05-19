@@ -68,7 +68,7 @@ def feedback(request):
                        form.cleaned_data.get('email') + '\n\n' +
                        form.cleaned_data.get('phone') + '\n\n' +
                        form.cleaned_data.get('message'))
-            from_email = settings.EMAIL_HOST_USER
+            from_email = settings.DEFAULT_FROM_EMAIL
             recipient_list = [settings.INFO_EMAIL]
             fail_silently = True
 
