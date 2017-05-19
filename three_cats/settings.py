@@ -163,6 +163,8 @@ EMAIL_HOST = os.environ.get('TC_EMAIL_HOST')
 EMAIL_HOST_USER = os.environ.get('TC_EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('TC_EMAIL_PASSWORD')
 EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = os.environ.get('TC_EMAIL_ADDR')
+SERVER_EMAIL = os.environ.get('TC_EMAIL_ADDR')
 
 SMS_PUBLIC_KEY = os.environ.get('TC_SMS_PUBLIC_KEY')
 SMS_PRIVATE_KEY = os.environ.get('TC_SMS_PRIVATE_KEY')
