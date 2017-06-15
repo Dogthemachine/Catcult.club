@@ -1,4 +1,4 @@
-Django==1.11
+Django==1.11.2
 django-bootstrap-pagination==1.6.2
 django-crispy-forms==1.6.1
 django-dotenv==1.4.1
