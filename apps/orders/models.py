@@ -141,7 +141,7 @@ class Cart(models.Model):
     def get_items_count(self):
         stock = Stocks.objects.filter(type=1, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
 
-        message = ''
+        message = ' '
 
         if stock:
             count = 0
