@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from django.utils import timezone
 from random import choice
 from string import ascii_lowercase, ascii_uppercase
 
@@ -12,7 +13,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         from apps.orders.models import Promo
-
+        print(timezone.now())
         n = int(options['n'])
         discount = int(options['discount'])
 
@@ -32,4 +33,3 @@ class Command(BaseCommand):
                 n -= 1
 
                 print(code)
-

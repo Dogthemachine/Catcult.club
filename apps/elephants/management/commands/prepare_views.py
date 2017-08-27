@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         from apps.elephants.models import Items, Sets
-
+        print(timezone.now())
         items = Items.objects.all()
 
         for item in items:
