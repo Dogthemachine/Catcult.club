@@ -111,10 +111,18 @@ class Items(models.Model):
     def get_actual_price(self):
         price = self.price
 
-        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        global_stock = Stocks.objects.filter(categories__isnull=True, fashions__isnull=True,
+                                             action_begin__lte=timezone.datetime.today(),
+                                             action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.fashions.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(fashions=self.fashions,
+                                          action_begin__lte=timezone.datetime.today(),
+                                          action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            if not stock:
+                stock = Stocks.objects.filter(categories=self.fashions.categories,
+                                              action_begin__lte=timezone.datetime.today(),
+                                              action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
         else:
             stock = global_stock
 
@@ -276,6 +284,7 @@ class Balance(models.Model):
 class Stocks(models.Model):
     name = models.CharField(_('name'), max_length=250)
     categories = models.ManyToManyField(Categories, blank=True)
+    fashions = models.ManyToManyField(Fashions, blank=True)
     type = models.PositiveSmallIntegerField(_('type'), choices=settings.STOCKS_TYPES)
     items_count = models.PositiveSmallIntegerField(_('items count'), blank=True)
     image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d', blank=True)
