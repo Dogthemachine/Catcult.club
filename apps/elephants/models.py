@@ -132,10 +132,19 @@ class Items(models.Model):
         return price
 
     def get_discount_name(self):
-        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+
+        global_stock = Stocks.objects.filter(categories__isnull=True, fashions__isnull=True,
+                                             action_begin__lte=timezone.datetime.today(),
+                                             action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.fashions.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(fashions=self.fashions,
+                                          action_begin__lte=timezone.datetime.today(),
+                                          action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            if not stock:
+                stock = Stocks.objects.filter(categories=self.fashions.categories,
+                                              action_begin__lte=timezone.datetime.today(),
+                                              action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
         else:
             stock = global_stock
 

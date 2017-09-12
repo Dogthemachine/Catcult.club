@@ -62,12 +62,13 @@ def get_price(entry):
 def get_stocks():
     try:
         global_stock = Stocks.objects.filter(action_begin__lte=timezone.datetime.today(),
-                                             action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+                                             action_end__gte=timezone.datetime.today()).order_by('-id')
         m = ''
         if global_stock:
-            global_stock = global_stock[0]
-            m = '<div id="marquee"><a href="/stock/%i/">%s</a>%s</div>' % (global_stock.id, _('Action!!!'),
-                                                                                    _(global_stock.name))
+            st = '<div id="marquee">%s' % (_('Action!!!')) + ' '
+            for gs in global_stock:
+                st = st + '%s' % (_(gs.name)) + ' '
+            m = st + '</div>'
 
     except:
         return ''
