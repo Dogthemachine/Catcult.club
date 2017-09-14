@@ -145,11 +145,19 @@ def item_details(request, id):
                 )
             cart_item.save()
 
-            messages.add_message(
-                request,
-                messages.SUCCESS,
-                _('%(name)s was added to your cart. %(count)s') % {'name': item.name, 'count': cart.get_items_count()}
-            )
+            action = cart.get_items_count()
+            if action:
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    _('%(name)s was added to your cart. %(count)s') % {'name': item.name, 'count': action}
+                )
+            else:
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    _('%(name)s was added to your cart.') % {'name': item.name}
+                )
 
             request.cart_amount += cart_item.amount
 

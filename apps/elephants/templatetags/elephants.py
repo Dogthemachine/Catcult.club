@@ -60,10 +60,11 @@ def get_price(entry):
 
 @register.simple_tag
 def get_stocks():
+    m=''
+    """
     try:
         global_stock = Stocks.objects.filter(action_begin__lte=timezone.datetime.today(),
                                              action_end__gte=timezone.datetime.today()).order_by('-id')
-        m = ''
         if global_stock:
             st = '<div id="marquee">%s' % (_('Action!!!')) + ' '
             for gs in global_stock:
@@ -71,7 +72,8 @@ def get_stocks():
             m = st + '</div>'
 
     except:
-        return ''
+        return mark_safe('')
+    """
 
     return mark_safe(m)
 
