@@ -116,11 +116,11 @@ class Items(models.Model):
                                              action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(fashions=self.fashions,
+            stock = Stocks.objects.filter(categories=self.fashions.categories,
                                           action_begin__lte=timezone.datetime.today(),
                                           action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
             if not stock:
-                stock = Stocks.objects.filter(categories=self.fashions.categories,
+                stock = Stocks.objects.filter(fashions=self.fashions,
                                               action_begin__lte=timezone.datetime.today(),
                                               action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
         else:
@@ -138,11 +138,11 @@ class Items(models.Model):
                                              action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(fashions=self.fashions,
+            stock = Stocks.objects.filter(categories=self.fashions.categories,
                                           action_begin__lte=timezone.datetime.today(),
                                           action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
             if not stock:
-                stock = Stocks.objects.filter(categories=self.fashions.categories,
+                stock = Stocks.objects.filter(fashions=self.fashions,
                                               action_begin__lte=timezone.datetime.today(),
                                               action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
         else:
