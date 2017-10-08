@@ -1,40 +1,47 @@
 import requests
 from hashlib import md5
 
+from django.utils.translation import ugettext as _
+
 from django.conf import settings
+from apps.orders.models import DeliveryCost
 
 
 def send_sms(phone, text):
-    keys = {}
-    keys['version'] = '3.0'
-    keys['action'] = 'sendSMS'
-    keys['key'] = settings.SMS_PUBLIC_KEY
-    keys['sender'] = 'catcult'
-    keys['text'] = text
-    keys['phone'] = phone
-    keys['datetime'] = ''
-    keys['sms_lifetime'] = '0'
 
-    sum = ''
-    for k, v in sorted(keys.items()):
-            sum += v
-    sum += settings.SMS_PRIVATE_KEY
+    try:
+        keys = {}
+        keys['version'] = '3.0'
+        keys['action'] = 'sendSMS'
+        keys['key'] = settings.SMS_PUBLIC_KEY
+        keys['sender'] = 'catcult'
+        keys['text'] = text
+        keys['phone'] = phone
+        keys['datetime'] = ''
+        keys['sms_lifetime'] = '0'
 
-    checksum = md5(sum.encode('utf-8')).hexdigest()
+        sum = ''
+        for k, v in sorted(keys.items()):
+                sum += v
+        sum += settings.SMS_PRIVATE_KEY
 
-    url = 'http://api.atompark.com/sms/3.0/sendSMS'
+        checksum = md5(sum.encode('utf-8')).hexdigest()
 
-    payload = {
-        'sender': keys['sender'],
-        'text': text,
-        'phone': phone,
-        'datetime': keys['datetime'],
-        'sms_lifetime': keys['sms_lifetime'],
-        'key': settings.SMS_PUBLIC_KEY,
-        'sum': checksum
-    }
+        url = 'http://api.atompark.com/sms/3.0/sendSMS'
 
-    r = requests.post(url=url, data=payload)
+        payload = {
+            'sender': keys['sender'],
+            'text': text,
+            'phone': phone,
+            'datetime': keys['datetime'],
+            'sms_lifetime': keys['sms_lifetime'],
+            'key': settings.SMS_PUBLIC_KEY,
+            'sum': checksum
+        }
+
+        r = requests.post(url=url, data=payload)
+    except:
+        pass
 
 
 def normalize_phone(phone):
@@ -51,3 +58,24 @@ def normalize_phone(phone):
         phone = 0
 
     return phone
+
+
+def delivery_cost_sum(country, cart):
+    dc_sum = 0
+    w = cart.get_weith()
+    dc = DeliveryCost.objects.filter(country=country, weigth_from__lte=w, weigth_to__gt=w)
+    if dc:
+        dc_sum = dc[0].cost
+
+    return dc_sum
+
+
+def delivery_cost(country, cart):
+
+    dc_sum = delivery_cost_sum(country, cart)
+    if dc_sum:
+        dc = country.name + ' (' + str(dc_sum) + ' ' + _('grn') + ')'
+    else:
+        dc = country.name
+
+    return dc

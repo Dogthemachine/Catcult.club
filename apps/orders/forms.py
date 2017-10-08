@@ -6,7 +6,8 @@ from django.conf import settings
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 
-from apps.orders.models import Promo
+from apps.orders.models import Promo, Countris, Cart
+from apps.helpers import delivery_cost
 
 
 def lang(t):
@@ -26,21 +27,29 @@ def lang(t):
 
 
 class CheckoutForm(forms.Form):
+
+    # Build list of countries for dropdown list in form
+    CUNTRIES = []
+
     name = forms.CharField(label=_('Your First name:'), max_length=64)
     last_name = forms.CharField(label=_('Your Last name:'), max_length=64)
     phone = forms.CharField(label=_('Phone number:'))
     promo = forms.CharField(label=_('Promo code (if any):'), required=False)
     payment = forms.TypedChoiceField(label=_('Payment Method'), choices=lang(settings.PAYMENT), coerce=int, widget=forms.RadioSelect())
     delivery = forms.TypedChoiceField(label=_('Delivery Method'), choices=lang(settings.DELIVERY), coerce=int, widget=forms.RadioSelect())
+    country = forms.ChoiceField(label=_('Country (cost of delivery)'), choices=CUNTRIES, required=False)
     comment = forms.CharField(label=_('Your address:'), max_length=512)
 
     def __init__(self, *args, **kwargs):
+        self.cart = kwargs.pop('cart')
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_id = 'cc-checkout-form'
         self.helper.form_action = '.'
 
         super(CheckoutForm, self).__init__(*args, **kwargs)
+
+        self.fields['country'].choices = [(c.id, delivery_cost(c, self.cart)) for c in Countris.objects.all()]
 
     def clean(self):
 

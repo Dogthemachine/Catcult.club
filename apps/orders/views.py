@@ -21,7 +21,7 @@ from .forms import CheckoutForm
 from .models import Cart, CartItem, CartSet, CartSetItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
 from apps.liqpay import LiqPay
 from apps.elephants.models import Balance
-from apps.helpers import normalize_phone, send_sms
+from apps.helpers import normalize_phone, send_sms, delivery_cost_sum
 
 from django.core.urlresolvers import reverse
 
@@ -102,7 +102,7 @@ def cart_checkout(request):
     if created:
         return {'success': False}
 
-    form = CheckoutForm()
+    form = CheckoutForm(cart=cart)
 
     no_avail_items = 0
 
@@ -121,7 +121,7 @@ def cart_checkout(request):
         return {'form': False, 'html': html}
 
     if request.method == 'POST':
-        form = CheckoutForm(request.POST)
+        form = CheckoutForm(request.POST, cart=cart)
         if form.is_valid():
 
             discount_promo = 0
@@ -179,6 +179,10 @@ def cart_checkout(request):
                     message0
                 )
 
+            delivery_cost = 0
+            if form.cleaned_data['delivery'] == 3:
+                delivery_cost = delivery_cost_sum(form.cleaned_data['country'], cart)
+
             order = Orders()
             order.name = form.cleaned_data['name']
             order.last_name = form.cleaned_data['last_name']
@@ -187,6 +191,7 @@ def cart_checkout(request):
             order.payment_method = form.cleaned_data['payment']
             order.delivery_method = form.cleaned_data['delivery']
             order.user_comment = form.cleaned_data['comment']
+            order.delivery_cost = delivery_cost
             order.discount_promo = discount_promo
             order.discount_stocks = cart.discount_stocks
             order.save()
@@ -236,14 +241,26 @@ def cart_checkout(request):
                 else:
                     text = ''
 
-                send_sms(order.phone, text)
+            send_sms(order.phone, text)
 
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                text
+            )
+
+            if order.phone:
+                ph_s = str(order.phone)
+            else:
+                ph_s = _('Phone number is not set.')
             message = _('Your order has been placed. We will contact you shortly.<br/>Order details:<br/>')
-            message += order.name + '<br/>' + str(order.phone) + '<br/>'
+            message += order.get_number() + '<br/>' + ph_s + '<br/>'
             for item in order.orderitems_set.all():
                 message += item.balance.item.name + ' - '
                 message += item.balance.size.name + ' - '
                 message += str(item.amount) + '<br/>'
+            if delivery_cost:
+                message += _('Cost of delivery:') + ' ' + str(delivery_cost) + ' ' + _('UAH') + '<br/>'
             message += _('Total:') + ' ' + str(order.get_total_price()) + ' ' + _('UAH') + '<br/>'
 
             messages.add_message(

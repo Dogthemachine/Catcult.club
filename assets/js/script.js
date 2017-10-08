@@ -296,7 +296,7 @@ $(document).ready(function() {
         loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
     });
 
-    $('document').on('click', '#cc-unsubscribe', function(e) {
+    $(document).on('click', '#cc-unsubscribe', function(e) {
         e.preventDefault;
 
         $.ajax({
@@ -306,6 +306,19 @@ $(document).ready(function() {
                 $('#cc-messages').html(data.message)
             }
         });
+    });
+
+    $(document).on('click', '#id_delivery_1', function(e) {
+        $('#div_id_country').hide();
+    });
+
+    $(document).on('click', '#id_delivery_2', function(e) {
+        $('#div_id_country').hide();
+    });
+
+    $(document).on('click', '#id_delivery_3', function(e) {
+        //alert($(this).val());
+        $('#div_id_country').show();
     });
 
 });

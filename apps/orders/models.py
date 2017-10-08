@@ -19,6 +19,7 @@ class Orders(models.Model):
     paid = models.BooleanField(_('paid'), default=False)
     date_of_delivery = models.DateField(_('date_of_delivery'), blank=True, null=True)
     delivery_method = models.IntegerField(_('delivery_method'), choices=settings.DELIVERY, default=0)
+    delivery_cost = models.IntegerField(_('delivery_cost'), default=0)
     payment_method = models.IntegerField(_('payment_method'), choices=settings.PAYMENT, default=0)
     liqpay_wait_accept = models.BooleanField(_('LiqPay wait accept'), default=False)
     user_comment = models.CharField(_('user comment'), max_length=512, blank=True)
@@ -48,6 +49,8 @@ class Orders(models.Model):
         sum -= self.discount_stocks
         sum -= self.discount_set
         sum = sum - sum * self.discount_promo // 100
+
+        sum += self.delivery_cost
 
         return sum
 
@@ -178,9 +181,15 @@ class Cart(models.Model):
             if modulo == stock[0].items_count:
                 message += ugettext('You can add one more item and get a discount.')
 
-
-
         return message
+
+    def get_weith(self):
+        items = CartItem.objects.filter(cart=self)
+        weith = 0
+        for item in items:
+            weith += item.item.fashions.weigth * (item.amount - item.amount_set)
+
+        return weith
 
 
 class CartItem(models.Model):
@@ -233,6 +242,27 @@ class Promo(models.Model):
 
     def __str__(self):
         return u'%s' % self.code
+
+
+class Countris(models.Model):
+    name = models.CharField(_('Country'), max_length=70)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = _('Countris')
+        verbose_name_plural = _('Countris')
+
+
+class DeliveryCost(models.Model):
+    country = models.ForeignKey(Countris)
+    weigth_from = models.PositiveSmallIntegerField()
+    weigth_to = models.PositiveSmallIntegerField()
+    cost = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ('country',)
+        verbose_name = _('Delivery_Cost')
+        verbose_name_plural = _('Delivery_Cost')
 
 
 @receiver(post_save, sender=OrderItems)

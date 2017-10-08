@@ -733,3 +733,7 @@ body {
     text-decoration: none;
     color: #337ab7;
 }
+
+#div_id_country {
+    display: none;
+}
