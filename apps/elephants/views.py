@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from datetime import datetime, timedelta
 from django.utils import timezone
 
 from .forms import AddToCartForm, SetSizesForm
@@ -47,12 +48,16 @@ def showcase(request, category_id=None, fashion_id=None):
 
     avail_items = []
     not_avail_items = []
+    new_items = []
 
     for item in items:
         for balance in item.balance_set.all():
             if balance.amount > 0:
                 item.is_set = False
-                avail_items.append(item)
+                if datetime(item.added.year, item.added.month, item.added.day) < datetime.today()-timedelta(days=15):
+                    avail_items.append(item)
+                else:
+                    new_items.append(item)
                 break
 
     for item in items:
@@ -90,7 +95,7 @@ def showcase(request, category_id=None, fashion_id=None):
 
     not_avail_items.sort(key=lambda x: x.views, reverse=True)
 
-    items = avail_items + not_avail_items
+    items = new_items + avail_items + not_avail_items
 
     paginator = Paginator(items, 12)
 
@@ -250,14 +255,9 @@ def item_set_details(request, id):
 
 
 def stocks(request):
-    stocks = Stocks.objects.filter(action_end__gte=timezone.datetime.today()).order_by('-id')
+    stocks = Stocks.objects.filter(action_end__gte=timezone.datetime.today()-timedelta(days=365)).order_by('-id')
 
     topic = get_object_or_404(Info, topic='stocks')
 
     return render(request, 'elephants/stocks.html', {'topic': topic, 'stocks': stocks})
 
-
-def stock_details(request, stoks_id):
-    stock = get_object_or_404(Stocks, id=stoks_id)
-
-    return render(request, 'elephants/stock_details.html', {'stock': stock})

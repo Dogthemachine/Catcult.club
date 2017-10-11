@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-08 11:40+0300\n"
+"POT-Creation-Date: 2017-10-11 16:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,7 @@ msgstr ""
 #: apps/elephants/models.py:58 apps/elephants/models.py:73
 #: apps/elephants/models.py:156 apps/elephants/models.py:295
 #: apps/info/models.py:10 apps/info/models.py:38 apps/orders/models.py:121
+#: apps/orders/models.py:248
 msgid "name"
 msgstr "имя"
 
@@ -208,12 +209,12 @@ msgstr "Журнал баланса"
 msgid "Balance logs"
 msgstr "Журналы баланса"
 
-#: apps/elephants/views.py:153 apps/elephants/views.py:237
+#: apps/elephants/views.py:158 apps/elephants/views.py:242
 #, python-format
 msgid "%(name)s was added to your cart. %(count)s"
 msgstr "%(name)s был добавлен в вашу корзину. %(count)s"
 
-#: apps/elephants/views.py:159
+#: apps/elephants/views.py:164
 #, python-format
 msgid "%(name)s was added to your cart."
 msgstr "%(name)s был добавлен в вашу корзину."
@@ -341,7 +342,7 @@ msgid "Comment"
 msgstr "Комментарий"
 
 #: apps/moderation/forms.py:41 apps/moderation/views.py:334
-#: templates/footer.html:30 templates/footer.html:31
+#: templates/footer.html:27 templates/footer.html:28
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:82
 #: templates/moderation/orders.html:131
@@ -451,9 +452,17 @@ msgstr "Что-то пошло не так."
 msgid "Your First name:"
 msgstr "Ваше имя:"
 
+#: apps/orders/forms.py:34
+msgid "Enter your First name"
+msgstr "Введите Ваше имя"
+
 #: apps/orders/forms.py:35
 msgid "Your Last name:"
 msgstr "Ваша фамилия:"
+
+#: apps/orders/forms.py:35
+msgid "Enter your Last name"
+msgstr "Введите Вашу фамилию"
 
 #: apps/orders/forms.py:36
 msgid "Phone number:"
@@ -640,15 +649,11 @@ msgstr "Использован"
 msgid "code"
 msgstr "код"
 
-#: apps/orders/models.py:248
-msgid "Country"
-msgstr "Страна"
-
 #: apps/orders/models.py:252 apps/orders/models.py:253
 msgid "Countris"
 msgstr "Страны"
 
-#: apps/orders/models.py:264 apps/orders/models.py:265
+#: apps/orders/models.py:267 apps/orders/models.py:268
 msgid "Delivery_Cost"
 msgstr "Стоимость доставки"
 
@@ -683,21 +688,25 @@ msgstr ""
 msgid "Do not recive messages about promotion."
 msgstr "Не присылать мне сообщения об акциях."
 
-#: apps/orders/views.py:255
+#: apps/orders/views.py:257
+msgid "Error in phone number."
+msgstr "Ошибка в номере телефона"
+
+#: apps/orders/views.py:259
 msgid "Phone number is not set."
 msgstr "Номер телефона не задан."
 
-#: apps/orders/views.py:256
+#: apps/orders/views.py:261
 msgid ""
 "Your order has been placed. We will contact you shortly.<br/>Order details:"
 "<br/>"
 msgstr "Ваш заказ принят. Мы скоро свяжемся с вами.<br/>Детали заказа:<br/>"
 
-#: apps/orders/views.py:263
+#: apps/orders/views.py:268
 msgid "Cost of delivery:"
 msgstr "Стоимость доставки:"
 
-#: apps/orders/views.py:263 apps/orders/views.py:264
+#: apps/orders/views.py:268 apps/orders/views.py:269
 #: templates/moderation/items.html:2 templates/moderation/j_order_info.html:5
 #: templates/moderation/j_order_payment.html:8
 #: templates/moderation/j_order_payment_success.html:12
@@ -708,19 +717,19 @@ msgstr "Стоимость доставки:"
 msgid "UAH"
 msgstr "грн"
 
-#: apps/orders/views.py:264
+#: apps/orders/views.py:269
 msgid "Total:"
 msgstr "Всего:"
 
-#: apps/orders/views.py:292
+#: apps/orders/views.py:297
 msgid "Place the order"
 msgstr "Разместить заказ"
 
-#: apps/orders/views.py:365
+#: apps/orders/views.py:370
 msgid "You were successfully unsubscribed."
 msgstr "Вы отиписаны от рассылок."
 
-#: apps/orders/views.py:373
+#: apps/orders/views.py:378
 msgid "Something went wrong. Please try later or contact us."
 msgstr "Что-то не так. Повторите попытку позже или свяжитесь с нами."
 
@@ -750,19 +759,15 @@ msgstr "Извините, товар недоступен"
 msgid "Show details"
 msgstr "Подробности"
 
-#: templates/elephants/stocks.html:41
-msgid "Existing shares"
-msgstr "Действующие акции"
-
 #: templates/footer.html:9 templates/footer.html:10
 msgid "Contacts"
 msgstr "Контакты"
 
-#: templates/footer.html:24 templates/footer.html:25
+#: templates/footer.html:21 templates/footer.html:22
 msgid "About us"
 msgstr "О нас"
 
-#: templates/footer.html:27 templates/footer.html:28
+#: templates/footer.html:24 templates/footer.html:25
 msgid "Feedback"
 msgstr "Обратная связь"
 
@@ -770,13 +775,9 @@ msgstr "Обратная связь"
 msgid "How to Pay"
 msgstr "Как оплатить"
 
-#: templates/footer.html:39 templates/footer.html:40
+#: templates/footer.html:36 templates/footer.html:37
 msgid "Discounts and promotions"
 msgstr "Скидки и акции"
-
-#: templates/footer.html:42 templates/footer.html:43
-msgid "Partners"
-msgstr "Партнеры"
 
 #: templates/info/feedback.html:7
 msgid "Send mail"
@@ -1032,7 +1033,7 @@ msgstr "Доставка в любую точку мира."
 
 #: three_cats/settings.py:144
 msgid "Via LiqPay (onlive);"
-msgstr "Онлайн (LiqPay);"
+msgstr "Оплата картой (LiqPay);"
 
 #: three_cats/settings.py:145
 msgid "By any other bank Visa or MasterCard;"
@@ -1041,6 +1042,15 @@ msgstr "На карту Приват Банка;"
 #: three_cats/settings.py:148
 msgid "Cash on delivery upon receipt of order at the Nova Poshta branch;"
 msgstr "Наложенным платежом при получении заказа на Новой Почте;"
+
+#~ msgid "Country"
+#~ msgstr "Страна"
+
+#~ msgid "Existing shares"
+#~ msgstr "Действующие акции"
+
+#~ msgid "Partners"
+#~ msgstr "Партнеры"
 
 #~ msgid "Action!!!"
 #~ msgstr "Акция!!!"

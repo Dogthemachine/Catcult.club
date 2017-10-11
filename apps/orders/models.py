@@ -245,12 +245,15 @@ class Promo(models.Model):
 
 
 class Countris(models.Model):
-    name = models.CharField(_('Country'), max_length=70)
+    name = models.CharField(_('name'), max_length=70)
 
     class Meta:
         ordering = ('name',)
         verbose_name = _('Countris')
         verbose_name_plural = _('Countris')
+
+    def __str__(self):
+        return u'%s' % self.name
 
 
 class DeliveryCost(models.Model):

@@ -4,7 +4,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from apps.elephants.views import showcase, item_details, item_set_details, stocks, stock_details
+from apps.elephants.views import showcase, item_details, item_set_details, stocks
 from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import main_page
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^feedback/$', feedback, name='feedback'),
     url(r'^contacts/$', topic_view, {'topic': 'contacts'}, name='contacts'),
     url(r'^about/$', topic_view, {'topic': 'about_us'}, name='about_us'),
-    url(r'^partners/$', topic_view, {'topic': 'partners'}, name='partners'),
+    #url(r'^partners/$', topic_view, {'topic': 'partners'}, name='partners'),
 
     # Shop
     url(r'^showcase/(?P<category_id>\d+)/$', showcase, name='showcase_cat'),
@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
     url(r'^item-set/(?P<id>\d+)/$', item_set_details, name='item_set_details'),
     url(r'^stocks/$', stocks, name='stocks'),
-    url(r'^stock/(?P<id>\d+)/$', stock_details, name='stock_details'),
+    #url(r'^stock/(?P<id>\d+)/$', stock_details, name='stock_details'),
 
     # Moderator
     url(r'^orders/$', manage_orders, name='orders'),

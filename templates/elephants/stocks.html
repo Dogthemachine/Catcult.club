@@ -37,23 +37,16 @@
   </div>
 
   {% if stocks %}
-    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cs-item-title">
-      <h2>{% trans 'Existing shares' %}</h2>
-    </div>
-    <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         {% for entry in stocks %}
-          <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-4 cc-card">
-            {% if entry.image %}<img class="card-img-top img-fluid" src="{{ MEDIA_URL }}{{ entry.image }}">{% endif %}
-            <div class="card-block">
-              <h4 class="card-title"><a href="{% url 'stock_details' entry.id %}">{{ entry.name }}</a></h4>
-              <p class="card-text">{{ entry.action_begin }} - {{ entry.action_end }}</p>
-              <p class="card-text">{{ entry.description|safe }}</p>
-            </div>
+          <div class="row">
+            <p>
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ entry.action_begin }} - {{ entry.action_end }}</div>
+              <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ entry.name }}</div>
+            </p>
           </div>
         {% endfor %}
       </div>
-    </div>
   {% endif %}
 
 {% endblock %}

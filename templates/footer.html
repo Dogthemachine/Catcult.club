@@ -12,9 +12,6 @@
             <p><a class="nav-link cc-sn cc-main-menu-color" href="https://www.facebook.com/catcult.club" target="_blank">
               <img src="{{ STATIC_URL }}img/facebook-icon-w.png"> https://www.facebook.com/catcult.club
             </a></p>
-            <p><a  class="nav-link cc-sn cc-main-menu-color" href="https://vk.com/catcult.club" target="_blank">
-              <img crop="center" src="{{ STATIC_URL }}img/vk-icon-w.png"> https://vk.com/catcult.club
-            </a></p>
              <p><a  class="nav-link cc-sn cc-main-menu-color" href="https://www.instagram.com/catcult.club" target="_blank">
               <img src="{{ STATIC_URL }}img/instagram-icon-w.png"> https://www.instagram.com/catcult.club
             </a></p>
@@ -30,17 +27,14 @@
             <p class="footer-spacing-first"><a class="nav-link cc-main-menu-color" href="{% url 'main_info' %}#delivery" title="{% trans 'Delivery' %}">
               {% trans 'Delivery' %}
             </a></p>
-            <p class="footer-spacing-second"><a class="nav-link cc-main-menu-color" href="{% url 'main_info' %}#payment" title="{% trans 'How to Pay' %}">
-              {% trans 'Payment' %}
-            </a></p>
           </div>
 
           <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+            <p class="footer-spacing-second"><a class="nav-link cc-main-menu-color" href="{% url 'main_info' %}#payment" title="{% trans 'How to Pay' %}">
+              {% trans 'Payment' %}
+            </a></p>
             <p class="first"><a class="nav-link cc-main-menu-color" href="{% url 'stocks' %}" title="{% trans 'Discounts and promotions' %}">
               {% trans 'Discounts and promotions' %}
-            </a></p>
-            <p class="footer-spacing-first"><a class="nav-link cc-main-menu-color" href="{% url 'partners' %}" title="{% trans 'Partners' %}">
-              {% trans 'Partners' %}
             </a></p>
           </div>
 

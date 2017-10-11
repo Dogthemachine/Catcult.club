@@ -241,7 +241,8 @@ def cart_checkout(request):
                 else:
                     text = ''
 
-            send_sms(order.phone, text)
+                if order.payment_method == 0:
+                    send_sms(order.phone, text)
 
             messages.add_message(
                 request,
@@ -250,11 +251,15 @@ def cart_checkout(request):
             )
 
             if order.phone:
-                ph_s = str(order.phone)
+                try:
+                    ph_s = str(order.phone)
+                except:
+                    ph_s = _('Error in phone number.')
             else:
                 ph_s = _('Phone number is not set.')
+
             message = _('Your order has been placed. We will contact you shortly.<br/>Order details:<br/>')
-            message += order.get_number() + '<br/>' + ph_s + '<br/>'
+            message += str(order.get_number()) + '<br/>' + ph_s + '<br/>'
             for item in order.orderitems_set.all():
                 message += item.balance.item.name + ' - '
                 message += item.balance.size.name + ' - '

@@ -31,9 +31,9 @@ class CheckoutForm(forms.Form):
     # Build list of countries for dropdown list in form
     CUNTRIES = []
 
-    name = forms.CharField(label=_('Your First name:'), max_length=64)
-    last_name = forms.CharField(label=_('Your Last name:'), max_length=64)
-    phone = forms.CharField(label=_('Phone number:'))
+    name = forms.CharField(label=_('Your First name:'), widget=forms.TextInput(attrs={'placeholder': _('Enter your First name')}), max_length=64)
+    last_name = forms.CharField(label=_('Your Last name:'), widget=forms.TextInput(attrs={'placeholder': _('Enter your Last name')}), max_length=64)
+    phone = forms.CharField(label=_('Phone number:'), widget=forms.TextInput(attrs={'placeholder': '380001112233'}))
     promo = forms.CharField(label=_('Promo code (if any):'), required=False)
     payment = forms.TypedChoiceField(label=_('Payment Method'), choices=lang(settings.PAYMENT), coerce=int, widget=forms.RadioSelect())
     delivery = forms.TypedChoiceField(label=_('Delivery Method'), choices=lang(settings.DELIVERY), coerce=int, widget=forms.RadioSelect())
@@ -57,7 +57,7 @@ class CheckoutForm(forms.Form):
         delivery = self.cleaned_data.get('delivery')
         promo = self.cleaned_data.get('promo')
 
-        if delivery==3 and payment<2:
+        if delivery==3 and payment<3:
             msg = _(u'This payment method is not available when sending abroad.')
             self._errors['payment'] = self.error_class([msg])
 
