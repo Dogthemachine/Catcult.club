@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 
     'bootstrap_pagination',
     'django_extensions',
@@ -186,3 +188,12 @@ STOCKS_TYPES = (
 
 # 0 - image, 1 - text
 MENU_LAYOUT = 1
+
+SITE_ID = 1
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    }
+}

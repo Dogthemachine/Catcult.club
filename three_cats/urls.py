@@ -12,6 +12,10 @@ from apps.moderation.views import balances, log, balances_update, export_balance
     j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
     stat_sale, stat_ending
 from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, messages_off
+from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from apps.sitemap import sitemaps
+from django.views.decorators.cache import cache_page
 
 
 urlpatterns = [
@@ -77,6 +81,8 @@ urlpatterns = [
     url(r'^liqpay_callback/$', liqpay_callback, name='liqpay_callback'),
     url(r'^success/$', main_page, name='payment_success'),
 
+    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'), name='robots_file'),
+    url(r'^sitemap\.xml$', cache_page(3600)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
