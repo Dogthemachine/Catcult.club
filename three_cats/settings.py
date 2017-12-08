@@ -143,8 +143,8 @@ DELIVERY = (
 )
 
 PAYMENT = (
-    (3, gettext('Via LiqPay (onlive);')),
-    (2, gettext('By any other bank Visa or MasterCard;')),
+    (3, gettext('Pay by card (Visa, MasterCard);')),
+    (2, gettext('PrivatBank (Ukraine only);')),
     (1, ''),
 #    (1, gettext('Settle in cash in the case of courier "door-to-door" delivery;')),
     (0, gettext('Cash on delivery upon receipt of order at the Nova Poshta branch;')),

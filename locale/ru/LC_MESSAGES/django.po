@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-11 16:49+0300\n"
+"POT-Creation-Date: 2017-12-08 15:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -342,7 +342,7 @@ msgid "Comment"
 msgstr "Комментарий"
 
 #: apps/moderation/forms.py:41 apps/moderation/views.py:334
-#: templates/footer.html:27 templates/footer.html:28
+#: templates/footer.html:27 templates/footer.html:28 templates/footer.html:39
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:82
 #: templates/moderation/orders.html:131
@@ -779,6 +779,10 @@ msgstr "Как оплатить"
 msgid "Discounts and promotions"
 msgstr "Скидки и акции"
 
+#: templates/footer.html:40
+msgid "Showroom"
+msgstr ""
+
 #: templates/info/feedback.html:7
 msgid "Send mail"
 msgstr "Отправить письмо"
@@ -1005,43 +1009,46 @@ msgstr "Удалить"
 msgid "Total"
 msgstr "Всего"
 
-#: three_cats/settings.py:124
+#: three_cats/settings.py:126
 msgid "Russian"
 msgstr "Русский"
 
-#: three_cats/settings.py:125
+#: three_cats/settings.py:127
 msgid "Ukrainian"
 msgstr "Украинский"
 
-#: three_cats/settings.py:126
+#: three_cats/settings.py:128
 msgid "English"
 msgstr "Английский"
 
-#: three_cats/settings.py:136
+#: three_cats/settings.py:138
 msgid ""
 "Warehouse-to-warehouse delivery at the nearest Nova Poshta branch (in "
 "Ukraine);"
 msgstr "Доставка до ближайшего отделения Новой Почты (по Украине);"
 
-#: three_cats/settings.py:137
+#: three_cats/settings.py:139
 msgid "Nova Poshta door-to-door delivery (in Ukraine);"
 msgstr "Адресная доставка Новой Почтой «до двери» (по Украине);"
 
-#: three_cats/settings.py:140
+#: three_cats/settings.py:142
 msgid "Worldwide Delivery."
 msgstr "Доставка в любую точку мира."
 
-#: three_cats/settings.py:144
-msgid "Via LiqPay (onlive);"
+#: three_cats/settings.py:146
+msgid "Pay by card (Visa, MasterCard);"
 msgstr "Оплата картой (LiqPay);"
 
-#: three_cats/settings.py:145
-msgid "By any other bank Visa or MasterCard;"
+#: three_cats/settings.py:147
+msgid "PrivatBank (Ukraine only);"
 msgstr "На карту Приват Банка;"
 
-#: three_cats/settings.py:148
+#: three_cats/settings.py:150
 msgid "Cash on delivery upon receipt of order at the Nova Poshta branch;"
 msgstr "Наложенным платежом при получении заказа на Новой Почте;"
+
+#~ msgid "Via LiqPay (onlive);"
+#~ msgstr "Оплата картой (LiqPay);"
 
 #~ msgid "Country"
 #~ msgstr "Страна"

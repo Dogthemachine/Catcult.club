@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-11 16:50+0300\n"
+"POT-Creation-Date: 2017-12-08 15:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,12 +210,13 @@ msgid "Balance logs"
 msgstr "Журнали балансу"
 
 #: apps/elephants/views.py:158 apps/elephants/views.py:242
+#, python-format
 msgid "%(name)s was added to your cart. %(count)s"
 msgstr "%(name)s був додан до вашого кошика. %(count)s"
 
 #: apps/elephants/views.py:164
 msgid "%(name)s was added to your cart."
-msgstr "%s був додан до вашого кошика."
+msgstr "%(name)s був додан до вашого кошика."
 
 #: apps/helpers.py:77
 msgid "grn"
@@ -339,7 +340,7 @@ msgid "Comment"
 msgstr "Коментар"
 
 #: apps/moderation/forms.py:41 apps/moderation/views.py:334
-#: templates/footer.html:27 templates/footer.html:28
+#: templates/footer.html:27 templates/footer.html:28 templates/footer.html:39
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:82
 #: templates/moderation/orders.html:131
@@ -382,7 +383,7 @@ msgstr "Помилка: немає балансу"
 
 #: apps/moderation/views.py:65
 msgid "Balance was saved. Old value: %(old)s, new value: %(new)s"
-msgstr "Баланс був збережений. Старе значення: %s, нове значення: %s"
+msgstr "Баланс був збережений. Старе значення: %(old)s, нове значення: %(new)s"
 
 #: apps/moderation/views.py:113 templates/moderation/balances.html:28
 #: templates/moderation/balances.html:65 templates/moderation/items.html:6
@@ -778,6 +779,10 @@ msgstr "Як оплатити"
 msgid "Discounts and promotions"
 msgstr "Знижки та промо"
 
+#: templates/footer.html:40
+msgid "Showroom"
+msgstr ""
+
 #: templates/info/feedback.html:7
 msgid "Send mail"
 msgstr "Відправити листа"
@@ -1004,43 +1009,46 @@ msgstr "Видалити"
 msgid "Total"
 msgstr "Усього"
 
-#: three_cats/settings.py:124
+#: three_cats/settings.py:126
 msgid "Russian"
 msgstr "Російська"
 
-#: three_cats/settings.py:125
+#: three_cats/settings.py:127
 msgid "Ukrainian"
 msgstr "Українська"
 
-#: three_cats/settings.py:126
+#: three_cats/settings.py:128
 msgid "English"
 msgstr "Англійська"
 
-#: three_cats/settings.py:136
+#: three_cats/settings.py:138
 msgid ""
 "Warehouse-to-warehouse delivery at the nearest Nova Poshta branch (in "
 "Ukraine);"
 msgstr "Доставка до найближчого відділення Нової Пошти (по Україні);"
 
-#: three_cats/settings.py:137
+#: three_cats/settings.py:139
 msgid "Nova Poshta door-to-door delivery (in Ukraine);"
 msgstr "Адресна доставка Новою Поштою «до дверей» (по Україні);"
 
-#: three_cats/settings.py:140
+#: three_cats/settings.py:142
 msgid "Worldwide Delivery."
 msgstr "Доставка в будь-яку точку світу."
 
-#: three_cats/settings.py:144
-msgid "Via LiqPay (onlive);"
+#: three_cats/settings.py:146
+msgid "Pay by card (Visa, MasterCard);"
 msgstr "Онлайн (LiqPay);"
 
-#: three_cats/settings.py:145
-msgid "By any other bank Visa or MasterCard;"
+#: three_cats/settings.py:147
+msgid "PrivatBank (Ukraine only);"
 msgstr "На карту Приват Банку;"
 
-#: three_cats/settings.py:148
+#: three_cats/settings.py:150
 msgid "Cash on delivery upon receipt of order at the Nova Poshta branch;"
 msgstr "Післяплатою при отриманні замовлення на Новій Пошті;"
+
+#~ msgid "Via LiqPay (onlive);"
+#~ msgstr "Онлайн (LiqPay);"
 
 #~ msgid "Country"
 #~ msgstr "Країна"
