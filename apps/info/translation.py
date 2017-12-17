@@ -1,6 +1,6 @@
 from modeltranslation.translator import translator, TranslationOptions
 
-from apps.info.models import Info, Stores
+from apps.info.models import Info, Stores, Config
 
 
 class InfoTranslationOptions(TranslationOptions):
@@ -10,7 +10,12 @@ class InfoTranslationOptions(TranslationOptions):
 class StoresTranslationOptions(TranslationOptions):
     fields = ('name', 'description',)
 
+class ConfigTranslationOptions(TranslationOptions):
+    fields = ('price_description', 'price_description_usd', 'price_description_eur',)
+
 
 translator.register(Info, InfoTranslationOptions)
 
 translator.register(Stores, StoresTranslationOptions)
+
+translator.register(Config, ConfigTranslationOptions)

@@ -4,7 +4,8 @@ from django.utils.safestring import mark_safe
 from django.utils import timezone
 
 from apps.elephants.models import Sizes, Categories, Stocks, Items
-
+from apps.info.models import Config
+from apps.orders.views import price_description
 
 register = template.Library()
 
@@ -45,15 +46,55 @@ def get_categories():
 
 
 @register.simple_tag
-def get_price(entry):
+def get_price(entry, request):
     price = entry.price
     discount_price = entry.get_actual_price()
-    if price == discount_price:
-        html = '%s' % entry.get_actual_price()
+    if request.session['valuta'] == 'grn':
+        if price == discount_price:
+            html = '%s' % entry.get_actual_price()
+        else:
+            name = entry.get_discount_name()
+            html = '<span class="icon-info cc-tooltip" data-toggle="tooltip" data-original-title="%s"></span>' % name
+            html += ' <del>%s</del> %s' % (price, discount_price)
     else:
-        name = entry.get_discount_name()
-        html = '<span class="icon-info cc-tooltip" data-toggle="tooltip" data-original-title="%s"></span>' % name
-        html += ' <del>%s</del> %s' % (price, discount_price)
+        config = Config.objects.get()
+        rate = 1
+        if request.session['valuta'] == 'usd':
+            rate = config.dollar_rate
+        if request.session['valuta'] == 'eur':
+            rate = config.euro_rate
+        price = round(price / rate, 2)
+        discount_price = round(discount_price / rate, 2)
+        if price == discount_price:
+            html = '%s' % price
+        else:
+            name = entry.get_discount_name()
+            html = '<span class="icon-info cc-tooltip" data-toggle="tooltip" data-original-title="%s"></span>' % name
+            html += ' <del>%s</del> %s' % (price, discount_price)
+
+    return mark_safe(html)
+
+
+@register.simple_tag
+def get_price_description(request):
+    html = price_description(request)
+    return mark_safe(html)
+
+
+@register.simple_tag
+def get_total(cart, request):
+    total = cart.get_total()
+    if request.session['valuta'] == 'grn':
+        html = '%s' % total
+    else:
+        config = Config.objects.get()
+        rate = 1
+        if request.session['valuta'] == 'usd':
+            rate = config.dollar_rate
+        if request.session['valuta'] == 'eur':
+            rate = config.euro_rate
+        total = round(total / rate, 2)
+        html = '%s' % total
 
     return mark_safe(html)
 

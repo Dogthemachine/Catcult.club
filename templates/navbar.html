@@ -33,37 +33,47 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div id="main-nav" class="collapse navbar-collapse">
 
-      <div class="col-xs-5 col-sm-6 col-md-7 col-lg-8">
+      <div class="col-xs-4 col-sm-4 col-md-6 col-lg-7">
         <ul class="nav navbar-nav">
           {% get_categories %}
         </ul>
       </div>
 
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
+      <div class="col-xs-6 col-sm-5 col-md-4 col-lg-3">
 
-        <ul class="nav navbar-nav">
-          <li class="nav-item cc-nav-lang">
-            <select class="form-control" id="cc-language">
-              <option {% if LANGUAGE_CODE == "en" %} selected {% endif %} value="en" title="English">Eng</option>
-              <option {% if LANGUAGE_CODE == "ru" %} selected {% endif %} value="ru" title="Русский">Рус</option>
-              <option {% if LANGUAGE_CODE == "uk" %} selected {% endif %} value="uk" title="Українська">Укр</option>
-            </select>
-          </li>
-        </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if request.cart_amount %}
+              <li class="nav-item hidden-xs">
+                <a class="cc-cart-link cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
+                  <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{{ request.cart_amount }}</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="nav-item cc-nav-cart">
+                <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b>{% trans 'Empty' %}
+              </li>
+            {% endif %}
+          </ul>
 
-        <ul class="nav navbar-nav navbar-right">
-          {% if request.cart_amount %}
-            <li class="nav-item hidden-xs">
-              <a class="cc-cart-link cc-main-menu-color" href="#" data-toggle="modal" data-target="#cc-cart-modal">
-                <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b><span id="cc-cart-total">{{ request.cart_amount }}</span>
-              </a>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item cc-nav-lang">
+              <select class="form-control" id="cc-valuta">
+                <option {% if request.session.valuta == "grn" %} selected {% endif %} value="grn" title="">&#8372</option>
+                <option {% if request.session.valuta == "usd" %} selected {% endif %} value="usd" title="usd">&#36</option>
+                <option {% if request.session.valuta == "eur" %} selected {% endif %} value="eur" title="eur">&#8364</option>
+              </select>
             </li>
-          {% else %}
-            <li class="nav-item cc-nav-cart">
-              <b><span class="icon-cart cs-icon-shopping-cart"></span> | </b>{% trans 'Empty' %}
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item cc-nav-lang">
+              <select class="form-control" id="cc-language">
+                <option {% if LANGUAGE_CODE == "en" %} selected {% endif %} value="en" title="English">Eng</option>
+                <option {% if LANGUAGE_CODE == "ru" %} selected {% endif %} value="ru" title="Русский">Рус</option>
+                <option {% if LANGUAGE_CODE == "uk" %} selected {% endif %} value="uk" title="Українська">Укр</option>
+              </select>
             </li>
-          {% endif %}
-        </ul>
+          </ul>
 
       </div>
 

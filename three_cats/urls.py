@@ -11,7 +11,7 @@ from apps.moderation.views import balances, log, balances_update, export_balance
     delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
     j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
     stat_sale, stat_ending
-from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, messages_off
+from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, messages_off, cart_valuta
 from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
 from apps.sitemap import sitemaps
@@ -77,6 +77,7 @@ urlpatterns = [
     url(r'^cart/(?P<id>\d+)/remove/$', cart_remove, name='cart_remove'),
     url(r'^cart/(?P<id>\d+)/remove_set/$', cart_remove, {'set': True }, name='cart_remove_set'),
     url(r'^cart/checkout/$', cart_checkout, name='cart_checkout'),
+    url(r'^cart/valuta/$', cart_valuta, name='cart_valuta'),
 
     url(r'^liqpay_callback/$', liqpay_callback, name='liqpay_callback'),
     url(r'^success/$', main_page, name='payment_success'),

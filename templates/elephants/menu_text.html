@@ -9,6 +9,9 @@
             <a href="{% url 'showcase_cat' cat.id %}">
               {{ cat.name }}
             </a>
+            {% if not forloop.last %}
+              <span class="icon-star cc-menu-star"></span>
+            {% endif %}
           {% endif %}
         </div>
     {% endfor %}

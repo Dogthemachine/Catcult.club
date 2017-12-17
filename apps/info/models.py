@@ -1,4 +1,5 @@
 from django_resized import ResizedImageField
+from solo.models import SingletonModel
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
@@ -66,3 +67,11 @@ class Infophoto(models.Model):
 
     def __str__(self):
         return u'%s - %s' % (self.info, self.added)
+
+
+class Config(SingletonModel):
+    dollar_rate = models.DecimalField(_('dollar rate'), max_digits=5, decimal_places=2, default=1)
+    euro_rate = models.DecimalField(_('euro rate'), max_digits=5, decimal_places=2, default=1)
+    price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
+    price_description_usd = models.CharField(_('price_description'), max_length=250, default=_('Usd.'))
+    price_description_eur = models.CharField(_('price_description'), max_length=250, default=_('Eur.'))

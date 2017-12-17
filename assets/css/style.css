@@ -623,10 +623,12 @@ body {
 
 .cc-nav-lang {
     margin-top: 10px;
+    padding: 0px 10px;
 }
 
 .cc-nav-cart {
     margin-top: 15px;
+    padding: 0px 10px;
 }
 
 .cc-p {
@@ -708,6 +710,11 @@ body {
     color:#FFF;
 }
 
+#cc-valuta {
+    background: #373a3c;
+    color:#FFF;
+}
+
 .cc-set-form-item {
     margin-bottom: 15px;
 }
@@ -736,4 +743,8 @@ body {
 
 #div_id_country {
     display: none;
+}
+
+.cc-menu-star {
+    color: darkgray;
 }

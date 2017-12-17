@@ -4,6 +4,11 @@ from django.db.models import Sum
 def info_middleware(get_response):
     def middleware(request):
 
+        try:
+            request.session['valuta']
+        except:
+            request.session['valuta'] = 'grn'
+
         cart = Cart.objects.filter(session_key=request.session.session_key)
         request.cart_amount = 0
         if cart:

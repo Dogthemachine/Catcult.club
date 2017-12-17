@@ -19,6 +19,7 @@ from django.urls import reverse
 
 from .forms import CheckoutForm
 from .models import Cart, CartItem, CartSet, CartSetItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
+from apps.info.models import Config
 from apps.liqpay import LiqPay
 from apps.elephants.models import Balance
 from apps.helpers import normalize_phone, send_sms, delivery_cost_sum
@@ -95,6 +96,19 @@ def cart_remove(request, id, set=False):
     return {'html': html, 'count': cart_items.count()}
 
 
+def price_description(request):
+    config = Config.objects.get()
+    description = ''
+    if request.session['valuta']=='grn':
+        description = config.price_description
+    if request.session['valuta']=='usd':
+        description = config.price_description_usd
+    if request.session['valuta']=='eur':
+        description = config.price_description_eur
+
+    return description
+
+
 @json_view
 def cart_checkout(request):
     cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
@@ -141,7 +155,7 @@ def cart_checkout(request):
                             message1
                         )
                 else:
-                    message1 = _('Your discount on the share is %s grn.<br/>') % cart.discount_stocks
+                    message1 = _('Your discount on the share is %(sum)s %(dsc)s.<br/>') % {'sum': cart.discount_stocks_val(request), 'dsc': price_description(request)}
                     message1 += _('Your promo-code is not activated.')
                     messages.add_message(
                         request,
@@ -221,11 +235,11 @@ def cart_checkout(request):
 
             if order.payment_method == 2:
                 if order.lang_code == 'en':
-                    text = 'Your order #%(number)s has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                    text = 'Your order #%(number)s has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
                 elif order.lang_code == 'ru':
-                    text = 'Ваш заказ №%(number)s был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s грн. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                    text = 'Ваш заказ №%(number)s был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
                 elif order.lang_code == 'uk':
-                    text = 'Ваше замовлення №%(number)s було прийняте. Номер картки %(card)s (%(name)s). Сума до оплати %(sum)s грн. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price()}
+                    text = 'Ваше замовлення №%(number)s було прийняте. Номер картки %(card)s (%(name)s). Сума до оплати %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
                 else:
                     text = ''
 
@@ -233,11 +247,11 @@ def cart_checkout(request):
 
             else:
                 if order.lang_code == 'en':
-                    text = 'Your order #%(number)s has been taken. Total price is %(sum)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price()}
+                    text = 'Your order #%(number)s has been taken. Total price is %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
                 elif order.lang_code == 'ru':
-                    text = 'Ваш заказ №%(number)s был принят. Сумма к оплате %(sum)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price()}
+                    text = 'Ваш заказ №%(number)s был принят. Сумма к оплате %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
                 elif order.lang_code == 'uk':
-                    text = 'Ваше замовлення №%(number)s було прийняте. Сума до оплати %(sum)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price()}
+                    text = 'Ваше замовлення №%(number)s було прийняте. Сума до оплати %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
                 else:
                     text = ''
 
@@ -265,8 +279,18 @@ def cart_checkout(request):
                 message += item.balance.size.name + ' - '
                 message += str(item.amount) + '<br/>'
             if delivery_cost:
-                message += _('Cost of delivery:') + ' ' + str(delivery_cost) + ' ' + _('UAH') + '<br/>'
-            message += _('Total:') + ' ' + str(order.get_total_price()) + ' ' + _('UAH') + '<br/>'
+                if request.session['valuta'] == 'grn':
+                    pass
+                else:
+                    config = Config.objects.get()
+                    rate = 1
+                    if request.session['valuta'] == 'usd':
+                        rate = config.dollar_rate
+                    if request.session['valuta'] == 'eur':
+                        rate = config.euro_rate
+                    delivery_cost = round(delivery_cost / rate, 2)
+                message += _('Cost of delivery:') + ' ' + str(delivery_cost) + ' ' + price_description(request) + '<br/>'
+            message += _('Total:') + ' ' + str(order.get_total_price(request)) + ' ' + price_description(request) + '<br/>'
 
             messages.add_message(
                 request,
@@ -278,7 +302,7 @@ def cart_checkout(request):
                 liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
                 payment_form = liqpay.cnb_form({
                     'action': 'pay',
-                    'amount': order.get_total_price(),
+                    'amount': order.get_total_price_grn(),
                     'currency': 'UAH',
                     'description': 'CatCult order',
                     'order_id': order.id,
@@ -335,7 +359,7 @@ def liqpay_callback(request):
                 payment.sender_phone = response['sender_phone']
                 payment.save()
 
-                if order.get_total_price() == order.get_total_paid():
+                if order.get_total_price_grn() == order.get_total_paid():
                     order.paid = True
                     order.save()
                 else:
@@ -386,3 +410,12 @@ def messages_off(request, id):
         return HttpResponse(json.dumps({'message': message}), content_type = 'application/json')
     else:
         return redirect('showcase')
+
+
+@json_view()
+def cart_valuta(request):
+    valuta = request.POST.get('valuta', 'grn')
+
+    request.session['valuta'] = valuta
+
+    return {'success': True}

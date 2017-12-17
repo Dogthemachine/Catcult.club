@@ -414,7 +414,7 @@ def j_order_payment(request, id):
             payment.comment = form.cleaned_data.get('comment', '')
             payment.save()
 
-            if order.get_total_price() == order.get_total_paid():
+            if order.get_total_price_grn() == order.get_total_paid():
                 order.paid = True
                 order.save()
             else:

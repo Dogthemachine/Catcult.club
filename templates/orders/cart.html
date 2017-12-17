@@ -9,7 +9,7 @@
         </td>
         <td>
           <p class="cc-cart-title">{{ i.set.name }}</p>
-          <p><b>{% get_price i.set %} {{ i.set.price_description }}</b></p>
+          <p><b>{% get_price i.set request %} {% get_price_description request %}</b></p>
           <p>{% for j in i.cartsetitem_set.all %}
             {{ j.item.name }} ({% trans 'Size' %}: {{ j.size }})<br/>
           {% endfor %}</p>
@@ -31,7 +31,7 @@
           </td>
           <td>
             <p class="cc-cart-title">{{ i.item.name }}</p>
-            <p><b>{% get_price i.item %} {{ i.item.price_description }}</b></p>
+            <p><b>{% get_price i.item request %} {% get_price_description request %}</b></p>
             <p>{% trans 'Size' %}: {{ i.size.name }}</p>
             <p><b>{{ i.amount|subtract:i.amount_set }} {% trans 'units' %}</b></p>
             {% if not i.check_avail %}<p class="cc-error">{% trans 'This item is unavailable. You can delete it and checkout.' %}</p>{% endif %}
@@ -46,5 +46,5 @@
     {% endfor %}
   </table>
   {% if cart.get_items_count %}<p class="cc-discount-text">{{ cart.get_items_count }}</p>{% endif %}
-  <h3>{% trans 'Total' %}: {{ cart.get_total }} {% trans 'UAH' %}</h3>
+  <h3>{% trans 'Total' %}: {% get_total cart request %} {% get_price_description request %}</h3>
 </div>

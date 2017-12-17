@@ -1,4 +1,4 @@
-  {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load i18n %}
 {% load bootstrap_pagination %}
 {% load elephants %}
@@ -30,7 +30,7 @@
         <h3 class="text-center">{{ entry.name }}</h3>
         <p class="text-center">{{ entry.description|safe }}</p>
         {% if entry.get_amount  %}
-          <p class="text-center">{% get_price entry %} {{ entry.price_description }}</p>
+          <p class="text-center">{% get_price entry request %} {% get_price_description request %}</p>
         {% else %}
           <p class="text-center">{% trans 'Sorry, this item in unavailable now.' %}</p>
         {% endif %}

@@ -171,7 +171,21 @@ $(document).ready(function() {
 
     });
 
+    $('#cc-valuta').on('change', function(e) {
+        var valuta = $("#cc-valuta").val();
+        e.preventDefault();
+          $.ajax({
+              url: '/cart/valuta/',
+              data: 'valuta=' + valuta,
+              type: 'post',
+              success: function() {
+                  location.reload();
+              },
+              error: function() {
+              }
+          });
 
+    });
 
     //Tooltips
     $('.cc-tooltip').tooltip();

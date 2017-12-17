@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from apps.elephants.models import Balance, Items, Sizes, Stocks, Sets
+from apps.info.models import Config
 
 
 class Orders(models.Model):
@@ -39,7 +40,7 @@ class Orders(models.Model):
     def __str__(self):
         return u'%s' % self.name
 
-    def get_total_price(self):
+    def get_total_price_grn(self):
         items = OrderItems.objects.filter(order=self)
         sum = 0
 
@@ -54,6 +55,21 @@ class Orders(models.Model):
 
         return sum
 
+    def get_total_price(self, request):
+        sum = self.get_total_price_grn()
+        if request.session['valuta'] == 'grn':
+            pass
+        else:
+            config = Config.objects.get()
+            rate = 1
+            if request.session['valuta'] == 'usd':
+                rate = config.dollar_rate
+            if request.session['valuta'] == 'eur':
+                rate = config.euro_rate
+            sum = round(sum / rate, 2)
+
+        return sum
+
     def get_total_paid(self):
         items = Payment.objects.filter(order=self)
         sum = 0
@@ -64,7 +80,7 @@ class Orders(models.Model):
         return sum
 
     def get_remaining_amount(self):
-        return self.get_total_price() - self.get_total_paid()
+        return self.get_total_price_grn() - self.get_total_paid()
 
     def get_number(self):
         return self.id
@@ -190,6 +206,21 @@ class Cart(models.Model):
             weith += item.item.fashions.weigth * (item.amount - item.amount_set)
 
         return weith
+
+
+    def discount_stocks_val(self, request):
+        discount_stocks = self.discount_stocks
+        if request.session['valuta'] == 'grn':
+            pass
+        else:
+            config = Config.objects.get()
+            rate = 1
+            if request.session['valuta'] == 'usd':
+                rate = config.dollar_rate
+            if request.session['valuta'] == 'eur':
+                rate = config.euro_rate
+            discount_stocks = round(discount_stocks / rate, 2)
+        return discount_stocks
 
 
 class CartItem(models.Model):

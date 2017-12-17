@@ -2,7 +2,7 @@ from modeltranslation.admin import TranslationAdmin
 
 from django.contrib import admin
 
-from apps.info.models import Info, Carousel, Infophoto, Stores
+from apps.info.models import Info, Carousel, Infophoto, Stores, Config
 
 
 class InfoAdmin(TranslationAdmin):
@@ -44,6 +44,10 @@ class InfophotoAdmin(admin.ModelAdmin):
     list_display = ('info', 'image',)
 
 
+class ConfigAdmin(admin.ModelAdmin):
+    list_display = ('dollar_rate', 'euro_rate',)
+
+
 admin.site.register(Info, InfoAdmin)
 
 
@@ -54,3 +58,6 @@ admin.site.register(Infophoto, InfophotoAdmin)
 
 
 admin.site.register(Stores, StoresAdmin)
+
+
+admin.site.register(Config, ConfigAdmin)

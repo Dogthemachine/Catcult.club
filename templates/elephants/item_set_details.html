@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load elephants %}
 
 {% block title %}
   {{ set.name }}
@@ -47,7 +48,7 @@
 
     {% if set.get_amount  %}
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-        <h3>{{ set.get_actual_price }} {{ set.price_description }}</h3>
+        <h3>{% get_price set request %} {% get_price_description request %}</h3>
         <p>{{ set.details|safe }}</p>
           {% if form %}
             {% crispy form form.helper %}
