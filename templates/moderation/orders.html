@@ -46,7 +46,7 @@
                   <b>{% trans 'Number ' %} {{ order.get_number }} -- {{ order.name }} {{ order.last_name }}</b>
                 </a> <br/>
 
-                <b>{{ order.get_total_price }} {% trans 'UAH' %}</b> <br/>
+                <b>{{ order.get_total_price_grn }} {% trans 'UAH' %}</b> <br/>
 
                 <div id="cc-order-comment-{{ order.id }}">
                   {% if order.comment %}{{ order.comment }}<br/>{% endif %}

@@ -2,7 +2,7 @@
 
 {{ order.name }} {{ order.last_name }}<br />
 {{ order.phone }}<br />
-{{ order.get_total_price }} {% trans 'UAH' %}<br />
+{{ order.get_total_price_grn }} {% trans 'UAH' %}<br />
 
 {% if order.discount_promo or order.discount_stocks or order.discount_set %}
     <p class="cc-discount-text">
