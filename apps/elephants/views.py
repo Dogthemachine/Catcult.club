@@ -30,7 +30,7 @@ def showcase(request, category_id=None, fashion_id=None):
 
     if category and fashion:
         fashions = Fashions.objects.filter(categories=category, displayed=True)
-        items = Items.objects.filter(fashions=fashion)
+        items = Items.objects.filter(fashions=fashion, showcase_displayed=True)
         sets = []
 
     elif category:
@@ -38,12 +38,12 @@ def showcase(request, category_id=None, fashion_id=None):
             sets = Sets.objects.filter(categories=category)
             items = []
         else:
-            items = Items.objects.filter(fashions__categories=category)
+            items = Items.objects.filter(fashions__categories=category, showcase_displayed=True)
             sets = []
         fashions = Fashions.objects.filter(categories=category, displayed=True)
 
     else:
-        items = Items.objects.all()
+        items = Items.objects.filter(showcase_displayed=True)
         sets = Sets.objects.all()
 
     avail_items = []

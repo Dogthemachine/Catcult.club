@@ -81,6 +81,7 @@ class Items(models.Model):
     views = models.PositiveIntegerField(_('views'), default=0)
     views_today = models.PositiveIntegerField(_('views today'), default=0)
     views_month = models.CharField(_('views month'), default=0, max_length=512)
+    showcase_displayed = models.BooleanField(_('showcase_displayed'), default=True)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
