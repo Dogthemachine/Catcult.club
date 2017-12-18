@@ -5,6 +5,9 @@
         <div class="cc-menu-item">
           {% if cat.id == category.id %}
             {{ cat.name }}
+            {% if not forloop.last %}
+              <span class="icon-radio-unchecked cc-menu-star"></span>
+            {% endif %}
           {% else %}
             <a href="{% url 'showcase_cat' cat.id %}">
               {{ cat.name }}
