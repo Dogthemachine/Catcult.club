@@ -18,7 +18,7 @@ from apps.sitemap import sitemaps
 from django.views.decorators.cache import cache_page
 
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     url(r'^$', showcase, name='main_page'),
 
     url(r'^admin/', admin.site.urls),
@@ -86,4 +86,4 @@ urlpatterns = [
     url(r'^sitemap\.xml$', cache_page(3600)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
