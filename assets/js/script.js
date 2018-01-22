@@ -71,9 +71,11 @@ $(document).ready(function() {
 
     // Order item
     $('.cc-order-confirm').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
         //alert($(this).data('id'))
         $.ajax({
-            url: '/en/order/' + $(this).data('id') + '/',
+            url: '/' + loc_lang + '/order/' + $(this).data('id') + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -94,8 +96,10 @@ $(document).ready(function() {
         var order_id = $(this).data('id');
 
         if ($('#cs-order-position-'+order_id).html() == '') {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
           $.ajax({
-              url: '/order_position/',
+              url: '/' + loc_lang + '/order_position/',
               data: 'order_id=' + order_id,
               type: 'get',
               success: function(data) {
@@ -179,9 +183,11 @@ $(document).ready(function() {
 
     $('#cc-valuta').on('change', function(e) {
         var valuta = $("#cc-valuta").val();
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
         e.preventDefault();
           $.ajax({
-              url: '/en/cart/valuta/',
+              url: '/' + loc_lang + '/cart/valuta/',
               data: 'valuta=' + valuta,
               type: 'post',
               success: function() {
@@ -209,8 +215,10 @@ $(document).ready(function() {
     });
 
     $('.cc-cart-link').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
         $.ajax({
-            url: '/en/cart/',
+            url: '/' + loc_lang + '/cart/',
             type: 'get',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -228,8 +236,11 @@ $(document).ready(function() {
             var data = {};
         }
 
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+
         $.ajax({
-            url: '/en/cart/checkout/',
+            url: '/' + loc_lang + '/cart/checkout/',
             type: type,
             data: data,
             success: function(data) {
@@ -259,9 +270,11 @@ $(document).ready(function() {
 
     $('body').on('click', '.cc-cart-remove', function(e) {
         e.preventDefault();
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
 
         $.ajax({
-            url: '/en/cart/' + $(this).data('id') + '/remove/',
+            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/remove/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -272,9 +285,11 @@ $(document).ready(function() {
 
     $('body').on('click', '.cc-cart-remove-set', function(e) {
         e.preventDefault();
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
 
         $.ajax({
-            url: '/en/cart/' + $(this).data('id') + '/remove_set/',
+            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/remove_set/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
