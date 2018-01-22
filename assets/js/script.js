@@ -73,7 +73,7 @@ $(document).ready(function() {
     $('.cc-order-confirm').on('click', function() {
         //alert($(this).data('id'))
         $.ajax({
-            url: '/order/' + $(this).data('id') + '/',
+            url: '/en/order/' + $(this).data('id') + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -210,7 +210,7 @@ $(document).ready(function() {
 
     $('.cc-cart-link').on('click', function() {
         $.ajax({
-            url: '/cart/',
+            url: '/en/cart/',
             type: 'get',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -229,7 +229,7 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: '/cart/checkout/',
+            url: '/en/cart/checkout/',
             type: type,
             data: data,
             success: function(data) {
@@ -261,7 +261,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         $.ajax({
-            url: '/cart/' + $(this).data('id') + '/remove/',
+            url: '/en/cart/' + $(this).data('id') + '/remove/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -274,7 +274,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         $.ajax({
-            url: '/cart/' + $(this).data('id') + '/remove_set/',
+            url: '/en/cart/' + $(this).data('id') + '/remove_set/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
