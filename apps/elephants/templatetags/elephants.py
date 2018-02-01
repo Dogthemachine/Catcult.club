@@ -31,13 +31,13 @@ def get_item_img(item_id):
 
 
 @register.simple_tag
-def get_categories():
+def get_categories(request):
     try:
         categories = Categories.objects.all().order_by('sequence')
         m = ''
         for category in categories:
-            m = m + '<li class="nav-item"><a class="nav-link cc-main-menu-color" href="/showcase/%i/" title="%s">%s</a></li>' \
-                    % (category.id, _(category.name), _(category.name))
+            m = m + '<li class="nav-item"><a class="nav-link cc-main-menu-color" href="/%s/showcase/%i/" title="%s">%s</a></li>' \
+                    % (request.LANGUAGE_CODE, category.id, _(category.name), _(category.name))
 
     except:
         return ''
