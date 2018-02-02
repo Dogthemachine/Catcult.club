@@ -409,7 +409,7 @@ def messages_off(request, id):
     if request.is_ajax():
         return HttpResponse(json.dumps({'message': message}), content_type = 'application/json')
     else:
-        return redirect('showcase')
+        return redirect('main_page')
 
 
 @json_view()
