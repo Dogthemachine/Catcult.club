@@ -48,7 +48,7 @@
 
     {% if set.get_amount  %}
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-        <h3>{% get_price set request %} {% get_price_description request %}</h3>
+        <h2>{% get_price set request %} {% get_price_description request %}</h2>
         <p>{{ set.details|safe }}</p>
           {% if form %}
             {% crispy form form.helper %}
@@ -58,7 +58,7 @@
       </div>
     {% else %}
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-        <h4><p class="text-center">{% trans 'Sorry, this set in unavailable now.' %}</p></h4>
+        <b><p class="text-center">{% trans 'Sorry, this set in unavailable now.' %}</p></b>
         <p>{{ set.details|safe }}</p>
       </div>
     {% endif %}

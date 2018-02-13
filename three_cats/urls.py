@@ -17,8 +17,12 @@ from django.contrib.sitemaps.views import sitemap
 from apps.sitemap import sitemaps
 from django.views.decorators.cache import cache_page
 
+urlpatterns = [
+    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'), name='robots_file'),
+    url(r'^sitemap\.xml$', cache_page(3600)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    ]
 
-urlpatterns = i18n_patterns(
+urlpatterns += i18n_patterns(
     url(r'^$', showcase, name='main_page'),
 
     url(r'^admin/', admin.site.urls),
@@ -82,8 +86,6 @@ urlpatterns = i18n_patterns(
     url(r'^liqpay_callback/$', liqpay_callback, name='liqpay_callback'),
     url(r'^success/$', main_page, name='payment_success'),
 
-    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'), name='robots_file'),
-    url(r'^sitemap\.xml$', cache_page(3600)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

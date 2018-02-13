@@ -46,5 +46,5 @@
     {% endfor %}
   </table>
   {% if cart.get_items_count %}<p class="cc-discount-text">{{ cart.get_items_count }}</p>{% endif %}
-  <h3>{% trans 'Total' %}: {% get_total cart request %} {% get_price_description request %}</h3>
+  <b>{% trans 'Total' %}: {% get_total cart request %} {% get_price_description request %}</b>
 </div>
