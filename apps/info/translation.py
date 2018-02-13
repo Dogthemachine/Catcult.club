@@ -4,7 +4,7 @@ from apps.info.models import Info, Stores, Config
 
 
 class InfoTranslationOptions(TranslationOptions):
-    fields = ('title', 'info',)
+    fields = ('title', 'info', 'title_tag', 'description_tag',)
 
 
 class StoresTranslationOptions(TranslationOptions):

@@ -4,19 +4,19 @@ from apps.elephants.models import Items, Categories, Fashions, Sizes, Stocks, Se
 
 
 class ItemsTranslationOptions(TranslationOptions):
-    fields = ('name', 'description', 'details', 'price_description',)
+    fields = ('name', 'description', 'details', 'price_description', 'title_tag', 'description_tag',)
 
 
 class SetsTranslationOptions(TranslationOptions):
-    fields = ('name', 'description', 'details', 'price_description',)
+    fields = ('name', 'description', 'details', 'price_description', 'title_tag', 'description_tag',)
 
 
 class FashionsTranslationOptions(TranslationOptions):
-    fields = ('name', 'details',)
+    fields = ('name', 'details', 'title_tag', 'description_tag',)
 
 
 class CategoriesTranslationOptions(TranslationOptions):
-    fields = ('name', 'details',)
+    fields = ('name', 'details', 'title_tag', 'description_tag',)
 
 
 class SizesTranslationOptions(TranslationOptions):

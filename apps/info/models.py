@@ -12,6 +12,8 @@ class Info(models.Model):
     image = ResizedImageField(size=[1500, 1500], upload_to='info', blank=True)
     video = models.CharField(_('video'), max_length=1000, default='', blank=True)
     info = models.TextField(_('text'), default='', blank=True)
+    title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
+    description_tag = models.CharField(_('description tag'), max_length=160, blank=True, default='')
 
     class Meta:
         verbose_name = _('Info')
