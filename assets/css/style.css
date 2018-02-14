@@ -371,6 +371,10 @@ legend {
     margin-top: 2px;
 }
 
+.cc-cena {
+    font-size: 2em;
+}
+
 /* base.html */
 .cc-sn img {
     width: 30px;

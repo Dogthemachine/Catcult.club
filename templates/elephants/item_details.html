@@ -48,7 +48,7 @@
 
     {% if item.get_amount  %}
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-        <h1>{% get_price item request %} {% get_price_description request %}</h1>
+        <p class="cc-cena">{% get_price item request %} {% get_price_description request %}</p>
         <p>{{ item.details|safe }}</p>
         {% if form %}
           {% crispy form form.helper %}
