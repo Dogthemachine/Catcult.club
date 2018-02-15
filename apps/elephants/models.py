@@ -20,7 +20,7 @@ class Categories(models.Model):
     details = models.TextField(_('details'), blank=True)
     set = models.BooleanField(_('set'), default=False)
     title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=160, blank=True, default='')
+    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
@@ -46,7 +46,7 @@ class Fashions(models.Model):
     details = models.TextField(_('details'), blank=True, default='')
     displayed = models.BooleanField(_('displayed'), default=True)
     title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=160, blank=True, default='')
+    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
 
     class Meta:
@@ -87,7 +87,7 @@ class Items(models.Model):
     views_month = models.CharField(_('views month'), default=0, max_length=512)
     showcase_displayed = models.BooleanField(_('showcase_displayed'), default=True)
     title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=160, blank=True, default='')
+    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -173,7 +173,7 @@ class Sets(models.Model):
     views_today = models.PositiveIntegerField(_('views today'), default=0)
     views_month = models.CharField(_('views month'), default=0, max_length=512)
     title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=160, blank=True, default='')
+    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
