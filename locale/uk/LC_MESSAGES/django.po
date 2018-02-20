@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-20 14:58+0200\n"
+"POT-Creation-Date: 2018-02-20 16:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -229,18 +229,30 @@ msgstr "Журнали балансу"
 
 #: apps/elephants/views.py:36
 msgid "main pae title_tag"
-msgstr "Купить спортивную одежду в интернет магазине - спортивная одежда ТрикотаЖ"
+msgstr ""
+"Купить спортивную одежду в интернет магазине - спортивная одежда ТрикотаЖ"
 
 #: apps/elephants/views.py:37
 msgid "main pae description_tag"
-msgstr "Купить спортивную одежду. ✶Одежда для спорта и на каждый день✶ Культурная спортивная одежда★ Уникальный дизайн★//✈С быстрой доставкой ✔Украинский производитель ☛Шоу-рум ТрикотаЖ в Одессе☚"
+msgstr ""
+"Купить спортивную одежду. ✶Одежда для спорта и на каждый день✶ Культурная "
+"спортивная одежда★ Уникальный дизайн★//✈С быстрой доставкой ✔Украинский "
+"производитель ☛Шоу-рум ТрикотаЖ в Одессе☚"
 
-#: apps/elephants/views.py:170 apps/elephants/views.py:254
+#: apps/elephants/views.py:122
+msgid "Foto."
+msgstr "Фото."
+
+#: apps/elephants/views.py:123
+msgid "Image."
+msgstr "Картинка."
+
+#: apps/elephants/views.py:174 apps/elephants/views.py:258
 #, python-format
 msgid "%(name)s was added to your cart. %(count)s"
 msgstr "%(name)s був додан до вашого кошика. %(count)s"
 
-#: apps/elephants/views.py:176
+#: apps/elephants/views.py:180
 #, python-format
 msgid "%(name)s was added to your cart."
 msgstr "%(name)s був додан до вашого кошика."
@@ -791,7 +803,7 @@ msgstr "Вибачте, товар недоступний"
 msgid "Sorry, this set in unavailable now."
 msgstr "Вибачте, товар недоступний"
 
-#: templates/elephants/showcase.html:21 templates/elephants/showcase.html:25
+#: templates/elephants/showcase.html:21
 msgid "Show details"
 msgstr "Подробиці"
 

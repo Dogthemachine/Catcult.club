@@ -22,8 +22,8 @@
             <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ entry.image_small }}">
           </a>
         {% else %}
-          <a href="{% url 'item_details' entry.id %}" title="{% trans 'Show details' %}">
-            <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ entry.image_small }}">
+          <a href="{% url 'item_details' entry.id %}" >
+            <img class="img-responsive img-circle" title="{{ entry.d_t }}" alt="{{ entry.d_a }}" src="{{ MEDIA_URL }}{{ entry.image_small }}">
           </a>
         {% endif %}
         <h1 class="text-center">{{ entry.name }}</h1>

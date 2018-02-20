@@ -118,6 +118,14 @@ def showcase(request, category_id=None, fashion_id=None):
     except EmptyPage:
         itm = paginator.page(paginator.num_pages)
 
+    for it in itm:
+        try:
+            it.d_t = it.description_tag.split('.')[0] + '. ' + _('Foto.')
+            it.d_a = it.description_tag.split('.')[0] + '. ' + _('Image.')
+        except:
+            it.d_t = ''
+            it.d_a = ''
+
     return render(request,
                   'elephants/showcase.html',
                   {'category': category,
@@ -182,6 +190,16 @@ def item_details(request, id):
     else:
         item.views_today = item.views_today + 1
         item.save()
+
+    i = 1
+    for photo in photos:
+        try:
+            photo.d_t = item.description_tag.split('.')[0] + '. ' + _('Foto.') + str(i)
+            photo.d_a = item.description_tag.split('.')[0] + '. ' + _('Image.') + str(i)
+        except:
+            photo.d_t = ''
+            photo.d_a = ''
+        i += 1
 
     return render(request,
                   'elephants/item_details.html',
