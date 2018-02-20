@@ -8,6 +8,7 @@ class ItemsSitemap(Sitemap):
     changefreq = 'weekly'
     priority = 1
     protocol = 'https'
+    i18n = True
 
     def items(self):
         return Items.objects.all()
@@ -23,6 +24,7 @@ class SetsSitemap(Sitemap):
     changefreq = 'weekly'
     priority = 1
     protocol = 'https'
+    i18n = True
 
     def items(self):
         return Sets.objects.all()
@@ -38,6 +40,7 @@ class StaticSitemap(Sitemap):
     changefreq = 'daily'
     priority = 1
     protocol = 'https'
+    i18n = True
 
     def items(self):
         return ['main_info', 'contacts', 'about_us', 'stocks']
