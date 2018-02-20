@@ -187,6 +187,9 @@ def item_details(request, id):
         item.views_today = item.views_today + 1
         item.save()
 
+    item.d_t = item.description_tag.split('.')[0] + '. ' + str(_('Foto.'))
+    item.d_a = item.description_tag.split('.')[0] + '. ' + str(_('Image.'))
+
     i = 1
     for photo in photos:
         photo.d_t = item.description_tag.split('.')[0] + '. ' + str(_('Foto.')) + str(i)
