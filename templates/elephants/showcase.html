@@ -3,9 +3,8 @@
 {% load bootstrap_pagination %}
 {% load elephants %}
 
-{% block title %}
-  {% trans topic.title %}
-{% endblock %}
+{% block title %}{{ title_tag }}{% endblock %}
+{% block description %}{{ description_tag }}{% endblock %}
 
 {% block content %}
   {% if request.menu_layout == 1 %}

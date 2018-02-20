@@ -3,9 +3,8 @@
 {% load crispy_forms_tags %}
 {% load elephants %}
 
-{% block title %}
-  {{ item.name }}
-{% endblock %}
+{% block title %}{{ item.title_tag }}{% endblock %}
+{% block description %}{{ item.title_tag }}{% endblock %}
 
 {% block content %}
 

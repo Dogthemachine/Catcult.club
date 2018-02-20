@@ -26,6 +26,16 @@ def showcase(request, category_id=None, fashion_id=None):
 
     categories = Categories.objects.all()
 
+    if fashion:
+        title_tag = fashion.title_tag
+        description_tag = fashion.description_tag
+    elif category:
+        title_tag = category.title_tag
+        description_tag = category.description_tag
+    else:
+        title_tag = _('main pae title_tag')
+        description_tag = _('main pae description_tag')
+
     fashions = None
 
     if category and fashion:
@@ -115,7 +125,9 @@ def showcase(request, category_id=None, fashion_id=None):
                    'fashion': fashion,
                    'fashions': fashions,
                    'items': items,
-                   'itm': itm})
+                   'itm': itm,
+                   'title_tag': title_tag,
+                   'description_tag': description_tag})
 
 
 def item_details(request, id):
