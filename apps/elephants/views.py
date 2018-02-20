@@ -190,11 +190,9 @@ def item_details(request, id):
     item.d_t = item.description_tag.split('.')[0] + '. ' + str(_('Foto.'))
     item.d_a = item.description_tag.split('.')[0] + '. ' + str(_('Image.'))
 
-    i = 1
     for photo in photos:
-        photo.d_t = item.description_tag.split('.')[0] + '. ' + str(_('Foto.')) + str(i)
-        photo.d_a = item.description_tag.split('.')[0] + '. ' + str(_('Image.')) + str(i)
-        i += 1
+        photo.d_t = item.description_tag.split('.')[0] + '. ' + str(_('Foto.'))
+        photo.d_a = item.description_tag.split('.')[0] + '. ' + str(_('Image.'))
 
     return render(request,
                   'elephants/item_details.html',
