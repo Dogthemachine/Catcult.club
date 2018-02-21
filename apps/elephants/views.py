@@ -187,16 +187,12 @@ def item_details(request, id):
         item.views_today = item.views_today + 1
         item.save()
 
-    item.d_t = item.description_tag.split('.')[0] + '. ' + str(_('Foto.'))
-    item.d_a = item.description_tag.split('.')[0] + '. ' + str(_('Image.'))
-
-    for photo in photos:
-        photo.d_t = item.description_tag.split('.')[0] + '. ' + str(_('Foto.'))
-        photo.d_a = item.description_tag.split('.')[0] + '. ' + str(_('Image.'))
+    d_t = item.name.split('.')[0] + '. ' + str(_('Foto.'))
+    d_a = item.name.split('.')[0] + '. ' + str(_('Image.'))
 
     return render(request,
                   'elephants/item_details.html',
-                  {'photos': photos, 'item': item, 'form': form})
+                  {'photos': photos, 'item': item, 'form': form, 'd_t': d_t, 'd_a': d_a})
 
 
 def item_set_details(request, id):
