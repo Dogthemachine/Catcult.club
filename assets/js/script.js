@@ -1,7 +1,7 @@
 // Google maps
 function initialize() {
 
-    if (document.location.pathname == '/en/contacts/') {
+    if (document.location.pathname == '/en/contacts/' || document.location.pathname == '/ru/contacts/' || document.location.pathname == '/uk/contacts/') {
         var map_zoom = 14;
         locations = [[46.481049, 30.744456]];
     } else {
