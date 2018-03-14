@@ -9,7 +9,9 @@ from django.utils import timezone
 from .forms import AddToCartForm, SetSizesForm
 from .models import Photo, Categories, Fashions, Items, Sizes, Sets, Balance, SetsPhoto, Stocks
 from apps.orders.models import Cart, CartItem, CartSet, CartSetItem
-from apps.info.models import Info
+from apps.info.models import Info, Config
+from apps.comments.forms import CommentForm, ReplayForm
+from apps.comments.models import Comments
 
 
 def showcase(request, category_id=None, fashion_id=None):
@@ -138,8 +140,14 @@ def item_details(request, id):
     item = get_object_or_404(Items, id=id)
 
     photos = Photo.objects.filter(item=item).order_by('added')
+    media = Config.objects.get()
 
     sizes = Sizes.objects.select_related().filter(balance__item=item, balance__amount__gt=0).count()
+
+    comments = Comments.objects.filter(items=item).order_by('-added')
+
+    comment_form = CommentForm()
+    replay_form = ReplayForm()
 
     if sizes > 0:
         form = AddToCartForm(item=item)
@@ -192,15 +200,22 @@ def item_details(request, id):
 
     return render(request,
                   'elephants/item_details.html',
-                  {'photos': photos, 'item': item, 'form': form, 'd_t': d_t, 'd_a': d_a})
+                  {'photos': photos, 'item': item, 'form': form, 'd_t': d_t, 'd_a': d_a,
+                   'replay_form': replay_form, 'comment_form': comment_form,
+                   'comments': comments, 'media': media.media })
 
 
 def item_set_details(request, id):
     set = get_object_or_404(Sets, id=id)
 
+    comments = Comments.objects.filter(sets=set).order_by("-added")
+
     photos = SetsPhoto.objects.filter(set=set).order_by('added')
 
     items = Items.objects.filter(sets=set)
+
+    comment_form = CommentForm()
+    replay_form = ReplayForm()
 
     res = False
     if items:
@@ -268,9 +283,14 @@ def item_set_details(request, id):
         set.views_today = set.views_today + 1
         set.save()
 
+    d_t = set.name.split('.')[0] + '. ' + str(_('Foto.'))
+    d_a = set.name.split('.')[0] + '. ' + str(_('Image.'))
+
     return render(request,
                   'elephants/item_set_details.html',
-                  {'photos': photos, 'set': set, 'form': form})
+                  {'photos': photos, 'set': set, 'form': form, 'comment_form': comment_form,
+                   'replay_form': replay_form, 'd_t': d_t, 'd_a': d_a,
+                   "comments": comments})
 
 
 def stocks(request):

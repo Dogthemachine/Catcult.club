@@ -7,6 +7,9 @@ from django.contrib import admin
 from apps.elephants.views import showcase, item_details, item_set_details, stocks
 from apps.info.views import user_login, user_logout, feedback, topic_view
 from apps.main_page.views import main_page
+from apps.gallery.views import gallery, gallery_photo
+from apps.comments.views import comment, replay, replay_activate, replay_deactivate, replay_delete, \
+    comment_activate, comment_deactivate, comment_delete, comments
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
     delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
     j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
@@ -20,7 +23,8 @@ from django.views.decorators.cache import cache_page
 urlpatterns = [
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'), name='robots_file'),
     url(r'^sitemap\.xml$', cache_page(3600)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    ]
+    url('accounts/', include('allauth.urls')),
+]
 
 urlpatterns += i18n_patterns(
     url(r'^$', showcase, name='main_page'),
@@ -34,6 +38,8 @@ urlpatterns += i18n_patterns(
     url(r'^feedback/$', feedback, name='feedback'),
     url(r'^contacts/$', topic_view, {'topic': 'contacts'}, name='contacts'),
     url(r'^about/$', topic_view, {'topic': 'about_us'}, name='about_us'),
+    url(r'^policies_privacy/$', topic_view, {'topic': 'privacy'}, name='policies_privacy'),
+    url(r'^policies_terms/$', topic_view, {'topic': 'terms'}, name='policies_terms'),
     #url(r'^partners/$', topic_view, {'topic': 'partners'}, name='partners'),
 
     # Shop
@@ -43,6 +49,17 @@ urlpatterns += i18n_patterns(
     url(r'^item-set/(?P<id>\d+)/$', item_set_details, name='item_set_details'),
     url(r'^stocks/$', stocks, name='stocks'),
     #url(r'^stock/(?P<id>\d+)/$', stock_details, name='stock_details'),
+
+    # Comments
+    url(r'^comment/$', comment, name='comment'),
+    url(r'^comments/$', comments, name='all_comments'),
+    url(r'^replay/$', replay, name='replay'),
+    url(r'^replay-activate/(?P<comm_id>\d+)/$', replay_activate, name='replay_activate'),
+    url(r'^replay-deactivate/(?P<comm_id>\d+)/$', replay_deactivate, name='replay_deactivate'),
+    url(r'^replay-delete/(?P<comm_id>\d+)/$', replay_delete, name='replay_delete'),
+    url(r'^comment-activate/(?P<comm_id>\d+)/$', comment_activate, name='comment_activate'),
+    url(r'^comment-deactivate/(?P<comm_id>\d+)/$', comment_deactivate, name='comment_deactivate'),
+    url(r'^comment-delete/(?P<comm_id>\d+)/$', comment_delete, name='comment_delete'),
 
     # Moderator
     url(r'^orders/$', manage_orders, name='orders'),
@@ -68,12 +85,16 @@ urlpatterns += i18n_patterns(
     url(r'^order_delivery/(?P<id>\d+)/$', order_comment, name='order_delivery'),
     url(r'^order_payment/(?P<id>\d+)/$', order_comment, name='order_payment'),
 
-    #Statistics
+    # Statistics
     url(r'^stat/sale/$', stat_sale, name='stat_sale'),
     url(r'^stat/ending0/$', stat_ending, {'rest': 0}, name='stat_ending_0'),
     url(r'^stat/ending1/$', stat_ending, {'rest': 1}, name='stat_ending_1'),
 
-    #Orders
+    # Gallery
+    url(r'^gallery/$', gallery, name='gallery'),
+    url(r'^gallery/(?P<id>\d+)/$', gallery_photo, name='gallery_photo'),
+
+    # Orders
     url(r'^messages_off/(?P<id>\d+)/$', messages_off, name='messages_off'),
 
     # Cart

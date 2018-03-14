@@ -1,11 +1,20 @@
 // Google maps
 function initialize() {
-    if (document.location.pathname == '/contacts/') {
+
+    if (document.location.pathname == '/en/contacts/') {
         var map_zoom = 14;
-        locations = [[46.416153, 30.7109794]];
+        locations = [[46.481049, 30.744456]];
     } else {
         var map_zoom = 11;
     }
+
+    var mapOptions = {
+        center: new google.maps.LatLng(46.481049,30.744456),
+        zoom: map_zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new google.maps.Map(document.getElementById("map_canvas_contacts"), mapOptions);
 
     var marker, i;
 
@@ -199,6 +208,148 @@ $(document).ready(function() {
 
     });
 
+    //Comments
+    $('#cc-comment-confirm').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        $.ajax({
+            url: '/' + loc_lang + '/comment/',
+            type: 'post',
+            data: $('#cc-add-comment-form').serializeArray(),
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    $('#cc-comment-modal .modal-body').html(data.form_html);
+                }
+            }
+        });
+    });
+
+    $('.cc-replay-link').on('click', function() {
+        var comment_id = $(this).data('comment-id');
+        $('#cc-add-replay-form #id_comment_id').val(comment_id);
+    });
+
+    $('.cc-comment-link').on('click', function() {
+        var item_id = $(this).data('item-id');
+        $('#cc-add-comment-form #id_item_id').val(item_id);
+        $('#cc-add-comment-form #id_set_id').val('0');
+    });
+
+    $('#cc-replay-confirm').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        $.ajax({
+            url: '/' + loc_lang + '/replay/',
+            type: 'post',
+            data: $('#cc-add-replay-form').serializeArray(),
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    $('#cc-replay-modal .modal-body').html(data.form_html);
+                }
+            }
+        });
+    });
+
+    $('.cc-comment-activate').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        var id_com = $(this).data('comment-id');
+        $.ajax({
+            url: '/' + loc_lang + '/comment-activate/' + id_com + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+    });
+
+    $('.cc-comment-deactivate').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        var id_com = $(this).data('comment-id');
+        $.ajax({
+            url: '/' + loc_lang + '/comment-deactivate/' + id_com + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+    });
+
+    $('.cc-comment-delete').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        var id_com = $(this).data('comment-id');
+        $.ajax({
+            url: '/' + loc_lang + '/comment-delete/' + id_com + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+    });
+
+    $('.cc-reply-activate').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        var id_com = $(this).data('reply-id');
+        $.ajax({
+            url: '/' + loc_lang + '/replay-activate/' + id_com + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+    });
+
+    $('.cc-reply-deactivate').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        var id_com = $(this).data('reply-id');
+        $.ajax({
+            url: '/' + loc_lang + '/replay-deactivate/' + id_com + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+    });
+
+    $('.cc-reply-delete').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        var id_com = $(this).data('reply-id');
+        $.ajax({
+            url: '/' + loc_lang + '/replay-delete/' + id_com + '/',
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                }
+            }
+        });
+    });
+
     //Tooltips
     $('.cc-tooltip').tooltip();
 
@@ -306,6 +457,7 @@ $(document).ready(function() {
     }
 
     $('.cc-cat-image').hover(sourceSwap, sourceSwap);
+    $('.cc-cat-image0').hover(sourceSwap, sourceSwap);
 
     var showcaseSwap = function () {
         var $this = $(this);
@@ -356,4 +508,5 @@ $(document).ready(function() {
         $('#div_id_country').show();
     });
 
+    initialize();
 });

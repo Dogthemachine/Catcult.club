@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-20 16:04+0200\n"
+"POT-Creation-Date: 2018-03-12 16:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,54 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: apps/comments/forms.py:11
+msgid "Your comment"
+msgstr "Ваш коментар"
+
+#: apps/comments/forms.py:28
+msgid "Your replay"
+msgstr "Ваша відповідь"
+
+#: apps/comments/models.py:16 apps/comments/models.py:34
+#: apps/elephants/models.py:64 apps/elephants/models.py:81
+#: apps/elephants/models.py:168 apps/elephants/models.py:310
+#: apps/gallery/models.py:13 apps/info/models.py:44
+msgid "description"
+msgstr "опис"
+
+#: apps/comments/models.py:17 apps/comments/models.py:35
+msgid "moderated"
+msgstr "відмодеровано"
+
+#: apps/comments/models.py:18 apps/comments/models.py:36
+#: apps/elephants/models.py:91 apps/elephants/models.py:177
+#: apps/elephants/models.py:253 apps/elephants/models.py:273
+#: apps/gallery/models.py:14 apps/info/models.py:29 apps/info/models.py:47
+#: apps/info/models.py:63 apps/orders/models.py:33 apps/orders/models.py:94
+#: apps/orders/models.py:126 apps/orders/models.py:133
+#: apps/orders/models.py:138
+msgid "added"
+msgstr "додано"
+
+#: apps/comments/models.py:21 apps/comments/models.py:22
+#: templates/comments/comments.html:6 templates/comments/comments.html:13
+#: templates/elephants/item_details.html:82
+#: templates/elephants/item_set_details.html:70
+msgid "Comments"
+msgstr "Коментарі"
+
+#: apps/comments/models.py:39 apps/comments/models.py:40
+msgid "Reply_to_comments"
+msgstr "Відповідь на коментар"
+
+#: apps/comments/views.py:51
+msgid "Thank you for your comment. Moderators will check this comment."
+msgstr "Дякуємо за Ваш коментар. Модератори перевірять його."
+
+#: apps/comments/views.py:88
+msgid "Thank you for your replay."
+msgstr "Дякуємо за Вашу відповідь"
 
 #: apps/elephants/forms.py:12 apps/elephants/forms.py:23
 #: apps/elephants/forms.py:59 apps/elephants/forms.py:64
@@ -54,8 +102,8 @@ msgstr ""
 #: apps/elephants/models.py:15 apps/elephants/models.py:39
 #: apps/elephants/models.py:62 apps/elephants/models.py:77
 #: apps/elephants/models.py:163 apps/elephants/models.py:304
-#: apps/info/models.py:11 apps/info/models.py:41 apps/orders/models.py:137
-#: apps/orders/models.py:279
+#: apps/gallery/models.py:10 apps/info/models.py:11 apps/info/models.py:41
+#: apps/orders/models.py:137 apps/orders/models.py:279
 msgid "name"
 msgstr "ім'я"
 
@@ -91,7 +139,7 @@ msgstr "Категорії товарів"
 
 #: apps/elephants/models.py:45
 msgid "weigth"
-msgstr ""
+msgstr "вага"
 
 #: apps/elephants/models.py:47
 msgid "displayed"
@@ -100,12 +148,6 @@ msgstr "відображати в меню"
 #: apps/elephants/models.py:54 apps/elephants/models.py:55
 msgid "Fashions of items"
 msgstr "Фасони товарів"
-
-#: apps/elephants/models.py:64 apps/elephants/models.py:81
-#: apps/elephants/models.py:168 apps/elephants/models.py:310
-#: apps/info/models.py:44
-msgid "description"
-msgstr "опис"
 
 #: apps/elephants/models.py:69 apps/elephants/models.py:70
 msgid "Sizes of items"
@@ -141,14 +183,6 @@ msgstr "перегляди за місяць"
 #: apps/elephants/models.py:88
 msgid "showcase_displayed"
 msgstr "відображати"
-
-#: apps/elephants/models.py:91 apps/elephants/models.py:177
-#: apps/elephants/models.py:253 apps/elephants/models.py:273
-#: apps/info/models.py:29 apps/info/models.py:47 apps/info/models.py:63
-#: apps/orders/models.py:33 apps/orders/models.py:94 apps/orders/models.py:126
-#: apps/orders/models.py:133 apps/orders/models.py:138
-msgid "added"
-msgstr "додано"
 
 #: apps/elephants/models.py:95 apps/elephants/models.py:96
 msgid "items"
@@ -227,35 +261,41 @@ msgstr "Журнал балансу"
 msgid "Balance logs"
 msgstr "Журнали балансу"
 
-#: apps/elephants/views.py:36
+#: apps/elephants/views.py:38
 msgid "main pae title_tag"
 msgstr ""
 "Купить спортивную одежду в интернет магазине - спортивная одежда ТрикотаЖ"
 
-#: apps/elephants/views.py:37
+#: apps/elephants/views.py:39
 msgid "main pae description_tag"
 msgstr ""
 "Купить спортивную одежду. ✶Одежда для спорта и на каждый день✶ Культурная "
 "спортивная одежда★ Уникальный дизайн★//✈С быстрой доставкой ✔Украинский "
 "производитель ☛Шоу-рум ТрикотаЖ в Одессе☚"
 
-#: apps/elephants/views.py:122
+#: apps/elephants/views.py:124 apps/elephants/views.py:198
+#: apps/elephants/views.py:286
 msgid "Foto."
 msgstr "Фото."
 
-#: apps/elephants/views.py:123
+#: apps/elephants/views.py:125 apps/elephants/views.py:199
+#: apps/elephants/views.py:287
 msgid "Image."
 msgstr "Картинка."
 
-#: apps/elephants/views.py:174 apps/elephants/views.py:258
+#: apps/elephants/views.py:182 apps/elephants/views.py:276
 #, python-format
 msgid "%(name)s was added to your cart. %(count)s"
 msgstr "%(name)s був додан до вашого кошика. %(count)s"
 
-#: apps/elephants/views.py:180
+#: apps/elephants/views.py:188
 #, python-format
 msgid "%(name)s was added to your cart."
 msgstr "%(name)s був додан до вашого кошика."
+
+#: apps/gallery/models.py:17 apps/gallery/models.py:18
+msgid "Gallery"
+msgstr "Галерея"
 
 #: apps/helpers.py:77
 msgid "grn"
@@ -355,13 +395,11 @@ msgstr "Інфо фото"
 
 #: apps/info/models.py:75
 msgid "dollar rate"
-msgstr ""
+msgstr "курс долара"
 
 #: apps/info/models.py:76
-#, fuzzy
-#| msgid "Decorated"
 msgid "euro rate"
-msgstr "Упакований"
+msgstr "Курс евро"
 
 #: apps/info/models.py:78
 msgid "Usd."
@@ -369,6 +407,16 @@ msgstr ""
 
 #: apps/info/models.py:79
 msgid "Eur."
+msgstr ""
+
+#: apps/info/models.py:80
+#, fuzzy
+#| msgid "status"
+msgid "static url"
+msgstr "статус"
+
+#: apps/info/models.py:81
+msgid "media url"
 msgstr ""
 
 #: apps/info/views.py:38
@@ -393,11 +441,13 @@ msgstr "Повідомлення успішно відправлено."
 
 #: apps/moderation/forms.py:29 apps/moderation/forms.py:56
 #: apps/moderation/views.py:291 apps/orders/forms.py:74
+#: templates/elephants/item_details.html:193
+#: templates/elephants/item_set_details.html:86
 msgid "Comment"
 msgstr "Коментар"
 
 #: apps/moderation/forms.py:41 apps/moderation/views.py:334
-#: templates/footer.html:27 templates/footer.html:28 templates/footer.html:39
+#: templates/footer.html:27 templates/footer.html:28 templates/footer.html:40
 #: templates/moderation/j_order_delivery_success.html:19
 #: templates/moderation/orders.html:34 templates/moderation/orders.html:82
 #: templates/moderation/orders.html:131
@@ -668,7 +718,7 @@ msgstr "підпис"
 msgid "data decoded"
 msgstr "декодовані дані"
 
-#: apps/orders/models.py:144 templates/base.html:87
+#: apps/orders/models.py:144 templates/base.html:98
 msgid "Cart"
 msgstr "Кошик"
 
@@ -720,10 +770,9 @@ msgid "Thank you. Your bonus %s percent activated."
 msgstr "Дякуємо. Ваш бонус %s відсотків активований."
 
 #: apps/orders/views.py:158
-#, fuzzy, python-format
-#| msgid "Your discount on the share is %s grn.<br/>"
+#, python-format
 msgid "Your discount on the share is %(sum)s %(dsc)s.<br/>"
-msgstr "Ваша знижка на акцію %s грн.<br/>"
+msgstr "Ваша знижка на акцію %(sum)s %(dsc)s.<br/>"
 
 #: apps/orders/views.py:159
 msgid "Your promo-code is not activated."
@@ -781,25 +830,87 @@ msgid "Something went wrong. Please try later or contact us."
 msgstr ""
 "Щось пішло не так. Будь ласка, спробуйте пізніше або зв'яжіться з нами."
 
-#: templates/base.html:93 templates/moderation/orders.html:150
+#: templates/base.html:104 templates/elephants/item_details.html:199
+#: templates/elephants/item_details.html:217
+#: templates/elephants/item_set_details.html:92
+#: templates/elephants/item_set_details.html:110
+#: templates/moderation/orders.html:150
 msgid "Close"
 msgstr "Закрити"
 
-#: templates/base.html:94
+#: templates/base.html:105
 msgid "Checkout"
 msgstr "Оформлення замовлення"
 
-#: templates/elephants/item_details.html:55
-#: templates/elephants/item_set_details.html:56
+#: templates/comments/comments.html:36 templates/comments/comments.html:84
+#: templates/elephants/item_details.html:110
+#: templates/elephants/item_details.html:152
+msgid "Activate"
+msgstr "Активувати"
+
+#: templates/comments/comments.html:39 templates/comments/comments.html:81
+#: templates/elephants/item_details.html:113
+#: templates/elephants/item_details.html:149 templates/moderation/items.html:10
+#: templates/moderation/items.html:20
+#: templates/moderation/j_order_payment.html:11
+#: templates/moderation/order.html:25 templates/moderation/order.html:35
+msgid "Delete"
+msgstr "Видалити"
+
+#: templates/comments/comments.html:60
+#: templates/elephants/item_details.html:128
+#: templates/elephants/item_details.html:211
+#: templates/elephants/item_set_details.html:104
+msgid "Replay"
+msgstr "Відповісти"
+
+#: templates/comments/comments.html:65 templates/comments/comments.html:99
+#: templates/elephants/item_details.html:133
+#: templates/elephants/item_details.html:167
+msgid "Deactiate"
+msgstr "Деактивувати"
+
+#: templates/elephants/item_details.html:74
+#: templates/elephants/item_set_details.html:58
 msgid "Sorry, product is currently unavailable"
 msgstr "Вибачте, товар недоступний"
 
-#: templates/elephants/item_details.html:60
+#: templates/elephants/item_details.html:77
 #: templates/elephants/showcase.html:34
 msgid "Sorry, this item in unavailable now."
 msgstr "Вибачте, товар недоступний"
 
-#: templates/elephants/item_set_details.html:61
+#: templates/elephants/item_details.html:87
+msgid "Please login to leave a comment via"
+msgstr "Щоб залишити відгук увійдіть за допомогою"
+
+#: templates/elephants/item_details.html:88
+#: templates/elephants/item_details.html:89
+msgid "or"
+msgstr "або"
+
+#: templates/elephants/item_details.html:94
+#: templates/elephants/item_set_details.html:74
+#: templates/moderation/orders.html:56
+msgid "Add comment"
+msgstr "Додати коментар"
+
+#: templates/elephants/item_details.html:179
+#: templates/elephants/item_details.html:180
+msgid "All comments"
+msgstr "Усі коментари"
+
+#: templates/elephants/item_details.html:200
+#: templates/elephants/item_details.html:218
+#: templates/elephants/item_set_details.html:93
+#: templates/elephants/item_set_details.html:111
+#: templates/moderation/j_order_payment_buttons.html:4
+#: templates/moderation/order.html:49 templates/moderation/order.html:76
+#: templates/moderation/order.html:90
+msgid "Add"
+msgstr "Додати"
+
+#: templates/elephants/item_set_details.html:63
 msgid "Sorry, this set in unavailable now."
 msgstr "Вибачте, товар недоступний"
 
@@ -827,9 +938,33 @@ msgstr "Як оплатити"
 msgid "Discounts and promotions"
 msgstr "Знижки та промо"
 
-#: templates/footer.html:40
+#: templates/footer.html:41
 msgid "Showroom"
 msgstr ""
+
+#: templates/footer.html:44 templates/footer.html:45
+msgid "Terms and Conditions"
+msgstr "Умови"
+
+#: templates/footer.html:47 templates/footer.html:48
+msgid "Privacy"
+msgstr "Політика конфіденційності"
+
+#: templates/gallery/gallery.html:6
+msgid "gallery of images"
+msgstr "Кращі фото, галерея"
+
+#: templates/gallery/gallery.html:7
+msgid "gallery of best images"
+msgstr "Фото, картинки, галерея"
+
+#: templates/gallery/gallery.html:15
+msgid "Show photo"
+msgstr "Дивитись фото"
+
+#: templates/gallery/gallery_photo.html:16
+msgid "image"
+msgstr "картинка"
 
 #: templates/info/feedback.html:7
 msgid "Send mail"
@@ -870,12 +1005,6 @@ msgstr "грн"
 msgid "Size and amount"
 msgstr "Размір та кількість"
 
-#: templates/moderation/items.html:10 templates/moderation/items.html:20
-#: templates/moderation/j_order_payment.html:11
-#: templates/moderation/order.html:25 templates/moderation/order.html:35
-msgid "Delete"
-msgstr "Видалити"
-
 #: templates/moderation/j_order_delivery_buttons.html:6
 msgid "Reset"
 msgstr "Скинути"
@@ -901,12 +1030,6 @@ msgstr "Видалити замовлення"
 #: templates/moderation/j_order_info_buttons.html:4
 msgid "Edit"
 msgstr "Редактувати"
-
-#: templates/moderation/j_order_payment_buttons.html:4
-#: templates/moderation/order.html:49 templates/moderation/order.html:76
-#: templates/moderation/order.html:90
-msgid "Add"
-msgstr "Додати"
 
 #: templates/moderation/j_order_payment_success.html:19
 #: templates/moderation/orders.html:112
@@ -973,10 +1096,6 @@ msgstr "№ "
 #: templates/moderation/orders.html:56
 msgid "Change comment"
 msgstr "змінити коментар"
-
-#: templates/moderation/orders.html:56
-msgid "Add comment"
-msgstr "Додати коментар"
 
 #: templates/moderation/stat_ending.html:5 templates/navbar_mod.html:37
 #: templates/navbar_mod.html:38 templates/navbar_mod.html:40
@@ -1066,41 +1185,41 @@ msgstr "Видалити"
 msgid "Total"
 msgstr "Усього"
 
-#: three_cats/settings.py:126
+#: three_cats/settings.py:135
 msgid "Russian"
 msgstr "Російська"
 
-#: three_cats/settings.py:127
+#: three_cats/settings.py:136
 msgid "Ukrainian"
 msgstr "Українська"
 
-#: three_cats/settings.py:128
+#: three_cats/settings.py:137
 msgid "English"
 msgstr "Англійська"
 
-#: three_cats/settings.py:138
+#: three_cats/settings.py:147
 msgid ""
 "Warehouse-to-warehouse delivery at the nearest Nova Poshta branch (in "
 "Ukraine);"
 msgstr "Доставка до найближчого відділення Нової Пошти (по Україні);"
 
-#: three_cats/settings.py:139
+#: three_cats/settings.py:148
 msgid "Nova Poshta door-to-door delivery (in Ukraine);"
 msgstr "Адресна доставка Новою Поштою «до дверей» (по Україні);"
 
-#: three_cats/settings.py:142
+#: three_cats/settings.py:151
 msgid "Worldwide Delivery."
 msgstr "Доставка в будь-яку точку світу."
 
-#: three_cats/settings.py:146
+#: three_cats/settings.py:155
 msgid "Pay by card (Visa, MasterCard);"
 msgstr "Онлайн (LiqPay);"
 
-#: three_cats/settings.py:147
+#: three_cats/settings.py:156
 msgid "PrivatBank (Ukraine only);"
 msgstr "На карту Приват Банку;"
 
-#: three_cats/settings.py:150
+#: three_cats/settings.py:159
 msgid "Cash on delivery upon receipt of order at the Nova Poshta branch;"
 msgstr "Післяплатою при отриманні замовлення на Новій Пошті;"
 
@@ -1176,9 +1295,6 @@ msgstr "Післяплатою при отриманні замовлення н
 
 #~ msgid "Your order has been taken. Total price is %(sum)s. CatCult"
 #~ msgstr "Ваше замовлення було прийняте. Сума до оплати %(sum)s. CatCult"
-
-#~ msgid "status"
-#~ msgstr "статус"
 
 #~ msgid "Create order"
 #~ msgstr "створити замовлення"

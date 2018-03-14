@@ -17,7 +17,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      {% if request.user.is_authenticated %}
+      {% if request.user.is_staff %}
         <ul class="nav navbar-nav">
           <li class="nav-item"><a class="cc-main-menu-color" href="{% url 'main_info' %}" title="{% trans 'Mod' %}">
             {% trans 'Mod' %}

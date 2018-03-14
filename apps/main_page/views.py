@@ -5,7 +5,7 @@ from apps.info.models import Carousel, Info, Stores
 
 
 def main_page(request):
-    if request.user.is_authenticated():
+    if request.user.is_staff:
         return render(request, 'main_page/main_page_mod.html', {})
 
     else:

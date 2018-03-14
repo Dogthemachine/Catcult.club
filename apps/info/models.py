@@ -77,3 +77,5 @@ class Config(SingletonModel):
     price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
     price_description_usd = models.CharField(_('price_description'), max_length=250, default=_('Usd.'))
     price_description_eur = models.CharField(_('price_description'), max_length=250, default=_('Eur.'))
+    static = models.CharField(_('static url'), max_length=250, default='https://catcult.club/static/')
+    media = models.CharField(_('media url'), max_length=250, default='https://catcult.club/media/')

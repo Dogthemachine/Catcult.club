@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load humanize %}
+
+{% block title %}
+  {% trans 'Comments' %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+      <h1>{% trans 'Comments' %}</h1>
+    </div>
+  </div>
+
+  {% for entry in comments %}
+    <div class="row cs-comments">
+      {% if not entry.moderated %}
+        {% if request.user.is_staff %}
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center">
+            <a href="{% url 'item_details' entry.items.id %}" >
+              <img class="img-responsive img-circle" title="{{ entry.items.d_t }}" alt="{{ entry.items.d_a }}" src="{{ MEDIA_URL }}{{ entry.items.image_small }}">
+            </a>
+            <h2>{{ entry.items.fashions.categories.name }} {{ entry.items.fashions.name }} {{ entry.items.name }}</h2>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 cc-comm-nomod">
+            <p>
+              <img class="img-circle" width="50px" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
+              <a href="{{ entry.user.socialaccount_set.all.0.extra_data.link }}">{{ entry.user.socialaccount_set.all.0.extra_data.name }}</a>
+            </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ entry.added|naturaltime }}</span></div>
+            <hr>
+            <p>{{ entry.comment }}</p>
+            <a class="cc-comment-activate btn btn-success btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#">
+              <b><span>{% trans 'Activate' %}</span></b>
+            </a>
+            <a class="cc-comment-delete btn btn-danger btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#">
+              <b><span>{% trans 'Delete' %}</span></b>
+            </a>
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center">
+          <a href="{% url 'item_details' entry.items.id %}" >
+            <img class="img-responsive img-circle" title="{{ entry.items.d_t }}" alt="{{ entry.items.d_a }}" src="{{ MEDIA_URL }}{{ entry.items.image_small }}">
+          </a>
+          <h2>{{ entry.items.fashions.categories.name }} {{ entry.items.fashions.name }} {{ entry.items.name }}</h2>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 cc-comm-mod cs-comments">
+          <p>
+            <img class="img-circle" width="50px" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
+            <a href="{{ entry.user.socialaccount_set.all.0.extra_data.link }}">{{ entry.user.socialaccount_set.all.0.extra_data.name }}</a>
+          </p>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ entry.added|naturaltime }}</span></div>
+          <hr>
+          <p>{{ entry.comment }}</p>
+          {% if request.user.is_authenticated %}
+            <a class="cc-replay-link btn btn-default btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#" data-toggle="modal" data-target="#cc-replay-modal">
+              <b><span class="icon-flickr"></span> {% trans 'Replay' %}</b>
+            </a>
+          {% endif %}
+          {% if request.user.is_staff %}
+            <a class="cc-comment-deactivate btn btn-danger btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#">
+              <b><span>{% trans 'Deactiate' %}</span></b>
+            </a>
+          {% endif %}
+            {% if entry.get_replies %}
+              {% for reply in entry.get_replies %}
+                {% if not reply.moderated %}
+                  {% if request.user.is_staff %}
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-nomod">
+                      <p>
+                        <img class="img-circle" width="50px" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
+                        <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                      </p>
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ reply.added|naturaltime }}</span></div>
+                      <hr>
+                      <p>{{ reply.reply }}</p>
+                      <a class="cc-reply-delete btn btn-danger btn-sm pull-right" data-reply-id="{{ reply.id }}" href="#">
+                        <b><span>{% trans 'Delete' %}</span></b>
+                      </a>
+                      <a class="cc-reply-activate btn btn-success btn-sm pull-right" data-reply-id="{{ reply.id }}" href="#">
+                        <b><span>{% trans 'Activate' %}</span></b>
+                      </a>
+                    </div>
+                  {% endif %}
+                {% else %}
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-repl">
+                    <p>
+                      <img class="img-circle" width="50px" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
+                      <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                    </p>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ reply.added|naturaltime }}</span></div>
+                    <hr>
+                    <p>{{ reply.reply }}</p>
+                    {% if request.user.is_staff %}
+                      <a class="cc-reply-deactivate btn btn-danger btn-sm pull-right" data-reply-id="{{ reply.id }}" href="#">
+                        <b><span>{% trans 'Deactiate' %}</span></b>
+                      </a>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+
+{% endblock %}

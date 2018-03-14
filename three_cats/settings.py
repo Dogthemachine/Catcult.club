@@ -24,15 +24,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'django.contrib.humanize',
 
     'bootstrap_pagination',
     'django_extensions',
     'crispy_forms',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.vk',
 
     'apps.main_page',
     'apps.elephants',
     'apps.info',
     'apps.orders',
+    'apps.comments',
+    'apps.gallery',
     'apps.moderation',
 ]
 
@@ -187,7 +196,7 @@ STOCKS_TYPES = (
 )
 
 # 0 - image, 1 - text
-MENU_LAYOUT = 1
+MENU_LAYOUT = 0
 
 SITE_ID = 1
 
@@ -197,3 +206,10 @@ CACHES = {
         'LOCATION': 'cache_table',
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+LOGIN_REDIRECT_URL = 'main_page'

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load elephants %}
+
+{% block title %}{{ gallery.name }}{% endblock %}
+{% block description %}{{ gallery.description }}{% endblock %}
+
+{% block content %}
+
+  <div class="row cc-table-margin">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+      <h1>{{ gallery.name }}</h1>
+      <p>{{ gallery.description|safe }}</p>
+    </div>
+    <img class="img-responsive img-rounded" title="{{ gallery.name }}" alt="{{ gallery.name }} {% trans 'image' %}"
+         src="{{ MEDIA_URL }}{{ gallery.image }}" data-zoom-image="{{ MEDIA_URL }}{{ gallery.image }}"/>
+  </div>
+
+  </div>
+
+{% endblock %}

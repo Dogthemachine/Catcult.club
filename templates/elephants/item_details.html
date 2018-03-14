@@ -2,20 +2,33 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load elephants %}
+{% load socialaccount %}
+{% load account %}
+{% load humanize %}
+
+{% crispy comment_form comment_form.helper %}
 
 {% block title %}{{ item.title_tag }}{% endblock %}
 {% block description %}{{ item.description_tag }}{% endblock %}
 
+{% block og_title %}{{ item.title_tag }}{% endblock %}
+{% block og_desc %}{{ item.description_tag }}{% endblock %}
+{% block og_image %}{{ media }}{{ item.image_small }}{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+
 {% block content %}
 
+  <div itemscope itemtype="https://schema.org/Product">
+
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-      <h1>{{ item.name }}</h1>
+    <div itemprop="name" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+      <h1>{{ item.fashions.categories.name }} > {% if item.fashions.displayed %}{{ item.fashions.name }} > {% endif %}{{ item.name }}</h1>
     </div>
   </div>
 
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+      <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-zoom">
           <div class="row">
             <img class="img-responsive img-rounded" src="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}"/>
@@ -26,7 +39,7 @@
             <div class="row">
               <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                 <div class="cc-product-photo">
-                  <a class="cc-product-active-photo" href="#" data-image="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}">
+                  <a itemprop="image" class="cc-product-active-photo" href="#" data-image="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}">
                     <img class="img-responsive img-circle" title="{{ d_t }}" alt="{{ d_a }}" src="{{ MEDIA_URL }}{{ item.image_small }}">
                   </a>
                 </div>
@@ -43,24 +56,174 @@
             </div>
           </div>
         </div>
+      </div>
     </div>
 
-    {% if item.get_amount  %}
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-        <p class="cc-cena">{% get_price item request %} {% get_price_description request %}</p>
-        <p>{{ item.details|safe }}</p>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
+
+      {% if item.get_amount  %}
+        <meta itemprop="price" content="{% get_price item request %}">
+        <meta itemprop="priceCurrency" content="{% get_price_description request %}">
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <p class="cc-cena">{% get_price item request %} {% get_price_description request %}</p>
+        </div>
+        <div itemprop="description"><p>{{ item.details|safe }}</p></div>
         {% if form %}
           {% crispy form form.helper %}
         {% else %}
           {% trans 'Sorry, product is currently unavailable' %}
         {% endif %}
+      {% else %}
+          <h2><p class="text-center">{% trans 'Sorry, this item in unavailable now.' %}</p></h2>
+          <div itemprop="description"><p>{{ item.details|safe }}</p></div>
+      {% endif %}
+
+      <div class="row text-center cs-comments0">
+        <h2>{% trans 'Comments' %}</h2>
       </div>
-    {% else %}
+
+      {% if not request.user.is_authenticated %}
+        {% with request.path as path %}
+        {% trans 'Please login to leave a comment via' %}
+          <a href="{% provider_login_url 'facebook' next=path %}">Facebook</a> {% trans 'or' %}
+          <a href="{% provider_login_url 'google' next=path %}">Google</a> {% trans 'or' %}
+          <a href="{% provider_login_url 'vk' next=path %}">VK</a>
+        {% endwith %}
+      {% else %}
+        <a class="cc-comment-link btn btn-default pull-right" href="#" data-item-id="{{ item.id }}" data-toggle="modal" data-target="#cc-comment-modal">
+          <b><span class="icon-flickr"></span> {% trans 'Add comment' %}</b>
+        </a>
+      {% endif %}
+
+      {% for entry in comments %}
+        {% if not entry.moderated %}
+          {% if request.user.is_staff %}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-nomod">
+              <p>
+                <img class="img-circle" width="50px" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
+                <a href="{{ entry.user.socialaccount_set.all.0.extra_data.link }}">{{ entry.user.socialaccount_set.all.0.extra_data.name }}</a>
+              </p>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ entry.added|naturaltime }}</span></div>
+              <hr>
+              <p>{{ entry.comment }}</p>
+              <a class="cc-comment-activate btn btn-success btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#">
+                <b><span>{% trans 'Activate' %}</span></b>
+              </a>
+              <a class="cc-comment-delete btn btn-danger btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#">
+                <b><span>{% trans 'Delete' %}</span></b>
+              </a>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-mod cs-comments">
+            <p>
+              <img class="img-circle" width="50px" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
+              <a href="{{ entry.user.socialaccount_set.all.0.extra_data.link }}">{{ entry.user.socialaccount_set.all.0.extra_data.name }}</a>
+            </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ entry.added|naturaltime }}</span></div>
+            <hr>
+            <p>{{ entry.comment }}</p>
+            {% if request.user.is_authenticated %}
+              <a class="cc-replay-link btn btn-default btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#" data-toggle="modal" data-target="#cc-replay-modal">
+                <b><span class="icon-flickr"></span> {% trans 'Replay' %}</b>
+              </a>
+            {% endif %}
+            {% if request.user.is_staff %}
+              <a class="cc-comment-deactivate btn btn-danger btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#">
+                <b><span>{% trans 'Deactiate' %}</span></b>
+              </a>
+            {% endif %}
+              {% if entry.get_replies %}
+                {% for reply in entry.get_replies %}
+                  {% if not reply.moderated %}
+                    {% if request.user.is_staff %}
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-nomod">
+                        <p>
+                          <img class="img-circle" width="50px" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
+                          <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                        </p>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ reply.added|naturaltime }}</span></div>
+                        <hr>
+                        <p>{{ reply.reply }}</p>
+                        <a class="cc-reply-delete btn btn-danger btn-sm pull-right" data-reply-id="{{ reply.id }}" href="#">
+                          <b><span>{% trans 'Delete' %}</span></b>
+                        </a>
+                        <a class="cc-reply-activate btn btn-success btn-sm pull-right" data-reply-id="{{ reply.id }}" href="#">
+                          <b><span>{% trans 'Activate' %}</span></b>
+                        </a>
+                      </div>
+                    {% endif %}
+                  {% else %}
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-repl">
+                      <p>
+                        <img class="img-circle" width="50px" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
+                        <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                      </p>
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ reply.added|naturaltime }}</span></div>
+                      <hr>
+                      <p>{{ reply.reply }}</p>
+                      {% if request.user.is_staff %}
+                        <a class="cc-reply-deactivate btn btn-danger btn-sm pull-right" data-reply-id="{{ reply.id }}" href="#">
+                          <b><span>{% trans 'Deactiate' %}</span></b>
+                        </a>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
-        <h2><p class="text-center">{% trans 'Sorry, this item in unavailable now.' %}</p></h2>
-        <p>{{ item.details|safe }}</p>
+        <a  href="{% url 'all_comments' %}" title="{% trans 'All comments' %}">
+          {% trans 'All comments' %}
+        </a>
       </div>
-    {% endif %}
+
+    </div>
 
   </div>
+
+  <div id="cc-comment-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% trans 'Comment' %}</h4>
+        </div>
+        <div class="modal-body">
+          {% crispy comment_form %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+          <button id="cc-comment-confirm" type="button" class="btn btn-success">{% trans 'Add' %}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="cc-replay-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% trans 'Replay' %}</h4>
+        </div>
+        <div class="modal-body">
+          {% crispy replay_form %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+          <button id="cc-replay-confirm" type="button" class="btn btn-success">{% trans 'Add' %}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+<!-- uSocial -->
+<script async src="https://usocial.pro/usocial/usocial.js?v=6.1.4" data-script="usocial" charset="utf-8"></script>
+<div class="uSocial-Share" data-lang="en" data-pid="f2b3a2bfc4e7507ab6727f08b3b8b60f" data-type="share" data-options="round,style4,default,left,slide-up,size32,counter0" data-social="fb,gPlus,pinterest,telegram,twi,email,print" data-mobile="vi,wa,sms"></div>
+<!-- /uSocial -->
+
 {% endblock %}

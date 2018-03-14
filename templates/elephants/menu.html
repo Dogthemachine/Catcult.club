@@ -1,7 +1,8 @@
 {% load i18n %}
-<div class="row">
+<div class="cc-menu-image">
   {% for cat in categories %}
-    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+
+      <!--
       {% if LANGUAGE_CODE == "en" %}
         {% if cat.id == category.id %}
           <img class="img-responsive" src="{{ MEDIA_URL }}{{ cat.image_hover_en }}">
@@ -27,13 +28,22 @@
           </a>
         {% endif %}
       {% endif %}
-    </div>
+      -->
+
+    {% if cat.id == category.id %}
+      <img class="cc-cat-image" title="{{ cat.name }}" alt="{{ cat.name }}" src="{{ MEDIA_URL }}{{ cat.image_hover }}">
+    {% else %}
+      <a href="{% url 'showcase_cat' cat.id %}">
+        <img class="cc-cat-image" title="{{ cat.name }}" alt="{{ cat.name }}" src="{{ MEDIA_URL }}{{ cat.image }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover }}">
+      </a>
+    {% endif %}
   {% endfor %}
 </div>
 
-<div class="row cc-fas">
+<div class="cc-menu-image">
   {% for fas in fashions %}
-    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+
+      <!--
       {% if LANGUAGE_CODE == "en" %}
         {% if fas.id == fashion.id %}
           <img class="img-responsive" src="{{ MEDIA_URL }}{{ fas.image_hover_en }}">
@@ -51,6 +61,15 @@
           </a>
         {% endif %}
       {% endif %}
-    </div>
+      -->
+
+
+    {% if fas.id == fashion.id %}
+      <img class="cc-cat-image0" title="{{ fashion.name }}" alt="{{ fashion.name }}" src="{{ MEDIA_URL }}{{ fas.image_hover }}">
+    {% else %}
+      <a href="{% url 'showcase_cat_fas' category.id fas.id %}">
+        <img class="cc-cat-image0" title="{{ fashion.name }}" alt="{{ fashion.name }}" src="{{ MEDIA_URL }}{{ fas.image }}" data-hover-src="{{ MEDIA_URL }}{{ fas.image_hover }}">
+      </a>
+    {% endif %}
   {% endfor %}
 </div>

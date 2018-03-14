@@ -436,6 +436,45 @@ legend {
 
 /** new **/
 
+/* comments */
+.cs-comments {
+    margin-top: 20px;
+}
+
+.cc-comment-date {
+    font-color: Gray;
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.cs-comments0 {
+    margin-top: 100px;
+}
+
+cs-comm-name {
+    align: center;
+}
+
+.cc-comm-nomod {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: #FFDAB9;
+}
+
+.cc-comm-mod {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: LightGray;
+}
+
+.cc-comm-repl {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: White;
+}
+
 
 #error_1_id_size {
     color: green;
@@ -624,6 +663,9 @@ body {
     margin-top: 15px;
 }
 
+.cc-showcase {
+    margin-top: 15px;
+}
 
 .cc-nav-lang {
     margin-top: 10px;
@@ -723,6 +765,10 @@ body {
     margin-bottom: 15px;
 }
 
+.cc-menu-image {
+    text-align: center;
+}
+
 .cc-mobile-cart {
     font-size: 1.6em;
     margin-top: 10px;
@@ -752,4 +798,20 @@ body {
 .cc-menu-star {
     color: darkgray;
     font-size: 0.4em;
+}
+
+.cc-cat-image {
+    width: 80px;
+}
+
+.cc-cat-image0 {
+    width: 50px;
+}
+
+#map_canvas_contacts {
+    height: 800px;
+}
+
+a:hover {
+    text-decoration: none !important;
 }

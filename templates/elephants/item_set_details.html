@@ -3,6 +3,8 @@
 {% load crispy_forms_tags %}
 {% load elephants %}
 
+{% crispy comment_form comment_form.helper %}
+
 {% block title %}
   {{ set.name }}
 {% endblock %}
@@ -28,7 +30,7 @@
               <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                 <div class="cc-product-photo">
                   <a class="cc-product-active-photo" href="#" data-image="{{ MEDIA_URL }}{{ set.image }}" data-zoom-image="{{ MEDIA_URL }}{{ set.image }}">
-                    <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ set.image_small }}">
+                    <img class="img-responsive img-circle" title="{{ d_t }}" alt="{{ d_a }}" src="{{ MEDIA_URL }}{{ set.image_small }}">
                   </a>
                 </div>
               </div>
@@ -36,7 +38,7 @@
                 <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                   <div class="cc-product-photo">
                     <a href="#" data-image="{{ MEDIA_URL }}{{ entry.image }}" data-zoom-image="{{ MEDIA_URL }}{{ entry.image }}">
-                      <img class="img-responsive img-circle" src="{{ MEDIA_URL }}{{ entry.image_small }}">
+                      <img class="img-responsive img-circle" title="{{ d_t }} {{ forloop.counter }}" alt="{{ d_a }} {{ forloop.counter }}" src="{{ MEDIA_URL }}{{ entry.image_small }}">
                     </a>
                   </div>
                 </div>
@@ -63,5 +65,53 @@
       </div>
     {% endif %}
 
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
+      <div class="row text-center">
+        <h2>{% trans 'Comments' %}</h2>
+      </div>
+      <div class="row">
+        <a class="cc-comment-link btn btn-default" href="#" data-toggle="modal" data-target="#cc-comment-modal">
+          <b><span class="icon-flickr"> {% trans 'Add comment' %}</span></b>
+        </a>
+      </div>
+    </div>
+
   </div>
+
+  <div id="cc-comment-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% trans 'Comment' %}</h4>
+        </div>
+        <div class="modal-body">
+          {% crispy comment_form %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+          <button id="cc-comment-confirm" type="button" class="btn btn-success">{% trans 'Add' %}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="cc-eplay-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% trans 'Replay' %}</h4>
+        </div>
+        <div class="modal-body">
+          {% crispy comment_form %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+          <button id="cc-raplay-confirm" type="button" class="btn btn-success">{% trans 'Add' %}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
 {% endblock %}
