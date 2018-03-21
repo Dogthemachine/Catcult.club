@@ -24,9 +24,15 @@
           </a></li>
         </ul>
       {% else %}
-        <a class="navbar-brand" href="{% url 'main_info' %}">
-          <img class="cc-logo-mini" src="{{ STATIC_URL }}img/cc-logo-w.png" class="img-circle">
-        </a>
+        {% if request.path == '/ru/main/' or request.path == '/en/main/' or request.path == '/uk/main/' %}
+          <a class="navbar-brand" href="{% url 'main_page' %}">
+            <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logo' %}" src="{{ STATIC_URL }}img/cc-logo-w.png">
+          </a>
+        {% else %}
+          <a class="navbar-brand" href="{% url 'main_info' %}">
+            <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logo' %}" src="{{ STATIC_URL }}img/cc-logo-w.png">
+          </a>
+        {% endif %}
       {% endif %}
     </div>
 
@@ -58,7 +64,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="nav-item cc-nav-lang">
               <select class="form-control" id="cc-valuta">
-                <option {% if request.session.valuta == "grn" %} selected {% endif %} value="grn" title="">&#8372</option>
+                <option {% if request.session.valuta == "grn" %} selected {% endif %} value="grn" title="grn">&#8372</option>
                 <option {% if request.session.valuta == "usd" %} selected {% endif %} value="usd" title="usd">&#36</option>
                 <option {% if request.session.valuta == "eur" %} selected {% endif %} value="eur" title="eur">&#8364</option>
               </select>

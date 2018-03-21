@@ -31,8 +31,8 @@ legend {
 
 @media (min-width: 1551px) {
 .cc-logo-button {
-    margin-top: 100px;
-    width: 130px;
+    margin-top: 10px;
+    width: 250px;
 }
 .cc-logo-slogan {
     margin-top: 300px;
@@ -53,8 +53,8 @@ legend {
 
 @media (min-width: 1451px) and (max-width: 1550px) {
 .cc-logo-button {
-    margin-top: 80px;
-    width: 130px;
+    margin-top: 10px;
+    width: 200px;
 }
 .cc-logo-slogan {
     margin-top: 290px;
@@ -75,8 +75,8 @@ legend {
 
 @media (min-width: 1351px) and (max-width: 1450px) {
 .cc-logo-button {
-    margin-top: 75px;
-    width: 120px;
+    margin-top: 10px;
+    width: 180px;
 }
 .cc-logo-slogan {
     margin-top: 260px;
@@ -97,8 +97,8 @@ legend {
 
 @media (min-width: 1251px) and (max-width: 1350px) {
 .cc-logo-button {
-    margin-top: 50px;
-    width: 120px;
+    margin-top: 10px;
+    width: 150px;
 }
 .cc-logo-slogan {
     margin-top: 250px;
@@ -119,8 +119,8 @@ legend {
 
 @media (min-width: 1151px) and (max-width: 1250px) {
 .cc-logo-button {
-    margin-top: 40px;
-    width: 110px;
+    margin-top: 10px;
+    width: 130px;
 }
 .cc-logo-slogan {
     margin-top: 230px;
@@ -141,8 +141,8 @@ legend {
 
 @media (min-width: 1051px) and (max-width: 1150px) {
 .cc-logo-button {
-    margin-top: 40px;
-    width: 100px;
+    margin-top: 10px;
+    width: 130px;
 }
 .cc-logo-slogan {
     margin-top: 210px;
@@ -163,8 +163,8 @@ legend {
 
 @media (min-width: 951px) and (max-width: 1050px) {
 .cc-logo-button {
-    margin-top: 40px;
-    width: 100px;
+    margin-top: 10px;
+    width: 120px;
 }
 .cc-logo-slogan {
     margin-top: 180px;
@@ -185,8 +185,8 @@ legend {
 
 @media (min-width: 851px) and (max-width: 950px) {
 .cc-logo-button {
-    margin-top: 25px;
-    width: 90px;
+    margin-top: 10px;
+    width: 110px;
 }
 .cc-logo-slogan {
     margin-top: 170px;
@@ -207,8 +207,8 @@ legend {
 
 @media (min-width: 751px) and (max-width: 850px) {
 .cc-logo-button {
-    margin-top: 20px;
-    width: 90px;
+    margin-top: 10px;
+    width: 110px;
 }
 .cc-logo-slogan {
     margin-top: 130px;
@@ -229,7 +229,7 @@ legend {
 
 @media (min-width: 651px) and (max-width: 750px) {
 .cc-logo-button {
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100px;
 }
 .cc-logo-slogan {
@@ -252,7 +252,7 @@ legend {
 @media (min-width: 551px) and (max-width: 650px) {
 .cc-logo-button {
     margin-top: 10px;
-    width: 90px;
+    width: 100px;
 }
 .cc-logo-slogan {
     margin-top: 70px;
@@ -274,7 +274,7 @@ legend {
 @media (min-width: 451px) and (max-width: 550px) {
 .cc-logo-button {
     margin-top: 10px;
-    width: 70px;
+    width: 100px;
 }
 .cc-logo-slogan {
     margin-top: 60px;
@@ -295,8 +295,8 @@ legend {
 
 @media (min-width: 351px) and (max-width: 450px) {
 .cc-logo-button {
-    margin-top: 5px;
-    width: 60px;
+    margin-top: 10px;
+    width: 100px;
 }
 .cc-logo-slogan {
     margin-top: 40px;
@@ -317,8 +317,8 @@ legend {
 
 @media (min-width: 251px) and (max-width: 350px) {
 .cc-logo-button {
-    margin-top: 0px;
-    width: 60px;
+    margin-top: 10px;
+    width: 100px;
 }
 .cc-logo-slogan {
     margin-top: 20px;
@@ -339,8 +339,8 @@ legend {
 
 @media (max-width: 250px) {
 .cc-logo-button {
-    margin-top: 0px;
-    width: 60px;
+    margin-top: 10px;
+    width: 100px;
 }
 .cc-logo-slogan {
     margin-top: 0px;
@@ -356,6 +356,16 @@ legend {
 .cc-font-2 {
     font-family: 'Comfortaa', cursive;
     font-size: 1em;
+}
+}
+
+.cc-3-cats {
+    margin-top: 50px;
+}
+
+@media (min-width: 767px) {
+.cc-cult-text {
+    margin-top: -100px;
 }
 }
 

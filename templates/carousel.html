@@ -4,34 +4,23 @@
     <div id="cc-pics">
       <div class="overlay">
         <div class="container">
-          <p></p>
-          <div class="hidden-xs">
+
+          <div class="cc-3-cats hidden-xs">
             <div class="col-sm-12 col-md-12 col-lg-12">
               <img class="cc-logo center-block" crop="centre" src="{{ STATIC_URL }}img/3kota.png">
             </div>
           </div>
-          {% if LANGUAGE_CODE == "en" %}
-            <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan_en.png">
-          {% elif LANGUAGE_CODE == "uk" %}
-            <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan_uk.png">
-          {% else %}
-            <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan.png">
-          {% endif %}
-          <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="col-sm-12 col-md-12 col-lg-12 cc-cult-text">
             {% if LANGUAGE_CODE == "en" %}
-              <a href="{% url 'main_page' %}">
-                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_en.png" data-hover-src="{{ STATIC_URL }}img/showcase_en_hover.png">
-              </a>
+              <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan_en.png">
             {% elif LANGUAGE_CODE == "uk" %}
-              <a href="{% url 'main_page' %}">
-                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_uk.png" data-hover-src="{{ STATIC_URL }}img/showcase_uk_hover.png">
-              </a>
+              <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan_uk.png">
             {% else %}
-              <a href="{% url 'main_page' %}">
-                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.png" data-hover-src="{{ STATIC_URL }}img/showcase_hover.png">
-              </a>
+              <img class="img-responsive cc-logo-slogan " src="{{ STATIC_URL }}img/slogan.png">
             {% endif %}
           </div>
+
         </div>
       </div>
       <ul class="slides">
