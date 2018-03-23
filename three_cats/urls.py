@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from apps.elephants.views import showcase, item_details, item_set_details, stocks
-from apps.info.views import user_login, user_logout, feedback, topic_view
+from apps.info.views import user_login, user_logout, feedback, topic_view, contacts
 from apps.main_page.views import main_page
 from apps.gallery.views import gallery, gallery_photo
 from apps.comments.views import comment, replay, replay_activate, replay_deactivate, replay_delete, \
@@ -36,7 +36,7 @@ urlpatterns += i18n_patterns(
     # Info
     url(r'^main/$', main_page, name='main_info'),
     url(r'^feedback/$', feedback, name='feedback'),
-    url(r'^contacts/$', topic_view, {'topic': 'contacts'}, name='contacts'),
+    url(r'^contacts/$', contacts, {'topic': 'contacts'}, name='contacts'),
     url(r'^about/$', topic_view, {'topic': 'about_us'}, name='about_us'),
     url(r'^policies_privacy/$', topic_view, {'topic': 'privacy'}, name='policies_privacy'),
     url(r'^policies_terms/$', topic_view, {'topic': 'terms'}, name='policies_terms'),

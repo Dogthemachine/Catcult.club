@@ -91,3 +91,9 @@ def topic_view(request, topic=None):
         stores = Stores.objects.all()
 
     return render(request, 'info/simple_view.html', {'topic': topic, 'stores': stores})
+
+
+def contacts(request, topic=None):
+    topic = get_object_or_404(Info, topic=topic)
+
+    return render(request, 'info/contacts.html', {'topic': topic})

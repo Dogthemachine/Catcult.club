@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load crispy_forms_tags %}
+{% load elephants %}
+{% load socialaccount %}
+{% load account %}
 {% load humanize %}
 
-{% block title %}
-  {% trans 'Comments' %}
-{% endblock %}
+{% crispy comment_form comment_form.helper %}
+
+{% block title %}{% trans 'Comments' %}{% endblock %}
 
 {% block content %}
 
@@ -26,7 +30,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 cc-comm-nomod">
             <p>
-              <img class="img-circle" width="50px" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
+              <img class="img-circle" width="50" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
               <a href="{{ entry.user.socialaccount_set.all.0.extra_data.link }}">{{ entry.user.socialaccount_set.all.0.extra_data.name }}</a>
             </p>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ entry.added|naturaltime }}</span></div>
@@ -49,17 +53,19 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 cc-comm-mod cs-comments">
           <p>
-            <img class="img-circle" width="50px" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
+            <img class="img-circle" width="50" src="{{ entry.user.socialaccount_set.all.0.get_avatar_url }}" />
             <a href="{{ entry.user.socialaccount_set.all.0.extra_data.link }}">{{ entry.user.socialaccount_set.all.0.extra_data.name }}</a>
           </p>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ entry.added|naturaltime }}</span></div>
           <hr>
           <p>{{ entry.comment }}</p>
+          <!--
           {% if request.user.is_authenticated %}
             <a class="cc-replay-link btn btn-default btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#" data-toggle="modal" data-target="#cc-replay-modal">
               <b><span class="icon-flickr"></span> {% trans 'Replay' %}</b>
             </a>
           {% endif %}
+          -->
           {% if request.user.is_staff %}
             <a class="cc-comment-deactivate btn btn-danger btn-sm pull-right" data-comment-id="{{ entry.id }}" href="#">
               <b><span>{% trans 'Deactiate' %}</span></b>
@@ -71,8 +77,12 @@
                   {% if request.user.is_staff %}
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-nomod">
                       <p>
-                        <img class="img-circle" width="50px" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
-                        <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                        {% if reply.user.is_staff %}
+                          <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logo' %}" src="{{ STATIC_URL }}img/cc-logo.png">
+                        {% else %}
+                          <img class="img-circle" width="50" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
+                          <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                        {% endif %}
                       </p>
                       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ reply.added|naturaltime }}</span></div>
                       <hr>
@@ -88,8 +98,12 @@
                 {% else %}
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-comm-repl">
                     <p>
-                      <img class="img-circle" width="50px" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
-                      <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                      {% if reply.user.is_staff %}
+                        <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logo' %}" src="{{ STATIC_URL }}img/cc-logo.png">
+                      {% else %}
+                        <img class="img-circle" width="50" src="{{ reply.user.socialaccount_set.all.0.get_avatar_url }}" />
+                        <a href="{{ reply.user.socialaccount_set.all.0.extra_data.link }}">{{ reply.user.socialaccount_set.all.0.extra_data.name }}</a>
+                      {% endif %}
                     </p>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><span class="pull-right cc-comment-date">{{ reply.added|naturaltime }}</span></div>
                     <hr>
@@ -107,6 +121,5 @@
       {% endif %}
     </div>
   {% endfor %}
-
 
 {% endblock %}

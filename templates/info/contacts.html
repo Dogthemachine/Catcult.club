@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 cs-item-title">
+
+      <h1>{{ topic.title }}</h1>
+      {{ topic.info|safe }}
+      <div class="thumbnail cs-info-photo">
+        <img src="{{ MEDIA_URL}}{{ topic.image }}">
+      </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div id="map_canvas_contacts"></div>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block footer_scripts %}
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+{% endblock %}

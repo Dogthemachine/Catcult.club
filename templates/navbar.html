@@ -26,7 +26,7 @@
       {% else %}
         {% if request.path == '/ru/main/' or request.path == '/en/main/' or request.path == '/uk/main/' %}
           <a class="navbar-brand" href="{% url 'main_page' %}">
-            <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logo' %}" src="{{ STATIC_URL }}img/cc-logo-w.png">
+            <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logl' %}" src="{{ STATIC_URL }}img/cc-logo-w.png">
           </a>
         {% else %}
           <a class="navbar-brand" href="{% url 'main_info' %}">
