@@ -64,17 +64,19 @@
       {% if item.get_amount  %}
         <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <p class="cc-cena"><span itemprop="price">{% get_price item request %}</span> <span itemprop="priceCurrency" content="UAH">{% get_price_description request %}</span></p>
+          <link itemprop="availability" href="http://schema.org/OnStock" />
         </div>
         <div itemprop="description"><p>{{ item.details|safe }}</p></div>
-        <link itemprop="availability" href="http://schema.org/InStock" />
         {% if form %}
           {% crispy form form.helper %}
         {% else %}
           {% trans 'Sorry, product is currently unavailable' %}
         {% endif %}
       {% else %}
-          <p class="text-center"><h2>{% trans 'Sorry, this item in unavailable now.' %}</h2></p>
-          <link itemprop="availability" href="http://schema.org/OutOfStock" />
+          <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <p class="text-center"><h2>{% trans 'Sorry, this item in unavailable now.' %}</h2></p>
+            <link itemprop="availability" href="http://schema.org/OutOfStock" />
+          </div>
           <div itemprop="description"><p>{{ item.details|safe }}</p></div>
       {% endif %}
 
