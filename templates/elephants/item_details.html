@@ -63,7 +63,7 @@
 
       {% if item.get_amount  %}
         <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-          <p class="cc-cena"><span itemprop="price">{% get_price item request %} {% get_price_description request %}</span></p>
+          <p class="cc-cena"><span itemprop="price">{% get_price item request %}</span> <span itemprop="priceCurrency" content="UAH">{% get_price_description request %}</span></p>
         </div>
         <div itemprop="description"><p>{{ item.details|safe }}</p></div>
         {% if form %}
