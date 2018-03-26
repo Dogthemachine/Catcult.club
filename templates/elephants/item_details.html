@@ -62,10 +62,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
 
       {% if item.get_amount  %}
-        <meta itemprop="price" content="{% get_price item request %}">
-        <meta itemprop="priceCurrency" content="{% get_price_description request %}">
         <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-          <p class="cc-cena">{% get_price item request %} {% get_price_description request %}</p>
+          <p class="cc-cena"><span itemprop="price">{% get_price item request %} {% get_price_description request %}</span></p>
         </div>
         <div itemprop="description"><p>{{ item.details|safe }}</p></div>
         {% if form %}
