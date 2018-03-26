@@ -75,6 +75,8 @@
       {% else %}
           <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
             <p class="text-center"><h2>{% trans 'Sorry, this item in unavailable now.' %}</h2></p>
+            <link itemprop="price" content="{% get_price item request %}" />
+            <link itemprop="priceCurrency" content="UAH" />
             <link itemprop="availability" href="http://schema.org/OutOfStock" />
           </div>
           <div itemprop="description"><p>{{ item.details|safe }}</p></div>
