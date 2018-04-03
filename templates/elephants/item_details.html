@@ -20,7 +20,7 @@
 
   <div itemscope itemtype="https://schema.org/Product">
   <meta itemprop="url" content="{{ request.get_host }}{{ request.get_full_path }}">
-  <meta itemprop="image" content="{{ MEDIA_URL }}{{ item.image }}">
+  <meta itemprop="image" content="{{ request.get_host }}{{ MEDIA_URL }}{{ item.image }}">
 
   <div class="row">
     <div itemprop="name" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
