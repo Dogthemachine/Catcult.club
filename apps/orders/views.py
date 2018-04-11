@@ -279,17 +279,18 @@ def cart_checkout(request):
                 message += item.balance.size.name + ' - '
                 message += str(item.amount) + '<br/>'
             if delivery_cost:
-                if request.session['valuta'] == 'grn':
-                    pass
-                else:
-                    config = Config.objects.get()
-                    rate = 1
-                    if request.session['valuta'] == 'usd':
-                        rate = config.dollar_rate
-                    if request.session['valuta'] == 'eur':
-                        rate = config.euro_rate
-                    delivery_cost = round(delivery_cost / rate, 2)
-                message += _('Cost of delivery:') + ' ' + str(delivery_cost) + ' ' + price_description(request) + '<br/>'
+                #if request.session['valuta'] == 'grn':
+                #    pass
+                #else:
+                #    config = Config.objects.get()
+                #    rate = 1
+                #    if request.session['valuta'] == 'usd':
+                #        rate = config.dollar_rate
+                #    if request.session['valuta'] == 'eur':
+                #        rate = config.euro_rate
+                #    delivery_cost = round(delivery_cost / rate, 2)
+                message += _('Cost of delivery:') + ' ' + str(delivery_cost) + ' ' + _('Grn.') + '<br/>'
+                #message += _('Cost of delivery:') + ' ' + str(delivery_cost) + ' ' + price_description(request) + '<br/>'
             message += _('Total:') + ' ' + str(order.get_total_price(request)) + ' ' + price_description(request) + '<br/>'
 
             messages.add_message(
