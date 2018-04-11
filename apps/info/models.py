@@ -79,3 +79,11 @@ class Config(SingletonModel):
     price_description_eur = models.CharField(_('price_description'), max_length=250, default=_('Eur.'))
     static = models.CharField(_('static url'), max_length=250, default='https://catcult.club/static/')
     media = models.CharField(_('media url'), max_length=250, default='https://catcult.club/media/')
+
+    class Meta:
+        ordering = ('dollar_rate',)
+        verbose_name = _('Config')
+        verbose_name_plural = _('Config')
+
+    def __str__(self):
+        return u'%s' % self.dollar_rate
