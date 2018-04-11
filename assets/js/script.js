@@ -377,18 +377,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#cc-cart-checkout').on('click', function(e) {
-
-        e.preventDefault();
-          $.ajax({
-              url: '/ru/cart/valuta/',
-              data: 'valuta=grn',
-              type: 'post',
-              success: function() {
-              },
-              error: function() {
-              }
-          });
+    $('#cc-cart-checkout').on('click', function() {
 
         console.log($(this).data('ready'));
         if ($(this).data('ready') == 1) {
