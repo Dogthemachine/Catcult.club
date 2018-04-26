@@ -3,6 +3,7 @@ from solo.models import SingletonModel
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
+from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -74,9 +75,9 @@ class Infophoto(models.Model):
 class Config(SingletonModel):
     dollar_rate = models.DecimalField(_('dollar rate'), max_digits=5, decimal_places=2, default=1)
     euro_rate = models.DecimalField(_('euro rate'), max_digits=5, decimal_places=2, default=1)
-    price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
-    price_description_usd = models.CharField(_('price_description'), max_length=250, default=_('Usd.'))
-    price_description_eur = models.CharField(_('price_description'), max_length=250, default=_('Eur.'))
+    price_description = models.CharField(_('price_description'), max_length=250, default=ugettext('Grn.'))
+    price_description_usd = models.CharField(_('price_description'), max_length=250, default=ugettext('Usd.'))
+    price_description_eur = models.CharField(_('price_description'), max_length=250, default=ugettext('Eur.'))
     static = models.CharField(_('static url'), max_length=250, default='https://catcult.club/static/')
     media = models.CharField(_('media url'), max_length=250, default='https://catcult.club/media/')
 
