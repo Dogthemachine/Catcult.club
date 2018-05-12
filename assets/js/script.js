@@ -470,7 +470,8 @@ $(document).ready(function() {
     $('.cc-logo-button').hover(showcaseSwap, showcaseSwap);
 
     $('#cc-pics').flexslider({
-        animation: "slide"
+        animation: "slide",
+        controlNav: false
     });
 
     $('.cc-zoom img').elevateZoom({
