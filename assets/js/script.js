@@ -431,10 +431,14 @@ $(document).ready(function() {
                                         straightWidget: true
                                     },
                                     function (response) {
-                                        location.reload();
+
                                     },
-                                    function (response) { },
-                                    function (response) { }
+                                    function (response) {
+
+                                    },
+                                    function (response) {
+
+                                    }
                                 );
                             }
                             pay();
@@ -540,6 +544,12 @@ $(document).ready(function() {
         //alert($(this).val());
         $('#div_id_country').show();
     });
+
+    window.addEventListener('message', function (e) {
+      if (e.data == 'WfpWidgetEventClose') {
+        location.reload();
+      }
+    }, false);
 
     initialize();
 });
