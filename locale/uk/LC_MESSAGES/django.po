@@ -1221,7 +1221,7 @@ msgstr "Доставка в будь-яку точку світу."
 
 #: three_cats/settings.py:155
 msgid "Pay by card (Visa, MasterCard);"
-msgstr "Онлайн (LiqPay);"
+msgstr "Онлайн (Visa, MasterCard);"
 
 #: three_cats/settings.py:156
 msgid "PrivatBank (Ukraine only);"

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import base64
 import json
+import hashlib
+import hmac
 from jsonview.decorators import json_view
 
 from django.conf import settings
@@ -16,6 +18,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.dateformat import format
 
 from .forms import CheckoutForm
 from .models import Cart, CartItem, CartSet, CartSetItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
@@ -299,6 +303,10 @@ def cart_checkout(request):
             )
 
             if order.payment_method == 3:
+                """
+                LiqPay form below.
+                """
+                """
                 liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
                 payment_form = liqpay.cnb_form({
                     'action': 'pay',
@@ -311,6 +319,48 @@ def cart_checkout(request):
                 })
 
                 return {'payment_form': payment_form}
+                """
+                config = Config.objects.get()
+                payment = {}
+                payment['account'] = config.merchant_account
+                payment['domain'] = config.merchant_domain_name
+                payment['tr_type'] = 'SALE'
+                payment['auth_type'] = 'SimpleSignature'
+                payment['sign'] = ''
+                payment['url'] = 'https://' + config.merchant_domain_name + reverse('wfp_callback')
+                payment['order_id'] = order.id
+                payment['order_date'] = format(order.added, 'U')
+                payment['amount'] = order.get_total_price_grn()
+                payment['currency'] = 'UAH'
+                payment['products'] = []
+                payment['prices'] = []
+                payment['counts'] = []
+                payment['first_name'] = order.name
+                payment['last_name'] = order.last_name
+                payment['phone'] = order.phone
+                payment['lang'] = 'AUTO'
+
+                for order_item in order.orderitems_set.all():
+                    payment['products'].append(order_item.balance.item.name)
+                    payment['prices'].append(order_item.price)
+                    payment['counts'].append(order_item.amount)
+
+                products_str = ';'.join(payment['products'])
+                prices_str = ';'.join(str(x) for x in payment['prices'])
+                counts_str = ';'.join(str(x) for x in payment['counts'])
+
+                sign_str = ';'.join([
+                    payment['account'], payment['domain'], str(payment['order_id']),
+                    str(payment['order_date']), str(payment['amount']), payment['currency'],
+                    products_str, str(counts_str), str(prices_str)
+                ])
+                payment['sign'] = hmac.new(
+                    str.encode(config.merchant_secret),
+                    str.encode(sign_str),
+                    hashlib.md5
+                ).hexdigest()
+
+                return {'payment': payment}
 
             return {'form': False}
 
@@ -384,6 +434,96 @@ def liqpay_callback(request):
                 order.liqpay_wait_accept = True
                 order.save()
                 return HttpResponse()
+
+
+@csrf_exempt
+def wfp_callback(request):
+    if request.method == 'POST':
+        config = Config.objects.get()
+        raw = PaymentRaw()
+        raw.data = request.body.decode('utf-8')
+        raw.sign = ''
+        raw.save()
+        try:
+            data = json.loads(raw.data)
+            raw.sign = data['merchantSignature']
+            raw.save()
+        except:
+            raise
+
+        sign_str = ';'.join([
+            data['merchantAccount'], str(data['orderReference']), str(data['amount']),
+            data['currency'], str(data['authCode']), data['cardPan'],
+            data['transactionStatus'], str(data['reasonCode'])
+        ])
+
+        sign = hmac.new(
+            str.encode(config.merchant_secret),
+            str.encode(sign_str),
+            hashlib.md5
+        ).hexdigest()
+
+        if sign == raw.sign:
+            response_dict = {}
+            response_dict['orderReference'] = data['orderReference']
+            response_dict['status'] = 'accept'
+            response_dict['time'] = format(timezone.now(), 'U')
+            response_dict['signature'] = ''
+
+            response_sign_str = ';'.join([
+                response_dict['orderReference'], response_dict['status'],
+                str(response_dict['time'])
+            ])
+
+            response_dict['signature'] = hmac.new(
+                str.encode(config.merchant_secret),
+                str.encode(response_sign_str),
+                hashlib.md5
+            ).hexdigest()
+
+            if data['transactionStatus'] == 'Approved':
+                try:
+                    order = Orders.objects.get(id=int(data['orderReference']))
+                except:
+                    return HttpResponse(json.dumps(response_dict, ensure_ascii=False), content_type="text/plain")
+
+                payment = Payment()
+                payment.order = order
+                payment.amount = int(data['amount'])
+                payment.comment = 'WayForPay'
+                payment.token = data['orderReference']
+                payment.sender_phone = data['phone']
+                payment.save()
+
+                if order.get_total_price_grn() == order.get_total_paid():
+                    order.paid = True
+                    order.liqpay_wait_accept = False
+                    order.save()
+                else:
+                    order.paid = False
+                    order.save()
+
+                try:
+                    phone = Phones.objects.get(phone=order.phone)
+                    phone.active = True
+                    phone.save()
+                except:
+                    pass
+
+                return HttpResponse(json.dumps(response_dict, ensure_ascii=False), content_type="text/plain")
+
+            else:
+                try:
+                    order = Orders.objects.get(id=int(data['orderReference']))
+                except:
+                    return HttpResponse(json.dumps(response_dict, ensure_ascii=False), content_type="text/plain")
+
+                order.liqpay_wait_accept = True
+                order.wfp_status = '; '.join([data['transactionStatus'], str(data['reasonCode']), data['reason']])
+                order.save()
+                return HttpResponse(json.dumps(response_dict, ensure_ascii=False), content_type="text/plain")
+        else:
+            return HttpResponse()
 
 
 def messages_off(request, id):

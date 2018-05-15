@@ -404,9 +404,40 @@ $(document).ready(function() {
                     if (data.html) {
                         $('#cc-cart-content').html(data.html);
                     } else {
-                        if (data.payment_form) {
-                            $('#payment-form').html(data.payment_form);
-                            $('#payment-form form').submit();
+                        if (data.payment) {
+                            // $('#payment-form').html(data.payment_form);
+                            // $('#payment-form form').submit();
+                            $('#cc-cart-modal').modal('hide');
+                            var wayforpay = new Wayforpay();
+                            var pay = function () {
+                                wayforpay.run({
+                                        merchantAccount : data.payment.account,
+                                        merchantDomainName : data.payment.domain,
+                                        merchantTransactionType: data.payment.tr_type,
+                                        authorizationType : data.payment.auth_type,
+                                        merchantSignature : data.payment.sign,
+                                        serviceUrl: data.payment.url,
+                                        orderReference : data.payment.order_id,
+                                        orderDate : data.payment.order_date,
+                                        amount : data.payment.amount,
+                                        currency : data.payment.currency,
+                                        productName : data.payment.products,
+                                        productPrice : data.payment.prices,
+                                        productCount : data.payment.counts,
+                                        clientFirstName : data.payment.first_name,
+                                        clientLastName : data.payment.last_name,
+                                        clientPhone: data.payment.phone,
+                                        language: data.payment.lang,
+                                        straightWidget: true
+                                    },
+                                    function (response) {
+                                        location.reload();
+                                    },
+                                    function (response) { },
+                                    function (response) { }
+                                );
+                            }
+                            pay();
                         } else {
                             location.reload();
                         }

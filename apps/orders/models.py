@@ -23,6 +23,7 @@ class Orders(models.Model):
     delivery_cost = models.IntegerField(_('delivery_cost'), default=0)
     payment_method = models.IntegerField(_('payment_method'), choices=settings.PAYMENT, default=0)
     liqpay_wait_accept = models.BooleanField(_('LiqPay wait accept'), default=False)
+    wfp_status = models.CharField(_('WFP status'), max_length=512, default='', blank=True)
     user_comment = models.CharField(_('user comment'), max_length=512, blank=True)
     ttn = models.IntegerField(_('TTN'), default=0)
     discount_promo = models.PositiveIntegerField(_('discount from promo (percent)'), default=0)
@@ -129,7 +130,7 @@ class Payment(models.Model):
 class PaymentRaw(models.Model):
     data = models.TextField(_('data'))
     sign = models.TextField(_('sign'))
-    data_decoded = models.TextField(_('data decoded'))
+    data_decoded = models.TextField(_('data decoded'), default='', blank=True)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
 

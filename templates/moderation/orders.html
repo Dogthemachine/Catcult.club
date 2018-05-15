@@ -109,7 +109,7 @@
                     {% endif %}
 
                     {% if order.liqpay_wait_accept %}
-                      {% trans 'Processing payment...' %}
+                      {% trans 'Processing payment...' %} {{ order.wfp_status }}
                     {% endif %}
 
                     {% if not order.paid %}
@@ -156,5 +156,3 @@
   </div><!-- /.modal -->
 
 {% endblock %}
-
-
