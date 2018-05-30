@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
 from django.template.context_processors import csrf
@@ -43,6 +45,16 @@ def comment(request):
             comment.sets = set
             comment.moderated = mod
             comment.save()
+
+            subject = _('[Comments] New comment')
+            message = (item.name + '\n\n' +
+                       form.cleaned_data.get('comment'))
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient_list = [settings.INFO_EMAIL]
+            fail_silently = True
+
+            send_mail(subject, message, from_email,
+                      recipient_list, fail_silently)
 
             if not mod:
                 messages.add_message(
