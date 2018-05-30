@@ -377,6 +377,18 @@ $(document).ready(function() {
         });
     });
 
+    $('.cc-gallery-link').on('click', function() {
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        $.ajax({
+            url: '/' + loc_lang + '/gallery/photo/' + $(this).data('id') + '/',
+            type: 'get',
+            success: function(data) {
+                $('#cc-gallery-content').html(data.html);
+            }
+        });
+    });
+
     $('#cc-cart-checkout').on('click', function() {
 
         console.log($(this).data('ready'));
