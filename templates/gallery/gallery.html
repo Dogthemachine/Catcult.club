@@ -8,17 +8,17 @@
 
 {% block content %}
 
-  <div class="row cc-showcase">
+  <div class="row ">
     {% for entry in gallery %}
-      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 cc-showcase-item">
-        <div class="cc-showcase-item">
+      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 cc-table-margin">
             <!--a href="{% url 'gallery_photo' entry.id %}" title="{% trans 'Show photo' %}"-->
             <a class="cc-gallery-link" href="#" data-id="{{ entry.id }}" data-toggle="modal" data-target="#cc-gallery-modal">
                 <img class="img-responsive img-circle" title="{{ entry.name }}" src="{{ MEDIA_URL }}{{ entry.image_small }}">
             </a>
+            <!--
             <h2 class="text-center">{{ entry.name }}</h2>
             <p class="text-center">{{ entry.description|safe }}</p>
-        </div>
+            -->
       </div>
     {% endfor %}
   </div>

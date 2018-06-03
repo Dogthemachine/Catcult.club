@@ -81,6 +81,7 @@ class Items(models.Model):
     description = models.TextField(_('description'), blank=True, default='')
     details = models.TextField(_('details'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
+    price0 = models.PositiveSmallIntegerField(_('cost price'), default=0)
     price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
     views = models.PositiveIntegerField(_('views'), default=0)
     views_today = models.PositiveIntegerField(_('views today'), default=0)
