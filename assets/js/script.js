@@ -506,6 +506,7 @@ $(document).ready(function() {
 
     $('.cc-cat-image').hover(sourceSwap, sourceSwap);
     $('.cc-cat-image0').hover(sourceSwap, sourceSwap);
+    $('.cc-gallery').hover(sourceSwap, sourceSwap);
 
     var showcaseSwap = function () {
         var $this = $(this);

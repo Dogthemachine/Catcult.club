@@ -33,6 +33,11 @@
   </div>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h3>{% trans 'Profit:' %}  {{ total_profit }}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h3>{% trans 'Total payments:' %}  {{ total_payments }}</h3>
     </div>
   </div>
@@ -59,6 +64,7 @@
             <th>{% trans 'Category' %}</th>
             <th>{% trans 'Amount' %}</th>
             <th>{% trans 'Sum' %}</th>
+            <th>{% trans 'Profit' %}</th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +83,11 @@
                   {{ item.sum }}
                 {% endif %}
               </td>
+              <td>
+                {% if item.profit %}
+                  {{ item.profit }}
+                {% endif %}
+              </td>
             </tr>
           {% endfor %}
         </tbody>
@@ -85,6 +96,7 @@
             <td>{% trans 'Category' %}</td>
             <td>{% trans 'Amount' %}</td>
             <td>{% trans 'Sum' %}</td>
+            <td>{% trans 'Profit' %}</td>
           </tr>
         </tfoot>
       </table>

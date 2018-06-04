@@ -583,16 +583,18 @@ def stat_sale(request):
         category.amount = OrderItems.objects.filter(
             added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
             added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
-            balance__item__fashions__categories=category
-                                                ).aggregate(total_amount=Sum('amount'))['total_amount']
+            balance__item__fashions__categories=category).aggregate(total_amount=Sum('amount'))['total_amount']
         items = OrderItems.objects.filter(
             added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
             added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
-            balance__item__fashions__categories=category
-                                                ).all()
+            balance__item__fashions__categories=category).all()
         category.sum = 0
+        category_profit = 0
         for item in items:
-            category.sum = category.sum + item.amount*item.price
+            category.sum = category.sum + item.amount * item.price
+            category_profit = category_profit + item.amount * item.balance.item.fashions.cost_price
+        category.profit = category.sum - category_profit
+
 
     total_orders = Orders.objects.filter(
         added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
@@ -608,9 +610,15 @@ def stat_sale(request):
         added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
         added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
     ).all()
+
     totat_amount = 0
     for item in items:
         totat_amount += item.amount * item.price
+
+    totat_profit = 0
+    for item in items:
+        totat_profit += item.amount * item.balance.item.fashions.cost_price
+    totat_profit = totat_amount - totat_profit
 
     items = OrderItems.objects.filter(
         added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
@@ -639,6 +647,7 @@ def stat_sale(request):
     return render(request, 'moderation/stat_sale.html', {'stat': stat, 'date_from': date_from, 'date_to': date_to,
                                                          'total_orders': total_orders,
                                                          'total_amount': totat_amount,
+                                                         'total_profit': totat_profit,
                                                          'total_payments': total_payments['total_sum'],
                                                          'total_discount_promo': total_discount_promo,
                                                          'total_discount_stocks': total_discount_stocks['total_sum'],
