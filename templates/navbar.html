@@ -34,12 +34,17 @@
           </a>
         {% endif %}
       {% endif %}
+      <div class="col-md-5 col-lg-6 visible-xs">
+        <a class="navbar-brand" href="{% url 'gallery' %}">
+          <img class="cc-gallery" title="{% trans 'Gallery' %}" alt="{% trans 'Gallery logo' %}" src="{{ STATIC_URL }}img/gallery_w.png" data-hover-src="{{ STATIC_URL }}img/gallery_h.png">
+        </a>
+      </div>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div id="main-nav" class="collapse navbar-collapse">
 
-      <div class="col-md-5 col-lg-6 hidden-sm hidden-sm">
+      <div class="col-md-5 col-lg-6 hidden-xs hidden-sm">
         <ul class="nav navbar-nav">
           {% get_categories request %}
         </ul>
