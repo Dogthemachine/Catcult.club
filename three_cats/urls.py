@@ -7,7 +7,7 @@ from django.contrib import admin
 from apps.elephants.views import showcase, item_details, item_set_details, stocks
 from apps.info.views import user_login, user_logout, feedback, topic_view, contacts
 from apps.main_page.views import main_page
-from apps.gallery.views import gallery, gallery_photo, gallery_photo_mod
+from apps.gallery.views import gallery, gallery_photo, gallery_photo_mod,  gallery_photo_buy
 from apps.comments.views import comment, replay, replay_activate, replay_deactivate, replay_delete, \
     comment_activate, comment_deactivate, comment_delete, comments
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
@@ -96,6 +96,7 @@ urlpatterns += i18n_patterns(
     url(r'^gallery/$', gallery, name='gallery'),
     url(r'^gallery/(?P<id>\d+)/$', gallery_photo, name='gallery_photo'),
     url(r'^gallery/photo/(?P<id>\d+)/$', gallery_photo_mod, name='gallery_photo_mod'),
+    url(r'^gallery/photo_buy/(?P<id>\d+)/$', gallery_photo_buy, name='gallery_photo_buy'),
 
     # Orders
     url(r'^messages_off/(?P<id>\d+)/$', messages_off, name='messages_off'),

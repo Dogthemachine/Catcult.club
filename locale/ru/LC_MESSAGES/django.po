@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-04 16:32+0300\n"
+"POT-Creation-Date: 2018-06-10 16:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Ваш ответ"
 #: apps/comments/models.py:16 apps/comments/models.py:34
 #: apps/elephants/models.py:65 apps/elephants/models.py:82
 #: apps/elephants/models.py:169 apps/elephants/models.py:311
-#: apps/gallery/models.py:13 apps/info/models.py:45
+#: apps/gallery/models.py:16 apps/info/models.py:45
 msgid "description"
 msgstr "описание"
 
@@ -41,7 +41,7 @@ msgstr "промодерировано"
 #: apps/comments/models.py:18 apps/comments/models.py:36
 #: apps/elephants/models.py:92 apps/elephants/models.py:178
 #: apps/elephants/models.py:254 apps/elephants/models.py:274
-#: apps/gallery/models.py:14 apps/info/models.py:30 apps/info/models.py:48
+#: apps/gallery/models.py:17 apps/info/models.py:30 apps/info/models.py:48
 #: apps/info/models.py:64 apps/orders/models.py:34 apps/orders/models.py:95
 #: apps/orders/models.py:127 apps/orders/models.py:134
 #: apps/orders/models.py:139
@@ -106,7 +106,7 @@ msgstr ""
 #: apps/elephants/models.py:15 apps/elephants/models.py:39
 #: apps/elephants/models.py:63 apps/elephants/models.py:78
 #: apps/elephants/models.py:164 apps/elephants/models.py:305
-#: apps/gallery/models.py:10 apps/info/models.py:12 apps/info/models.py:42
+#: apps/gallery/models.py:12 apps/info/models.py:12 apps/info/models.py:42
 #: apps/orders/models.py:138 apps/orders/models.py:280
 msgid "name"
 msgstr "имя"
@@ -301,7 +301,8 @@ msgstr "%(name)s был добавлен в вашу корзину. %(count)s"
 msgid "%(name)s was added to your cart."
 msgstr "%(name)s был добавлен в вашу корзину."
 
-#: apps/gallery/models.py:17 apps/gallery/models.py:18 templates/navbar.html:87
+#: apps/gallery/models.py:20 apps/gallery/models.py:21 templates/navbar.html:39
+#: templates/navbar.html:92
 msgid "Gallery"
 msgstr "Галерея"
 
@@ -419,10 +420,8 @@ msgid "Eur."
 msgstr ""
 
 #: apps/info/models.py:81
-#, fuzzy
-#| msgid "status"
 msgid "static url"
-msgstr "статус"
+msgstr "статус url"
 
 #: apps/info/models.py:82
 msgid "media url"
@@ -680,10 +679,8 @@ msgid "LiqPay wait accept"
 msgstr ""
 
 #: apps/orders/models.py:26
-#, fuzzy
-#| msgid "* Status"
 msgid "WFP status"
-msgstr "* Статус"
+msgstr "WFP Статус"
 
 #: apps/orders/models.py:27
 msgid "user comment"
@@ -874,7 +871,8 @@ msgstr ""
 #: templates/elephants/item_details.html:233
 #: templates/elephants/item_set_details.html:92
 #: templates/elephants/item_set_details.html:110
-#: templates/gallery/gallery.html:37 templates/moderation/orders.html:150
+#: templates/gallery/gallery_photo_buy.html:3
+#: templates/moderation/orders.html:150
 msgid "Close"
 msgstr "Закрыть"
 
@@ -1020,9 +1018,13 @@ msgstr "Смотреть фото"
 msgid "Foto"
 msgstr "Фото."
 
-#: templates/gallery/gallery_photo.html:11
+#: templates/gallery/gallery_photo.html:8
 msgid "image"
 msgstr "картинка."
+
+#: templates/gallery/gallery_photo_buy.html:5
+msgid "Buy"
+msgstr "Kупить"
 
 #: templates/info/feedback.html:7
 msgid "Send mail"
@@ -1220,13 +1222,13 @@ msgstr "Модерация"
 msgid "Internet shop of sportswear logl"
 msgstr "Интернет магазин спортивной одежды logo"
 
-#: templates/navbar.html:59
-msgid "Empty"
-msgstr "Пусто"
-
-#: templates/navbar.html:87
+#: templates/navbar.html:39 templates/navbar.html:92
 msgid "Gallery logo"
 msgstr "Галерея"
+
+#: templates/navbar.html:64
+msgid "Empty"
+msgstr "Пусто"
 
 #: templates/navbar_mod.html:32
 msgid "Statistics"

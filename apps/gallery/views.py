@@ -30,3 +30,15 @@ def gallery_photo_mod(request, id):
     html = t.render(c, request)
 
     return {'html': html}
+
+
+@json_view
+def gallery_photo_buy(request, id):
+
+    gallery = get_object_or_404(Gallery, id=id)
+
+    t = loader.get_template('gallery/gallery_photo_buy.html')
+    c = {'gallery': gallery}
+    html = t.render(c, request)
+
+    return {'html': html}

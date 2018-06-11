@@ -387,6 +387,13 @@ $(document).ready(function() {
                 $('#cc-gallery-content').html(data.html);
             }
         });
+        $.ajax({
+            url: '/' + loc_lang + '/gallery/photo_buy/' + $(this).data('id') + '/',
+            type: 'get',
+            success: function(data) {
+                $('#cc-gallery-buy').html(data.html);
+            }
+        });
     });
 
     $('#cc-cart-checkout').on('click', function() {

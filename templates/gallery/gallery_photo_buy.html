@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<a id="cc-gallery-cancel" class="btn btn-default" href="#" data-dismiss="modal">{% trans 'Close' %}</a>
+{% if gallery.items and gallery.items.get_amount %}
+    <a class="btn btn-success" href="{% url 'item_details' gallery.items.id %}">{% trans 'Buy' %}</a>
+{% endif %}
+
+

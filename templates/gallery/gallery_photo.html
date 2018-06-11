@@ -1,7 +1,4 @@
 {% load i18n %}
-{% load crispy_forms_tags %}
-{% load elephants %}
-
 
   <div class="row cc-table-margin">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
@@ -10,7 +7,5 @@
     </div>
     <img class="img-responsive img-rounded" title="{{ gallery.name }}" alt="{{ gallery.name }} {% trans 'image' %}"
          src="{{ MEDIA_URL }}{{ gallery.image }}" data-zoom-image="{{ MEDIA_URL }}{{ gallery.image }}"/>
-  </div>
-
   </div>
 
