@@ -97,7 +97,7 @@ class Items(models.Model):
         verbose_name_plural = _('items')
 
     def __str__(self):
-        return u'%s (%s)' % (self.name, self.fashions.name)
+        return u'%s (%s) (%s)' % (self.name, self.fashions.name, self.description)
 
     def save(self, *args, **kwargs):
         if not self.image._committed:
