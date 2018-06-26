@@ -142,9 +142,11 @@ def cart_checkout(request):
         form = CheckoutForm(request.POST, cart=cart)
         if form.is_valid():
 
+            discount_stocks = int(cart.get_discount())
+
             discount_promo = 0
             if form.cleaned_data['promo']:
-                if not cart.discount_stocks:
+                if discount_stocks == 0:
                     codes = Promo.objects.filter(code=form.cleaned_data['promo'], used=False)
                     if codes:
                         code = codes[0]
@@ -171,7 +173,7 @@ def cart_checkout(request):
 
             if phone:
                 p = phone[0]
-                if not cart.discount_stocks and discount_promo == 0 and p.active:
+                if discount_stocks == 0 and discount_promo == 0 and p.active:
                     discount_promo = settings.DISCOUNT_PHONE
 
                     message0 = _('Thank you. Your discount is %s percent.<br/>') % settings.DISCOUNT_PHONE
