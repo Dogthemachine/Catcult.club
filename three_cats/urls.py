@@ -63,7 +63,7 @@ urlpatterns += i18n_patterns(
     url(r'^comment-deactivate/(?P<comm_id>\d+)/$', comment_deactivate, name='comment_deactivate'),
     url(r'^comment-delete/(?P<comm_id>\d+)/$', comment_delete, name='comment_delete'),
 
-    # Moderator
+    # Moderatorequest.user
     url(r'^orders/$', manage_orders, name='orders'),
     url(r'^orders/check/$', check_orders, name='check_orders'),
     url(r'^orders/(?P<id>\d+)/$', manage_order, name='manage_order'),

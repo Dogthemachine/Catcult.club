@@ -19,9 +19,12 @@ from apps.orders.models import Orders, OrderItems, Payment, Phones
 from .forms import OrderForm, CommentForm, DeliveryForm, PaymentForm
 from .models import LastOrdersCheck
 
+from .decorators import user_is_admin
+
 
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+@user_is_admin()
 def balances(request):
     items = Items.objects.all()
 
@@ -71,6 +74,7 @@ def balances_update(request):
 
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+@user_is_admin()
 def log(request):
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
@@ -564,6 +568,7 @@ def order_info(request, id):
 
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+@user_is_admin()
 def stat_sale(request):
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
@@ -657,6 +662,7 @@ def stat_sale(request):
 
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+@user_is_admin()
 def stat_ending(request, rest=0):
 
     balances = Balance.objects.filter(amount=rest)
