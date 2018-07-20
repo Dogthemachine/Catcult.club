@@ -24,7 +24,6 @@ from .decorators import user_is_admin
 
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
-@user_is_admin()
 def balances(request):
     items = Items.objects.all()
 
