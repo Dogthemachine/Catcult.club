@@ -31,6 +31,7 @@
         <thead>
           <tr>
             <th>{% trans 'Datetime' %}</th>
+            <th>{% trans 'Item' %}</th>
             <th>{% trans 'Type' %}</th>
             <th>{% trans 'Old value -> New value' %}</th>
             <th>{% trans 'User' %}</th>
@@ -41,6 +42,9 @@
             <tr>
               <td>
                 {{ item.change_time }}
+              </td>
+              <td>
+                {{ item.balance.item.fashions.name }} - {{ item.balance.item.name }}
               </td>
               <td>
                 {% if item.arrival %}
@@ -61,6 +65,7 @@
         <tfoot>
           <tr>
             <td>{% trans 'Datetime' %}</td>
+            <td>{% trans 'Item' %}</td>
             <td>{% trans 'Type' %}</td>
             <td>{% trans 'Old value -> New value' %}</td>
             <td>{% trans 'User' %}</td>

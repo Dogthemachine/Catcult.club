@@ -146,8 +146,21 @@ $(document).ready(function() {
 
         var date_from = $('#cc-date-from').val();
         var date_to = $('#cc-date-to').val();
+        var payment = $('#cc-payment-stat').val();
 
-        location.search = '?date_from=' + date_from + '&date_to=' + date_to;
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        e.preventDefault();
+          $.ajax({
+              url: '/' + loc_lang + '/stat/payment/',
+              data: 'payment=' + payment,
+              type: 'post',
+              success: function() {
+                  location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&payment=' + payment;
+              },
+              error: function() {
+              }
+          });
     });
 
     $('.cc-order-update').on('click', function(e) {

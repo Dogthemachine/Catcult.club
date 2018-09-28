@@ -40,14 +40,32 @@ class CheckoutForm(forms.Form):
     country = forms.ChoiceField(label=_('Country (cost of delivery)'), choices=CUNTRIES, required=False)
     comment = forms.CharField(label=_('Your address:'), max_length=512)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         self.cart = kwargs.pop('cart')
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_id = 'cc-checkout-form'
         self.helper.form_action = '.'
 
+        self.user = user
+
         super(CheckoutForm, self).__init__(*args, **kwargs)
+
+        per = False
+        if self.user:
+            per = self.user.has_perm('info.delete_info')
+
+        c = []
+        for p in settings.PAYMENT:
+            if p[1] and (p[0]!=5 or per):
+                c.append((p[0], _(p[1])))
+        self.fields['payment'].choices = c
+
+        c = []
+        for p in settings.DELIVERY:
+            if p[1] and (p[0]!=2 or per):
+                c.append((p[0], _(p[1])))
+        self.fields['delivery'].choices = c
 
         self.fields['country'].choices = [(c.id, delivery_cost(c, self.cart)) for c in Countris.objects.all()]
 
@@ -57,15 +75,17 @@ class CheckoutForm(forms.Form):
         delivery = self.cleaned_data.get('delivery')
         promo = self.cleaned_data.get('promo')
 
-        if delivery==3 and payment<3:
-            msg = _(u'This payment method is not available when sending abroad.')
-            self._errors['payment'] = self.error_class([msg])
+        if payment!=5:
 
-        if promo:
-            code = Promo.objects.filter(code=promo, used=False)
-            if not code:
-                msg = _(u'This code is not valid. Please enter a valid code or leave the field empty.')
-                self._errors['promo'] = self.error_class([msg])
+            if delivery==3 and payment<3:
+                msg = _(u'This payment method is not available when sending abroad.')
+                self._errors['payment'] = self.error_class([msg])
+
+            if promo:
+                code = Promo.objects.filter(code=promo, used=False)
+                if not code:
+                    msg = _(u'This code is not valid. Please enter a valid code or leave the field empty.')
+                    self._errors['promo'] = self.error_class([msg])
 
         return self.cleaned_data
 

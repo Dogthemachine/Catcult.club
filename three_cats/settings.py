@@ -146,9 +146,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 DELIVERY = (
     (0, gettext('Warehouse-to-warehouse delivery at the nearest Nova Poshta branch (in Ukraine);')),
     (1, gettext('Nova Poshta door-to-door delivery (in Ukraine);')),
-    (2, ''),
 #    (2, gettext('Courier delivery across Odessa;')),
     (3, gettext('Worldwide Delivery.')),
+    (2, gettext('In showroom')),
 )
 
 PAYMENT = (
@@ -157,7 +157,7 @@ PAYMENT = (
     (1, ''),
 #    (1, gettext('Settle in cash in the case of courier "door-to-door" delivery;')),
     (0, gettext('Cash on delivery upon receipt of order at the Nova Poshta branch;')),
-    (5, ''),
+    (5, gettext('Cash in showroom')),
 #    (5, gettext('Through any system of international money transfer (in the case of overseas delivery).')),
 )
 

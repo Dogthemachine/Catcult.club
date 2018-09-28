@@ -571,6 +571,7 @@ def order_info(request, id):
 def stat_sale(request):
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
+    payment = int(request.GET.get('payment', None))
 
     if date_from:
         date_from = list(map(int, date_from.split('-')))
@@ -584,14 +585,24 @@ def stat_sale(request):
 
     stat = Categories.objects.all()
     for category in stat:
-        category.amount = OrderItems.objects.filter(
-            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
-            balance__item__fashions__categories=category).aggregate(total_amount=Sum('amount'))['total_amount']
-        items = OrderItems.objects.filter(
-            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
-            balance__item__fashions__categories=category).all()
+        if payment == -1:
+            category.amount = OrderItems.objects.filter(
+                added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+                added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+                balance__item__fashions__categories=category).aggregate(total_amount=Sum('amount'))['total_amount']
+            items = OrderItems.objects.filter(
+                added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+                added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+                balance__item__fashions__categories=category).all()
+        else:
+            category.amount = OrderItems.objects.filter(order__payment_method=payment,
+                added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+                added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+                balance__item__fashions__categories=category).aggregate(total_amount=Sum('amount'))['total_amount']
+            items = OrderItems.objects.filter(order__payment_method=payment,
+                added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+                added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+                balance__item__fashions__categories=category).all()
         category.sum = 0
         category_profit = 0
         for item in items:
@@ -599,21 +610,38 @@ def stat_sale(request):
             category_profit = category_profit + item.amount * item.balance.item.fashions.cost_price
         category.profit = category.sum - category_profit
 
+    if payment == -1:
+        total_orders = Orders.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).count()
+    else:
+        total_orders = Orders.objects.filter(payment_method=payment,
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).count()
 
-    total_orders = Orders.objects.filter(
-        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
-    ).count()
+    if payment == -1:
+        total_payments = Payment.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).aggregate(total_sum=Sum('amount'))
+    else:
+        total_payments = Payment.objects.filter(order__payment_method=payment,
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).aggregate(total_sum=Sum('amount'))
 
-    total_payments = Payment.objects.filter(
-        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
-    ).aggregate(total_sum=Sum('amount'))
-
-    items = OrderItems.objects.filter(
-        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
-    ).all()
+    if payment == -1:
+        items = OrderItems.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).all()
+    else:
+        items = OrderItems.objects.filter(order__payment_method=payment,
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).all()
 
     totat_amount = 0
     for item in items:
@@ -624,23 +652,41 @@ def stat_sale(request):
         totat_profit += item.amount * item.balance.item.fashions.cost_price
     totat_profit = totat_amount - totat_profit
 
-    items = OrderItems.objects.filter(
-        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
-    ).exclude(order__discount_promo=0).all()
+    if payment == -1:
+        items = OrderItems.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).exclude(order__discount_promo=0).all()
+    else:
+        items = OrderItems.objects.filter(order__payment_method=payment,
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).exclude(order__discount_promo=0).all()
     total_discount_promo = 0
     for item in items:
         total_discount_promo += int(item.amount*item.price*item.order.discount_promo/100)
 
-    total_discount_stocks = Orders.objects.filter(
-        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
-    ).aggregate(total_sum=Sum('discount_stocks'))
+    if payment == -1:
+        total_discount_stocks = Orders.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).aggregate(total_sum=Sum('discount_stocks'))
 
-    orders = Orders.objects.filter(
-        added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
-        added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
-    ).all()
+        orders = Orders.objects.filter(
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).all()
+    else:
+        total_discount_stocks = Orders.objects.filter(payment_method=payment,
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).aggregate(total_sum=Sum('discount_stocks'))
+
+        orders = Orders.objects.filter(payment_method=payment,
+            added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+            added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+        ).all()
+
     total_discount_set = 0
     for order in orders:
         total_discount_set += order.discount_set
@@ -677,3 +723,12 @@ def stat_ending(request, rest=0):
         'balances': balances
                                                            },
                   )
+
+
+@json_view()
+def stat_payment(request):
+    payment = request.POST.get('payment', -1)
+
+    request.session['payment'] = payment
+
+    return {'success': True}

@@ -120,7 +120,7 @@ def cart_checkout(request):
     if created:
         return {'success': False}
 
-    form = CheckoutForm(cart=cart)
+    form = CheckoutForm(request.user, cart=cart)
 
     no_avail_items = 0
 
@@ -139,7 +139,7 @@ def cart_checkout(request):
         return {'form': False, 'html': html}
 
     if request.method == 'POST':
-        form = CheckoutForm(request.POST, cart=cart)
+        form = CheckoutForm(request.user, request.POST, cart=cart)
         if form.is_valid():
 
             discount_stocks = int(cart.get_discount())
@@ -214,6 +214,12 @@ def cart_checkout(request):
             order.delivery_cost = delivery_cost
             order.discount_promo = discount_promo
             order.discount_stocks = cart.discount_stocks
+            if form.cleaned_data['payment']==5:
+                order.paid = True
+                order.ttn = 0
+                order.date_of_delivery = timezone.now()
+                order.delivered = True
+                order.packed = True
             order.save()
 
             cart_items = CartItem.objects.filter(cart=cart)
@@ -237,38 +243,53 @@ def cart_checkout(request):
             order.discount_set = sum - cart.get_total()
             order.save()
 
+            if form.cleaned_data['payment'] == 5:
+                p = Payment()
+                p.order = order
+                p.amount = order.get_total_price_grn()
+                p.comment = _('In showroom')
+                p.save()
+
             cart.delete()
 
             if order.payment_method == 2:
                 if order.lang_code == 'en':
                     text = 'Your order #%(number)s has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                    text += ' Please indicate your name or order number in the payment order'
                 elif order.lang_code == 'ru':
                     text = 'Ваш заказ №%(number)s был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                    text += ' Пожалуйста, укажите в назначении платежа свою фамилию или номер заказа'
                 elif order.lang_code == 'uk':
                     text = 'Ваше замовлення №%(number)s було прийняте. Номер картки %(card)s (%(name)s). Сума до оплати %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.PRIVAT_CARD, 'name': settings.PRIVAT_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                    text += ' Буьласка, вкжіть в призначенні платежу своє прізвище або номер замовлення'
                 else:
                     text = ''
 
                 send_sms(order.phone, text)
 
             else:
-                if order.lang_code == 'en':
-                    text = 'Your order #%(number)s has been taken. Total price is %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
-                elif order.lang_code == 'ru':
-                    text = 'Ваш заказ №%(number)s был принят. Сумма к оплате %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
-                elif order.lang_code == 'uk':
-                    text = 'Ваше замовлення №%(number)s було прийняте. Сума до оплати %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
-                else:
-                    text = ''
+                if order.payment_method != 5:
+                    if order.lang_code == 'en':
+                        text = 'Your order #%(number)s has been taken. Total price is %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                        text += ' Please indicate your name or order number in the payment order'
+                    elif order.lang_code == 'ru':
+                        text = 'Ваш заказ №%(number)s был принят. Сумма к оплате %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                        text += ' Пожалуйста, укажите в назначении платежа свою фамилию или номер заказа'
+                    elif order.lang_code == 'uk':
+                        text = 'Ваше замовлення №%(number)s було прийняте. Сума до оплати %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                        text += ' Буьласка, вкжіть в призначенні платежу своє прізвище або номер замовлення'
+                    else:
+                        text = ''
 
-                if order.payment_method == 0:
-                    send_sms(order.phone, text)
+                    if order.payment_method == 0:
+                        send_sms(order.phone, text)
 
-            messages.add_message(
-                request,
-                messages.SUCCESS,
-                text
-            )
+            if order.payment_method != 5:
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    text
+                )
 
             if order.phone:
                 try:
