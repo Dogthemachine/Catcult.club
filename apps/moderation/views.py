@@ -571,7 +571,7 @@ def order_info(request, id):
 def stat_sale(request):
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
-    payment = int(request.GET.get('payment', None))
+    payment = int(request.GET.get('payment', -1))
 
     if date_from:
         date_from = list(map(int, date_from.split('-')))
