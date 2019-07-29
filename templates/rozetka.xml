@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
+    <yml_catalog date="{{ cdat|date:'r' }}">
+        <shop>
+            {% autoescape on %}
+            <name>Трикотаж</name>
+            <company>ФОП Данилейко Алевтина</company>
+            <url>https://catcult.club/</url>
+            <currencies>
+                <currency id="UAH" rate="1"/>
+            </currencies>
+            <categories>
+                {% for category in categories %}
+                    {% if category.fashions %}
+                        {% for fashion in category.fashions %}
+                            <category id="{{ category.id }}" parentId="{{ fashion.id }}">{{ category.name }}</category>
+                        {% endfor %}
+                    {% else %}
+                        <category id="{{ category.id }}">{{ category.name }}</category>
+                    {% endif %}
+                {% endfor %}
+            </categories>
+            <offers>
+                {% for offer in offers %}
+                    <offer id="{{ offer.id }}" available="true">
+                        <url>https://catcult.club/ru/item/{{ offer.id }}/</url>
+                        <price>{{ offer.price }}</price>
+                        <currencyId>UAH</currencyId>
+                        <categoryId>{{ offer.fashions.categories.id }}</categoryId>
+                            {% for picture in offer.pictures %}
+                                <picture>https://catcult.club{{ MEDIA_URL }}{{ picture.image }}/</picture>
+                            {% endfor %}
+                        <name>{{ ofer.name }}</name>
+                        <description><![CDATA[{{ offer.details }}]]></description>
+                        <param name="Вид">{{ offer.fashions.name }}</param>
+                        <param name="Размер">{{ offer.sizes }}</param>
+                    </offer>
+                {% endfor %}
+            </offers>
+            {% endautoescape %}
+        </shop>
+    </yml_catalog>

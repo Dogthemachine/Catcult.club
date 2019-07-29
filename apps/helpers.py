@@ -1,10 +1,13 @@
 import requests
 from hashlib import md5
+import datetime, html, time, random
 
 from django.utils.translation import ugettext as _
+from django.shortcuts import render
 
 from django.conf import settings
 from apps.orders.models import DeliveryCost
+from apps.elephants.models import Categories, Items, Fashions, Sizes, Photo
 
 
 def send_sms(phone, text):
@@ -79,3 +82,17 @@ def delivery_cost(country, cart):
         dc = country.name
 
     return dc
+
+
+def rozetka(request):
+    template = 'rozetka.xml'
+    cdat = datetime.datetime.now()
+    categories = Categories.objects.all().order_by('id')
+    for category in categories:
+        category.fashions = Fashions.objects.filter(categories=category)
+    offers = Items.objects.filter(balance__amount__gt=0)
+    for offer in offers:
+        offer.sizes = ', '.join([s.name for s in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0)])
+        offer.pictures = Photo.objects.filter(item=offer)
+    context = {'offers': offers, 'categories': categories, 'cdat': cdat}
+    return render(request, template, context, content_type='text/xml')

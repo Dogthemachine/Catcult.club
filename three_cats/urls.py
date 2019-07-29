@@ -20,9 +20,12 @@ from django.contrib.sitemaps.views import sitemap
 from apps.sitemap import sitemaps
 from django.views.decorators.cache import cache_page
 
+from apps.helpers import rozetka
+
 urlpatterns = [
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'), name='robots_file'),
     url(r'^sitemap\.xml$', cache_page(3600)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+
     url('accounts/', include('allauth.urls')),
     #url(r'^liqpay_callback/$', liqpay_callback, name='liqpay_callback'),
     url(r'^wfp_callback/$', wfp_callback, name='wfp_callback'),
@@ -30,6 +33,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     url(r'^$', showcase, name='main_page'),
+    url(r'^rozetka_DrStcK5\.xml$', rozetka, name='rozetka'),
 
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', user_login, name='user_login'),
