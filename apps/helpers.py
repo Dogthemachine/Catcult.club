@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 from django.conf import settings
 from apps.orders.models import DeliveryCost
-from apps.elephants.models import Categories, Items, Fashions, Sizes, Photo
+from apps.elephants.models import Categories, Items, Fashions, Sizes, Photo, Balance
 
 
 def send_sms(phone, text):
@@ -90,9 +90,19 @@ def rozetka(request):
     categories = Categories.objects.all().order_by('id')
     for category in categories:
         category.fashions = Fashions.objects.filter(categories=category)
-    offers = Items.objects.filter(balance__amount__gt=0)
+    offers = Items.objects.filter(balance__amount__gt=0).order_by('id')
+    filtered_offers = []
+    latest_id = 0
     for offer in offers:
-        offer.sizes = ', '.join([s.name for s in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0)])
-        offer.pictures = Photo.objects.filter(item=offer)
-    context = {'offers': offers, 'categories': categories, 'cdat': cdat}
+        if not offer.id == latest_id:
+            latest_id = offer.id
+            offer.sizes = ', '.join([s.name for s in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0)])
+            offer.pictures = Photo.objects.filter(item=offer)
+            balance = Balance.objects.filter(item=offer)
+            stock_quantity = 0
+            for item in balance:
+                stock_quantity += item.amount
+            offer.stock_quantity = stock_quantity
+            filtered_offers.append(offer)
+    context = {'offers': filtered_offers, 'categories': categories, 'cdat': cdat}
     return render(request, template, context, content_type='text/xml')

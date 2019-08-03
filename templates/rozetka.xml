@@ -25,12 +25,14 @@
                     <offer id="{{ offer.id }}" available="true">
                         <url>https://catcult.club/ru/item/{{ offer.id }}/</url>
                         <price>{{ offer.price }}</price>
+                        <stock_quantity>{{ offer.stock_quantity }}</stock_quantity>
                         <currencyId>UAH</currencyId>
                         <categoryId>{{ offer.fashions.categories.id }}</categoryId>
                             {% for picture in offer.pictures %}
-                                <picture>https://catcult.club{{ MEDIA_URL }}{{ picture.image }}/</picture>
+                                <picture>https://catcult.club{{ MEDIA_URL }}{{ picture.image }}</picture>
                             {% endfor %}
-                        <name>{{ ofer.name }}</name>
+                        <name>{{ offer.fashions.categories.name }} Трикотаж {{ offer.name }} {{ offer.sizes }}</name>
+                        <vendor>Трикотаж</vendor>
                         <description><![CDATA[{{ offer.details }}]]></description>
                         <param name="Вид">{{ offer.fashions.name }}</param>
                         <param name="Размер">{{ offer.sizes }}</param>
