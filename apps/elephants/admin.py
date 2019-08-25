@@ -2,11 +2,15 @@ from modeltranslation.admin import TranslationAdmin
 
 from django.contrib import admin
 
-from apps.elephants.models import Items, Photo, Categories, Fashions, Sizes, Balance, Stocks, Sets, SetsPhoto
+from apps.elephants.models import Items, Photo, Categories, Fashions, Sizes, Balance, Stocks, Sets, SetsPhoto, RPhoto
 
 
 class PhotoInline(admin.TabularInline):
     model = Photo
+
+
+class RPhotoInline(admin.TabularInline):
+    model = RPhoto
 
 
 class SetsPhotoInline(admin.TabularInline):
@@ -14,7 +18,7 @@ class SetsPhotoInline(admin.TabularInline):
 
 
 class ItemsAdmin(TranslationAdmin):
-    inlines = [PhotoInline]
+    inlines = [PhotoInline, RPhotoInline]
 
     list_display = ('name', 'added', 'price', 'price_description', 'description', 'fashions',)
 

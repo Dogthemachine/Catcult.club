@@ -89,6 +89,10 @@ class Items(models.Model):
     showcase_displayed = models.BooleanField(_('showcase_displayed'), default=True)
     title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
     description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
+    rozetka = models.BooleanField(_('to rozetka'), default=False)
+    description_rozetka_a = models.TextField(_('description rozetka a'), blank=True, default='')
+    description_rozetka_b = models.TextField(_('description rozetka b'), blank=True, default='')
+    description_rozetka_c = models.TextField(_('descriptionrozetka c'), blank=True, default='')
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
@@ -295,6 +299,27 @@ class Photo(models.Model):
         ordering = ('added',)
         verbose_name = _('Photo')
         verbose_name_plural = _('Photos')
+
+    def save(self, *args, **kwargs):
+        if not self.image._committed:
+            self.image_small = self.image.file
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return u'%s - %s' % (self.item.name, self.added)
+
+
+class RPhoto(models.Model):
+    item = models.ForeignKey(Items)
+    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
+    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
+    weight = models.PositiveSmallIntegerField(_('position'), default=0)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+
+    class Meta:
+        ordering = ('added',)
+        verbose_name = _('RozetkaPhoto')
+        verbose_name_plural = _('RozetkaPhotos')
 
     def save(self, *args, **kwargs):
         if not self.image._committed:

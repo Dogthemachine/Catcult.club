@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 from django.conf import settings
 from apps.orders.models import DeliveryCost
-from apps.elephants.models import Categories, Items, Fashions, Sizes, Photo, Balance
+from apps.elephants.models import Categories, Items, Fashions, Sizes, Photo, Balance, RPhoto
 
 
 def send_sms(phone, text):
@@ -88,16 +88,16 @@ def rozetka(request):
     template = 'rozetka.xml'
     cdat = datetime.datetime.now()
     categories = Categories.objects.all().order_by('id')
-    for category in categories:
-        category.fashions = Fashions.objects.filter(categories=category)
-    offers = Items.objects.filter(balance__amount__gt=0).order_by('id')
+    # for category in categories:
+    #     category.fashions = Fashions.objects.filter(categories=category)
+    offers = Items.objects.filter(balance__amount__gt=0, rozetka=True).order_by('id')
     filtered_offers = []
     latest_id = 0
     for offer in offers:
         if not offer.id == latest_id:
             latest_id = offer.id
             offer.sizes = ', '.join([s.name for s in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0)])
-            offer.pictures = Photo.objects.filter(item=offer)
+            offer.pictures = RPhoto.objects.filter(item=offer).order_by('weight')
             balance = Balance.objects.filter(item=offer)
             stock_quantity = 0
             for item in balance:

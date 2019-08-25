@@ -31,7 +31,7 @@
                             {% for picture in offer.pictures %}
                                 <picture>https://catcult.club{{ MEDIA_URL }}{{ picture.image }}</picture>
                             {% endfor %}
-                        <name>{{ offer.fashions.categories.name }} Трикотаж {{ offer.name }} {{ offer.sizes }}</name>
+                        <name>{{ offer.fashions.categories.name }} Трикотаж {{ offer.name }} {{ offer.description }} {{ offer.sizes }}</name>
                         <vendor>Трикотаж</vendor>
                         <description><![CDATA[{{ offer.details }}]]></description>
                         <param name="Вид">{{ offer.fashions.name }}</param>
