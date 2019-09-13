@@ -308,7 +308,7 @@ def i_want(request, id):
     topic = get_object_or_404(Info, topic='i_want')
     item = get_object_or_404(Items, id=id)
 
-    form = ContactForm(initial={'message': u'Hello! I wantto bay this item' + '\n' + item.name + ' ' + item.fashions.name})
+    form = ContactForm(initial={'message': _('Hello! I wantto bay this item') + '\n' + item.name + ' ' + item.fashions.name})
 
     if request.method == 'POST':
         form = ContactForm(request.POST)

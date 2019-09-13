@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-28 14:01+0300\n"
+"POT-Creation-Date: 2019-09-13 16:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,8 +28,8 @@ msgid "Your replay"
 msgstr "Ваш ответ"
 
 #: apps/comments/models.py:16 apps/comments/models.py:34
-#: apps/elephants/models.py:65 apps/elephants/models.py:82
-#: apps/elephants/models.py:192 apps/elephants/models.py:349
+#: apps/elephants/models.py:66 apps/elephants/models.py:83
+#: apps/elephants/models.py:197 apps/elephants/models.py:375
 #: apps/gallery/models.py:16 apps/info/models.py:45
 msgid "description"
 msgstr "описание"
@@ -39,12 +39,12 @@ msgid "moderated"
 msgstr "промодерировано"
 
 #: apps/comments/models.py:18 apps/comments/models.py:36
-#: apps/elephants/models.py:92 apps/elephants/models.py:201
-#: apps/elephants/models.py:292 apps/elephants/models.py:312
-#: apps/gallery/models.py:17 apps/info/models.py:30 apps/info/models.py:48
-#: apps/info/models.py:64 apps/orders/models.py:34 apps/orders/models.py:95
-#: apps/orders/models.py:127 apps/orders/models.py:134
-#: apps/orders/models.py:139
+#: apps/elephants/models.py:97 apps/elephants/models.py:206
+#: apps/elephants/models.py:297 apps/elephants/models.py:318
+#: apps/elephants/models.py:338 apps/gallery/models.py:17
+#: apps/info/models.py:30 apps/info/models.py:48 apps/info/models.py:64
+#: apps/orders/models.py:34 apps/orders/models.py:95 apps/orders/models.py:127
+#: apps/orders/models.py:134 apps/orders/models.py:139
 msgid "added"
 msgstr "добавлено"
 
@@ -103,16 +103,16 @@ msgstr ""
 "Извините, это количество для заказа недоступно. Пожалуйста, выберите другое "
 "количество."
 
-#: apps/elephants/models.py:15 apps/elephants/models.py:39
-#: apps/elephants/models.py:63 apps/elephants/models.py:78
-#: apps/elephants/models.py:187 apps/elephants/models.py:343
+#: apps/elephants/models.py:15 apps/elephants/models.py:40
+#: apps/elephants/models.py:64 apps/elephants/models.py:79
+#: apps/elephants/models.py:192 apps/elephants/models.py:369
 #: apps/gallery/models.py:12 apps/info/models.py:12 apps/info/models.py:42
 #: apps/orders/models.py:138 apps/orders/models.py:289
 msgid "name"
 msgstr "имя"
 
-#: apps/elephants/models.py:20 apps/elephants/models.py:47
-#: apps/elephants/models.py:83 apps/elephants/models.py:193
+#: apps/elephants/models.py:20 apps/elephants/models.py:48
+#: apps/elephants/models.py:84 apps/elephants/models.py:198
 msgid "details"
 msgstr "детали"
 
@@ -120,193 +120,239 @@ msgstr "детали"
 msgid "set"
 msgstr "набор"
 
-#: apps/elephants/models.py:22 apps/elephants/models.py:49
-#: apps/elephants/models.py:90 apps/elephants/models.py:199
+#: apps/elephants/models.py:22 apps/elephants/models.py:50
+#: apps/elephants/models.py:91 apps/elephants/models.py:204
 #: apps/info/models.py:16
 msgid "title tag"
 msgstr "title tag"
 
-#: apps/elephants/models.py:23 apps/elephants/models.py:50
-#: apps/elephants/models.py:91 apps/elephants/models.py:200
+#: apps/elephants/models.py:23 apps/elephants/models.py:51
+#: apps/elephants/models.py:92 apps/elephants/models.py:205
 #: apps/info/models.py:17
 msgid "description tag"
 msgstr "description tag"
 
-#: apps/elephants/models.py:24 apps/elephants/models.py:51
-#: apps/elephants/models.py:66 apps/info/models.py:49
+#: apps/elephants/models.py:24 apps/elephants/models.py:52
+#: apps/elephants/models.py:67 apps/info/models.py:49
 msgid "sequence"
 msgstr "последовательность"
 
-#: apps/elephants/models.py:28 apps/elephants/models.py:29
+#: apps/elephants/models.py:25 apps/elephants/models.py:90
+msgid "showcase_displayed"
+msgstr "отображать на витрине"
+
+#: apps/elephants/models.py:29 apps/elephants/models.py:30
 msgid "Categories of items"
 msgstr "Категории товаров"
 
-#: apps/elephants/models.py:45
+#: apps/elephants/models.py:46
 msgid "cost price"
 msgstr "Себестоимость"
 
-#: apps/elephants/models.py:46
+#: apps/elephants/models.py:47
 msgid "weigth"
 msgstr "вес"
 
-#: apps/elephants/models.py:48
+#: apps/elephants/models.py:49
 msgid "displayed"
 msgstr "отображать в меню"
 
-#: apps/elephants/models.py:55 apps/elephants/models.py:56
+#: apps/elephants/models.py:56 apps/elephants/models.py:57
 msgid "Fashions of items"
 msgstr "Фасоны товаров"
 
-#: apps/elephants/models.py:70 apps/elephants/models.py:71
+#: apps/elephants/models.py:71 apps/elephants/models.py:72
 msgid "Sizes of items"
 msgstr "Размеры товаров"
 
-#: apps/elephants/models.py:84 apps/elephants/models.py:194
+#: apps/elephants/models.py:85 apps/elephants/models.py:199
 #: apps/orders/models.py:94
 msgid "price"
 msgstr "цена"
 
-#: apps/elephants/models.py:85 apps/elephants/models.py:195
+#: apps/elephants/models.py:86 apps/elephants/models.py:200
 #: apps/info/models.py:78 apps/info/models.py:79 apps/info/models.py:80
 msgid "price_description"
 msgstr "описание цены"
 
-#: apps/elephants/models.py:85 apps/elephants/models.py:195
+#: apps/elephants/models.py:86 apps/elephants/models.py:200
 #: apps/info/models.py:78
 msgid "Grn."
 msgstr "грн."
 
-#: apps/elephants/models.py:86 apps/elephants/models.py:196
+#: apps/elephants/models.py:87 apps/elephants/models.py:201
 msgid "views"
 msgstr "просмотры"
 
-#: apps/elephants/models.py:87 apps/elephants/models.py:197
+#: apps/elephants/models.py:88 apps/elephants/models.py:202
 msgid "views today"
 msgstr "просмотры за сегодня"
 
-#: apps/elephants/models.py:88 apps/elephants/models.py:198
+#: apps/elephants/models.py:89 apps/elephants/models.py:203
 msgid "views month"
 msgstr "просмотры за месяц"
 
-#: apps/elephants/models.py:89
-msgid "showcase_displayed"
-msgstr "отображать на витрине"
+#: apps/elephants/models.py:93
+msgid "to rozetka"
+msgstr ""
 
-#: apps/elephants/models.py:96 apps/elephants/models.py:97
+#: apps/elephants/models.py:94
+msgid "description rozetka a"
+msgstr "description rozetka A"
+
+#: apps/elephants/models.py:95
+#, fuzzy
+#| msgid "description tag"
+msgid "description rozetka b"
+msgstr "description rozetka B"
+
+#: apps/elephants/models.py:96
+#, fuzzy
+#| msgid "description tag"
+msgid "descriptionrozetka c"
+msgstr "description rozetka C"
+
+#: apps/elephants/models.py:101 apps/elephants/models.py:102
 msgid "items"
 msgstr "товары"
 
-#: apps/elephants/models.py:205 apps/elephants/models.py:206
+#: apps/elephants/models.py:210 apps/elephants/models.py:211
 msgid "Sets"
 msgstr "Комплекты"
 
-#: apps/elephants/models.py:296
+#: apps/elephants/models.py:301
 msgid "Photo"
 msgstr "Фото"
 
-#: apps/elephants/models.py:297
+#: apps/elephants/models.py:302
 msgid "Photos"
 msgstr "Фото"
 
-#: apps/elephants/models.py:316
+#: apps/elephants/models.py:317
+#, fuzzy
+#| msgid "description"
+msgid "position"
+msgstr "описание"
+
+#: apps/elephants/models.py:322
+msgid "RozetkaPhoto"
+msgstr ""
+
+#: apps/elephants/models.py:323
+msgid "RozetkaPhotos"
+msgstr "Фото для розетки"
+
+#: apps/elephants/models.py:342
 msgid "Sets photo"
 msgstr "Фото комплектов"
 
-#: apps/elephants/models.py:317
+#: apps/elephants/models.py:343
 msgid "Sets photos"
 msgstr "Фото комплектов"
 
-#: apps/elephants/models.py:331 apps/orders/models.py:93
+#: apps/elephants/models.py:357 apps/orders/models.py:93
 #: apps/orders/models.py:123
 msgid "amount"
 msgstr "сумма"
 
-#: apps/elephants/models.py:335 apps/elephants/models.py:336
+#: apps/elephants/models.py:361 apps/elephants/models.py:362
 msgid "Amount of items"
 msgstr "Количество единиц"
 
-#: apps/elephants/models.py:346
+#: apps/elephants/models.py:372
 msgid "type"
 msgstr "тип"
 
-#: apps/elephants/models.py:347
+#: apps/elephants/models.py:373
 msgid "items count"
 msgstr "количество изделий"
 
-#: apps/elephants/models.py:350
+#: apps/elephants/models.py:376
 msgid "discount"
 msgstr "скидка"
 
-#: apps/elephants/models.py:351
+#: apps/elephants/models.py:377
 msgid "action_begin"
 msgstr "Начало акции"
 
-#: apps/elephants/models.py:352
+#: apps/elephants/models.py:378
 msgid "action_end"
 msgstr "Конец акции"
 
-#: apps/elephants/models.py:356 apps/elephants/models.py:357
+#: apps/elephants/models.py:382 apps/elephants/models.py:383
 msgid "stocks"
 msgstr "распродажа"
 
-#: apps/elephants/models.py:365
+#: apps/elephants/models.py:391
 msgid "old value"
 msgstr "старое значение"
 
-#: apps/elephants/models.py:366
+#: apps/elephants/models.py:392
 msgid "new value"
 msgstr "новое значение"
 
-#: apps/elephants/models.py:367
+#: apps/elephants/models.py:393
 msgid "arrival"
 msgstr "приход"
 
-#: apps/elephants/models.py:373
+#: apps/elephants/models.py:399
 msgid "Balance log"
 msgstr "Журнал баланса"
 
-#: apps/elephants/models.py:374
+#: apps/elephants/models.py:400
 msgid "Balance logs"
 msgstr "Журналы баланса"
 
-#: apps/elephants/views.py:38
+#: apps/elephants/views.py:41
 msgid "main pae title_tag"
 msgstr ""
 "Купить спортивную одежду в интернет магазине - спортивная одежда ТрикотаЖ"
 
-#: apps/elephants/views.py:39
+#: apps/elephants/views.py:42
 msgid "main pae description_tag"
 msgstr ""
 "Купить спортивную одежду. ✶Одежда для спорта и на каждый день✶ Культурная "
 "спортивная одежда★ Уникальный дизайн★//✈С быстрой доставкой ✔Украинский "
 "производитель ☛Шоу-рум ТрикотаЖ в Одессе☚"
 
-#: apps/elephants/views.py:124 apps/elephants/views.py:198
-#: apps/elephants/views.py:286
+#: apps/elephants/views.py:127 apps/elephants/views.py:201
+#: apps/elephants/views.py:289
 msgid "Foto."
 msgstr "Фото."
 
-#: apps/elephants/views.py:125 apps/elephants/views.py:199
-#: apps/elephants/views.py:287
+#: apps/elephants/views.py:128 apps/elephants/views.py:202
+#: apps/elephants/views.py:290
 msgid "Image."
 msgstr "Картинка."
 
-#: apps/elephants/views.py:182 apps/elephants/views.py:276
+#: apps/elephants/views.py:185 apps/elephants/views.py:279
 #, python-format
 msgid "%(name)s was added to your cart. %(count)s"
 msgstr "%(name)s был добавлен в вашу корзину. %(count)s"
 
-#: apps/elephants/views.py:188
+#: apps/elephants/views.py:191
 #, python-format
 msgid "%(name)s was added to your cart."
 msgstr "%(name)s был добавлен в вашу корзину."
+
+#: apps/elephants/views.py:311
+msgid "Hello! I wantto bay this item"
+msgstr "Добрый день. Меня заинтересовал этот товар. Сообщите, пожалуйста, когда он появится в наличии."
+
+#: apps/elephants/views.py:316 apps/info/views.py:66
+msgid "[Contact form] New message"
+msgstr "[Контактная форма] Новое сообщение"
+
+#: apps/elephants/views.py:329 apps/info/views.py:79
+msgid "The message was successfully sent."
+msgstr "Сообщение успешно отправлено."
 
 #: apps/gallery/models.py:20 apps/gallery/models.py:21 templates/navbar.html:39
 #: templates/navbar.html:92
 msgid "Gallery"
 msgstr "Галерея"
 
-#: apps/helpers.py:77
+#: apps/helpers.py:80
 msgid "grn"
 msgstr "грн"
 
@@ -458,14 +504,6 @@ msgstr "Вы не вошли."
 #: apps/info/views.py:53
 msgid "You were successfully logged out."
 msgstr "Вы успешно вышли."
-
-#: apps/info/views.py:66
-msgid "[Contact form] New message"
-msgstr "[Контактная форма] Новое сообщение"
-
-#: apps/info/views.py:79
-msgid "The message was successfully sent."
-msgstr "Сообщение успешно отправлено."
 
 #: apps/moderation/forms.py:29 apps/moderation/forms.py:56
 #: apps/moderation/views.py:294 apps/orders/forms.py:94
@@ -749,7 +787,7 @@ msgstr "подпись"
 msgid "data decoded"
 msgstr "декодированные данные"
 
-#: apps/orders/models.py:145 templates/base.html:94
+#: apps/orders/models.py:145 templates/base.html:96
 msgid "Cart"
 msgstr "Корзина"
 
@@ -872,7 +910,7 @@ msgstr "Страница не найдена"
 msgid "Internal error 500"
 msgstr "Ошибка 500"
 
-#: templates/base.html:100 templates/elephants/item_details.html:215
+#: templates/base.html:102 templates/elephants/item_details.html:215
 #: templates/elephants/item_details.html:233
 #: templates/elephants/item_set_details.html:92
 #: templates/elephants/item_set_details.html:110
@@ -881,7 +919,7 @@ msgstr "Ошибка 500"
 msgid "Close"
 msgstr "Закрыть"
 
-#: templates/base.html:101
+#: templates/base.html:103
 msgid "Checkout"
 msgstr "Оформление заказа"
 
@@ -933,9 +971,13 @@ msgid "Sorry, product is currently unavailable"
 msgstr "Извините, товар недоступен"
 
 #: templates/elephants/item_details.html:79
-#: templates/elephants/showcase.html:34
+#: templates/elephants/showcase.html:33
 msgid "Sorry, this item in unavailable now."
 msgstr "Извините, товар недоступен"
+
+#: templates/elephants/item_details.html:80
+msgid "I want"
+msgstr "Хочу"
 
 #: templates/elephants/item_details.html:93
 msgid "Please login to leave a comment via"
