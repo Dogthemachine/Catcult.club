@@ -4,7 +4,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from apps.elephants.views import showcase, item_details, item_set_details, stocks
+from apps.elephants.views import showcase, item_details, item_set_details, stocks, i_want
 from apps.info.views import user_login, user_logout, feedback, topic_view, contacts
 from apps.main_page.views import main_page
 from apps.gallery.views import gallery, gallery_photo, gallery_photo_mod,  gallery_photo_buy
@@ -54,6 +54,7 @@ urlpatterns += i18n_patterns(
     url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
     url(r'^item-set/(?P<id>\d+)/$', item_set_details, name='item_set_details'),
     url(r'^stocks/$', stocks, name='stocks'),
+    url(r'^i-want/(?P<id>\d+)/$', i_want, name='i_want'),
     #url(r'^stock/(?P<id>\d+)/$', stock_details, name='stock_details'),
 
     # Comments

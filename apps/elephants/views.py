@@ -1,10 +1,12 @@
 from django.contrib import messages
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.core.mail import send_mail
 
 from .forms import AddToCartForm, SetSizesForm
 from .models import Photo, Categories, Fashions, Items, Sizes, Sets, Balance, SetsPhoto, Stocks
@@ -12,6 +14,7 @@ from apps.orders.models import Cart, CartItem, CartSet, CartSetItem
 from apps.info.models import Info, Config
 from apps.comments.forms import CommentForm, ReplayForm
 from apps.comments.models import Comments
+from apps.info.forms import ContactForm
 
 
 def showcase(request, category_id=None, fashion_id=None):
@@ -299,4 +302,33 @@ def stocks(request):
     topic = get_object_or_404(Info, topic='stocks')
 
     return render(request, 'elephants/stocks.html', {'topic': topic, 'stocks': stocks})
+
+
+def i_want(request, id):
+    topic = get_object_or_404(Info, topic='i_want')
+    item = get_object_or_404(Items, id=id)
+
+    form = ContactForm(initial={'message': u'Hello! I wantto bay this item' + '\n' + item.name})
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = _('[Contact form] New message')
+            message = (form.cleaned_data.get('name') + '\n\n' +
+                       form.cleaned_data.get('email') + '\n\n' +
+                       form.cleaned_data.get('phone') + '\n\n' +
+                       form.cleaned_data.get('message'))
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient_list = [settings.INFO_EMAIL]
+            fail_silently = True
+
+            send_mail(subject, message, from_email,
+                      recipient_list, fail_silently)
+
+            messages.add_message(request, messages.SUCCESS,
+                                 _('The message was successfully sent.'))
+
+            return redirect('item_details', id)
+
+    return render(request, 'info/feedback.html', {'form': form, 'topic': topic})
 
