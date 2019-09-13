@@ -29,7 +29,7 @@
             <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logl' %}" src="{{ STATIC_URL }}img/cc-logo-w.png">
           </a>
         {% else %}
-          <a class="navbar-brand" href="{% url 'main_info' %}">
+          <a class="navbar-brand" href="{% url 'main_page' %}">
             <img class="cc-logo-mini" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logo' %}" src="{{ STATIC_URL }}img/cc-logo-w.png">
           </a>
         {% endif %}
@@ -86,13 +86,13 @@
             </li>
           </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item">
-              <a class="navbar-brand" href="{% url 'gallery' %}">
-                <img class="cc-gallery" title="{% trans 'Gallery' %}" alt="{% trans 'Gallery logo' %}" src="{{ STATIC_URL }}img/gallery_w.png" data-hover-src="{{ STATIC_URL }}img/gallery_h.png">
-              </a>
-            </li>
-          </ul>
+          <!--<ul class="nav navbar-nav navbar-right">-->
+            <!--<li class="nav-item">-->
+              <!--<a class="navbar-brand" href="{% url 'gallery' %}">-->
+                <!--<img class="cc-gallery" title="{% trans 'Gallery' %}" alt="{% trans 'Gallery logo' %}" src="{{ STATIC_URL }}img/gallery_w.png" data-hover-src="{{ STATIC_URL }}img/gallery_h.png">-->
+              <!--</a>-->
+            <!--</li>-->
+          <!--</ul>-->
 
       </div>
 

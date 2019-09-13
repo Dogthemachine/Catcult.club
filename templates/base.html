@@ -64,21 +64,21 @@
 
       {% if carousel %}
         {% include 'carousel.html' %}
-          <div class="col-sm-12 col-md-12 col-lg-12 cc-shop-button">
-            {% if LANGUAGE_CODE == "en" %}
-              <a href="{% url 'main_page' %}">
-                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_en.jpg" data-hover-src="{{ STATIC_URL }}img/showcase_en_hover.jpg">
-              </a>
-            {% elif LANGUAGE_CODE == "uk" %}
-              <a href="{% url 'main_page' %}">
-                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_uk.jpg" data-hover-src="{{ STATIC_URL }}img/showcase_uk_hover.jpg">
-              </a>
-            {% else %}
-              <a href="{% url 'main_page' %}">
-                <img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.jpg" data-hover-src="{{ STATIC_URL }}img/showcase_hover.jpg">
-              </a>
-            {% endif %}
-          </div>
+          <!--<div class="col-sm-12 col-md-12 col-lg-12 cc-shop-button">-->
+            <!--{% if LANGUAGE_CODE == "en" %}-->
+              <!--<a href="{% url 'main_page' %}">-->
+                <!--<img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_en.jpg" data-hover-src="{{ STATIC_URL }}img/showcase_en_hover.jpg">-->
+              <!--</a>-->
+            <!--{% elif LANGUAGE_CODE == "uk" %}-->
+              <!--<a href="{% url 'main_page' %}">-->
+                <!--<img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase_uk.jpg" data-hover-src="{{ STATIC_URL }}img/showcase_uk_hover.jpg">-->
+              <!--</a>-->
+            <!--{% else %}-->
+              <!--<a href="{% url 'main_page' %}">-->
+                <!--<img class="cc-logo-button center-block" crop="centre" src="{{ STATIC_URL }}img/showcase.jpg" data-hover-src="{{ STATIC_URL }}img/showcase_hover.jpg">-->
+              <!--</a>-->
+            <!--{% endif %}-->
+          <!--</div>-->
       {% endif %}
 
       <div class="container">

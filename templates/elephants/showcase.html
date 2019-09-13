@@ -28,9 +28,8 @@
         {% endif %}
         <h2 class="text-center">{{ entry.name }}</h2>
         <p class="text-center">{{ entry.description|safe }}</p>
-        {% if entry.get_amount  %}
-          <p class="text-center">{% get_price entry request %} {% get_price_description request %}</p>
-        {% else %}
+        <p class="text-center">{% get_price entry request %} {% get_price_description request %}</p>
+        {% if not entry.get_amount  %}
           <p class="text-center">{% trans 'Sorry, this item in unavailable now.' %}</p>
         {% endif %}
         </div>
