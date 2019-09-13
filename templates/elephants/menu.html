@@ -30,12 +30,14 @@
       {% endif %}
       -->
 
-    {% if cat.id == category.id %}
-      <img class="cc-cat-image" title="{{ cat.name }}" alt="{{ cat.name }}" src="{{ MEDIA_URL }}{{ cat.image_hover }}">
-    {% else %}
-      <a href="{% url 'showcase_cat' cat.id %}">
-        <img class="cc-cat-image" title="{{ cat.name }}" alt="{{ cat.name }}" src="{{ MEDIA_URL }}{{ cat.image }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover }}">
-      </a>
+    {% if cat.showcase_displayed %}
+      {% if cat.id == category.id %}
+        <img class="cc-cat-image" title="{{ cat.name }}" alt="{{ cat.name }}" src="{{ MEDIA_URL }}{{ cat.image_hover }}">
+      {% else %}
+        <a href="{% url 'showcase_cat' cat.id %}">
+          <img class="cc-cat-image" title="{{ cat.name }}" alt="{{ cat.name }}" src="{{ MEDIA_URL }}{{ cat.image }}" data-hover-src="{{ MEDIA_URL }}{{ cat.image_hover }}">
+        </a>
+      {% endif %}
     {% endif %}
   {% endfor %}
 </div>

@@ -22,6 +22,7 @@ class Categories(models.Model):
     title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
     description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
     sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    showcase_displayed = models.BooleanField(_('showcase_displayed'), default=True)
 
     class Meta:
         ordering = ('sequence',)
