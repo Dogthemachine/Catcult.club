@@ -194,25 +194,22 @@ msgstr "перегляди за місяць"
 
 #: apps/elephants/models.py:93
 msgid "to rozetka"
-msgstr ""
+msgstr "Передавать на Розетку"
 
 #: apps/elephants/models.py:94
-#, fuzzy
 #| msgid "description tag"
 msgid "description rozetka a"
-msgstr "description tag"
+msgstr "Состав (Розетка)"
 
 #: apps/elephants/models.py:95
-#, fuzzy
 #| msgid "description tag"
 msgid "description rozetka b"
-msgstr "description tag"
+msgstr "Стиль (Розетка)"
 
 #: apps/elephants/models.py:96
-#, fuzzy
 #| msgid "description tag"
 msgid "descriptionrozetka c"
-msgstr "description tag"
+msgstr "Цвет (Розетка)"
 
 #: apps/elephants/models.py:101 apps/elephants/models.py:102
 msgid "items"

@@ -194,23 +194,21 @@ msgstr "просмотры за месяц"
 
 #: apps/elephants/models.py:93
 msgid "to rozetka"
-msgstr ""
+msgstr "Передавать на розетку"
 
 #: apps/elephants/models.py:94
 msgid "description rozetka a"
-msgstr "description rozetka A"
+msgstr "Состав (Зозетка)"
 
 #: apps/elephants/models.py:95
-#, fuzzy
 #| msgid "description tag"
 msgid "description rozetka b"
-msgstr "description rozetka B"
+msgstr "Стиль (розетка)"
 
 #: apps/elephants/models.py:96
-#, fuzzy
 #| msgid "description tag"
 msgid "descriptionrozetka c"
-msgstr "description rozetka C"
+msgstr "Цвет (Розетка)"
 
 #: apps/elephants/models.py:101 apps/elephants/models.py:102
 msgid "items"
@@ -229,10 +227,9 @@ msgid "Photos"
 msgstr "Фото"
 
 #: apps/elephants/models.py:317
-#, fuzzy
 #| msgid "description"
 msgid "position"
-msgstr "описание"
+msgstr "Позиция"
 
 #: apps/elephants/models.py:322
 msgid "RozetkaPhoto"

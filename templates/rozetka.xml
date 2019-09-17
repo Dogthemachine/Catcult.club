@@ -36,6 +36,9 @@
                         <description><![CDATA[{{ offer.details }}]]></description>
                         <param name="Вид">{{ offer.fashions.name }}</param>
                         <param name="Размер">{{ offer.sizes }}</param>
+                        <param name="Состав">{{ offer.description_rozetka_a }}</param>
+                        <param name="Стиль">{{ offer.description_rozetka_b }}</param>
+                        <param name="Цвет">{{ offer.description_rozetka_c }}</param>
                     </offer>
                 {% endfor %}
             </offers>
