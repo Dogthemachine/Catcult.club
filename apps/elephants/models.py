@@ -94,6 +94,7 @@ class Items(models.Model):
     description_rozetka_a = models.TextField(_('description rozetka a'), blank=True, default='')
     description_rozetka_b = models.TextField(_('description rozetka b'), blank=True, default='')
     description_rozetka_c = models.TextField(_('descriptionrozetka c'), blank=True, default='')
+    description_rozetka_d = models.TextField(_('descriptionrozetka d'), blank=True, default='')
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
