@@ -1,6 +1,6 @@
 from modeltranslation.translator import translator, TranslationOptions
 
-from apps.elephants.models import Items, Categories, Fashions, Sizes, Stocks, Sets
+from apps.elephants.models import Items, Categories, Fashions, Sizes, Stocks, Sets, Artists
 
 
 class ItemsTranslationOptions(TranslationOptions):
@@ -9,6 +9,10 @@ class ItemsTranslationOptions(TranslationOptions):
 
 class SetsTranslationOptions(TranslationOptions):
     fields = ('name', 'description', 'details', 'price_description', 'title_tag', 'description_tag',)
+
+
+class ArtistsTranslationOptions(TranslationOptions):
+    fields = ('name', 'description',)
 
 
 class FashionsTranslationOptions(TranslationOptions):
@@ -29,17 +33,14 @@ class StocksTranslationOptions(TranslationOptions):
 
 translator.register(Items, ItemsTranslationOptions)
 
-
 translator.register(Sets, SetsTranslationOptions)
 
+translator.register(Artists, ArtistsTranslationOptions)
 
 translator.register(Fashions, FashionsTranslationOptions)
 
-
 translator.register(Categories, CategoriesTranslationOptions)
 
-
 translator.register(Sizes, SizesTranslationOptions)
-
 
 translator.register(Stocks, StocksTranslationOptions)

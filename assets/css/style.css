@@ -830,3 +830,7 @@ body {
 a:hover {
     text-decoration: none !important;
 }
+
+.cc-artist {
+     width: 75px;
+}

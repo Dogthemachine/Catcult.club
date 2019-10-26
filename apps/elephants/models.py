@@ -75,9 +75,25 @@ class Sizes(models.Model):
         return u'%s' % self.name
 
 
+class Artists(models.Model):
+    name = models.CharField(_('name'), max_length=250)
+    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
+    description = models.TextField(_('description'), blank=True, default='')
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = _('Artists')
+        verbose_name_plural = _('Artists')
+
+    def __str__(self):
+        return self.name
+
+
 class Items(models.Model):
     name = models.CharField(_('name'), max_length=250)
     fashions = models.ForeignKey(Fashions)
+    artist = models.ForeignKey(Artists, blank=True, null=True)
     image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
     image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
     description = models.TextField(_('description'), blank=True, default='')

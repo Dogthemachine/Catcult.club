@@ -68,6 +68,14 @@
         <link itemprop="availability" href="http://schema.org/OnStock" />
       </div>
       <div itemprop="description"><p>{{ item.details|safe }}</p></div>
+      {% if item.artist  %}
+        <div itemprop="artist">
+          <p>
+            <img class="cc-artist img-circle" title="{{ item.artist.description }}" alt="{{ item.artist.description }}" src="{{ MEDIA_URL }}{{ item.artist.image }}">
+            <a href="{% url 'showcase_artist' item.artist.id %}">{{ item.artist.name }}</a>
+          </p>
+        </div>
+      {% endif %}
       {% if item.get_amount  %}
         {% if form %}
           {% crispy form form.helper %}

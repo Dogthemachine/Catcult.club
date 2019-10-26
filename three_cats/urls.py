@@ -50,6 +50,7 @@ urlpatterns += i18n_patterns(
 
     # Shop
     url(r'^showcase/(?P<category_id>\d+)/$', showcase, name='showcase_cat'),
+    url(r'^showcase-artist  /(?P<artist_id>\d+)/$', showcase, name='showcase_artist'),
     url(r'^showcase/(?P<category_id>\d+)/(?P<fashion_id>\d+)/$', showcase, name='showcase_cat_fas'),
     url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
     url(r'^item-set/(?P<id>\d+)/$', item_set_details, name='item_set_details'),

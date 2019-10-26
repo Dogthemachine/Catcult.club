@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 
 from .forms import AddToCartForm, SetSizesForm
-from .models import Photo, Categories, Fashions, Items, Sizes, Sets, Balance, SetsPhoto, Stocks
+from .models import Photo, Categories, Fashions, Items, Sizes, Sets, Balance, SetsPhoto, Stocks, Artists
 from apps.orders.models import Cart, CartItem, CartSet, CartSetItem
 from apps.info.models import Info, Config
 from apps.comments.forms import CommentForm, ReplayForm
@@ -17,7 +17,7 @@ from apps.comments.models import Comments
 from apps.info.forms import ContactForm
 
 
-def showcase(request, category_id=None, fashion_id=None):
+def showcase(request, category_id=None, fashion_id=None, artist_id=None):
     #print(request.LANGUAGE_CODE)
     category = None
     fashion = None
@@ -56,6 +56,11 @@ def showcase(request, category_id=None, fashion_id=None):
             items = Items.objects.filter(fashions__categories=category, showcase_displayed=True)
             sets = []
         fashions = Fashions.objects.filter(categories=category, displayed=True)
+
+    elif artist_id:
+        artist = Artists.objects.get(pk=artist_id)
+        items = Items.objects.filter(artist=artist, showcase_displayed=True)
+        sets = []
 
     else:
         items = Items.objects.filter(showcase_displayed=True)
