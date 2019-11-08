@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load elephants %}
+
+{% block title %}{{ title_tag }}{% endblock %}
+{% block description %}{{ description_tag }}{% endblock %}
+
+{% block content %}
+
+  {% if request.menu_layout == 1 %}
+    {% include 'elephants/menu_text.html' %}
+  {% else %}
+    {% include 'elephants/menu.html' %}
+  {% endif %}
+
+  <div class="row cc-showcase">
+    {% for entry in artists %}
+      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 cc-showcase-item">
+        <div class="cc-showcase-item">
+          <a href="{% url 'showcase_artist' entry.id %}" >
+            <img class="img-responsive img-circle" title="{{ entry.d_t }}" alt="{{ entry.d_a }}" src="{{ MEDIA_URL }}{{ entry.image }}">
+          </a>
+        <h2 class="text-center">{{ entry.name }}</h2>
+        <p class="text-center">{{ entry.description|safe }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

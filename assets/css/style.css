@@ -25,6 +25,10 @@ legend {
      width: 125px;
 }
 
+.cc-artist-ico {
+     width: 40px;
+}
+
 .cc-gallery {
      height: 35px;
      margin-top: -5px;
@@ -833,4 +837,8 @@ a:hover {
 
 .cc-artist {
      width: 75px;
+}
+
+.cc-artist-block {
+    margin-top:-20px;
 }

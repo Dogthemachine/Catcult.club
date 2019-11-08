@@ -1,5 +1,10 @@
 {% load i18n %}
 <div class="cc-menu-image">
+  {% if not artists %}
+    <a href="{% url 'artists' %}">
+      <img class="cc-cat-image" title="{{ cat.name }}" alt="{{ cat.name }}" src="{{ STATIC_URL }}img/artists_b.png" data-hover-src="{{ STATIC_URL }}img/artists_h.png">
+    </a>
+  {% endif %}
   {% for cat in categories %}
 
       <!--

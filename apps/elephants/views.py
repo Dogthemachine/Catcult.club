@@ -42,6 +42,7 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
         description_tag = _('main pae description_tag')
 
     fashions = None
+    artist = None
 
     if category and fashion:
         fashions = Fashions.objects.filter(categories=category, displayed=True)
@@ -140,8 +141,17 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
                    'fashions': fashions,
                    'items': items,
                    'itm': itm,
+                   'artist': artist,
                    'title_tag': title_tag,
                    'description_tag': description_tag})
+
+
+def artists(request):
+    artists = Artists.objects.all()
+    categories = Categories.objects.all()
+    return render(request,
+                  'elephants/artists.html',
+                  {'artists': artists, 'categories': categories})
 
 
 def item_details(request, id):

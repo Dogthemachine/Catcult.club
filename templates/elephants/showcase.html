@@ -7,10 +7,27 @@
 {% block description %}{{ description_tag }}{% endblock %}
 
 {% block content %}
-  {% if request.menu_layout == 1 %}
-    {% include 'elephants/menu_text.html' %}
+
+  {% if not artist %}
+    {% if request.menu_layout == 1 %}
+      {% include 'elephants/menu_text.html' %}
+    {% else %}
+      {% include 'elephants/menu.html' %}
+    {% endif %}
   {% else %}
-    {% include 'elephants/menu.html' %}
+    <div class="row">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <img class="cc-artist img-circle" title="{{ artist.description }}" alt="{{ artist.description }}" src="{{ MEDIA_URL }}{{ artist.image }}">
+      </div>
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 cc-artist-block">
+        <h3><img class="cc-artist-ico" title="{% trans 'Internet shop of sportswear' %}" alt="{% trans 'Internet shop of sportswear logo' %}" src="{{ STATIC_URL }}img/artists_b.png">
+        {{ artist.name }}</h3>
+        <p>{{ artist.description }}</p>
+      </div>
+      <div class="row text-center">
+        <h4>{% trans 'All products with the works of this artist:' %}</h4>
+      </div>
+    </div>
   {% endif %}
 
   <div class="row cc-showcase">
