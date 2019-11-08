@@ -373,6 +373,7 @@ $(document).ready(function() {
             type: 'get',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
+                $('#cc-cart-cancel').show();
             }
         });
     });
@@ -397,7 +398,6 @@ $(document).ready(function() {
     });
 
     $('#cc-cart-checkout').on('click', function() {
-
         console.log($(this).data('ready'));
         if ($(this).data('ready') == 1) {
             var type = 'post';
@@ -465,7 +465,18 @@ $(document).ready(function() {
                             location.reload();
                         }
                     }
-                }
+                };
+                if (document.getElementById('id_delivery_3').checked)
+                    {
+                        $('#div_id_country').show();
+                        $('#div_id_email').show();
+                    }
+                    else
+                    {
+                        $('#div_id_country').hide();
+                        $('#div_id_email').hide();
+                    };
+                $('#cc-cart-cancel').hide();
             }
         });
     });
@@ -485,6 +496,7 @@ $(document).ready(function() {
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
                 $('#cc-cart-total').html(data.count);
+                $('#cc-cart-cancel').show();
             },
         });
     });
@@ -500,6 +512,7 @@ $(document).ready(function() {
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
                 $('#cc-cart-total').html(data.count);
+                $('#cc-cart-cancel').show();
             },
         });
     });
@@ -552,17 +565,33 @@ $(document).ready(function() {
         });
     });
 
+    $('#id_delivery_3').ready(function(e) {
+        if ($('#id_delivery_3').is(':checked'))
+            {
+                $('#div_id_country').hide();
+                $('#div_id_email').hide();
+            }
+            else
+            {
+                $('#div_id_country').show();
+                $('#div_id_email').show();
+            };
+
+        });
+
     $(document).on('click', '#id_delivery_1', function(e) {
         $('#div_id_country').hide();
+        $('#div_id_email').hide();
     });
 
     $(document).on('click', '#id_delivery_2', function(e) {
         $('#div_id_country').hide();
+        $('#div_id_email').hide();
     });
 
     $(document).on('click', '#id_delivery_3', function(e) {
-        //alert($(this).val());
         $('#div_id_country').show();
+        $('#div_id_email').show();
     });
 
     window.addEventListener('message', function (e) {

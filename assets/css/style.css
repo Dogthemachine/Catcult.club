@@ -814,6 +814,10 @@ body {
     display: none;
 }
 
+#div_id_email {
+    display: none;
+}
+
 .cc-menu-star {
     color: darkgray;
     font-size: 0.4em;

@@ -207,6 +207,7 @@ def cart_checkout(request):
             order.name = form.cleaned_data['name']
             order.last_name = form.cleaned_data['last_name']
             order.phone = normalize_phone(form.cleaned_data['phone'])
+            order.email = form.cleaned_data['email']
             order.lang_code = request.LANGUAGE_CODE
             order.payment_method = form.cleaned_data['payment']
             order.delivery_method = form.cleaned_data['delivery']

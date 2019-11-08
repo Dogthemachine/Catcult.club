@@ -34,11 +34,13 @@ class CheckoutForm(forms.Form):
     name = forms.CharField(label=_('Your First name:'), widget=forms.TextInput(attrs={'placeholder': _('Enter your First name')}), max_length=64)
     last_name = forms.CharField(label=_('Your Last name:'), widget=forms.TextInput(attrs={'placeholder': _('Enter your Last name')}), max_length=64)
     phone = forms.CharField(label=_('Phone number:'), widget=forms.TextInput(attrs={'placeholder': '380001112233'}))
-    promo = forms.CharField(label=_('Promo code (if any):'), required=False)
-    payment = forms.TypedChoiceField(label=_('Payment Method'), choices=lang(settings.PAYMENT), coerce=int, widget=forms.RadioSelect())
-    delivery = forms.TypedChoiceField(label=_('Delivery Method'), choices=lang(settings.DELIVERY), coerce=int, widget=forms.RadioSelect())
-    country = forms.ChoiceField(label=_('Country (cost of delivery)'), choices=CUNTRIES, required=False)
     comment = forms.CharField(label=_('Your address:'), max_length=512)
+    email = forms.EmailField(label=_('Email address:'), required=False)
+    promo = forms.CharField(label=_('Promo code (if any):'), required=False)
+    delivery = forms.TypedChoiceField(label=_('Delivery Method'), choices=lang(settings.DELIVERY), coerce=int, widget=forms.RadioSelect())
+    payment = forms.TypedChoiceField(label=_('Payment Method'), choices=lang(settings.PAYMENT), coerce=int, widget=forms.RadioSelect())
+    country = forms.ChoiceField(label=_('Country (cost of delivery)'), choices=CUNTRIES, required=False)
+
 
     def __init__(self, user, *args, **kwargs):
         self.cart = kwargs.pop('cart')
@@ -63,8 +65,8 @@ class CheckoutForm(forms.Form):
 
         c = []
         for p in settings.DELIVERY:
-            if p[1] and (p[0]!=2 or per):
-                c.append((p[0], _(p[1])))
+            # if p[1] and (p[0]!=2 or per):
+            c.append((p[0], _(p[1])))
         self.fields['delivery'].choices = c
 
         self.fields['country'].choices = [(c.id, delivery_cost(c, self.cart)) for c in Countris.objects.all()]
@@ -74,9 +76,9 @@ class CheckoutForm(forms.Form):
         payment = self.cleaned_data.get('payment')
         delivery = self.cleaned_data.get('delivery')
         promo = self.cleaned_data.get('promo')
+        email = self.cleaned_data.get('email')
 
         if payment!=5:
-
             if delivery==3 and payment<3:
                 msg = _(u'This payment method is not available when sending abroad.')
                 self._errors['payment'] = self.error_class([msg])
@@ -86,6 +88,10 @@ class CheckoutForm(forms.Form):
                 if not code:
                     msg = _(u'This code is not valid. Please enter a valid code or leave the field empty.')
                     self._errors['promo'] = self.error_class([msg])
+
+        if delivery == 3 and not email:
+            msg = _(u'This field is required.')
+            self._errors['email'] = self.error_class([msg])
 
         return self.cleaned_data
 
