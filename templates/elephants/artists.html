@@ -21,7 +21,7 @@
             <img class="img-responsive img-circle" title="{{ entry.d_t }}" alt="{{ entry.d_a }}" src="{{ MEDIA_URL }}{{ entry.image }}">
           </a>
         <h2 class="text-center">{{ entry.name }}</h2>
-        <p class="text-center">{{ entry.description|safe }}</p>
+        <p class="text-center">{{ entry.description|safe|truncatewords:18 }}</p>
         </div>
       </div>
     {% endfor %}
