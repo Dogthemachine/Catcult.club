@@ -96,13 +96,15 @@ def rozetka(request):
     for offer in offers:
         if not offer.id == latest_id:
             latest_id = offer.id
-            offer.sizes = ', '.join([s.name for s in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0)])
-            offer.pictures = RPhoto.objects.filter(item=offer).order_by('weight')
-            balance = Balance.objects.filter(item=offer)
-            stock_quantity = 0
-            for item in balance:
-                stock_quantity += item.amount
-            offer.stock_quantity = stock_quantity
-            filtered_offers.append(offer)
+            for size in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0):
+                offer.sizes = size.name
+                # offer.sizes = ', '.join([s.name for s in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0)])
+                offer.pictures = RPhoto.objects.filter(item=offer).order_by('weight')
+                balance = Balance.objects.filter(item=offer, size=size)
+                stock_quantity = 0
+                for item in balance:
+                    stock_quantity += item.amount
+                offer.stock_quantity = stock_quantity
+                filtered_offers.append(offer)
     context = {'offers': filtered_offers, 'categories': categories, 'cdat': cdat}
     return render(request, template, context, content_type='text/xml')
