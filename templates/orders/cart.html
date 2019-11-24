@@ -33,7 +33,23 @@
             <p class="cc-cart-title">{{ i.item.name }}</p>
             <p><b>{% get_price i.item request %} {% get_price_description request %}</b></p>
             <p>{% trans 'Size' %}: {{ i.size.name }}</p>
-            <p><b>{{ i.amount|subtract:i.amount_set }} {% trans 'units' %}</b></p>
+            <p>
+              {% if i.amount > 1 %}
+                <a class="cc-cart-amount-minus" href="#" data-id="{{ i.id }}">
+                  <img class="cc-cart-amount" src="{{ STATIC_URL }}img/minus.png">
+                </a>
+              {% else %}
+                <img class="cc-cart-amount-0" src="{{ STATIC_URL }}img/minus.png">
+              {% endif %}
+              <b>{{ i.amount|subtract:i.amount_set }} {% trans 'units' %}</b>
+              {% if i.amount < i.bal %}
+                <a class="cc-cart-amount-plus" href="#" data-id="{{ i.id }}">
+                  <img class="cc-cart-amount" src="{{ STATIC_URL }}img/plus.png">
+                </a>
+              {% else %}
+                <img class="cc-cart-amount-0" src="{{ STATIC_URL }}img/plus.png">
+              {% endif %}
+            </p>
             {% if not i.check_avail %}<p class="cc-error">{% trans 'This item is unavailable. You can delete it and checkout.' %}</p>{% endif %}
           </td>
           <td>

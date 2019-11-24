@@ -39,6 +39,8 @@ def cart(request):
 
     if not created:
         cart_items = CartItem.objects.filter(cart=cart)
+        for c_i in cart_items:
+            c_i.bal = Balance.objects.get(item=c_i.item, size=c_i.size).amount
     else:
         cart_items = []
 
@@ -93,6 +95,37 @@ def cart_remove(request, id, set=False):
         return {'success': False}
 
     cart_items = CartItem.objects.filter(cart=cart)
+    for c_i in cart_items:
+        c_i.bal = Balance.objects.get(item=c_i.item, size=c_i.size).amount
+    t = loader.get_template('orders/cart.html')
+    c = {'cart': cart, 'cart_items': cart_items}
+    html = t.render(c, request)
+
+    return {'html': html, 'count': cart_items.count()}
+
+
+@json_view
+def cart_plus(request, id, set=False, plus=True):
+    cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
+    print(id,plus)
+    if not created:
+        if not set:
+            try:
+                cart_item = CartItem.objects.get(id=id)
+            except CartItem.DoesNotExist:
+                return {'success': False}
+            else:
+                if plus:
+                    cart_item.amount += 1
+                else:
+                    cart_item.amount -= 1
+                cart_item.save()
+    else:
+        return {'success': False}
+
+    cart_items = CartItem.objects.filter(cart=cart)
+    for c_i in cart_items:
+        c_i.bal = Balance.objects.get(item=c_i.item, size=c_i.size).amount
     t = loader.get_template('orders/cart.html')
     c = {'cart': cart, 'cart_items': cart_items}
     html = t.render(c, request)

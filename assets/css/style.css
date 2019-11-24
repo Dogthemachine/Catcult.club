@@ -843,6 +843,15 @@ a:hover {
      width: 75px;
 }
 
+.cc-cart-amount {
+     width: 30px;
+}
+
+.cc-cart-amount-0 {
+     width: 30px;
+     opacity: .3;
+}
+
 .cc-artist-block {
     margin-top:-20px;
 }

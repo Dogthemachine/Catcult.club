@@ -501,6 +501,38 @@ $(document).ready(function() {
         });
     });
 
+    $('body').on('click', '.cc-cart-amount-plus', function(e) {
+        e.preventDefault();
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+
+        $.ajax({
+            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/plus/',
+            type: 'post',
+            success: function(data) {
+                $('#cc-cart-content').html(data.html);
+                $('#cc-cart-total').html(data.count);
+                $('#cc-cart-cancel').show();
+            },
+        });
+    });
+
+    $('body').on('click', '.cc-cart-amount-minus', function(e) {
+        e.preventDefault();
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+
+        $.ajax({
+            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/minus/',
+            type: 'post',
+            success: function(data) {
+                $('#cc-cart-content').html(data.html);
+                $('#cc-cart-total').html(data.count);
+                $('#cc-cart-cancel').show();
+            },
+        });
+    });
+
     $('body').on('click', '.cc-cart-remove-set', function(e) {
         e.preventDefault();
         var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
