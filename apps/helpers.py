@@ -108,6 +108,6 @@ def rozetka(request):
                 for item in balance:
                     stock_quantity += item.amount
                 offer.stock_quantity = stock_quantity
-                filtered_offers.append(offer)
+            filtered_offers.append(offer)
     context = {'offers': filtered_offers, 'categories': categories, 'cdat': cdat}
     return render(request, template, context, content_type='text/xml')
