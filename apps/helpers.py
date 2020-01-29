@@ -92,10 +92,13 @@ def rozetka(request):
     #     category.fashions = Fashions.objects.filter(categories=category)
     offers = Items.objects.filter(balance__amount__gt=0, rozetka=True).order_by('id')
     filtered_offers = []
-    latest_id = 0
+    offers_id = []
+    offers_name = []
     for offer in offers:
-        if not offer.id == latest_id:
-            latest_id = offer.id
+        offer_name = offer.fashions.categories.name + offer.name + offer.description + offer.sizes
+        if not offer.id in offers_id and not offer_name in offers_name:
+            offers_id.append(offer.id)
+            offers_name.append(offer_name)
             for size in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0):
                 offer.sizes = size.name
                 # offer.sizes = ', '.join([s.name for s in Sizes.objects.select_related().filter(balance__item=offer, balance__amount__gt=0)])
