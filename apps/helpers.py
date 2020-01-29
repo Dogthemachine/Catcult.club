@@ -95,7 +95,7 @@ def rozetka(request):
     offers_id = []
     offers_name = []
     for offer in offers:
-        offer_name = offer.fashions.categories.name + offer.name + offer.description + offer.sizes
+        offer_name = offer.fashions.categories.name + offer.name + offer.description
         if not offer.id in offers_id and not offer_name in offers_name:
             offers_id.append(offer.id)
             offers_name.append(offer_name)
