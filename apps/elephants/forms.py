@@ -4,6 +4,7 @@ from crispy_forms.layout import Fieldset, Layout, Submit, Div, Field
 from django import forms
 from django.forms import formset_factory
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
 
 from .models import Sizes, Balance, Items
 
@@ -74,3 +75,18 @@ class SetSizesForm(forms.Form):
                     )
 
         return self.cleaned_data
+
+
+class IWantForm(forms.Form):
+    name = forms.CharField(label=_('Name'), max_length=70, widget=forms.TextInput(attrs={'class': 'span9'}))
+    phone = forms.CharField(label=_('Phone'), max_length=40, required=False, widget=forms.TextInput(attrs={'class': 'span9'}))
+    email = forms.EmailField(label=_('Email'), max_length=40, required=False, widget=forms.TextInput(attrs={'class': 'span9'}))
+    message = forms.CharField(label=_('Message'), max_length=1000, widget=forms.Textarea(attrs={'rows': 4, 'class': 'span9'}))
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = '.'
+        self.helper.add_input(Submit('submit', ugettext(u'Send the message')))
+
+        super(IWantForm, self).__init__(*args, **kwargs)

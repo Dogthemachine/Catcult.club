@@ -8,13 +8,12 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.core.mail import send_mail
 
-from .forms import AddToCartForm, SetSizesForm
+from .forms import AddToCartForm, SetSizesForm, IWantForm
 from .models import Photo, Categories, Fashions, Items, Sizes, Sets, Balance, SetsPhoto, Stocks, Artists
 from apps.orders.models import Cart, CartItem, CartSet, CartSetItem
 from apps.info.models import Info, Config
 from apps.comments.forms import CommentForm, ReplayForm
 from apps.comments.models import Comments
-from apps.info.forms import ContactForm
 
 
 def showcase(request, category_id=None, fashion_id=None, artist_id=None):
@@ -323,10 +322,10 @@ def i_want(request, id):
     topic = get_object_or_404(Info, topic='i_want')
     item = get_object_or_404(Items, id=id)
 
-    form = ContactForm(initial={'message': _('Hello! I wantto bay this item') + '\n' + item.name + ' ' + item.fashions.name})
+    form = IWantForm(initial={'message': _('Hello! I wantto bay this item') + '\n' + item.name + ' ' + item.fashions.name})
 
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = IWantForm(request.POST)
         if form.is_valid():
             subject = _('[Contact form] New message')
             message = (form.cleaned_data.get('name') + '\n\n' +

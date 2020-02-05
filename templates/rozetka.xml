@@ -33,7 +33,7 @@
                             {% endfor %}
                         <name>{{ offer.fashions.categories.name }} Трикотаж {{ offer.name }} {{ offer.description }} {{ offer.sizes }}</name>
                         <vendor>Трикотаж</vendor>
-                        <description><![CDATA[{{ offer.details|striptags }}]]></description>
+                        <description><![CDATA[{{ offer.details_rozetka|striptags }}]]></description>
                         <param name="Категория">{{ offer.description_rozetka_d }}</param>
                         <param name="Вид">{{ offer.fashions.name }}</param>
                         <param name="Размер">{{ offer.sizes }}</param>

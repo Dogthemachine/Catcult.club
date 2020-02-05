@@ -98,6 +98,7 @@ class Items(models.Model):
     image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
     description = models.TextField(_('description'), blank=True, default='')
     details = models.TextField(_('details'), blank=True, default='')
+    details_rozetka = models.TextField(_('details rozetka'), blank=True, default='')
     price = models.PositiveSmallIntegerField(_('price'), default=0)
     price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
     views = models.PositiveIntegerField(_('views'), default=0)
