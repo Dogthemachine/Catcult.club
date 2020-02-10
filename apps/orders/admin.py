@@ -2,7 +2,7 @@ from modeltranslation.admin import TranslationAdmin
 
 from django.contrib import admin
 
-from apps.orders.models import Cart, Orders, OrderItems, Payment, PaymentRaw, Phones, Promo, Countris, DeliveryCost
+from apps.orders.models import Cart, Orders, OrderItems, Payment, PaymentRaw, Phones, Promo, Countris, DeliveryCost, IWant
 
 
 class CartAdmin(admin.ModelAdmin):
@@ -32,11 +32,18 @@ class PhonesAdmin(admin.ModelAdmin):
 class PromoAdmin(admin.ModelAdmin):
     list_display = ('code', 'discount', 'used')
 
+
 class CountrisAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
+
+class IWantAdmin(admin.ModelAdmin):
+    list_display = ('name', 'phone', 'email', 'status', 'added',)
+
+
 class DeliveryCostAdmin(admin.ModelAdmin):
     list_display = ('country', 'weigth_from', 'weigth_to', 'cost',)
+
 
 admin.site.register(Cart, CartAdmin)
 
@@ -60,6 +67,9 @@ admin.site.register(Phones, PhonesAdmin)
 
 
 admin.site.register(Countris, CountrisAdmin)
+
+
+admin.site.register(IWant, IWantAdmin)
 
 
 admin.site.register(DeliveryCost, DeliveryCostAdmin)

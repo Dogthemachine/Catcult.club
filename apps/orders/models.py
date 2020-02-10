@@ -50,8 +50,9 @@ class Orders(models.Model):
             sum += i.price * i.amount
 
         sum -= self.discount_stocks
-        sum -= self.discount_set
-        sum = sum - sum * self.discount_promo // 100
+        # sum -= self.discount_set
+        if not self.discount_stocks:
+            sum = sum - sum * self.discount_promo // 100
 
         sum += self.delivery_cost
 
@@ -207,6 +208,7 @@ class Cart(models.Model):
             modulo = count % (stock[0].items_count + 1)
             if modulo == stock[0].items_count:
                 message += ugettext('You can add one more item and get a discount.')
+                # message += stock.description
 
         return message
 
@@ -323,3 +325,34 @@ def update_balance_or_order_delete(sender, instance, **kwargs):
     balance = instance.balance
     balance.amount = balance.amount + instance.amount
     balance.save()
+
+
+class IWant(models.Model):
+    NEW = 1
+    VIEWED = 2
+    MADE = 3
+    SENT = 4
+
+    STATUS = (
+        (NEW, _('New')),
+        (VIEWED, _('Viewedl')),
+        (MADE, _('Made')),
+        (SENT, _('Sent')),
+    )
+
+    name = models.CharField(_('first name'), max_length=70)
+    phone = models.CharField(_('phone'), max_length=32, db_index=True)
+    email = models.EmailField(_('email'), max_length=254, null=True, blank=True)
+    comment = models.TextField(_('comment'), default='', blank=True)
+    lang_code = models.CharField(_('lang code'), default='ru', blank=True, max_length=2)
+    item = models.ForeignKey(Items)
+    status = models.PositiveIntegerField(_('new status'), choices=STATUS, default=NEW)
+    added = models.DateTimeField(_('added'), auto_now_add=True)
+
+    class Meta:
+        ordering = ('-added',)
+        verbose_name = _('I want')
+        verbose_name_plural = _('I want')
+
+    def __str__(self):
+        return u'%s' % self.name

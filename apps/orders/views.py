@@ -178,29 +178,30 @@ def cart_checkout(request):
             discount_stocks = int(cart.get_discount())
 
             discount_promo = 0
-            if form.cleaned_data['promo']:
-                if discount_stocks == 0:
-                    codes = Promo.objects.filter(code=form.cleaned_data['promo'], used=False)
-                    if codes:
-                        code = codes[0]
-                        discount_promo = code.discount
-                        code.used = True
-                        code.save()
+            if not discount_stocks:
+                if form.cleaned_data['promo']:
+                    if discount_stocks == 0:
+                        codes = Promo.objects.filter(code=form.cleaned_data['promo'], used=False)
+                        if codes:
+                            code = codes[0]
+                            discount_promo = code.discount
+                            code.used = True
+                            code.save()
 
-                        message1 = _('Thank you. Your bonus %s percent activated.') % code.discount
+                            message1 = _('Thank you. Your bonus %s percent activated.') % code.discount
+                            messages.add_message(
+                                request,
+                                messages.SUCCESS,
+                                message1
+                            )
+                    else:
+                        message1 = _('Your discount on the share is %(sum)s %(dsc)s.<br/>') % {'sum': cart.discount_stocks_val(request), 'dsc': price_description(request)}
+                        message1 += _('Your promo-code is not activated.')
                         messages.add_message(
                             request,
                             messages.SUCCESS,
                             message1
                         )
-                else:
-                    message1 = _('Your discount on the share is %(sum)s %(dsc)s.<br/>') % {'sum': cart.discount_stocks_val(request), 'dsc': price_description(request)}
-                    message1 += _('Your promo-code is not activated.')
-                    messages.add_message(
-                        request,
-                        messages.SUCCESS,
-                        message1
-                    )
 
             phone = Phones.objects.filter(phone=normalize_phone(form.cleaned_data['phone']))
 

@@ -13,7 +13,7 @@ from apps.comments.views import comment, replay, replay_activate, replay_deactiv
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
     delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
     j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
-    stat_sale, stat_ending, stat_payment
+    stat_sale, stat_ending, stat_payment, manage_iwant
 from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, wfp_callback, messages_off, \
     cart_valuta, cart_plus
 from django.views.generic import TemplateView
@@ -73,6 +73,7 @@ urlpatterns += i18n_patterns(
 
     # Moderator
     url(r'^orders/$', manage_orders, name='orders'),
+    url(r'^i-mant-mod/$', manage_iwant, name='i_want_mod'),
     url(r'^orders/check/$', check_orders, name='check_orders'),
     url(r'^orders/(?P<id>\d+)/$', manage_order, name='manage_order'),
     url(r'^orders/(?P<id>\d+)/info/$', j_order_info, name='order_info'),

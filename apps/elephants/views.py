@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 
 from .forms import AddToCartForm, SetSizesForm, IWantForm
 from .models import Photo, Categories, Fashions, Items, Sizes, Sets, Balance, SetsPhoto, Stocks, Artists
-from apps.orders.models import Cart, CartItem, CartSet, CartSetItem
+from apps.orders.models import Cart, CartItem, CartSet, CartSetItem, IWant
 from apps.info.models import Info, Config
 from apps.comments.forms import CommentForm, ReplayForm
 from apps.comments.models import Comments
@@ -336,11 +336,19 @@ def i_want(request, id):
             recipient_list = [settings.INFO_EMAIL]
             fail_silently = True
 
-            send_mail(subject, message, from_email,
-                      recipient_list, fail_silently)
+            try:
+                send_mail(subject, message, from_email,
+                          recipient_list, fail_silently)
+            except:
+                pass
 
             messages.add_message(request, messages.SUCCESS,
                                  _('The message was successfully sent.'))
+
+            i_want = IWant(name=form.cleaned_data.get('name'), phone=form.cleaned_data.get('phone'),
+                           email=form.cleaned_data.get('email'), comment=form.cleaned_data.get('message'),
+                           lang_code=request.LANGUAGE_CODE, item=item)
+            i_want.save()
 
             return redirect('item_details', id)
 

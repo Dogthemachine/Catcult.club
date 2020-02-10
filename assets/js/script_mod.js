@@ -136,9 +136,19 @@ $(document).ready(function() {
 
         var date_from = $('#cc-date-from').val();
         var date_to = $('#cc-date-to').val();
-        var arrival = $("#cc-arrival-cb").prop("checked");
 
-        location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&arrival=' + arrival;
+        location.search = '?date_from=' + date_from + '&date_to=' + date_to;
+    });
+
+    $('#cc-iwant-filter').on('click', function(e) {
+        e.preventDefault();
+
+        var date_from = $('#cc-date-from').val();
+        var date_to = $('#cc-date-to').val();
+//        var arrival = $("#cc-status-cb").prop("checked");
+        var status = $("#cc-status-cb").val();
+
+        location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&status=' + status;
     });
 
     $('#cc-stat-sale-filter').on('click', function(e) {

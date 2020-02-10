@@ -15,7 +15,7 @@ from django.db.models import Sum
 
 from apps.helpers import send_sms
 from apps.elephants.models import Balance, Items, BalanceLog, Categories
-from apps.orders.models import Orders, OrderItems, Payment, Phones
+from apps.orders.models import Orders, OrderItems, Payment, Phones, IWant
 from .forms import OrderForm, CommentForm, DeliveryForm, PaymentForm
 from .models import LastOrdersCheck
 
@@ -123,6 +123,57 @@ def export_balance(request):
 
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+def manage_iwant(request):
+
+    date_from = request.GET.get('date_from', None)
+    date_to = request.GET.get('date_to', None)
+    status = request.GET.get('status', 0)
+
+    show_archived = False
+
+    if date_from or date_to:
+        show_archived = True
+
+    if date_from:
+        date_from = list(map(int, date_from.split('-')))
+    else:
+        date_from = list(map(int, datetime.datetime.strftime(datetime.date.today() - datetime.timedelta(days=30), '%Y-%m-%d').split('-')))
+
+    if date_to:
+        date_to = list(map(int, date_to.split('-')))
+    else:
+        date_to = list(map(int, datetime.datetime.strftime(datetime.date.today(), '%Y-%m-%d').split('-')))
+
+    if show_archived:
+        if status:
+            iwant = IWant.objects.filter(
+                added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+                added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
+                status=status
+            ).order_by('-added')
+        else:
+            iwant = IWant.objects.filter(
+                added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
+                added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
+            ).order_by('-added')
+    else:
+        iwant = IWant.objects.all().order_by('-added')
+
+    date_from = '-'.join(list(map(str, date_from)))
+    date_to = '-'.join(list(map(str, date_to)))
+
+    status = [{'name': 'All', 'val': 0}]
+    for stat in IWant.STATUS:
+        status.append({'name': stat[1], 'val': stat[0]})
+
+    return render(request, 'moderation/i_want.html', {
+        'status': status, 'iwant': iwant, 'date_from': date_from, 'date_to': date_to
+    })
+
+
+
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
 def manage_orders(request):
     last, created = LastOrdersCheck.objects.get_or_create(id=1)
     orderitems = OrderItems.objects.filter(order__added__gte=last.datetime, balance__amount=0)
@@ -150,7 +201,6 @@ def manage_orders(request):
         date_from = list(map(int, date_from.split('-')))
     else:
         date_from = list(map(int, datetime.datetime.strftime(datetime.date.today() - datetime.timedelta(days=30), '%Y-%m-%d').split('-')))
-
 
     if date_to:
         date_to = list(map(int, date_to.split('-')))
