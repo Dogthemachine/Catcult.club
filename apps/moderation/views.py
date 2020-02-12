@@ -145,7 +145,7 @@ def manage_iwant(request):
         date_to = list(map(int, datetime.datetime.strftime(datetime.date.today(), '%Y-%m-%d').split('-')))
 
     if show_archived:
-        if status:
+        if int(status) > 0:
             iwant = IWant.objects.filter(
                 added__date__gte=datetime.date(date_from[0], date_from[1], date_from[2]),
                 added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2]),
@@ -587,6 +587,27 @@ def add_order_item(request, id, balance_id):
             raise
             return {'success': False, 'message': _('Something went wrong.')}
         order_item.save()
+
+        return {'success': True}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
+def iwant_change_status(request, order_id):
+    try:
+        iwant = IWant.objects.get(id=order_id)
+    except:
+        return {'success': False, 'message': _('Something went wrong.')}
+    else:
+        try:
+            status = int(request.POST.get('status', None))
+            iwant.status = status
+            print('----------------', status)
+        except:
+            raise
+            return {'success': False, 'message': _('Something went wrong.')}
+        iwant.save()
 
         return {'success': True}
 

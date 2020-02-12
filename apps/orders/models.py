@@ -334,10 +334,10 @@ class IWant(models.Model):
     SENT = 4
 
     STATUS = (
-        (NEW, _('New')),
-        (VIEWED, _('Viewedl')),
-        (MADE, _('Made')),
-        (SENT, _('Sent')),
+        (NEW, _('Новый')),
+        (VIEWED, _('Просмотрено')),
+        (MADE, _('Изготовлено')),
+        (SENT, _('Отправлено')),
     )
 
     name = models.CharField(_('first name'), max_length=70)
