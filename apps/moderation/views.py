@@ -128,6 +128,7 @@ def manage_iwant(request):
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
     status = request.GET.get('status', 0)
+    filter_status = status
 
     show_archived = False
 
@@ -167,7 +168,8 @@ def manage_iwant(request):
         status.append({'name': stat[1], 'val': stat[0]})
 
     return render(request, 'moderation/i_want.html', {
-        'status': status, 'iwant': iwant, 'date_from': date_from, 'date_to': date_to
+        'status': status, 'iwant': iwant, 'date_from': date_from, 'date_to': date_to,
+        'max_status': max(IWant.STATUS)[0], 'filter_status': int(filter_status),
     })
 
 

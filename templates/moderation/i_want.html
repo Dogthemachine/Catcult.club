@@ -22,7 +22,11 @@
         <div class="form-group">
           <select name="status" id="cc-status-cb">
             {% for stat in status %}
-              <option value={{ stat.val }}>{{ stat.name }}</option>
+              {% if stat.val == filter_status %}
+                <option selected value={{ stat.val }}>{{ stat.name }}</option>
+              {% else %}
+                <option value={{ stat.val }}>{{ stat.name }}</option>
+              {% endif %}
             {% endfor %}
           </select>
         </div>
@@ -62,16 +66,18 @@
               </td>
               <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <div class="form-group">
-                  <div class="form-group">
-                      <select name="status" id="cc-iwant-status-{{ order.id }}">
-                          {% for stat in status %}
-                              {% if stat.val > 0 %}
-                                <option value={{ stat.val }}>{{ stat.name }}</option>
-                              {% endif %}
-                          {% endfor %}
-                      </select>
-                  </div>
+                  {% if order.status < max_status %}
+                    <div class="form-group">
+                        <select name="status" id="cc-iwant-status-{{ order.id }}">
+                            {% for stat in status %}
+                                {% if stat.val > order.status %}
+                                  <option value={{ stat.val }}>{{ stat.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
                   <button class="btn cc-iwant-change" data-order-id="{{ order.id }}">{% trans 'Change' %}</button>
+                  {% endif %}
                 </div>
               </td>
             </tr>
