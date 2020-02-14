@@ -258,7 +258,12 @@ $(document).ready(function() {
                 $('#cc-orders-link').html(
                     '<b><span class="icon-star"></span> ' + data.count + '</b>'
                 );
-            }
+            };
+            if (data.iwant) {
+                $('#cc-iwant-link').html(
+                    '<b><span class="icon-radio-checked"></span> ' + data.iwant_count + '</b>'
+                );
+            };
             setTimeout(doPoll, 15000);
         });
     }

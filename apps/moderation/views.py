@@ -292,10 +292,16 @@ def manage_order(request, id):
 def check_orders(request):
     last, created = LastOrdersCheck.objects.get_or_create(id=1)
     orders = Orders.objects.filter(added__gte=last.datetime).count()
+    iwant = IWant.objects.filter(status=IWant.NEW).count()
     if orders:
-        return {'new': True, 'count': orders}
+        new_order = True
     else:
-        return {'new': False}
+        new_order = False
+    if iwant:
+        iwant_new = True
+    else:
+        iwant_new = False
+    return {'new': new_order, 'count': orders, 'iwant_count': iwant, 'iwant': iwant_new}
 
 
 @json_view()
