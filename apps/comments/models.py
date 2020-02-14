@@ -10,11 +10,22 @@ from apps.elephants.models import Items, Sets
 
 
 class Comments(models.Model):
+    NEW = 1
+    VIEWED = 2
+    ANSWERED = 3
+
+    STATUS = (
+        (NEW, _('Новый')),
+        (VIEWED, _('Просмотрено')),
+        (ANSWERED, _('Отвечено')),
+    )
+
     items = models.ForeignKey(Items, blank=True, null=True)
     sets = models.ForeignKey(Sets, blank=True, null=True)
     user = models.ForeignKey(get_user_model())
     comment = models.TextField(_('description'), blank=True, default='')
     moderated = models.BooleanField(_('moderated'), default=False)
+    status = models.PositiveIntegerField(_('new status'), choices=STATUS, default=VIEWED)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
