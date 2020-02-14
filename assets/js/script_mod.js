@@ -151,6 +151,16 @@ $(document).ready(function() {
         location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&status=' + status;
     });
 
+    $('#cc-comments-filter').on('click', function(e) {
+        e.preventDefault();
+
+        var date_from = $('#cc-date-from').val();
+        var date_to = $('#cc-date-to').val();
+        var status = $("#cc-status-cb").val();
+
+        location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&status=' + status;
+    });
+
     $('#cc-stat-sale-filter').on('click', function(e) {
         e.preventDefault();
 
@@ -252,6 +262,29 @@ $(document).ready(function() {
         });
     });
 
+    $('.cc-comments-change').on('click', function(e) {
+        e.preventDefault();
+        var comment = $(this).data('comment-id');
+        var status = $('#cc-comments-status-' + comment).val();
+        $.ajax({
+            url: 'change/' + comment + '/',
+            type: 'post',
+            data: {'status': status},
+            success: function(data) {
+                if(data.success) {
+                    location.reload();
+                } else {
+                    $('#cc-mod-messages').html(
+                        '<div class="alert alert-danger">' +
+                        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                        data.message +
+                        '</div>'
+                    );
+                }
+            }
+        });
+    });
+
     function doPoll(){
         $.get('/orders/check/', function(data) {
             if (data.new) {
@@ -262,6 +295,11 @@ $(document).ready(function() {
             if (data.iwant) {
                 $('#cc-iwant-link').html(
                     '<b><span class="icon-radio-checked"></span> ' + data.iwant_count + '</b>'
+                );
+            };
+            if (data.comm) {
+                $('#cc-comm-link').html(
+                    '<b><span class="icon-flickr"></span> ' + data.comm_count + '</b>'
                 );
             };
             setTimeout(doPoll, 15000);
