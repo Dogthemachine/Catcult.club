@@ -25,7 +25,7 @@ class Comments(models.Model):
     user = models.ForeignKey(get_user_model())
     comment = models.TextField(_('description'), blank=True, default='')
     moderated = models.BooleanField(_('moderated'), default=False)
-    status = models.PositiveIntegerField(_('new status'), choices=STATUS, default=VIEWED)
+    status = models.PositiveIntegerField(_('new status'), choices=STATUS, default=NEW)
     added = models.DateTimeField(_('added'), auto_now_add=True)
 
     class Meta:
