@@ -47,6 +47,7 @@
             <th>{% trans 'Added' %}</th>
             <th>{% trans 'Item' %}</th>
             <th>{% trans 'Customer' %}</th>
+            <th>{% trans 'Comment' %}</th>
             <th>{% trans 'Action' %}</th>
           </tr>
         </thead>
@@ -56,15 +57,18 @@
               <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                 <b>{{ order.added }}</b><br/>
               </td>
-              <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+              <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><img class="img-circle" src="/media/{{ order.item.image_small }}" width="100px" /></div>
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{ order.item.name }}<br />
                 {% trans 'Status:' %} {{ order.get_status_display }}</div>
               </td>
-              <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+              <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 {{ order.name }} {{ order.phone }} {{ order.email }}
               </td>
               <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                {{ order.comment }}
+              </td>
+              <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <div class="form-group">
                   {% if order.status < max_status %}
                     <div class="form-group">
@@ -88,6 +92,7 @@
             <td>{% trans 'Added' %}</td>
             <td>{% trans 'Item' %}</td>
             <td>{% trans 'Customer' %}</td>
+            <td>{% trans 'Comment' %}</td>
             <td>{% trans 'Action' %}</td>
           </tr>
         </tfoot>
