@@ -243,15 +243,12 @@ $(document).ready(function() {
         e.preventDefault();
         var order = $(this).data('order-id');
         var comment = $('#cc-iwant-comment-' + order).val();
-        alert(comment);
         $.ajax({
             url: 'change-comment/' + order + '/',
             type: 'post',
             data: {'comment': comment},
             success: function(data) {
                 if(data.success) {
-                    alert('-1-');
-//                    location.reload();
                 } else {
                     $('#cc-mod-messages').html(
                         '<div class="alert alert-danger">' +
