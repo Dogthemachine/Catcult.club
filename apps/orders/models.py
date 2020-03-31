@@ -330,16 +330,16 @@ def update_balance_or_order_delete(sender, instance, **kwargs):
 class IWant(models.Model):
     NEW = 100
     VIEWED = 200
+    CONTACTED = 230
+    NOT_INTEREST = 260
     MADE = 300
     SENT = 400
-    # CONTACTED = 23
-    # NOT_INTEREST = 6
 
     STATUS = (
         (NEW, _('Новый')),
         (VIEWED, _('Просмотрено')),
-        # (CONTACTED, _('Связались')),
-        # (NOT_INTEREST, _('Не интересно')),
+        (CONTACTED, _('Связались')),
+        (NOT_INTEREST, _('Не интересно')),
         (MADE, _('Изготовлено')),
         (SENT, _('Отправлено')),
     )

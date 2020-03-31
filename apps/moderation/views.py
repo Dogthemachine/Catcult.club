@@ -128,7 +128,7 @@ def manage_iwant(request):
 
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
-    status = request.GET.get('status', 0)
+    status = request.GET.get('status', 100)
     filter_status = status
 
     show_archived = False
