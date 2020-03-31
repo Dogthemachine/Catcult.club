@@ -239,7 +239,30 @@ $(document).ready(function() {
         });
     });
 
-    $('.cc-iwant-change').on('click', function(e) {
+    $('.cc-iwant-comment').on('click', function(e) {
+        e.preventDefault();
+        var order = $(this).data('order-id');
+        var comment = $('#cc-iwant-comment-' + order).val();
+        $.ajax({
+            url: 'change-comment/' + order + '/',
+            type: 'post',
+            data: {'comment': comment},
+            success: function(data) {
+                if(data.success) {
+//                    location.reload();
+                } else {
+                    $('#cc-mod-messages').html(
+                        '<div class="alert alert-danger">' +
+                        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                        data.message +
+                        '</div>'
+                    );
+                }
+            }
+        });
+    });
+
+        $('.cc-iwant-change').on('click', function(e) {
         e.preventDefault();
         var order = $(this).data('order-id');
         var status = $('#cc-iwant-status-' + order).val();

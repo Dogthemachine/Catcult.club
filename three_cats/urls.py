@@ -13,7 +13,7 @@ from apps.comments.views import comment, replay, replay_activate, replay_deactiv
 from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
     delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
     j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
-    stat_sale, stat_ending, stat_payment, manage_iwant, iwant_change_status, manage_comments, comment_change_status
+    stat_sale, stat_ending, stat_payment, manage_iwant, iwant_change_status, iwant_change_comment, manage_comments, comment_change_status
 from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, wfp_callback, messages_off, \
     cart_valuta, cart_plus
 from django.views.generic import TemplateView
@@ -98,6 +98,7 @@ urlpatterns += i18n_patterns(
     url(r'^order_payment/(?P<id>\d+)/$', order_comment, name='order_payment'),
     url(r'^stat/payment/$', stat_payment, name='stat_payment'),
     url(r'^i-want-mod/change/(?P<order_id>\d+)/$', iwant_change_status, name='iwant_change_status'),
+    url(r'^i-want-mod/change-comment/(?P<order_id>\d+)/$', iwant_change_comment, name='iwant_change_comment'),
     url(r'^comments-mod/change/(?P<comment_id>\d+)/$', comment_change_status, name='comment_change_status'),
 
     # Statistics
