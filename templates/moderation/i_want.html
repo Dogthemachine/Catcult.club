@@ -66,10 +66,8 @@
                 {{ order.name }} {{ order.phone }} {{ order.email }}
               </td>
               <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <textarea rows="7" id="cc-iwant-comment-{{ order.id }}" class="form-control" type="text">{{ order.comment }}</textarea>
+                <textarea rows="7" id="cc-iwant-comment-{{ order.id }}" class="form-control" type="text">{{ order.comment }}</textarea><br />
                 <button class="btn cc-iwant-comment" data-order-id="{{ order.id }}">{% trans 'Update' %}</button>
-                <!--<button class="btn cc-save-comment" data-balance-id="{{ order.id }}">{% trans 'Update' %}</button>-->
-                <!--{{ order.comment }}-->
               </td>
               <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <div class="form-group">
