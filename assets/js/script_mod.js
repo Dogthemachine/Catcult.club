@@ -261,12 +261,34 @@ $(document).ready(function() {
         });
     });
 
-        $('.cc-iwant-change').on('click', function(e) {
+    $('.cc-iwant-change').on('click', function(e) {
         e.preventDefault();
         var order = $(this).data('order-id');
         var status = $('#cc-iwant-status-' + order).val();
         $.ajax({
             url: 'change/' + order + '/',
+            type: 'post',
+            data: {'status': status},
+            success: function(data) {
+                if(data.success) {
+                    location.reload();
+                } else {
+                    $('#cc-mod-messages').html(
+                        '<div class="alert alert-danger">' +
+                        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                        data.message +
+                        '</div>'
+                    );
+                }
+            }
+        });
+    });
+
+    $('.cc-iwant-delete').on('click', function(e) {
+        e.preventDefault();
+        var order = $(this).data('order-id');
+        $.ajax({
+            url: 'delete/' + order + '/',
             type: 'post',
             data: {'status': status},
             success: function(data) {

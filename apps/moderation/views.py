@@ -681,6 +681,18 @@ def iwant_change_status(request, order_id):
 @json_view()
 @login_required(login_url='/login/')
 @permission_required('info.delete_info', login_url='/login/')
+def iwant_delete(request, order_id):
+    try:
+        iwant = IWant.objects.get(id=order_id)
+        iwant.delete()
+        return {'success': True}
+    except:
+        return {'success': False, 'message': _('Something went wrong.')}
+
+
+@json_view()
+@login_required(login_url='/login/')
+@permission_required('info.delete_info', login_url='/login/')
 def iwant_change_comment(request, order_id):
     try:
         iwant = IWant.objects.get(id=order_id)
