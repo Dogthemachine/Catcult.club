@@ -93,7 +93,7 @@ class Artists(models.Model):
 class Items(models.Model):
     name = models.CharField(_('name'), max_length=250)
     fashions = models.ForeignKey(Fashions)
-    artist = models.ForeignKey(Artists, blank=True, null=True)
+    artist = models.ForeignKey(Artists, on_delete=models.SET_NULL, blank=True, null=True)
     image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
     image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
     description = models.TextField(_('description'), blank=True, default='')
