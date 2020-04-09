@@ -72,17 +72,19 @@
               <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <div class="form-group">
                   {% if order.status < max_status %}
-                    <div class="form-group">
-                        <select name="status" id="cc-iwant-status-{{ order.id }}">
-                            {% for stat in status %}
-                                {% if stat.val > order.status %}
-                                  <option value={{ stat.val }}>{{ stat.name }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                  <button class="btn cc-iwant-change" data-order-id="{{ order.id }}">{% trans 'Change' %}</button>
-                  <button class="btn btn-danger cc-iwant-delete" data-order-id="{{ order.id }}">{% trans 'Delete' %}</button>
+                      <div class="form-group">
+                          <select name="status" id="cc-iwant-status-{{ order.id }}">
+                              {% for stat in status %}
+                                  {% if stat.val > order.status %}
+                                    <option value={{ stat.val }}>{{ stat.name }}</option>
+                                  {% endif %}
+                              {% endfor %}
+                          </select>
+                      </div>
+                    <button class="btn cc-iwant-change" data-order-id="{{ order.id }}">{% trans 'Change' %}</button>
+                  {% endif %}
+                  {% if order.status <= max_status %}
+                    <button class="btn btn-danger cc-iwant-delete" data-order-id="{{ order.id }}">{% trans 'Delete' %}</button>
                   {% endif %}
                 </div>
               </td>
