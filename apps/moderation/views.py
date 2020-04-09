@@ -159,7 +159,7 @@ def manage_iwant(request):
                 added__date__lte=datetime.date(date_to[0], date_to[1], date_to[2])
             ).order_by('-added')
     else:
-        iwant = IWant.objects.all().order_by('-added')
+        iwant = IWant.objects.filter(status=status).order_by('-added')
 
     date_from = '-'.join(list(map(str, date_from)))
     date_to = '-'.join(list(map(str, date_to)))
