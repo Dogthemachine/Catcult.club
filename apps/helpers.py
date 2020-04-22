@@ -69,6 +69,10 @@ def delivery_cost_sum(country, cart):
     dc = DeliveryCost.objects.filter(country=country, weigth_from__lte=w, weigth_to__gt=w)
     if dc:
         dc_sum = dc[0].cost
+    else:
+        dc = DeliveryCost.objects.filter(country=country).order_by('-weigth_to')
+        if dc:
+            dc_sum = dc[0].cost
 
     return dc_sum
 
