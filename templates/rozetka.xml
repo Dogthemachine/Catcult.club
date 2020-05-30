@@ -25,6 +25,9 @@
                     <offer id="{{ offer.id }}" available="true">
                         <url>https://catcult.club/ru/item/{{ offer.id }}/</url>
                         <price>{{ offer.price }}</price>
+                        {% if offer.price_old_rozetka and offer.price_old_rozetka > 0 %}
+                            <price_old>{{ offer.price_old_rozetka }}</price_old>
+                        {% endif %}
                         <stock_quantity>{{ offer.stock_quantity }}</stock_quantity>
                         <currencyId>UAH</currencyId>
                         <categoryId>{{ offer.fashions.categories.id }}</categoryId>
