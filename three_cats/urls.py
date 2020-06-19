@@ -130,3 +130,9 @@ urlpatterns += i18n_patterns(
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+   import debug_toolbar
+   urlpatterns += [
+       url(r'^__debug__/', include(debug_toolbar.urls)),
+   ]
