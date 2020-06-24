@@ -53,7 +53,9 @@
                 {% for balance in item.balance_set.all %}
                   <div class="cc-table-margin">
                     <input id="cc-sizes-{{ balance.id }}" class="form-control" type="text" value="{{ balance.amount }}">
-                    <button class="btn cc-save-balance" data-balance-id="{{ balance.id }}">{% trans 'Update' %}</button>
+                    {% if user.is_superuser %}
+                      <button class="btn cc-save-balance" data-balance-id="{{ balance.id }}">{% trans 'Update' %}</button>
+                    {% endif %}
                   </div>
                 {% endfor %}
               </td>
