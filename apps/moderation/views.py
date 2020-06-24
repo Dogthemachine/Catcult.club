@@ -89,7 +89,6 @@ def log(request):
     else:
         date_from = list(map(int, datetime.datetime.strftime(datetime.date.today() - datetime.timedelta(days=30), '%Y-%m-%d').split('-')))
 
-
     if date_to:
         date_to = list(map(int, date_to.split('-')))
     else:

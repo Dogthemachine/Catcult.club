@@ -106,6 +106,8 @@ class Items(models.Model):
     views_today = models.PositiveIntegerField(_('views today'), default=0)
     views_month = models.CharField(_('views month'), default=0, max_length=512)
     showcase_displayed = models.BooleanField(_('showcase_displayed'), default=True)
+    showcase_avail = models.BooleanField(_('showcase_avail'), default=False)
+    showcase_new = models.BooleanField(_('showcase_new'), default=True)
     title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
     description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
     rozetka = models.BooleanField(_('to rozetka'), default=False)

@@ -136,8 +136,10 @@ $(document).ready(function() {
 
         var date_from = $('#cc-date-from').val();
         var date_to = $('#cc-date-to').val();
+        var arrival = $('#cc-arrival-cb').prop('checked')
+        alert(arrival)
 
-        location.search = '?date_from=' + date_from + '&date_to=' + date_to;
+        location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&arrival=' + arrival;
     });
 
     $('#cc-iwant-filter').on('click', function(e) {

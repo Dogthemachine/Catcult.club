@@ -50,6 +50,7 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
 
     elif category:
         if category.set:
+            # items = Sets.objects.filter(categories=category)
             sets = Sets.objects.filter(categories=category)
             items = []
         else:
