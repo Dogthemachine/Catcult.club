@@ -46,77 +46,77 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
     if category and fashion:
         fashions = Fashions.objects.filter(categories=category, displayed=True)
         items = Items.objects.filter(fashions=fashion, showcase_displayed=True)
-        sets = []
+        # sets = []
 
     elif category:
         if category.set:
-            # items = Sets.objects.filter(categories=category)
-            sets = Sets.objects.filter(categories=category)
-            items = []
+            items = Sets.objects.filter(categories=category)
+            # sets = Sets.objects.filter(categories=category)
+            # items = []
         else:
             items = Items.objects.filter(fashions__categories=category, showcase_displayed=True)
-            sets = []
+            # sets = []
         fashions = Fashions.objects.filter(categories=category, displayed=True)
 
     elif artist_id:
         artist = Artists.objects.get(pk=artist_id)
         items = Items.objects.filter(artist=artist, showcase_displayed=True)
-        sets = []
+        # sets = []
 
     else:
-        items = Items.objects.filter(showcase_displayed=True)
-        sets = Sets.objects.all()
+        items = Items.objects.filter(showcase_displayed=True).order_by('-showcase_new', '-showcase_avail', '-views')
+        # sets = Sets.objects.all()
 
-    avail_items = []
-    not_avail_items = []
-    new_items = []
-
-    for item in items:
-        for balance in item.balance_set.all():
-            if balance.amount > 0:
-                item.is_set = False
-                if datetime(item.added.year, item.added.month, item.added.day) < datetime.today()-timedelta(days=15):
-                    avail_items.append(item)
-                else:
-                    new_items.append(item)
-                break
-
-    for item in items:
-        amount = []
-
-        for balance in item.balance_set.all():
-            if balance.amount == 0:
-                amount.append(balance)
-
-        if len(amount) == item.balance_set.count():
-            item.is_set = False
-            not_avail_items.append(item)
-
-    if sets:
-        for set in sets:
-            i = Items.objects.filter(sets=set)
-            res = False
-            if i:
-                res = True
-            for item in i:
-                balances = Balance.objects.filter(item=item)
-                am = False
-                for balance in balances:
-                    if balance.amount > 0:
-                        am = True
-                res = res and am
-            if res:
-                set.is_set = True
-                avail_items.append(set)
-            else:
-                set.is_set = True
-                not_avail_items.append(set)
-
-    avail_items.sort(key=lambda x: x.views, reverse=True)
-
-    not_avail_items.sort(key=lambda x: x.views, reverse=True)
-
-    items = new_items + avail_items + not_avail_items
+    # avail_items = []
+    # not_avail_items = []
+    # new_items = []
+    #
+    # for item in items:
+    #     for balance in item.balance_set.all():
+    #         if balance.amount > 0:
+    #             item.is_set = False
+    #             if datetime(item.added.year, item.added.month, item.added.day) < datetime.today()-timedelta(days=15):
+    #                 avail_items.append(item)
+    #             else:
+    #                 new_items.append(item)
+    #             break
+    #
+    # for item in items:
+    #     amount = []
+    #
+    #     for balance in item.balance_set.all():
+    #         if balance.amount == 0:
+    #             amount.append(balance)
+    #
+    #     if len(amount) == item.balance_set.count():
+    #         item.is_set = False
+    #         not_avail_items.append(item)
+    #
+    # if sets:
+    #     for set in sets:
+    #         i = Items.objects.filter(sets=set)
+    #         res = False
+    #         if i:
+    #             res = True
+    #         for item in i:
+    #             balances = Balance.objects.filter(item=item)
+    #             am = False
+    #             for balance in balances:
+    #                 if balance.amount > 0:
+    #                     am = True
+    #             res = res and am
+    #         if res:
+    #             set.is_set = True
+    #             avail_items.append(set)
+    #         else:
+    #             set.is_set = True
+    #             not_avail_items.append(set)
+    #
+    # avail_items.sort(key=lambda x: x.views, reverse=True)
+    #
+    # not_avail_items.sort(key=lambda x: x.views, reverse=True)
+    #
+    # items = new_items + avail_items + not_avail_items
 
     paginator = Paginator(items, 12)
 
