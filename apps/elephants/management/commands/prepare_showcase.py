@@ -19,8 +19,9 @@ class Command(BaseCommand):
             for balance in item.balance_set.all():
                 if balance.amount > 0:
                     showcase_avail = True
-                    if datetime(item.added.year, item.added.month, item.added.day) < datetime.today() - timedelta(days=15):
-                        showcase_new = True
+
+            if datetime(item.added.year, item.added.month, item.added.day) >= datetime.today() - timedelta(days=15):
+                showcase_new = True
 
             item.showcase_new = showcase_new
             item.showcase_avail = showcase_avail
