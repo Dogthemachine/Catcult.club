@@ -5,6 +5,7 @@
 {% load socialaccount %}
 {% load account %}
 {% load humanize %}
+{% load cache %}
 
 {% crispy comment_form comment_form.helper %}
 
@@ -34,55 +35,64 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-8 col-sm-6 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-zoom">
-          <div class="row">
-            <img class="img-responsive img-rounded" src="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}"/>
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div id="cc-product-photos">
+
+    {% cache 21600 item_template_top item.id %}
+
+      <div class="col-xs-8 col-sm-6 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cc-zoom">
             <div class="row">
-              <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
-                <div class="cc-product-photo">
-                  <a class="cc-product-active-photo" href="#" data-image="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}">
-                    <img class="img-responsive img-circle" title="{{ d_t }}" alt="{{ d_a }}" src="{{ MEDIA_URL }}{{ item.image_small }}">
-                  </a>
-                </div>
-              </div>
-              {% for entry in photos %}
+              <img class="img-responsive img-rounded" src="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}"/>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="cc-product-photos">
+              <div class="row">
                 <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                   <div class="cc-product-photo">
-                    <a href="#" data-image="{{ MEDIA_URL }}{{ entry.image }}" data-zoom-image="{{ MEDIA_URL }}{{ entry.image }}">
-                      <img class="img-responsive img-circle" title="{{ d_t }} {{ forloop.counter }}" alt="{{ d_a }} {{ forloop.counter }}" src="{{ MEDIA_URL }}{{ entry.image_small }}">
+                    <a class="cc-product-active-photo" href="#" data-image="{{ MEDIA_URL }}{{ item.image }}" data-zoom-image="{{ MEDIA_URL }}{{ item.image }}">
+                      <img class="img-responsive img-circle" title="{{ d_t }}" alt="{{ d_a }}" src="{{ MEDIA_URL }}{{ item.image_small }}">
                     </a>
                   </div>
                 </div>
-              {% endfor %}
+                {% for entry in photos %}
+                  <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                    <div class="cc-product-photo">
+                      <a href="#" data-image="{{ MEDIA_URL }}{{ entry.image }}" data-zoom-image="{{ MEDIA_URL }}{{ entry.image }}">
+                        <img class="img-responsive img-circle" title="{{ d_t }} {{ forloop.counter }}" alt="{{ d_a }} {{ forloop.counter }}" src="{{ MEDIA_URL }}{{ entry.image_small }}">
+                      </a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+    {% endcache %}
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 cs-info">
 
-      {% if item.artist  %}
-        <div itemprop="artist">
-          <p>
-            <img class="cc-artist img-circle" title="{{ item.artist.description }}" alt="{{ item.artist.description }}" src="{{ MEDIA_URL }}{{ item.artist.image }}">
-            <a href="{% url 'showcase_artist' item.artist.id %}">{{ item.artist.name }}</a>
-          </p>
+      {% cache 21600 item_template item.id %}
+
+        {% if item.artist  %}
+          <div itemprop="artist">
+            <p>
+              <img class="cc-artist img-circle" title="{{ item.artist.description }}" alt="{{ item.artist.description }}" src="{{ MEDIA_URL }}{{ item.artist.image }}">
+              <a href="{% url 'showcase_artist' item.artist.id %}">{{ item.artist.name }}</a>
+            </p>
+          </div>
+        {% endif %}
+
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <p class="cc-cena"><span itemprop="price">{% get_price item request %}</span> <span itemprop="priceCurrency" content="UAH">{% get_price_description request %}</span></p>
+          <link itemprop="availability" href="http://schema.org/OnStock" />
         </div>
-      {% endif %}
 
-      <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-        <p class="cc-cena"><span itemprop="price">{% get_price item request %}</span> <span itemprop="priceCurrency" content="UAH">{% get_price_description request %}</span></p>
-        <link itemprop="availability" href="http://schema.org/OnStock" />
-      </div>
+        <div itemprop="description"><p>{{ item.details|safe }}</p></div>
 
-      <div itemprop="description"><p>{{ item.details|safe }}</p></div>
+      {% endcache %}
 
       {% if item.get_amount  %}
         {% if form %}
