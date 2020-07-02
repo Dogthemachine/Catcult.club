@@ -45,26 +45,26 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
 
     if category and fashion:
         fashions = Fashions.objects.filter(categories=category, displayed=True)
-        items = Items.objects.filter(fashions=fashion, showcase_displayed=True)
+        items = Items.objects.filter(fashions=fashion, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
         # sets = []
 
     elif category:
         if category.set:
-            items = Sets.objects.filter(categories=category)
+            items = Sets.objects.filter(categories=category).order_by('-showcase_avail', '-showcase_new', '-views')
             # sets = Sets.objects.filter(categories=category)
             # items = []
         else:
-            items = Items.objects.filter(fashions__categories=category, showcase_displayed=True)
+            items = Items.objects.filter(fashions__categories=category, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
             # sets = []
         fashions = Fashions.objects.filter(categories=category, displayed=True)
 
     elif artist_id:
         artist = Artists.objects.get(pk=artist_id)
-        items = Items.objects.filter(artist=artist, showcase_displayed=True)
+        items = Items.objects.filter(artist=artist, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
         # sets = []
 
     else:
-        items = Items.objects.filter(showcase_displayed=True).order_by('-showcase_new', '-showcase_avail', '-views')
+        items = Items.objects.filter(showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
         # sets = Sets.objects.all()
 
     # avail_items = []
