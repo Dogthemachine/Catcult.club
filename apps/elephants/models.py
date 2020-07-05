@@ -5,10 +5,13 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.db.models import Sum
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.core.cache import cache
+
+from django.core.cache.utils import make_template_fragment_key
 
 
 class Categories(models.Model):
@@ -424,6 +427,10 @@ class BalanceLog(models.Model):
         return "%s - %s" % (self.balance, self.change_time)
 
 
+def template_cache_key(name, *args):
+    return make_template_fragment_key(name, args)
+
+
 @receiver(post_save, sender=Items)
 def create_item_balance(sender, instance, created, **kwargs):
     if created:
@@ -436,9 +443,42 @@ def create_item_balance(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Sizes)
 def create_size_balance(sender, instance, created, **kwargs):
+    item = instance.item
+    cache.delete(template_cache_key('item_template_1', item.id))
+    cache.delete(template_cache_key('item_template_2', item.id))
+    cache.delete(template_cache_key('item_template_3', item.id))
+    cache.delete(template_cache_key('item_template_4', item.id))
     if created:
         category = instance.categories
         items = Items.objects.filter(fashions__categories=category)
         for item in items:
             balance = Balance(item=item, size=instance)
             balance.save()
+
+
+@receiver(post_save, sender=Photo)
+def delete_item_cache(sender, instance, **kwargs):
+    item = instance.item
+    cache.delete(template_cache_key('item_template_2', item.id))
+    cache.delete(template_cache_key('item_template_3', item.id))
+    cache.delete(template_cache_key('item_template_4', item.id))
+
+
+@receiver(post_delete, sender=Photo)
+def delete_item_cache(sender, instance, **kwargs):
+    item = instance.item
+    cache.delete(template_cache_key('item_template_2', item.id))
+    cache.delete(template_cache_key('item_template_3', item.id))
+    cache.delete(template_cache_key('item_template_4', item.id))
+
+
+@receiver(post_save, sender=Balance)
+def delete_item_cache(sender, instance, **kwargs):
+    item = instance.item
+    cache.delete(template_cache_key('item_template_2', item.id))
+    cache.delete(template_cache_key('item_template_3', item.id))
+    cache.delete(template_cache_key('item_template_4', item.id))
+
+    showcase_avail = item.get_amount()
+    item.showcase_avail = showcase_avail
+    item.save()

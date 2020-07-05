@@ -1,8 +1,12 @@
 from allauth.utils import get_user_model
 from django_resized import ResizedImageField
 from solo.models import SingletonModel
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.core.cache import cache
 
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.cache.utils import make_template_fragment_key
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -52,3 +56,23 @@ class Reply_to_comments(models.Model):
 
     def __str__(self):
         return u'%s' % self.comments
+
+
+def template_cache_key(name, *args):
+    return make_template_fragment_key(name, args)
+
+
+@receiver(post_save, sender=Comments)
+def delete_item_cache(sender, instance, **kwargs):
+    item = instance.items
+    cache.delete(template_cache_key('item_template_2', item.id))
+    cache.delete(template_cache_key('item_template_3', item.id))
+    cache.delete(template_cache_key('item_template_4', item.id))
+
+
+@receiver(post_delete, sender=Comments)
+def delete_item_cache(sender, instance, **kwargs):
+    item = instance.items
+    cache.delete(template_cache_key('item_template_2', item.id))
+    cache.delete(template_cache_key('item_template_3', item.id))
+    cache.delete(template_cache_key('item_template_4', item.id))
