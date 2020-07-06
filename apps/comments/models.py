@@ -65,14 +65,10 @@ def template_cache_key(name, *args):
 @receiver(post_save, sender=Comments)
 def delete_item_cache(sender, instance, **kwargs):
     item = instance.items
-    cache.delete(template_cache_key('item_template_2', item.id))
-    cache.delete(template_cache_key('item_template_3', item.id))
-    cache.delete(template_cache_key('item_template_4', item.id))
+    cache.delete(template_cache_key('item_template', item.id))
 
 
 @receiver(post_delete, sender=Comments)
 def delete_item_cache(sender, instance, **kwargs):
     item = instance.items
-    cache.delete(template_cache_key('item_template_2', item.id))
-    cache.delete(template_cache_key('item_template_3', item.id))
-    cache.delete(template_cache_key('item_template_4', item.id))
+    cache.delete(template_cache_key('item_template', item.id))
