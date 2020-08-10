@@ -5,7 +5,6 @@
 {% load socialaccount %}
 {% load account %}
 {% load humanize %}
-{% load cache %}
 
 {% crispy comment_form comment_form.helper %}
 
@@ -22,8 +21,6 @@
   <div itemscope itemtype="https://schema.org/Product">
   <meta itemprop="url" content="{{ request.get_host }}{{ request.get_full_path }}">
   <meta itemprop="image" content="{{ request.get_host }}{{ MEDIA_URL }}{{ item.image }}">
-
-  {% cache 21600 item_template item.id %}
 
   <div class="row">
     <div itemprop="name" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
@@ -218,8 +215,6 @@
     </div>
 
   </div>
-
-  {% endcache %}
 
   </div>
 
