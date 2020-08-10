@@ -59,8 +59,11 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
         fashions = Fashions.objects.filter(categories=category, displayed=True)
 
     elif artist_id:
-        artist = Artists.objects.get(pk=artist_id)
-        items = Items.objects.filter(artist=artist, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
+        try:
+            artist = Artists.objects.get(pk=artist_id)
+            items = Items.objects.filter(artist=artist, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
+        except Artists.DoesNotExist:
+            items = Items.objects.all()
         # sets = []
 
     else:
