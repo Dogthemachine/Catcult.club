@@ -570,7 +570,7 @@ def j_order_payment_delete(request, id):
 
     payment.delete()
 
-    if payment.order.get_total_price() == payment.order.get_total_paid():
+    if payment.order.get_total_price(request) == payment.order.get_total_paid():
         payment.order.paid = True
         payment.order.save()
     else:
