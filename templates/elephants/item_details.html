@@ -80,7 +80,7 @@
 
       <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
         <p class="cc-cena"><span itemprop="price">{% get_price item request %}</span> <span itemprop="priceCurrency" content="UAH">{% get_price_description request %}</span></p>
-        <link itemprop="availability" href="http://schema.org/OnStock" />
+        <link itemprop="availability" href="http://schema.org/InStock" />
       </div>
 
       <div itemprop="description"><p>{{ item.details|safe }}</p></div>
