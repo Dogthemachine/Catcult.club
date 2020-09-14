@@ -15,6 +15,7 @@ DEBUG = os.environ.get('TC_DEBUG')
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get('TC_HOSTNAME')]
 
 INSTALLED_APPS = [
+    'cacheops',
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -85,12 +86,16 @@ TEMPLATES = [
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT')+"/1",
+        "LOCATION": "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT') + "/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+CACHEOPS_REDIS = "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT') + "/1"
 
 WSGI_APPLICATION = 'three_cats.wsgi.application'
 
@@ -99,6 +104,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.environ.get('TC_DB_PATH'),
     }
+}
+
+CACHEOPS_DEFAULTS = {
+    'timeout': 60*60
+}
+
+CACHEOPS = {
+    'elephants.*': {'ops': 'all'},
+    'comments.*': {'ops': 'all'},
+    'orders.*': {'ops': 'all'},
+    'info.*': {'ops': 'all'},
 }
 
 AUTH_PASSWORD_VALIDATORS = [
