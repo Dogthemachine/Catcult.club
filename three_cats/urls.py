@@ -1,22 +1,76 @@
 from django.conf import settings
-from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.urls import include, path
 
-from apps.elephants.views import showcase, item_details, item_set_details, stocks, i_want, artists
+from apps.elephants.views import (
+    showcase,
+    item_details,
+    item_set_details,
+    stocks,
+    i_want,
+    artists,
+)
 from apps.info.views import user_login, user_logout, feedback, topic_view, contacts
 from apps.main_page.views import main_page
-from apps.gallery.views import gallery, gallery_photo, gallery_photo_mod,  gallery_photo_buy
-from apps.comments.views import comment, replay, replay_activate, replay_deactivate, replay_delete, \
-    comment_activate, comment_deactivate, comment_delete, comments
-from apps.moderation.views import balances, log, balances_update, export_balance, manage_orders, manage_order, \
-    delete_order_item, add_order_item, delete_order, check_orders, order_comment, order_delivery, j_order_info, \
-    j_order_delete, j_order_comment, j_order_delivery, j_order_payment, j_order_payment_delete, j_order_packed, \
-    stat_sale, stat_ending, stat_payment, manage_iwant, iwant_change_status, iwant_change_comment, manage_comments, \
-    comment_change_status, iwant_delete
-from apps.orders.views import cart, cart_checkout, cart_remove, liqpay_callback, wfp_callback, messages_off, \
-    cart_valuta, cart_plus
+from apps.gallery.views import (
+    gallery,
+    gallery_photo,
+    gallery_photo_mod,
+    gallery_photo_buy,
+)
+from apps.comments.views import (
+    comment,
+    replay,
+    replay_activate,
+    replay_deactivate,
+    replay_delete,
+    comment_activate,
+    comment_deactivate,
+    comment_delete,
+    comments,
+)
+from apps.moderation.views import (
+    balances,
+    log,
+    balances_update,
+    export_balance,
+    manage_orders,
+    manage_order,
+    delete_order_item,
+    add_order_item,
+    delete_order,
+    check_orders,
+    order_comment,
+    order_delivery,
+    j_order_info,
+    j_order_delete,
+    j_order_comment,
+    j_order_delivery,
+    j_order_payment,
+    j_order_payment_delete,
+    j_order_packed,
+    stat_sale,
+    stat_ending,
+    stat_payment,
+    manage_iwant,
+    iwant_change_status,
+    iwant_change_comment,
+    manage_comments,
+    comment_change_status,
+    iwant_delete,
+)
+from apps.orders.views import (
+    cart,
+    cart_checkout,
+    cart_remove,
+    # liqpay_callback,
+    wfp_callback,
+    messages_off,
+    cart_valuta,
+    cart_plus,
+)
 from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
 from apps.sitemap import sitemaps
@@ -25,114 +79,178 @@ from django.views.decorators.cache import cache_page
 from apps.helpers import rozetka
 
 urlpatterns = [
-    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'), name='robots_file'),
-    url(r'^sitemap\.xml$', cache_page(3600)(sitemap), {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-
-    url('accounts/', include('allauth.urls')),
-    #url(r'^liqpay_callback/$', liqpay_callback, name='liqpay_callback'),
-    url(r'^wfp_callback/$', wfp_callback, name='wfp_callback'),
+    path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        name="robots_file",
+    ),
+    path(
+        "sitemap.xml",
+        cache_page(3600)(sitemap),
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+    path("accounts/", include("allauth.urls")),
+    # url(r'^liqpay_callback/', liqpay_callback, name='liqpay_callback'),
+    path("wfp_callback/", wfp_callback, name="wfp_callback"),
 ]
 
-urlpatterns += i18n_patterns(
-    url(r'^$', showcase, name='main_page'),
-    url(r'^rozetka_DrStcK5\.xml$', rozetka, name='rozetka'),
-
-    url(r'^admin/', admin.site.urls),
-    url(r'^login/$', user_login, name='user_login'),
-    url(r'^logout/$', user_logout, name='user_logout'),
-
-    # Info
-    url(r'^main/$', main_page, name='main_info'),
-    url(r'^feedback/$', feedback, name='feedback'),
-    url(r'^contacts/$', contacts, {'topic': 'contacts'}, name='contacts'),
-    url(r'^about/$', topic_view, {'topic': 'about_us'}, name='about_us'),
-    url(r'^policies_privacy/$', topic_view, {'topic': 'privacy'}, name='policies_privacy'),
-    url(r'^policies_terms/$', topic_view, {'topic': 'terms'}, name='policies_terms'),
-    #url(r'^partners/$', topic_view, {'topic': 'partners'}, name='partners'),
-
-    # Shop
-    url(r'^showcase/(?P<category_id>\d+)/$', showcase, name='showcase_cat'),
-    url(r'^showcase-artist/(?P<artist_id>\d+)/$', showcase, name='showcase_artist'),
-    url(r'^showcase/(?P<category_id>\d+)/(?P<fashion_id>\d+)/$', showcase, name='showcase_cat_fas'),
-    url(r'^item/(?P<id>\d+)/$', item_details, name='item_details'),
-    url(r'^item-set/(?P<id>\d+)/$', item_set_details, name='item_set_details'),
-    url(r'^stocks/$', stocks, name='stocks'),
-    url(r'^i-want/(?P<id>\d+)/$', i_want, name='i_want'),
-    url(r'^artists/$', artists, name='artists'),
-    #url(r'^stock/(?P<id>\d+)/$', stock_details, name='stock_details'),
-
-    # Comments
-    url(r'^comment/$', comment, name='comment'),
-    url(r'^comments/$', comments, name='all_comments'),
-    url(r'^replay/$', replay, name='replay'),
-    url(r'^replay-activate/(?P<comm_id>\d+)/$', replay_activate, name='replay_activate'),
-    url(r'^replay-deactivate/(?P<comm_id>\d+)/$', replay_deactivate, name='replay_deactivate'),
-    url(r'^replay-delete/(?P<comm_id>\d+)/$', replay_delete, name='replay_delete'),
-    url(r'^comment-activate/(?P<comm_id>\d+)/$', comment_activate, name='comment_activate'),
-    url(r'^comment-deactivate/(?P<comm_id>\d+)/$', comment_deactivate, name='comment_deactivate'),
-    url(r'^comment-delete/(?P<comm_id>\d+)/$', comment_delete, name='comment_delete'),
-
-    # Moderator
-    url(r'^orders/$', manage_orders, name='orders'),
-    url(r'^i-want-mod/$', manage_iwant, name='i_want_mod'),
-    url(r'^comments-mod/$', manage_comments, name='comments_mod'),
-    url(r'^orders/check/$', check_orders, name='check_orders'),
-    url(r'^orders/(?P<id>\d+)/$', manage_order, name='manage_order'),
-    url(r'^orders/(?P<id>\d+)/info/$', j_order_info, name='order_info'),
-    url(r'^orders/(?P<id>\d+)/delete/$', j_order_delete, name='order_delete'),
-    url(r'^orders/(?P<id>\d+)/comment/$', j_order_comment, name='order_comment'),
-    url(r'^orders/(?P<id>\d+)/delivery/$', j_order_delivery, name='order_delivery'),
-    url(r'^orders/(?P<id>\d+)/packed/$', j_order_packed, name='order_packed'),
-    url(r'^orders/(?P<id>\d+)/delivery/reset/$', j_order_delivery, {'reset': True}, name='order_delivery_reset'),
-    url(r'^orders/(?P<id>\d+)/payment/$', j_order_payment, name='order_payment'),
-    url(r'^orders/payment/(?P<id>\d+)/delete/$', j_order_payment_delete, name='order_payment_delete'),
-    url(r'^orders/delete/(?P<id>\d+)/$', delete_order, name='delete_order'),
-    url(r'^orders/(?P<id>\d+)/delete/(?P<item_id>\d+)/$', delete_order_item, name='delete_order_item'),
-    url(r'^orders/(?P<id>\d+)/add/(?P<balance_id>\d+)/$', add_order_item, name='add_order_item'),
-    url(r'^balances/$', balances, name='balances'),
-    url(r'^balances/update/$', balances_update, name='balances_update'),
-    url(r'^balances/download/$', export_balance, name='export_balance'),
-    url(r'^log/$', log, name='log'),
-    url(r'^order_info/(?P<id>\d+)/$', order_comment, name='order_payment'),
-    url(r'^order_comment/(?P<id>\d+)/$', order_comment, name='order_comment'),
-    url(r'^order_delivery/(?P<id>\d+)/$', order_comment, name='order_delivery'),
-    url(r'^order_payment/(?P<id>\d+)/$', order_comment, name='order_payment'),
-    url(r'^stat/payment/$', stat_payment, name='stat_payment'),
-    url(r'^i-want-mod/change/(?P<order_id>\d+)/$', iwant_change_status, name='iwant_change_status'),
-    url(r'^i-want-mod/delete/(?P<order_id>\d+)/$', iwant_delete, name='iwant_delete'),
-    url(r'^i-want-mod/change-comment/(?P<order_id>\d+)/$', iwant_change_comment, name='iwant_change_comment'),
-    url(r'^comments-mod/change/(?P<comment_id>\d+)/$', comment_change_status, name='comment_change_status'),
-
-    # Statistics
-    url(r'^stat/sale/$', stat_sale, name='stat_sale'),
-    url(r'^stat/ending0/$', stat_ending, {'rest': 0}, name='stat_ending_0'),
-    url(r'^stat/ending1/$', stat_ending, {'rest': 1}, name='stat_ending_1'),
-
-    # Gallery
-    url(r'^gallery/$', gallery, name='gallery'),
-    url(r'^gallery/(?P<id>\d+)/$', gallery_photo, name='gallery_photo'),
-    url(r'^gallery/photo/(?P<id>\d+)/$', gallery_photo_mod, name='gallery_photo_mod'),
-    url(r'^gallery/photo_buy/(?P<id>\d+)/$', gallery_photo_buy, name='gallery_photo_buy'),
-
-    # Orders
-    url(r'^messages_off/(?P<id>\d+)/$', messages_off, name='messages_off'),
-
-    # Cart
-    url(r'^cart/$', cart, name='cart'),
-    url(r'^cart/(?P<id>\d+)/remove/$', cart_remove, name='cart_remove'),
-    url(r'^cart/(?P<id>\d+)/plus/$', cart_plus, {'plus': True}, name='cart_plus'),
-    url(r'^cart/(?P<id>\d+)/minus/$', cart_plus, {'plus': False}, name='cart_minus'),
-    url(r'^cart/(?P<id>\d+)/remove_set/$', cart_remove, {'set': True }, name='cart_remove_set'),
-    url(r'^cart/checkout/$', cart_checkout, name='cart_checkout'),
-    url(r'^cart/valuta/$', cart_valuta, name='cart_valuta'),
-
-    url(r'^success/$', main_page, name='payment_success'),
-    url(r'^i18n/', include('django.conf.urls.i18n')),
-
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += (
+    i18n_patterns(
+        path("/", showcase, name="main_page"),
+        path("rozetka_DrStcK5.xml", rozetka, name="rozetka"),
+        path("admin/", admin.site.urls),
+        path("login/", user_login, name="user_login"),
+        path("logout/", user_logout, name="user_logout"),
+        # Info
+        path("main/", main_page, name="main_info"),
+        path("feedback/", feedback, name="feedback"),
+        path("contacts/", contacts, {"topic": "contacts"}, name="contacts"),
+        path("about/", topic_view, {"topic": "about_us"}, name="about_us"),
+        path(
+            "policies_privacy/",
+            topic_view,
+            {"topic": "privacy"},
+            name="policies_privacy",
+        ),
+        path("policies_terms/", topic_view, {"topic": "terms"}, name="policies_terms"),
+        # url(r'^partners/', topic_view, {'topic': 'partners'}, name='partners'),
+        # Shop
+        path("showcase/<int:category_id>/", showcase, name="showcase_cat"),
+        path("showcase-artist/<int:artist_id>/", showcase, name="showcase_artist"),
+        path(
+            "showcase/<int:category_id>/<int:fashion_id>/",
+            showcase,
+            name="showcase_cat_fas",
+        ),
+        path("item/<int:id>/", item_details, name="item_details"),
+        path("item-set/<int:id>/", item_set_details, name="item_set_details"),
+        path("stocks/", stocks, name="stocks"),
+        path("i-want/<int:id>/", i_want, name="i_want"),
+        path("artists/", artists, name="artists"),
+        # url(r'^stock/<id>/', stock_details, name='stock_details'),
+        # Comments
+        path("comment/", comment, name="comment"),
+        path("comments/", comments, name="all_comments"),
+        path("replay/", replay, name="replay"),
+        path(
+            "replay-activate/<int:comm_id>/",
+            replay_activate,
+            name="replay_activate",
+        ),
+        path(
+            "replay-deactivate/<int:comm_id>/",
+            replay_deactivate,
+            name="replay_deactivate",
+        ),
+        path("replay-delete/<int:comm_id>/", replay_delete, name="replay_delete"),
+        path(
+            "comment-activate/<int:comm_id>/",
+            comment_activate,
+            name="comment_activate",
+        ),
+        path(
+            "comment-deactivate/<int:comm_id>/",
+            comment_deactivate,
+            name="comment_deactivate",
+        ),
+        path("comment-delete/<int:comm_id>/", comment_delete, name="comment_delete"),
+        # Moderator
+        path("orders/", manage_orders, name="orders"),
+        path("i-want-mod/", manage_iwant, name="i_want_mod"),
+        path("comments-mod/", manage_comments, name="comments_mod"),
+        path("orders/check/", check_orders, name="check_orders"),
+        path("orders/<int:id>)/", manage_order, name="manage_order"),
+        path("orders/<int:id>/info/", j_order_info, name="order_info"),
+        path("orders/<int:id>/delete/", j_order_delete, name="order_delete"),
+        path("orders/<int:id>/comment/", j_order_comment, name="order_comment"),
+        path("orders/<int:id>/delivery/", j_order_delivery, name="order_delivery"),
+        path("orders/<int:id>/packed/", j_order_packed, name="order_packed"),
+        path(
+            "orders/<int:id>/delivery/reset/",
+            j_order_delivery,
+            {"reset": True},
+            name="order_delivery_reset",
+        ),
+        path("orders/<int:id>/payment/", j_order_payment, name="order_payment"),
+        path(
+            "orders/payment/<int:id>/delete/",
+            j_order_payment_delete,
+            name="order_payment_delete",
+        ),
+        path("orders/delete/<int:id>/", delete_order, name="delete_order"),
+        path(
+            "orders/<int:id>/delete/<int:item_id>/",
+            delete_order_item,
+            name="delete_order_item",
+        ),
+        path(
+            "orders/<int:id>/add/<int:balance_id>/",
+            add_order_item,
+            name="add_order_item",
+        ),
+        path("balances/", balances, name="balances"),
+        path("balances/update/", balances_update, name="balances_update"),
+        path("balances/download/", export_balance, name="export_balance"),
+        path("log/", log, name="log"),
+        path("order_info/<int:id>/", order_comment, name="order_payment"),
+        path("order_comment/<int:id>/", order_comment, name="order_comment"),
+        path("order_delivery/<int:id>/", order_comment, name="order_delivery"),
+        path("order_payment/<int:id>/", order_comment, name="order_payment"),
+        path("stat/payment/", stat_payment, name="stat_payment"),
+        path(
+            "i-want-mod/change/<int:order_id>/",
+            iwant_change_status,
+            name="iwant_change_status",
+        ),
+        path("i-want-mod/delete/<int:order_id>/", iwant_delete, name="iwant_delete"),
+        path(
+            "i-want-mod/change-comment/<int:order_id>/",
+            iwant_change_comment,
+            name="iwant_change_comment",
+        ),
+        path(
+            "comments-mod/change/<int:comment_id>/",
+            comment_change_status,
+            name="comment_change_status",
+        ),
+        # Statistics
+        path("stat/sale/", stat_sale, name="stat_sale"),
+        path("stat/ending0/", stat_ending, {"rest": 0}, name="stat_ending_0"),
+        path("stat/ending1/", stat_ending, {"rest": 1}, name="stat_ending_1"),
+        # Gallery
+        path("gallery/", gallery, name="gallery"),
+        path("gallery/<int:id>/", gallery_photo, name="gallery_photo"),
+        path("gallery/photo/<int:id>/", gallery_photo_mod, name="gallery_photo_mod"),
+        path(
+            "gallery/photo_buy/<int:id>/",
+            gallery_photo_buy,
+            name="gallery_photo_buy",
+        ),
+        # Orders
+        path("messages_off/<int:id>/", messages_off, name="messages_off"),
+        # Cart
+        path("cart/", cart, name="cart"),
+        path("cart/<int:id>/remove/", cart_remove, name="cart_remove"),
+        path("cart/<int:id>/plus/", cart_plus, {"plus": True}, name="cart_plus"),
+        path("cart/<int:id>/minus/", cart_plus, {"plus": False}, name="cart_minus"),
+        path(
+            "cart/<int:id>/remove_set/",
+            cart_remove,
+            {"set": True},
+            name="cart_remove_set",
+        ),
+        path("^cart/checkout/", cart_checkout, name="cart_checkout"),
+        path("^cart/valuta/", cart_valuta, name="cart_valuta"),
+        path("^success/", main_page, name="payment_success"),
+        path("i18n/", include("django.conf.urls.i18n")),
+    )
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)
 
 if settings.DEBUG:
-   import debug_toolbar
-   urlpatterns += [
-       url(r'^__debug__/', include(debug_toolbar.urls)),
-   ]
+    import debug_toolbar
+
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]

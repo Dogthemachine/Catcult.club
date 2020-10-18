@@ -9,9 +9,8 @@ from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.shortcuts import render_to_response, get_object_or_404, render
 from django.template import loader, Context
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.db.models import Sum
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
@@ -27,8 +26,6 @@ from apps.info.models import Config
 from apps.liqpay import LiqPay
 from apps.elephants.models import Balance
 from apps.helpers import normalize_phone, send_sms, delivery_cost_sum
-
-from django.core.urlresolvers import reverse
 
 
 @json_view
@@ -604,7 +601,7 @@ def messages_off(request, id):
             message
         )
 
-    if request.is_ajax():
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return HttpResponse(json.dumps({'message': message}), content_type = 'application/json')
     else:
         return redirect('main_page')

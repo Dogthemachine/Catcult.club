@@ -4,11 +4,11 @@ from datetime import datetime, timedelta
 
 
 class Command(BaseCommand):
-    args = ''
-    help = 'Prepare items for sorting on showcase.'
+    help = "Prepare items for sorting on showcase."
 
     def handle(self, *args, **options):
         from apps.elephants.models import Items, Sets, Balance
+
         print(timezone.now())
         items = Items.objects.filter(showcase_displayed=True)
 
@@ -20,7 +20,9 @@ class Command(BaseCommand):
                 if balance.amount > 0:
                     showcase_avail = True
 
-            if datetime(item.added.year, item.added.month, item.added.day) >= datetime.today() - timedelta(days=15):
+            if datetime(
+                item.added.year, item.added.month, item.added.day
+            ) >= datetime.today() - timedelta(days=15):
                 showcase_new = True
 
             item.showcase_new = showcase_new

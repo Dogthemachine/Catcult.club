@@ -1,15 +1,26 @@
 from django.contrib import messages
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render_to_response, get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.core.mail import send_mail
 
 from .forms import AddToCartForm, SetSizesForm, IWantForm
-from .models import Photo, Categories, Fashions, Items, Sizes, Sets, Balance, SetsPhoto, Stocks, Artists
+from .models import (
+    Photo,
+    Categories,
+    Fashions,
+    Items,
+    Sizes,
+    Sets,
+    Balance,
+    SetsPhoto,
+    Stocks,
+    Artists,
+)
 from apps.orders.models import Cart, CartItem, CartSet, CartSetItem, IWant
 from apps.info.models import Info, Config
 from apps.comments.forms import CommentForm, ReplayForm
@@ -17,7 +28,7 @@ from apps.comments.models import Comments
 
 
 def showcase(request, category_id=None, fashion_id=None, artist_id=None):
-    #print(request.LANGUAGE_CODE)
+    # print(request.LANGUAGE_CODE)
     category = None
     fashion = None
     items = None
@@ -37,37 +48,47 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
         title_tag = category.title_tag
         description_tag = category.description_tag
     else:
-        title_tag = _('main pae title_tag')
-        description_tag = _('main pae description_tag')
+        title_tag = _("main pae title_tag")
+        description_tag = _("main pae description_tag")
 
     fashions = None
     artist = None
 
     if category and fashion:
         fashions = Fashions.objects.filter(categories=category, displayed=True)
-        items = Items.objects.filter(fashions=fashion, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
+        items = Items.objects.filter(
+            fashions=fashion, showcase_displayed=True
+        ).order_by("-showcase_avail", "-showcase_new", "-views")
         # sets = []
 
     elif category:
         if category.set:
-            items = Sets.objects.filter(categories=category).order_by('-showcase_avail', '-showcase_new', '-views')
+            items = Sets.objects.filter(categories=category).order_by(
+                "-showcase_avail", "-showcase_new", "-views"
+            )
             # sets = Sets.objects.filter(categories=category)
             # items = []
         else:
-            items = Items.objects.filter(fashions__categories=category, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
+            items = Items.objects.filter(
+                fashions__categories=category, showcase_displayed=True
+            ).order_by("-showcase_avail", "-showcase_new", "-views")
             # sets = []
         fashions = Fashions.objects.filter(categories=category, displayed=True)
 
     elif artist_id:
         try:
             artist = Artists.objects.get(pk=artist_id)
-            items = Items.objects.filter(artist=artist, showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
+            items = Items.objects.filter(
+                artist=artist, showcase_displayed=True
+            ).order_by("-showcase_avail", "-showcase_new", "-views")
         except Artists.DoesNotExist:
             items = Items.objects.all()
         # sets = []
 
     else:
-        items = Items.objects.filter(showcase_displayed=True).order_by('-showcase_avail', '-showcase_new', '-views')
+        items = Items.objects.filter(showcase_displayed=True).order_by(
+            "-showcase_avail", "-showcase_new", "-views"
+        )
         # sets = Sets.objects.all()
 
     # avail_items = []
@@ -123,7 +144,7 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
 
     paginator = Paginator(items, 12)
 
-    page = request.GET.get('page')
+    page = request.GET.get("page")
 
     try:
         itm = paginator.page(page)
@@ -133,39 +154,49 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
         itm = paginator.page(paginator.num_pages)
 
     for it in itm:
-        it.d_t = it.description_tag.split('.')[0] + '. ' + str(_('Foto.'))
-        it.d_a = it.description_tag.split('.')[0] + '. ' + str(_('Image.'))
+        it.d_t = it.description_tag.split(".")[0] + ". " + str(_("Foto."))
+        it.d_a = it.description_tag.split(".")[0] + ". " + str(_("Image."))
 
-    return render(request,
-                  'elephants/showcase.html',
-                  {'category': category,
-                   'categories': categories,
-                   'fashion': fashion,
-                   'fashions': fashions,
-                   'items': items,
-                   'itm': itm,
-                   'artist': artist,
-                   'title_tag': title_tag,
-                   'description_tag': description_tag})
+    return render(
+        request,
+        "elephants/showcase.html",
+        {
+            "category": category,
+            "categories": categories,
+            "fashion": fashion,
+            "fashions": fashions,
+            "items": items,
+            "itm": itm,
+            "artist": artist,
+            "title_tag": title_tag,
+            "description_tag": description_tag,
+        },
+    )
 
 
 def artists(request):
     artists = Artists.objects.all()
     categories = Categories.objects.all()
-    return render(request,
-                  'elephants/artists.html',
-                  {'artists': artists, 'categories': categories})
+    return render(
+        request,
+        "elephants/artists.html",
+        {"artists": artists, "categories": categories},
+    )
 
 
 def item_details(request, id):
     item = get_object_or_404(Items, id=id)
 
-    photos = Photo.objects.filter(item=item).order_by('added')
+    photos = Photo.objects.filter(item=item).order_by("added")
     media = Config.objects.get()
 
-    sizes = Sizes.objects.select_related().filter(balance__item=item, balance__amount__gt=0).count()
+    sizes = (
+        Sizes.objects.select_related()
+        .filter(balance__item=item, balance__amount__gt=0)
+        .count()
+    )
 
-    comments = Comments.objects.filter(items=item).order_by('-added')
+    comments = Comments.objects.filter(items=item).order_by("-added")
 
     comment_form = CommentForm()
     replay_form = ReplayForm()
@@ -175,23 +206,27 @@ def item_details(request, id):
     else:
         form = None
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = AddToCartForm(request.POST, item=item)
         if form.is_valid():
-            cart, cart_created = Cart.objects.get_or_create(session_key=request.session.session_key)
+            cart, cart_created = Cart.objects.get_or_create(
+                session_key=request.session.session_key
+            )
             cart.session = request.session.session_key
             cart.save()
 
-            cart_item = CartItem.objects.filter(cart=cart, item=item, size=form.cleaned_data['size'])
+            cart_item = CartItem.objects.filter(
+                cart=cart, item=item, size=form.cleaned_data["size"]
+            )
             if cart_item:
                 cart_item = cart_item[0]
-                cart_item.amount += form.cleaned_data['quantity']
+                cart_item.amount += form.cleaned_data["quantity"]
             else:
                 cart_item = CartItem(
-                    cart = cart,
-                    item = item,
-                    size = form.cleaned_data['size'],
-                    amount = form.cleaned_data['quantity']
+                    cart=cart,
+                    item=item,
+                    size=form.cleaned_data["size"],
+                    amount=form.cleaned_data["quantity"],
                 )
             cart_item.save()
 
@@ -200,30 +235,41 @@ def item_details(request, id):
                 messages.add_message(
                     request,
                     messages.SUCCESS,
-                    _('%(name)s was added to your cart. %(count)s') % {'name': item.name, 'count': action}
+                    _("%(name)s was added to your cart. %(count)s")
+                    % {"name": item.name, "count": action},
                 )
             else:
                 messages.add_message(
                     request,
                     messages.SUCCESS,
-                    _('%(name)s was added to your cart.') % {'name': item.name}
+                    _("%(name)s was added to your cart.") % {"name": item.name},
                 )
 
             request.cart_amount += cart_item.amount
 
-            return redirect('item_details', id=item.id)
+            return redirect("item_details", id=item.id)
     else:
         item.views_today = item.views_today + 1
         item.save()
 
-    d_t = item.name.split('.')[0] + '. ' + str(_('Foto.'))
-    d_a = item.name.split('.')[0] + '. ' + str(_('Image.'))
+    d_t = item.name.split(".")[0] + ". " + str(_("Foto."))
+    d_a = item.name.split(".")[0] + ". " + str(_("Image."))
 
-    return render(request,
-                  'elephants/item_details.html',
-                  {'photos': photos, 'item': item, 'form': form, 'd_t': d_t, 'd_a': d_a,
-                   'replay_form': replay_form, 'comment_form': comment_form,
-                   'comments': comments, 'media': media.media })
+    return render(
+        request,
+        "elephants/item_details.html",
+        {
+            "photos": photos,
+            "item": item,
+            "form": form,
+            "d_t": d_t,
+            "d_a": d_a,
+            "replay_form": replay_form,
+            "comment_form": comment_form,
+            "comments": comments,
+            "media": media.media,
+        },
+    )
 
 
 def item_set_details(request, id):
@@ -231,7 +277,7 @@ def item_set_details(request, id):
 
     comments = Comments.objects.filter(sets=set).order_by("-added")
 
-    photos = SetsPhoto.objects.filter(set=set).order_by('added')
+    photos = SetsPhoto.objects.filter(set=set).order_by("added")
 
     items = Items.objects.filter(sets=set)
 
@@ -255,33 +301,39 @@ def item_set_details(request, id):
     else:
         form = None
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = SetSizesForm(request.POST, set=set)
         if form.is_valid():
-            cart, cart_created = Cart.objects.get_or_create(session_key=request.session.session_key)
+            cart, cart_created = Cart.objects.get_or_create(
+                session_key=request.session.session_key
+            )
             cart.session = request.session.session_key
             cart.save()
 
             cartset = CartSet()
             cartset.cart = cart
             cartset.set = set
-            cartset.amount = form.cleaned_data['quantity']
+            cartset.amount = form.cleaned_data["quantity"]
             cartset.save()
 
             for name, value in form.cleaned_data.items():
-                if name.startswith('item_'):
-                    cart_item = CartItem.objects.filter(cart=cart, item=form.fields[name].item, size=form.cleaned_data[name])
+                if name.startswith("item_"):
+                    cart_item = CartItem.objects.filter(
+                        cart=cart,
+                        item=form.fields[name].item,
+                        size=form.cleaned_data[name],
+                    )
                     if cart_item:
                         cart_item = cart_item[0]
-                        cart_item.amount += form.cleaned_data['quantity']
-                        cart_item.amount_set += form.cleaned_data['quantity']
+                        cart_item.amount += form.cleaned_data["quantity"]
+                        cart_item.amount_set += form.cleaned_data["quantity"]
                     else:
                         cart_item = CartItem(
-                            cart = cart,
-                            item = form.fields[name].item,
-                            size = form.cleaned_data[name],
-                            amount = form.cleaned_data['quantity'],
-                            amount_set = form.cleaned_data['quantity']
+                            cart=cart,
+                            item=form.fields[name].item,
+                            size=form.cleaned_data[name],
+                            amount=form.cleaned_data["quantity"],
+                            amount_set=form.cleaned_data["quantity"],
                         )
                     cart_item.save()
 
@@ -294,67 +346,96 @@ def item_set_details(request, id):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('%(name)s was added to your cart. %(count)s') % {'name': set.name, 'count': cart.get_items_count()}
+                _("%(name)s was added to your cart. %(count)s")
+                % {"name": set.name, "count": cart.get_items_count()},
             )
 
-            request.cart_amount += form.cleaned_data['quantity']
+            request.cart_amount += form.cleaned_data["quantity"]
 
-            return redirect('item_set_details', id=set.id)
+            return redirect("item_set_details", id=set.id)
     else:
         set.views_today = set.views_today + 1
         set.save()
 
-    d_t = set.name.split('.')[0] + '. ' + str(_('Foto.'))
-    d_a = set.name.split('.')[0] + '. ' + str(_('Image.'))
+    d_t = set.name.split(".")[0] + ". " + str(_("Foto."))
+    d_a = set.name.split(".")[0] + ". " + str(_("Image."))
 
-    return render(request,
-                  'elephants/item_set_details.html',
-                  {'photos': photos, 'set': set, 'form': form, 'comment_form': comment_form,
-                   'replay_form': replay_form, 'd_t': d_t, 'd_a': d_a,
-                   "comments": comments})
+    return render(
+        request,
+        "elephants/item_set_details.html",
+        {
+            "photos": photos,
+            "set": set,
+            "form": form,
+            "comment_form": comment_form,
+            "replay_form": replay_form,
+            "d_t": d_t,
+            "d_a": d_a,
+            "comments": comments,
+        },
+    )
 
 
 def stocks(request):
-    stocks = Stocks.objects.filter(action_end__gte=timezone.datetime.today()-timedelta(days=365)).order_by('-id')
+    stocks = Stocks.objects.filter(
+        action_end__gte=timezone.datetime.today() - timedelta(days=365)
+    ).order_by("-id")
 
-    topic = get_object_or_404(Info, topic='stocks')
+    topic = get_object_or_404(Info, topic="stocks")
 
-    return render(request, 'elephants/stocks.html', {'topic': topic, 'stocks': stocks})
+    return render(request, "elephants/stocks.html", {"topic": topic, "stocks": stocks})
 
 
 def i_want(request, id):
-    topic = get_object_or_404(Info, topic='i_want')
+    topic = get_object_or_404(Info, topic="i_want")
     item = get_object_or_404(Items, id=id)
 
-    form = IWantForm(initial={'message': _('Hello! I wantto bay this item') + '\n' + item.name + ' ' + item.fashions.name})
+    form = IWantForm(
+        initial={
+            "message": _("Hello! I wantto bay this item")
+            + "\n"
+            + item.name
+            + " "
+            + item.fashions.name
+        }
+    )
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = IWantForm(request.POST)
         if form.is_valid():
-            subject = _('[Contact form] New message')
-            message = (form.cleaned_data.get('name') + '\n\n' +
-                       form.cleaned_data.get('email') + '\n\n' +
-                       form.cleaned_data.get('phone') + '\n\n' +
-                       form.cleaned_data.get('message'))
+            subject = _("[Contact form] New message")
+            message = (
+                form.cleaned_data.get("name")
+                + "\n\n"
+                + form.cleaned_data.get("email")
+                + "\n\n"
+                + form.cleaned_data.get("phone")
+                + "\n\n"
+                + form.cleaned_data.get("message")
+            )
             from_email = settings.DEFAULT_FROM_EMAIL
             recipient_list = [settings.INFO_EMAIL]
             fail_silently = True
 
             try:
-                send_mail(subject, message, from_email,
-                          recipient_list, fail_silently)
+                send_mail(subject, message, from_email, recipient_list, fail_silently)
             except:
                 pass
 
-            messages.add_message(request, messages.SUCCESS,
-                                 _('The message was successfully sent.'))
+            messages.add_message(
+                request, messages.SUCCESS, _("The message was successfully sent.")
+            )
 
-            i_want = IWant(name=form.cleaned_data.get('name'), phone=form.cleaned_data.get('phone'),
-                           email=form.cleaned_data.get('email'), comment=form.cleaned_data.get('message'),
-                           lang_code=request.LANGUAGE_CODE, item=item)
+            i_want = IWant(
+                name=form.cleaned_data.get("name"),
+                phone=form.cleaned_data.get("phone"),
+                email=form.cleaned_data.get("email"),
+                comment=form.cleaned_data.get("message"),
+                lang_code=request.LANGUAGE_CODE,
+                item=item,
+            )
             i_want.save()
 
-            return redirect('item_details', id)
+            return redirect("item_details", id)
 
-    return render(request, 'info/feedback.html', {'form': form, 'topic': topic})
-
+    return render(request, "info/feedback.html", {"form": form, "topic": topic})

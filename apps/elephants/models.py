@@ -8,133 +8,168 @@ from django.db.models import Sum
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.core.cache import cache
 
 from django.core.cache.utils import make_template_fragment_key
 
 
 class Categories(models.Model):
-    name = models.CharField(_('name'), max_length=70)
-    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
-    image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
-    image_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
-    image_hover_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
-    details = models.TextField(_('details'), blank=True)
-    set = models.BooleanField(_('set'), default=False)
-    title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
-    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
-    showcase_displayed = models.BooleanField(_('showcase_displayed'), default=True)
+    name = models.CharField(_("name"), max_length=70)
+    image = ResizedImageField(size=[300, 150], upload_to="photos/%Y/%m/%d", blank=True)
+    image_hover = ResizedImageField(
+        size=[300, 150], upload_to="photos/%Y/%m/%d", blank=True
+    )
+    image_en = ResizedImageField(
+        size=[300, 150], upload_to="photos/%Y/%m/%d", blank=True
+    )
+    image_hover_en = ResizedImageField(
+        size=[300, 150], upload_to="photos/%Y/%m/%d", blank=True
+    )
+    details = models.TextField(_("details"), blank=True)
+    set = models.BooleanField(_("set"), default=False)
+    title_tag = models.CharField(_("title tag"), max_length=70, blank=True, default="")
+    description_tag = models.CharField(
+        _("description tag"), max_length=280, blank=True, default=""
+    )
+    sequence = models.PositiveSmallIntegerField(_("sequence"), default=0)
+    showcase_displayed = models.BooleanField(_("showcase_displayed"), default=True)
 
     class Meta:
-        ordering = ('sequence',)
-        verbose_name = _('Categories of items')
-        verbose_name_plural = _('Categories of items')
+        ordering = ("sequence",)
+        verbose_name = _("Categories of items")
+        verbose_name_plural = _("Categories of items")
 
     def __str__(self):
-        return u'%s' % self.name
+        return u"%s" % self.name
 
     def get_fashions(self):
         return Fashions.objects.filter(categories=self)
 
 
 class Fashions(models.Model):
-    name = models.CharField(_('name'), max_length=70, default='No name')
-    categories = models.ForeignKey(Categories)
-    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
-    image_hover = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d')
-    image_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
-    image_hover_en = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
-    cost_price = models.PositiveSmallIntegerField(_('cost price'), default=0)
-    weigth = models.PositiveSmallIntegerField(_('weigth'), default=0)
-    details = models.TextField(_('details'), blank=True, default='')
-    displayed = models.BooleanField(_('displayed'), default=True)
-    title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
-    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    name = models.CharField(_("name"), max_length=70, default="No name")
+    categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    image = ResizedImageField(size=[300, 150], upload_to="photos/%Y/%m/%d")
+    image_hover = ResizedImageField(size=[300, 150], upload_to="photos/%Y/%m/%d")
+    image_en = ResizedImageField(
+        size=[300, 150], upload_to="photos/%Y/%m/%d", blank=True
+    )
+    image_hover_en = ResizedImageField(
+        size=[300, 150], upload_to="photos/%Y/%m/%d", blank=True
+    )
+    cost_price = models.PositiveSmallIntegerField(_("cost price"), default=0)
+    weigth = models.PositiveSmallIntegerField(_("weigth"), default=0)
+    details = models.TextField(_("details"), blank=True, default="")
+    displayed = models.BooleanField(_("displayed"), default=True)
+    title_tag = models.CharField(_("title tag"), max_length=70, blank=True, default="")
+    description_tag = models.CharField(
+        _("description tag"), max_length=280, blank=True, default=""
+    )
+    sequence = models.PositiveSmallIntegerField(_("sequence"), default=0)
 
     class Meta:
-        ordering = ('sequence',)
-        verbose_name = _('Fashions of items')
-        verbose_name_plural = _('Fashions of items')
+        ordering = ("sequence",)
+        verbose_name = _("Fashions of items")
+        verbose_name_plural = _("Fashions of items")
 
     def __str__(self):
-        return u'%s' % self.name
+        return u"%s" % self.name
 
 
 class Sizes(models.Model):
-    name = models.CharField(_('name'), max_length=20)
-    categories = models.ForeignKey(Categories)
-    description = models.TextField(_('description'), blank=True, default='')
-    sequence = models.PositiveSmallIntegerField(_('sequence'), default=0)
+    name = models.CharField(_("name"), max_length=20)
+    categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    description = models.TextField(_("description"), blank=True, default="")
+    sequence = models.PositiveSmallIntegerField(_("sequence"), default=0)
 
     class Meta:
-        ordering = ('sequence',)
-        verbose_name = _('Sizes of items')
-        verbose_name_plural = _('Sizes of items')
+        ordering = ("sequence",)
+        verbose_name = _("Sizes of items")
+        verbose_name_plural = _("Sizes of items")
 
     def __str__(self):
-        return u'%s' % self.name
+        return u"%s" % self.name
 
 
 class Artists(models.Model):
-    name = models.CharField(_('name'), max_length=250)
-    image = ResizedImageField(size=[300, 150], upload_to='photos/%Y/%m/%d', blank=True)
-    description = models.TextField(_('description'), blank=True, default='')
-    added = models.DateTimeField(_('added'), auto_now_add=True)
+    name = models.CharField(_("name"), max_length=250)
+    image = ResizedImageField(size=[300, 150], upload_to="photos/%Y/%m/%d", blank=True)
+    description = models.TextField(_("description"), blank=True, default="")
+    added = models.DateTimeField(_("added"), auto_now_add=True)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name = _('Artists')
-        verbose_name_plural = _('Artists')
+        ordering = ("name",)
+        verbose_name = _("Artists")
+        verbose_name_plural = _("Artists")
 
     def __str__(self):
         return self.name
 
 
 class Items(models.Model):
-    name = models.CharField(_('name'), max_length=250)
-    fashions = models.ForeignKey(Fashions)
-    artist = models.ForeignKey(Artists, on_delete=models.SET_NULL, blank=True, null=True)
-    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
-    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
-    description = models.TextField(_('description'), blank=True, default='')
-    details = models.TextField(_('details'), blank=True, default='')
-    details_rozetka = models.TextField(_('details rozetka'), blank=True, default='')
-    price = models.PositiveSmallIntegerField(_('price'), default=0)
-    price_old_rozetka = models.PositiveSmallIntegerField(_('old price rozetka'), default=0)
-    price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
-    views = models.PositiveIntegerField(_('views'), default=0)
-    views_today = models.PositiveIntegerField(_('views today'), default=0)
-    views_month = models.CharField(_('views month'), default=0, max_length=512)
-    showcase_displayed = models.BooleanField(_('showcase_displayed'), default=True)
-    showcase_avail = models.BooleanField(_('showcase_avail'), default=False)
-    showcase_new = models.BooleanField(_('showcase_new'), default=True)
-    title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
-    rozetka = models.BooleanField(_('to rozetka'), default=False)
-    description_rozetka_a = models.TextField(_('description rozetka a'), blank=True, default='')
-    description_rozetka_b = models.TextField(_('description rozetka b'), blank=True, default='')
-    description_rozetka_c = models.TextField(_('descriptionrozetka c'), blank=True, default='')
-    description_rozetka_d = models.TextField(_('descriptionrozetka d'), blank=True, default='')
-    added = models.DateTimeField(_('added'), auto_now_add=True)
+    name = models.CharField(_("name"), max_length=250)
+    fashions = models.ForeignKey(Fashions, on_delete=models.CASCADE)
+    artist = models.ForeignKey(
+        Artists, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    image = ResizedImageField(size=[2500, 2500], upload_to="photos/%Y/%m/%d")
+    image_small = ResizedImageField(
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="small_photos/%Y/%m/%d",
+        editable=False,
+    )
+    description = models.TextField(_("description"), blank=True, default="")
+    details = models.TextField(_("details"), blank=True, default="")
+    details_rozetka = models.TextField(_("details rozetka"), blank=True, default="")
+    price = models.PositiveSmallIntegerField(_("price"), default=0)
+    price_old_rozetka = models.PositiveSmallIntegerField(
+        _("old price rozetka"), default=0
+    )
+    price_description = models.CharField(
+        _("price_description"), max_length=250, default=_("Grn.")
+    )
+    views = models.PositiveIntegerField(_("views"), default=0)
+    views_today = models.PositiveIntegerField(_("views today"), default=0)
+    views_month = models.CharField(_("views month"), default=0, max_length=512)
+    showcase_displayed = models.BooleanField(_("showcase_displayed"), default=True)
+    showcase_avail = models.BooleanField(_("showcase_avail"), default=False)
+    showcase_new = models.BooleanField(_("showcase_new"), default=True)
+    title_tag = models.CharField(_("title tag"), max_length=70, blank=True, default="")
+    description_tag = models.CharField(
+        _("description tag"), max_length=280, blank=True, default=""
+    )
+    rozetka = models.BooleanField(_("to rozetka"), default=False)
+    description_rozetka_a = models.TextField(
+        _("description rozetka a"), blank=True, default=""
+    )
+    description_rozetka_b = models.TextField(
+        _("description rozetka b"), blank=True, default=""
+    )
+    description_rozetka_c = models.TextField(
+        _("descriptionrozetka c"), blank=True, default=""
+    )
+    description_rozetka_d = models.TextField(
+        _("descriptionrozetka d"), blank=True, default=""
+    )
+    added = models.DateTimeField(_("added"), auto_now_add=True)
 
     class Meta:
-        ordering = ('-views',)
-        verbose_name = _('items')
-        verbose_name_plural = _('items')
+        ordering = ("-views",)
+        verbose_name = _("items")
+        verbose_name_plural = _("items")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.was_views_today = self.views_today
 
     def __str__(self):
-        return u'%s (%s) (%s)' % (self.name, self.fashions.name, self.description)
+        return u"%s (%s) (%s)" % (self.name, self.fashions.name, self.description)
 
     def save(self, *args, **kwargs):
         if self.was_views_today == self.views_today:
-            cache.delete(template_cache_key('item_template', self.id))
+            cache.delete(template_cache_key("item_template", self.id))
         if not self.image._committed:
             self.image_small = self.image.file
         super().save(*args, **kwargs)
@@ -150,23 +185,33 @@ class Items(models.Model):
         return False
 
     def sorting(self):
-        return Balance.objects.filter(item=self).aggregate(Sum('amount')) * self.views_per_month
+        return (
+            Balance.objects.filter(item=self).aggregate(Sum("amount"))
+            * self.views_per_month
+        )
 
     def get_actual_price(self):
         price = self.price
 
-        global_stock = Stocks.objects.filter(categories__isnull=True, fashions__isnull=True,
-                                             action_begin__lte=timezone.datetime.today(),
-                                             action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        global_stock = Stocks.objects.filter(
+            categories__isnull=True,
+            fashions__isnull=True,
+            action_begin__lte=timezone.datetime.today(),
+            action_end__gte=timezone.datetime.today(),
+        ).order_by("-id")[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.fashions.categories,
-                                          action_begin__lte=timezone.datetime.today(),
-                                          action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(
+                categories=self.fashions.categories,
+                action_begin__lte=timezone.datetime.today(),
+                action_end__gte=timezone.datetime.today(),
+            ).order_by("-id")[:1]
             if not stock:
-                stock = Stocks.objects.filter(fashions=self.fashions,
-                                              action_begin__lte=timezone.datetime.today(),
-                                              action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+                stock = Stocks.objects.filter(
+                    fashions=self.fashions,
+                    action_begin__lte=timezone.datetime.today(),
+                    action_end__gte=timezone.datetime.today(),
+                ).order_by("-id")[:1]
         else:
             stock = global_stock
 
@@ -178,18 +223,25 @@ class Items(models.Model):
     def get_discount(self):
         discount = 0
 
-        global_stock = Stocks.objects.filter(categories__isnull=True, fashions__isnull=True,
-                                             action_begin__lte=timezone.datetime.today(),
-                                             action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        global_stock = Stocks.objects.filter(
+            categories__isnull=True,
+            fashions__isnull=True,
+            action_begin__lte=timezone.datetime.today(),
+            action_end__gte=timezone.datetime.today(),
+        ).order_by("-id")[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.fashions.categories,
-                                          action_begin__lte=timezone.datetime.today(),
-                                          action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(
+                categories=self.fashions.categories,
+                action_begin__lte=timezone.datetime.today(),
+                action_end__gte=timezone.datetime.today(),
+            ).order_by("-id")[:1]
             if not stock:
-                stock = Stocks.objects.filter(fashions=self.fashions,
-                                              action_begin__lte=timezone.datetime.today(),
-                                              action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+                stock = Stocks.objects.filter(
+                    fashions=self.fashions,
+                    action_begin__lte=timezone.datetime.today(),
+                    action_end__gte=timezone.datetime.today(),
+                ).order_by("-id")[:1]
         else:
             stock = global_stock
 
@@ -200,18 +252,25 @@ class Items(models.Model):
 
     def get_discount_name(self):
 
-        global_stock = Stocks.objects.filter(categories__isnull=True, fashions__isnull=True,
-                                             action_begin__lte=timezone.datetime.today(),
-                                             action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        global_stock = Stocks.objects.filter(
+            categories__isnull=True,
+            fashions__isnull=True,
+            action_begin__lte=timezone.datetime.today(),
+            action_end__gte=timezone.datetime.today(),
+        ).order_by("-id")[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.fashions.categories,
-                                          action_begin__lte=timezone.datetime.today(),
-                                          action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(
+                categories=self.fashions.categories,
+                action_begin__lte=timezone.datetime.today(),
+                action_end__gte=timezone.datetime.today(),
+            ).order_by("-id")[:1]
             if not stock:
-                stock = Stocks.objects.filter(fashions=self.fashions,
-                                              action_begin__lte=timezone.datetime.today(),
-                                              action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+                stock = Stocks.objects.filter(
+                    fashions=self.fashions,
+                    action_begin__lte=timezone.datetime.today(),
+                    action_end__gte=timezone.datetime.today(),
+                ).order_by("-id")[:1]
         else:
             stock = global_stock
 
@@ -219,29 +278,38 @@ class Items(models.Model):
 
 
 class Sets(models.Model):
-    name = models.CharField(_('name'), max_length=250)
-    categories = models.ForeignKey(Categories)
+    name = models.CharField(_("name"), max_length=250)
+    categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
     items = models.ManyToManyField(Items)
-    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
-    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
-    description = models.TextField(_('description'), blank=True, default='')
-    details = models.TextField(_('details'), blank=True, default='')
-    price = models.PositiveSmallIntegerField(_('price'), default=0)
-    price_description = models.CharField(_('price_description'), max_length=250, default=_('Grn.'))
-    views = models.PositiveIntegerField(_('views'), default=0)
-    views_today = models.PositiveIntegerField(_('views today'), default=0)
-    views_month = models.CharField(_('views month'), default=0, max_length=512)
-    title_tag = models.CharField(_('title tag'), max_length=70, blank=True, default='')
-    description_tag = models.CharField(_('description tag'), max_length=280, blank=True, default='')
-    added = models.DateTimeField(_('added'), auto_now_add=True)
+    image = ResizedImageField(size=[2500, 2500], upload_to="photos/%Y/%m/%d")
+    image_small = ResizedImageField(
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="small_photos/%Y/%m/%d",
+        editable=False,
+    )
+    description = models.TextField(_("description"), blank=True, default="")
+    details = models.TextField(_("details"), blank=True, default="")
+    price = models.PositiveSmallIntegerField(_("price"), default=0)
+    price_description = models.CharField(
+        _("price_description"), max_length=250, default=_("Grn.")
+    )
+    views = models.PositiveIntegerField(_("views"), default=0)
+    views_today = models.PositiveIntegerField(_("views today"), default=0)
+    views_month = models.CharField(_("views month"), default=0, max_length=512)
+    title_tag = models.CharField(_("title tag"), max_length=70, blank=True, default="")
+    description_tag = models.CharField(
+        _("description tag"), max_length=280, blank=True, default=""
+    )
+    added = models.DateTimeField(_("added"), auto_now_add=True)
 
     class Meta:
-        ordering = ('-views',)
-        verbose_name = _('Sets')
-        verbose_name_plural = _('Sets')
+        ordering = ("-views",)
+        verbose_name = _("Sets")
+        verbose_name_plural = _("Sets")
 
     def __str__(self):
-        return u'%s' % self.name
+        return u"%s" % self.name
 
     def save(self, *args, **kwargs):
         if not self.image._committed:
@@ -282,10 +350,18 @@ class Sets(models.Model):
     def get_actual_price(self):
         price = self.price
 
-        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        global_stock = Stocks.objects.filter(
+            categories__isnull=True,
+            action_begin__lte=timezone.datetime.today(),
+            action_end__gte=timezone.datetime.today(),
+        ).order_by("-id")[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(
+                categories=self.categories,
+                action_begin__lte=timezone.datetime.today(),
+                action_end__gte=timezone.datetime.today(),
+            ).order_by("-id")[:1]
         else:
             stock = global_stock
 
@@ -297,10 +373,18 @@ class Sets(models.Model):
     def get_discount(self):
         discount = 0
 
-        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        global_stock = Stocks.objects.filter(
+            categories__isnull=True,
+            action_begin__lte=timezone.datetime.today(),
+            action_end__gte=timezone.datetime.today(),
+        ).order_by("-id")[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(
+                categories=self.categories,
+                action_begin__lte=timezone.datetime.today(),
+                action_end__gte=timezone.datetime.today(),
+            ).order_by("-id")[:1]
         else:
             stock = global_stock
 
@@ -310,10 +394,18 @@ class Sets(models.Model):
         return discount
 
     def get_discount_name(self):
-        global_stock = Stocks.objects.filter(categories__isnull=True, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+        global_stock = Stocks.objects.filter(
+            categories__isnull=True,
+            action_begin__lte=timezone.datetime.today(),
+            action_end__gte=timezone.datetime.today(),
+        ).order_by("-id")[:1]
 
         if not global_stock:
-            stock = Stocks.objects.filter(categories=self.categories, action_begin__lte=timezone.datetime.today(), action_end__gte=timezone.datetime.today()).order_by('-id')[:1]
+            stock = Stocks.objects.filter(
+                categories=self.categories,
+                action_begin__lte=timezone.datetime.today(),
+                action_end__gte=timezone.datetime.today(),
+            ).order_by("-id")[:1]
         else:
             stock = global_stock
 
@@ -321,15 +413,20 @@ class Sets(models.Model):
 
 
 class Photo(models.Model):
-    item = models.ForeignKey(Items)
-    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
-    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
-    added = models.DateTimeField(_('added'), auto_now_add=True)
+    item = models.ForeignKey(Items, on_delete=models.CASCADE)
+    image = ResizedImageField(size=[2500, 2500], upload_to="photos/%Y/%m/%d")
+    image_small = ResizedImageField(
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="small_photos/%Y/%m/%d",
+        editable=False,
+    )
+    added = models.DateTimeField(_("added"), auto_now_add=True)
 
     class Meta:
-        ordering = ('added',)
-        verbose_name = _('Photo')
-        verbose_name_plural = _('Photos')
+        ordering = ("added",)
+        verbose_name = _("Photo")
+        verbose_name_plural = _("Photos")
 
     def save(self, *args, **kwargs):
         if not self.image._committed:
@@ -337,20 +434,25 @@ class Photo(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return u'%s - %s' % (self.item.name, self.added)
+        return u"%s - %s" % (self.item.name, self.added)
 
 
 class RPhoto(models.Model):
-    item = models.ForeignKey(Items)
-    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
-    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
-    weight = models.PositiveSmallIntegerField(_('position'), default=0)
-    added = models.DateTimeField(_('added'), auto_now_add=True)
+    item = models.ForeignKey(Items, on_delete=models.CASCADE)
+    image = ResizedImageField(size=[2500, 2500], upload_to="photos/%Y/%m/%d")
+    image_small = ResizedImageField(
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="small_photos/%Y/%m/%d",
+        editable=False,
+    )
+    weight = models.PositiveSmallIntegerField(_("position"), default=0)
+    added = models.DateTimeField(_("added"), auto_now_add=True)
 
     class Meta:
-        ordering = ('added',)
-        verbose_name = _('RozetkaPhoto')
-        verbose_name_plural = _('RozetkaPhotos')
+        ordering = ("added",)
+        verbose_name = _("RozetkaPhoto")
+        verbose_name_plural = _("RozetkaPhotos")
 
     def save(self, *args, **kwargs):
         if not self.image._committed:
@@ -358,19 +460,24 @@ class RPhoto(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return u'%s - %s' % (self.item.name, self.added)
+        return u"%s - %s" % (self.item.name, self.added)
 
 
 class SetsPhoto(models.Model):
-    set = models.ForeignKey(Sets)
-    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d')
-    image_small = ResizedImageField(size=[300, 300], crop=['middle', 'center'], upload_to='small_photos/%Y/%m/%d', editable=False)
-    added = models.DateTimeField(_('added'), auto_now_add=True)
+    set = models.ForeignKey(Sets, on_delete=models.CASCADE)
+    image = ResizedImageField(size=[2500, 2500], upload_to="photos/%Y/%m/%d")
+    image_small = ResizedImageField(
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="small_photos/%Y/%m/%d",
+        editable=False,
+    )
+    added = models.DateTimeField(_("added"), auto_now_add=True)
 
     class Meta:
-        ordering = ('added',)
-        verbose_name = _('Sets photo')
-        verbose_name_plural = _('Sets photos')
+        ordering = ("added",)
+        verbose_name = _("Sets photo")
+        verbose_name_plural = _("Sets photos")
 
     def save(self, *args, **kwargs):
         if not self.image._committed:
@@ -378,56 +485,60 @@ class SetsPhoto(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return u'%s - %s' % (self.set.name, self.added)
+        return u"%s - %s" % (self.set.name, self.added)
 
 
 class Balance(models.Model):
-    item = models.ForeignKey(Items)
-    size = models.ForeignKey(Sizes)
-    amount = models.IntegerField(_('amount'), default=0)
+    item = models.ForeignKey(Items, on_delete=models.CASCADE)
+    size = models.ForeignKey(Sizes, on_delete=models.CASCADE)
+    amount = models.IntegerField(_("amount"), default=0)
 
     class Meta:
-        ordering = ('id',)
-        verbose_name = _('Amount of items')
-        verbose_name_plural = _('Amount of items')
+        ordering = ("id",)
+        verbose_name = _("Amount of items")
+        verbose_name_plural = _("Amount of items")
 
     def __str__(self):
-        return u'%s - %s - %s' % (self.item.name, self.size.name, self.amount)
+        return u"%s - %s - %s" % (self.item.name, self.size.name, self.amount)
 
 
 class Stocks(models.Model):
-    name = models.CharField(_('name'), max_length=250)
+    name = models.CharField(_("name"), max_length=250)
     categories = models.ManyToManyField(Categories, blank=True)
     fashions = models.ManyToManyField(Fashions, blank=True)
-    type = models.PositiveSmallIntegerField(_('type'), choices=settings.STOCKS_TYPES)
-    items_count = models.PositiveSmallIntegerField(_('items count'), blank=True, default=0)
-    image = ResizedImageField(size=[2500, 2500], upload_to='photos/%Y/%m/%d', blank=True)
-    description = models.TextField(_('description'), blank=True, default='')
-    discount = models.PositiveSmallIntegerField(_('discount'), default=0)
-    action_begin = models.DateField(_('action_begin'))
-    action_end = models.DateField(_('action_end'))
+    type = models.PositiveSmallIntegerField(_("type"), choices=settings.STOCKS_TYPES)
+    items_count = models.PositiveSmallIntegerField(
+        _("items count"), blank=True, default=0
+    )
+    image = ResizedImageField(
+        size=[2500, 2500], upload_to="photos/%Y/%m/%d", blank=True
+    )
+    description = models.TextField(_("description"), blank=True, default="")
+    discount = models.PositiveSmallIntegerField(_("discount"), default=0)
+    action_begin = models.DateField(_("action_begin"))
+    action_end = models.DateField(_("action_end"))
 
     class Meta:
-        ordering = ('action_begin',)
-        verbose_name = _('stocks')
-        verbose_name_plural = _('stocks')
+        ordering = ("action_begin",)
+        verbose_name = _("stocks")
+        verbose_name_plural = _("stocks")
 
     def __str__(self):
-        return u'%s' % self.name
+        return u"%s" % self.name
 
 
 class BalanceLog(models.Model):
-    balance = models.ForeignKey(Balance)
-    old_value = models.IntegerField(_('old value'))
-    new_value = models.IntegerField(_('new value'))
-    arrival = models.BooleanField(_('arrival'), default=False)
-    user = models.ForeignKey(User)
+    balance = models.ForeignKey(Balance, on_delete=models.CASCADE)
+    old_value = models.IntegerField(_("old value"))
+    new_value = models.IntegerField(_("new value"))
+    arrival = models.BooleanField(_("arrival"), default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     change_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('-change_time',)
-        verbose_name = _('Balance log')
-        verbose_name_plural = _('Balance logs')
+        ordering = ("-change_time",)
+        verbose_name = _("Balance log")
+        verbose_name_plural = _("Balance logs")
 
     def __str__(self):
         return "%s - %s" % (self.balance, self.change_time)
@@ -450,7 +561,7 @@ def create_item_balance(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Sizes)
 def create_size_balance(sender, instance, created, **kwargs):
     item = instance.item
-    cache.delete(template_cache_key('item_template', item.id))
+    cache.delete(template_cache_key("item_template", item.id))
     if created:
         category = instance.categories
         items = Items.objects.filter(fashions__categories=category)
@@ -462,19 +573,19 @@ def create_size_balance(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Photo)
 def delete_item_cache(sender, instance, **kwargs):
     item = instance.item
-    cache.delete(template_cache_key('item_template', item.id))
+    cache.delete(template_cache_key("item_template", item.id))
 
 
 @receiver(post_delete, sender=Photo)
 def delete_item_cache(sender, instance, **kwargs):
     item = instance.item
-    cache.delete(template_cache_key('item_template', item.id))
+    cache.delete(template_cache_key("item_template", item.id))
 
 
 @receiver(post_save, sender=Balance)
 def delete_item_cache(sender, instance, **kwargs):
     item = instance.item
-    cache.delete(template_cache_key('item_template', item.id))
+    cache.delete(template_cache_key("item_template", item.id))
 
     showcase_avail = item.get_amount()
     item.showcase_avail = showcase_avail

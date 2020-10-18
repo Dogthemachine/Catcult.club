@@ -3,8 +3,13 @@ from django.utils import timezone
 
 
 class Command(BaseCommand):
-    args = '<email> <first_name> <last_name> <password>'
-    help = 'Merge today views with all views for plot.'
+    help = "Create moderator."
+
+    def add_arguments(self, parser):
+        parser.add_argument("email", nargs="+", type=str)
+        parser.add_argument("first_name", nargs="+", type=str)
+        parser.add_argument("last_name", nargs="+", type=str)
+        parser.add_argument("password", nargs="+", type=str)
 
     def handle(self, *args, **options):
         from apps.profiles.models import Moderator
@@ -12,11 +17,11 @@ class Command(BaseCommand):
         print(timezone.now())
 
         user = Moderator()
-        user.email = args[0]
-        user.first_name = args[1]
-        user.last_name = args[2]
+        user.email = options["email"]
+        user.first_name = options["first_name"]
+        user.last_name = options["last_name"]
         user.email_checked = True
-        user.set_password(args[3])
+        user.set_password(options["password"])
         user.save()
 
-        print('User was successfully created')
+        print("User was successfully created")
