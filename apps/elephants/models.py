@@ -124,6 +124,7 @@ class Items(models.Model):
     details = models.TextField(_("details"), blank=True, default="")
     details_rozetka = models.TextField(_("details rozetka"), blank=True, default="")
     price = models.PositiveSmallIntegerField(_("price"), default=0)
+    price_promo = models.PositiveSmallIntegerField(_("price promo rozetka"), default=0)
     price_old_rozetka = models.PositiveSmallIntegerField(
         _("old price rozetka"), default=0
     )
