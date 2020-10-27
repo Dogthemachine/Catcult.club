@@ -193,8 +193,8 @@ PAYMENT = (
 DISCOUNT_PHONE = int(os.environ.get('TC_DISCOUNT_PHONE'))
 
 # Contact email
-CONTACT_EMAIL = 'info@catcult.club'
-INFO_EMAIL = 'info@catcult.club'
+CONTACT_EMAIL = 'catcult.club@gmail.com'
+INFO_EMAIL = 'catcult.club@gmail.com'
 
 # Email config
 EMAIL_USE_TLS = True
