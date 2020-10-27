@@ -97,7 +97,7 @@ urlpatterns = [
 
 urlpatterns += (
     i18n_patterns(
-        path("/", showcase, name="main_page"),
+        path("", showcase, name="main_page"),
         path("rozetka_DrStcK5.xml", rozetka, name="rozetka"),
         path("admin/", admin.site.urls),
         path("login/", user_login, name="user_login"),
@@ -240,9 +240,9 @@ urlpatterns += (
             {"set": True},
             name="cart_remove_set",
         ),
-        path("^cart/checkout/", cart_checkout, name="cart_checkout"),
-        path("^cart/valuta/", cart_valuta, name="cart_valuta"),
-        path("^success/", main_page, name="payment_success"),
+        path("cart/checkout/", cart_checkout, name="cart_checkout"),
+        path("cart/valuta/", cart_valuta, name="cart_valuta"),
+        path("success/", main_page, name="payment_success"),
         path("i18n/", include("django.conf.urls.i18n")),
     )
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

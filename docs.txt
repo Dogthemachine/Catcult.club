@@ -1,0 +1,11 @@
+$ uwr --- команда для перезапуска сервера uWSGI (это alias, прописан в .bashrc)
+$ sudo systemctl restart nginx --- команда для перезапуска nginx
+
+/usr/local/www/three_cats --- директория с виртуальным окружением
+
+там же three_cats.sqlite3 --- база
+
+media/ и static/ --- медиа и статика соответственно
+
+logs/ --- логи крон задач
+
