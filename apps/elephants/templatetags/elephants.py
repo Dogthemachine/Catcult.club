@@ -13,7 +13,7 @@ register = template.Library()
 @register.simple_tag
 def get_size_desc(size_id):
     try:
-        size = Sizes.objects.get(id=size_id)
+        size = Sizes.objects.get(id=size_id.value)
     except:
         return ''
 
@@ -23,7 +23,7 @@ def get_size_desc(size_id):
 @register.simple_tag
 def get_item_img(item_id):
     try:
-        item = Items.objects.get(id=item_id)
+        item = Items.objects.get(id=item_id.value)
     except:
         return ''
 
