@@ -22,6 +22,7 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
+    client_max_body_size 100M;
 	# SSL configuration
 	#
 	# listen 443 ssl default_server;
@@ -92,6 +93,7 @@ server {
 
 server {
     server_name www.catcult.club; # managed by Certbot
+    client_max_body_size 100M;
 
     listen [::]:443 ssl http2; # managed by Certbot
     listen 443 ssl http2; # managed by Certbot
@@ -107,6 +109,7 @@ server {
 server {
     server_name catcult.club; # managed by Certbot
 
+    client_max_body_size 100M;
     listen [::]:443 ssl http2; # managed by Certbot
     listen 443 ssl http2; # managed by Certbot
     ssl_certificate /etc/letsencrypt/live/catcult.club/fullchain.pem; # managed by Certbot
@@ -151,6 +154,7 @@ server {
 
 	listen 80 ;
 	listen [::]:80 ;
+    client_max_body_size 100M;
     server_name catcult.club www.catcult.club;
     return 404; # managed by Certbot
 
