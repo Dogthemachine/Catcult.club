@@ -141,6 +141,15 @@ $(document).ready(function() {
         location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&arrival=' + arrival;
     });
 
+    $('#cc-stat-balance-filter').on('click', function(e) {
+        e.preventDefault();
+
+        var date_from = $('#cc-date-from').val();
+        if ($('#cc-by-category-cb').prop('checked')) {var by_category = 1} else {var by_category = 0};
+
+        location.search = '?date_from=' + date_from + '&by_category=' + by_category;
+    });
+
     $('#cc-iwant-filter').on('click', function(e) {
         e.preventDefault();
 

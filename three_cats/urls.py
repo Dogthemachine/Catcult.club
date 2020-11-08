@@ -52,6 +52,7 @@ from apps.moderation.views import (
     j_order_payment_delete,
     j_order_packed,
     stat_sale,
+    stat_balance,
     stat_ending,
     stat_payment,
     manage_iwant,
@@ -218,6 +219,7 @@ urlpatterns += (
         path("stat/sale/", stat_sale, name="stat_sale"),
         path("stat/ending0/", stat_ending, {"rest": 0}, name="stat_ending_0"),
         path("stat/ending1/", stat_ending, {"rest": 1}, name="stat_ending_1"),
+        path("stat/balance/", stat_balance, name="stat_balance"),
         # Gallery
         path("gallery/", gallery, name="gallery"),
         path("gallery/<int:id>/", gallery_photo, name="gallery_photo"),
