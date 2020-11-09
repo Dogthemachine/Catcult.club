@@ -907,12 +907,15 @@ def stat_balance(request):
     if True:
     # if by_category == 1:
         stat = Categories.objects.all()
-
         for cat in stat:
             total_amount_cat = 0
             total_sum_cat = 0
             items = Items.objects.filter(fashions__categories=cat)
             for i in items:
+                item_amount = 0
+                balance = Balance.objects.filter(item=i)
+                for b in balance:
+                    item_amount += b.amount
                 amount_plus = 0
                 balance = BalanceLog.objects.filter(balance__item=i, change_time__date__gte="-".join(list(map(str, date_from))))
                 for b in balance:
@@ -921,8 +924,8 @@ def stat_balance(request):
                 order_items = OrderItems.objects.filter(balance__item=i, added__date__gte="-".join(list(map(str, date_from))))
                 for b in order_items:
                     amount_minus += b.amount
-                total_amount_cat += i.get_amount() - amount_plus + amount_minus
-                total_sum_cat += (i.get_amount() - amount_plus + amount_minus) * i.price
+                total_amount_cat += item_amount - amount_plus + amount_minus
+                total_sum_cat += (item_amount - amount_plus + amount_minus) * i.price
             cat.total_amount_cat = total_amount_cat
             cat.total_sum_cat = total_sum_cat
             total_amount += total_amount_cat
