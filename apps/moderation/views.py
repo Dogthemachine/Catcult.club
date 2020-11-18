@@ -887,7 +887,6 @@ def order_info(request, id):
 @user_is_admin()
 def stat_balance(request):
     date_from = request.GET.get("date_from", None)
-    by_category = int(request.GET.get("by_category", 0))
 
     if date_from:
         date_from = list(map(int, date_from.split("-")))
@@ -904,47 +903,30 @@ def stat_balance(request):
     total_amount = 0
     total_sum = 0
 
-    if True:
-    # if by_category == 1:
-        stat = Categories.objects.all()
-        for cat in stat:
-            total_amount_cat = 0
-            total_sum_cat = 0
-            items = Items.objects.filter(fashions__categories=cat)
-            for i in items:
-                item_amount = 0
-                balance = Balance.objects.filter(item=i)
-                for b in balance:
-                    item_amount += b.amount
-                amount_plus = 0
-                balance = BalanceLog.objects.filter(balance__item=i, change_time__date__gte="-".join(list(map(str, date_from))))
-                for b in balance:
-                    amount_plus += b.new_value - b.old_value
-                amount_minus = 0
-                order_items = OrderItems.objects.filter(balance__item=i, added__date__gte="-".join(list(map(str, date_from))))
-                for b in order_items:
-                    amount_minus += b.amount
-                total_amount_cat += item_amount - amount_plus + amount_minus
-                total_sum_cat += (item_amount - amount_plus + amount_minus) * i.price
-            cat.total_amount_cat = total_amount_cat
-            cat.total_sum_cat = total_sum_cat
-            total_amount += total_amount_cat
-            total_sum += total_sum_cat
-    else:
-        date_0 = datetime.datetime.strptime("-".join(list(map(str, date_from))), '%Y-%m-%d').date()
-        if date_0 > datetime.date.today() - datetime.timedelta(days=20):
-            stat_days = (datetime.date.today() - date_0).days + 1
-            daterange = [datetime.date.today() - datetime.timedelta(days=x) for x in range(0, stat_days)]
-        elif date_0 > datetime.date.today() - datetime.timedelta(days=140):
-            stat_days = (datetime.date.today() - date_0).days + 1
-            daterange0 = [datetime.date.today() - datetime.timedelta(days=x) for x in range(0, stat_days)]
-            daterange = [d for d in daterange0 if d.weekday() == 0]
-            daterange = sorted(daterange)
-        else:
-            daterange = []
-        stat = []
-        for stat_date in daterange:
-            stat.append({'name': stat_date, 'total_amount_cat': 1, 'total_sum_cat': 10})
+    stat = Categories.objects.all()
+    for cat in stat:
+        total_amount_cat = 0
+        total_sum_cat = 0
+        items = Items.objects.filter(fashions__categories=cat)
+        for i in items:
+            item_amount = 0
+            balance = Balance.objects.filter(item=i)
+            for b in balance:
+                item_amount += b.amount
+            amount_plus = 0
+            balance = BalanceLog.objects.filter(balance__item=i, change_time__date__gte="-".join(list(map(str, date_from))))
+            for b in balance:
+                amount_plus += b.new_value - b.old_value
+            amount_minus = 0
+            order_items = OrderItems.objects.filter(balance__item=i, added__date__gte="-".join(list(map(str, date_from))))
+            for b in order_items:
+                amount_minus += b.amount
+            total_amount_cat += item_amount - amount_plus + amount_minus
+            total_sum_cat += (item_amount - amount_plus + amount_minus) * i.price
+        cat.total_amount_cat = total_amount_cat
+        cat.total_sum_cat = total_sum_cat
+        total_amount += total_amount_cat
+        total_sum += total_sum_cat
 
     return render(
         request,
@@ -953,7 +935,6 @@ def stat_balance(request):
             "stat": stat,
             "total_amount": total_amount,
             "total_sum": total_sum,
-            "by_category": by_category,
             "date_from": "-".join(list(map(str, date_from))),
         },
     )

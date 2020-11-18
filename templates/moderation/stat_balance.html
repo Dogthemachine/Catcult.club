@@ -15,13 +15,6 @@
           <input type="text" class="form-control" id="cc-date-from" value="{{ date_from }}">
         </div>
 
-        <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <label>
-            <input type="checkbox" name="cc-arrival-cb" value="0" id="cc-by-category-cb" {% if by_category == 1 %}checked{% endif %}>
-            {% trans 'By category' %}
-          </label>
-        </div>
-
         <div class="payment-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
           <a href="#" id="cc-stat-balance-filter" class="btn btn-default">{% trans 'Choose' %}</a>
         </div>
