@@ -373,3 +373,31 @@ class IWant(models.Model):
 
     def __str__(self):
         return u"%s" % self.name
+
+
+class NovaPoshtaCities(models.Model):
+    description_ru = models.TextField(_("city name ru"))
+    description = models.TextField(_("city name"))
+    ref = models.CharField(_("ref"), max_length=40, db_index=True)
+    settlement_type_description = models.TextField(_("settlement type description"))
+    settlement_type_description_ru = models.TextField(_("settlement type description ru"))
+    area_description = models.TextField(_("area description"))
+    area_description_ru = models.TextField(_("area description ru"))
+
+    class Meta:
+        ordering = ("description_ru",)
+        verbose_name = _("Nova_Poshta_Cities")
+        verbose_name_plural = _("Nova_Poshta_Cities")
+
+
+class NovaPoshtaWarehouses(models.Model):
+    description_ru = models.TextField(_("warehouses name"))
+    description = models.TextField(_("warehouses name"))
+    number = models.PositiveIntegerField(_("number"))
+    ref = models.CharField(_("ref"), max_length=40, db_index=True)
+    novaposhtacities = models.ForeignKey(NovaPoshtaCities, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ("description_ru",)
+        verbose_name = _("Nova_Poshta_Warehouses")
+        verbose_name_plural = _("Nova_Poshta_Warehouses")
