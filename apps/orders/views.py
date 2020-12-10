@@ -20,7 +20,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.dateformat import format
 
-from .forms import CheckoutForm
+from .forms import CheckoutForm, NovaPoshtaWarehouses
 from .models import Cart, CartItem, CartSet, CartSetItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
 from apps.info.models import Config
 from apps.liqpay import LiqPay
@@ -104,7 +104,6 @@ def cart_remove(request, id, set=False):
 @json_view
 def cart_plus(request, id, set=False, plus=True):
     cart, created = Cart.objects.get_or_create(session_key=request.session.session_key)
-    print(id,plus)
     if not created:
         if not set:
             try:
@@ -130,6 +129,12 @@ def cart_plus(request, id, set=False, plus=True):
     return {'html': html, 'count': cart_items.count()}
 
 
+@json_view
+def cart_warehouses(request, city_id):
+    warehouses = [(w.id, w.description) for w in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id)]
+    return {'success': True, 'warehouses': warehouses}
+
+
 def price_description(request):
     config = Config.objects.get()
     description = ''
@@ -150,7 +155,7 @@ def cart_checkout(request):
     if created:
         return {'success': False}
 
-    form = CheckoutForm(request.user, cart=cart)
+    form = CheckoutForm(request.user, cart=cart, language=request.LANGUAGE_CODE)
 
     no_avail_items = 0
 
@@ -169,7 +174,7 @@ def cart_checkout(request):
         return {'form': False, 'html': html}
 
     if request.method == 'POST':
-        form = CheckoutForm(request.user, request.POST, cart=cart)
+        form = CheckoutForm(request.user, request.POST, cart=cart, language=request.LANGUAGE_CODE)
         if form.is_valid():
 
             discount_stocks = int(cart.get_discount())
@@ -242,7 +247,7 @@ def cart_checkout(request):
             order.lang_code = request.LANGUAGE_CODE
             order.payment_method = form.cleaned_data['payment']
             order.delivery_method = form.cleaned_data['delivery']
-            order.user_comment = form.cleaned_data['comment']
+            order.user_comment = form.cleaned_data['shipping']
             order.delivery_cost = delivery_cost
             order.discount_promo = discount_promo
             order.discount_stocks = cart.discount_stocks

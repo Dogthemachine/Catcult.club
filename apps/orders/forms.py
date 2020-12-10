@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
-from apps.orders.models import Promo, Countris, Cart
+from apps.orders.models import Promo, Countris, Cart, NovaPoshtaCities, NovaPoshtaWarehouses
 from apps.helpers import delivery_cost
 
 
@@ -29,7 +29,9 @@ def lang(t):
 class CheckoutForm(forms.Form):
 
     # Build list of countries for dropdown list in form
-    CUNTRIES = []
+    COUNTRIES = []
+    CITIES_NP = []
+    WAREHOUSES_NP = []
 
     name = forms.CharField(
         label=_("Your First name:"),
@@ -45,15 +47,16 @@ class CheckoutForm(forms.Form):
         label=_("Phone number:"),
         widget=forms.TextInput(attrs={"placeholder": "380001112233"}),
     )
-    comment = forms.CharField(label=_("Your address:"), max_length=512)
-    email = forms.EmailField(label=_("Email address:"), required=False)
-    promo = forms.CharField(label=_("Promo code (if any):"), required=False)
     delivery = forms.TypedChoiceField(
         label=_("Delivery Method"),
         choices=lang(settings.DELIVERY),
         coerce=int,
         widget=forms.RadioSelect(),
     )
+    city_np = forms.ChoiceField(label=_("Your city:"), choices=CITIES_NP, required=False)
+    warehouse_np = forms.ChoiceField(label=_("Nova Poshta warehouse:"), choices=WAREHOUSES_NP, required=False)
+    shipping = forms.CharField(label=_("Your shipping address:"), max_length=512)
+    email = forms.EmailField(label=_("Email address:"), required=False)
     payment = forms.TypedChoiceField(
         label=_("Payment Method"),
         choices=lang(settings.PAYMENT),
@@ -61,8 +64,9 @@ class CheckoutForm(forms.Form):
         widget=forms.RadioSelect(),
     )
     country = forms.ChoiceField(
-        label=_("Country (cost of delivery)"), choices=CUNTRIES, required=False
+        label=_("Country (cost of delivery)"), choices=COUNTRIES, required=False
     )
+    promo = forms.CharField(label=_("Promo code (if any):"), required=False)
 
     def __init__(self, user, *args, **kwargs):
         self.cart = kwargs.pop("cart")
@@ -72,6 +76,8 @@ class CheckoutForm(forms.Form):
         self.helper.form_action = "."
 
         self.user = user
+
+        language = kwargs.pop('language')
 
         super(CheckoutForm, self).__init__(*args, **kwargs)
 
@@ -95,6 +101,25 @@ class CheckoutForm(forms.Form):
             (c.id, delivery_cost(c, self.cart)) for c in Countris.objects.all()
         ]
 
+        if language == 'ru':
+            self.fields["city_np"].choices = [
+                (c.id, c.description_ru) for c in NovaPoshtaCities.objects.all() if c.description_ru
+            ]
+        else:
+            self.fields["city_np"].choices = [
+                (c.id, c.description) for c in NovaPoshtaCities.objects.all() if c.description
+            ]
+
+        city_id = self.fields["city_np"].choices[0][0]
+        if language == 'ru':
+            self.fields["warehouse_np"].choices = [
+                (c.id, c.description_ru) for c in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id) if c.description_ru
+            ]
+        else:
+            self.fields["warehouse_np"].choices = [
+                (c.id, c.description) for c in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id) if c.description
+            ]
+
     def clean(self):
 
         payment = self.cleaned_data.get("payment")
@@ -103,7 +128,7 @@ class CheckoutForm(forms.Form):
         email = self.cleaned_data.get("email")
 
         if payment != 5:
-            if delivery == 3 and payment < 3:
+            if delivery and payment and delivery == 3 and payment < 3:
                 msg = _(u"This payment method is not available when sending abroad.")
                 self._errors["payment"] = self.error_class([msg])
 
@@ -115,7 +140,7 @@ class CheckoutForm(forms.Form):
                     )
                     self._errors["promo"] = self.error_class([msg])
 
-        if delivery == 3 and not email:
+        if delivery and delivery == 3 and not email:
             msg = _(u"This field is required.")
             self._errors["email"] = self.error_class([msg])
 

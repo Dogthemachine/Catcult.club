@@ -1,37 +1,37 @@
 // Google maps
-function initialize() {
-
-    if (document.location.pathname == '/en/contacts/' || document.location.pathname == '/ru/contacts/' || document.location.pathname == '/uk/contacts/') {
-        var map_zoom = 14;
-        locations = [[46.481049, 30.744456]];
-    } else {
-        var map_zoom = 11;
-    }
-
-    var mapOptions = {
-        center: new google.maps.LatLng(46.481049,30.744456),
-        zoom: map_zoom,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    var map = new google.maps.Map(document.getElementById("map_canvas_contacts"), mapOptions);
-
-    var marker, i;
-
-    for (i = 0; i < locations.length; i++) {
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(locations[i][0], locations[i][1]),
-            map: map
-        });
-
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infowindow.setContent(locations[i][0]);
-                infowindow.open(map, marker);
-            }
-        })(marker, i));
-    }
-}
+//function initialize() {
+//
+//    if (document.location.pathname == '/en/contacts/' || document.location.pathname == '/ru/contacts/' || document.location.pathname == '/uk/contacts/') {
+//        var map_zoom = 14;
+//        locations = [[46.481049, 30.744456]];
+//    } else {
+//        var map_zoom = 11;
+//    }
+//
+//    var mapOptions = {
+//        center: new google.maps.LatLng(46.481049,30.744456),
+//        zoom: map_zoom,
+//        mapTypeId: google.maps.MapTypeId.ROADMAP
+//    };
+//
+//    var map = new google.maps.Map(document.getElementById("map_canvas_contacts"), mapOptions);
+//
+//    var marker, i;
+//
+//    for (i = 0; i < locations.length; i++) {
+//        marker = new google.maps.Marker({
+//            position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+//            map: map
+//        });
+//
+//        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+//            return function() {
+//                infowindow.setContent(locations[i][0]);
+//                infowindow.open(map, marker);
+//            }
+//        })(marker, i));
+//    }
+//}
 
 $(document).ajaxSend(function(event, xhr, settings) {
     function getCookie(name) {
@@ -466,16 +466,15 @@ $(document).ready(function() {
                         }
                     }
                 };
-                if (document.getElementById('id_delivery_3').checked)
-                    {
-                        $('#div_id_country').show();
-                        $('#div_id_email').show();
-                    }
-                    else
-                    {
-                        $('#div_id_country').hide();
-                        $('#div_id_email').hide();
-                    };
+                if (type == 'get') {
+                    checkoutform(0);
+                    console.log('-a-');
+                    set_warehouses();
+                    if ($('#id_delivery_1').prop('checked')) {checkoutform(1); set_comment();};
+                    if ($('#id_delivery_2').prop('checked')) {checkoutform(2);};
+                    if ($('#id_delivery_3').prop('checked')) {checkoutform(3);};
+                    if ($('#id_delivery_4').prop('checked')) {checkoutform(4);};
+                };
                 $('#cc-cart-cancel').hide();
             }
         });
@@ -597,33 +596,78 @@ $(document).ready(function() {
         });
     });
 
-    $('#id_delivery_3').ready(function(e) {
-        if ($('#id_delivery_3').is(':checked'))
-            {
-                $('#div_id_country').hide();
-                $('#div_id_email').hide();
-            }
-            else
-            {
-                $('#div_id_country').show();
-                $('#div_id_email').show();
-            };
+    function set_comment() {
+        $('#id_shipping').val($('#id_city_np  option:selected').text() + ', ' + $('#id_warehouse_np  option:selected').text());
+    };
 
+    function set_warehouses() {
+        console.log('-0-');
+        var city_id = $('#id_city_np').val();
+        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+                       + window.location.host.toString().length + 1,2);
+        $.ajax({
+            url: '/' + loc_lang + '/cart/' + city_id + '/warehouses/',
+            type: 'post',
+            success: function(data) {
+                $('#id_warehouse_np').empty();
+                for (i = 0; i < data.warehouses.length; i++) {
+                    $('#id_warehouse_np').append('<option value="' + data.warehouses[i][0] + '">' + data.warehouses[i][1] + '</option>');
+                };
+                set_comment();
+            },
         });
+    };
+
+    $(document).on('change', '#id_city_np', function(e) {
+        console.log('-b-');
+        set_warehouses();
+    });
+
+    $(document).on('change', '#id_warehouse_np', function(e) {
+        set_comment();
+    });
+
+    checkoutform_hide = [['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_shipping', '#div_id_country', '#div_id_email'],
+                         ['#div_id_country', '#div_id_email', '#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_city_np', '#div_id_warehouse_np']
+                        ];
+
+    checkoutform_show = [[],
+                         ['#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_shipping'],
+                         ['#div_id_country', '#div_id_email', '#div_id_shipping'],
+                         []
+                        ];
+
+    function checkoutform(i) {
+        for (j = 0; j < checkoutform_hide[i].length; j++) {
+            $(checkoutform_hide[i][j]).hide();
+        };
+        for (j = 0; j < checkoutform_show[i].length; j++) {
+            $(checkoutform_show[i][j]).show();
+        };
+    }
 
     $(document).on('click', '#id_delivery_1', function(e) {
-        $('#div_id_country').hide();
-        $('#div_id_email').hide();
+        checkoutform(1);
+        set_comment();
     });
 
     $(document).on('click', '#id_delivery_2', function(e) {
-        $('#div_id_country').hide();
-        $('#div_id_email').hide();
+        checkoutform(2);
+        $('#id_shipping').val('');
     });
 
     $(document).on('click', '#id_delivery_3', function(e) {
-        $('#div_id_country').show();
-        $('#div_id_email').show();
+        checkoutform(3);
+        $('#id_shipping').val('');
+    });
+
+    $(document).on('click', '#id_delivery_4', function(e) {
+        checkoutform(4);
+        $('#id_shipping').val('Из магазина');
     });
 
     window.addEventListener('message', function (e) {
@@ -632,5 +676,5 @@ $(document).ready(function() {
       }
     }, false);
 
-    initialize();
+//    initialize();
 });
