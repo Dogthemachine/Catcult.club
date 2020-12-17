@@ -375,29 +375,49 @@ class IWant(models.Model):
         return u"%s" % self.name
 
 
-class NovaPoshtaCities(models.Model):
-    description_ru = models.TextField(_("city name ru"))
+class NovaPoshtaRegions(models.Model):
     description = models.TextField(_("city name"))
     ref = models.CharField(_("ref"), max_length=40, db_index=True)
+    areasenter_ref = models.CharField(_("areasenter_ref"), max_length=40, db_index=True)
+
+
+    class Meta:
+        ordering = ("description",)
+        verbose_name = _("Nova_Poshta_Cities")
+        verbose_name_plural = _("Nova_Poshta_Cities")
+
+    def __str__(self):
+        return u"%s" % self.description
+
+
+class NovaPoshtaCities(models.Model):
+    description = models.TextField(_("city name"))
+    ref = models.CharField(_("ref"), max_length=40, db_index=True)
+    novaposhtaregions = models.ForeignKey(NovaPoshtaRegions, null=True, blank=True, on_delete=models.CASCADE)
     settlement_type_description = models.TextField(_("settlement type description"))
     settlement_type_description_ru = models.TextField(_("settlement type description ru"))
     area_description = models.TextField(_("area description"))
     area_description_ru = models.TextField(_("area description ru"))
 
     class Meta:
-        ordering = ("description_ru",)
+        ordering = ("description",)
         verbose_name = _("Nova_Poshta_Cities")
         verbose_name_plural = _("Nova_Poshta_Cities")
 
+    def __str__(self):
+        return u"%s" % self.description
+
 
 class NovaPoshtaWarehouses(models.Model):
-    description_ru = models.TextField(_("warehouses name"))
     description = models.TextField(_("warehouses name"))
     number = models.PositiveIntegerField(_("number"))
     ref = models.CharField(_("ref"), max_length=40, db_index=True)
-    novaposhtacities = models.ForeignKey(NovaPoshtaCities, on_delete=models.CASCADE)
+    novaposhtacities = models.ForeignKey(NovaPoshtaCities, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ("description_ru",)
+        ordering = ("description",)
         verbose_name = _("Nova_Poshta_Warehouses")
         verbose_name_plural = _("Nova_Poshta_Warehouses")
+
+    def __str__(self):
+        return u"%s" % self.description

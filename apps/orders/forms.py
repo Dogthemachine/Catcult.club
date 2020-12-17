@@ -30,8 +30,6 @@ class CheckoutForm(forms.Form):
 
     # Build list of countries for dropdown list in form
     COUNTRIES = []
-    CITIES_NP = []
-    WAREHOUSES_NP = []
 
     name = forms.CharField(
         label=_("Your First name:"),
@@ -53,8 +51,16 @@ class CheckoutForm(forms.Form):
         coerce=int,
         widget=forms.RadioSelect(),
     )
-    city_np = forms.ChoiceField(label=_("Your city:"), choices=CITIES_NP, required=False)
-    warehouse_np = forms.ChoiceField(label=_("Nova Poshta warehouse:"), choices=WAREHOUSES_NP, required=False)
+    city_np = forms.ModelChoiceField(
+        label=_("Your city:"),
+        queryset=NovaPoshtaCities.objects.exclude(description_ru='').exclude(description_uk=''),
+        required=False,
+    )
+    warehouse_np = forms.ModelChoiceField(
+        label=_("Nova Poshta warehouse:"),
+        queryset=NovaPoshtaWarehouses.objects.all(),
+        required=False,
+    )
     shipping = forms.CharField(label=_("Your shipping address:"), max_length=512)
     email = forms.EmailField(label=_("Email address:"), required=False)
     payment = forms.TypedChoiceField(
@@ -101,27 +107,12 @@ class CheckoutForm(forms.Form):
             (c.id, delivery_cost(c, self.cart)) for c in Countris.objects.all()
         ]
 
-        if language == 'ru':
-            self.fields["city_np"].choices = [
-                (c.id, c.description_ru) for c in NovaPoshtaCities.objects.all() if c.description_ru
-            ]
-        else:
-            self.fields["city_np"].choices = [
-                (c.id, c.description) for c in NovaPoshtaCities.objects.all() if c.description
-            ]
-
-        city_id = self.fields["city_np"].choices[0][0]
-        if language == 'ru':
-            self.fields["warehouse_np"].choices = [
-                (c.id, c.description_ru) for c in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id) if c.description_ru
-            ]
-        else:
-            self.fields["warehouse_np"].choices = [
-                (c.id, c.description) for c in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id) if c.description
-            ]
+        # city_id = self.fields["city_np"].choices[0][0]
+        # self.fields["warehouse_np"].choices = [
+        #     (c.id, c.description_ru) for c in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id) if c.description_ru
+        # ]
 
     def clean(self):
-
         payment = self.cleaned_data.get("payment")
         delivery = self.cleaned_data.get("delivery")
         promo = self.cleaned_data.get("promo")

@@ -80,8 +80,7 @@ $(document).ready(function() {
 
     // Order item
     $('.cc-order-confirm').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         //alert($(this).data('id'))
         $.ajax({
             url: '/' + loc_lang + '/order/' + $(this).data('id') + '/',
@@ -105,8 +104,7 @@ $(document).ready(function() {
         var order_id = $(this).data('id');
 
         if ($('#cs-order-position-'+order_id).html() == '') {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
           $.ajax({
               url: '/' + loc_lang + '/order_position/',
               data: 'order_id=' + order_id,
@@ -192,8 +190,7 @@ $(document).ready(function() {
 
     $('#cc-valuta').on('change', function(e) {
         var valuta = $("#cc-valuta").val();
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         e.preventDefault();
           $.ajax({
               url: '/' + loc_lang + '/cart/valuta/',
@@ -210,8 +207,7 @@ $(document).ready(function() {
 
     //Comments
     $('#cc-comment-confirm').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         $.ajax({
             url: '/' + loc_lang + '/comment/',
             type: 'post',
@@ -238,8 +234,7 @@ $(document).ready(function() {
     });
 
     $('#cc-replay-confirm').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         $.ajax({
             url: '/' + loc_lang + '/replay/',
             type: 'post',
@@ -255,8 +250,7 @@ $(document).ready(function() {
     });
 
     $('.cc-comment-activate').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         var id_com = $(this).data('comment-id');
         $.ajax({
             url: '/' + loc_lang + '/comment-activate/' + id_com + '/',
@@ -271,8 +265,7 @@ $(document).ready(function() {
     });
 
     $('.cc-comment-deactivate').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         var id_com = $(this).data('comment-id');
         $.ajax({
             url: '/' + loc_lang + '/comment-deactivate/' + id_com + '/',
@@ -287,8 +280,7 @@ $(document).ready(function() {
     });
 
     $('.cc-comment-delete').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         var id_com = $(this).data('comment-id');
         $.ajax({
             url: '/' + loc_lang + '/comment-delete/' + id_com + '/',
@@ -303,8 +295,7 @@ $(document).ready(function() {
     });
 
     $('.cc-reply-activate').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         var id_com = $(this).data('reply-id');
         $.ajax({
             url: '/' + loc_lang + '/replay-activate/' + id_com + '/',
@@ -319,8 +310,7 @@ $(document).ready(function() {
     });
 
     $('.cc-reply-deactivate').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         var id_com = $(this).data('reply-id');
         $.ajax({
             url: '/' + loc_lang + '/replay-deactivate/' + id_com + '/',
@@ -334,9 +324,13 @@ $(document).ready(function() {
         });
     });
 
-    $('.cc-reply-delete').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
+    function get_loc_lang() {
+        return window.location.toString().substr(window.location.toString().indexOf(window.location.host)
                        + window.location.host.toString().length + 1,2);
+    };
+
+    $('.cc-reply-delete').on('click', function() {
+        var loc_lang = get_loc_lang();
         var id_com = $(this).data('reply-id');
         $.ajax({
             url: '/' + loc_lang + '/replay-delete/' + id_com + '/',
@@ -366,8 +360,7 @@ $(document).ready(function() {
     });
 
     $('.cc-cart-link').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         $.ajax({
             url: '/' + loc_lang + '/cart/',
             type: 'get',
@@ -379,8 +372,7 @@ $(document).ready(function() {
     });
 
     $('.cc-gallery-link').on('click', function() {
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         $.ajax({
             url: '/' + loc_lang + '/gallery/photo/' + $(this).data('id') + '/',
             type: 'get',
@@ -397,8 +389,10 @@ $(document).ready(function() {
         });
     });
 
+    var open_form = 0;
+    var warehouse_id = 0;
+
     $('#cc-cart-checkout').on('click', function() {
-        console.log($(this).data('ready'));
         if ($(this).data('ready') == 1) {
             var type = 'post';
             var data = $('#cc-checkout-form').serialize();
@@ -407,8 +401,7 @@ $(document).ready(function() {
             var data = {};
         }
 
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
 
         $.ajax({
             url: '/' + loc_lang + '/cart/checkout/',
@@ -466,18 +459,19 @@ $(document).ready(function() {
                         }
                     }
                 };
-                if (type == 'get') {
+                if (open_form == 0) {
+                    open_form = 1;
                     checkoutform(0);
-                    console.log('-a-');
-                    set_warehouses();
-                    if ($('#id_delivery_1').prop('checked')) {checkoutform(1); set_comment();};
-                    if ($('#id_delivery_2').prop('checked')) {checkoutform(2);};
-                    if ($('#id_delivery_3').prop('checked')) {checkoutform(3);};
-                    if ($('#id_delivery_4').prop('checked')) {checkoutform(4);};
                 };
+                if ($('#id_delivery_1').prop('checked')) {checkoutform(1); set_comment();};
+                if ($('#id_delivery_2').prop('checked')) {checkoutform(2);};
+                if ($('#id_delivery_3').prop('checked')) {checkoutform(3);};
+                if ($('#id_delivery_4').prop('checked')) {checkoutform(4);};
+                set_warehouses();
                 $('#cc-cart-cancel').hide();
             }
         });
+
     });
 
     $('#cc-cart-cancel').on('click', function() {
@@ -486,8 +480,7 @@ $(document).ready(function() {
 
     $('body').on('click', '.cc-cart-remove', function(e) {
         e.preventDefault();
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
 
         $.ajax({
             url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/remove/',
@@ -502,8 +495,7 @@ $(document).ready(function() {
 
     $('body').on('click', '.cc-cart-amount-plus', function(e) {
         e.preventDefault();
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
 
         $.ajax({
             url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/plus/',
@@ -518,8 +510,7 @@ $(document).ready(function() {
 
     $('body').on('click', '.cc-cart-amount-minus', function(e) {
         e.preventDefault();
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
 
         $.ajax({
             url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/minus/',
@@ -534,8 +525,7 @@ $(document).ready(function() {
 
     $('body').on('click', '.cc-cart-remove-set', function(e) {
         e.preventDefault();
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
 
         $.ajax({
             url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/remove_set/',
@@ -601,30 +591,37 @@ $(document).ready(function() {
     };
 
     function set_warehouses() {
-        console.log('-0-');
         var city_id = $('#id_city_np').val();
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
-        $.ajax({
-            url: '/' + loc_lang + '/cart/' + city_id + '/warehouses/',
-            type: 'post',
-            success: function(data) {
-                $('#id_warehouse_np').empty();
-                for (i = 0; i < data.warehouses.length; i++) {
-                    $('#id_warehouse_np').append('<option value="' + data.warehouses[i][0] + '">' + data.warehouses[i][1] + '</option>');
-                };
-                set_comment();
-            },
-        });
+        console.log('city_id='+city_id)
+        var loc_lang = get_loc_lang();
+        if (city_id != '') {
+            $.ajax({
+                url: '/' + loc_lang + '/cart/' + city_id + '/warehouses/',
+                type: 'post',
+                success: function(data) {
+                    $('#id_warehouse_np').empty();
+                    console.log('set_warehouses-->'+warehouse_id);
+                    for (i = 0; i < data.warehouses.length; i++) {
+                        if (data.warehouses[i][0] == warehouse_id) {
+                            $('#id_warehouse_np').append('<option value="' + data.warehouses[i][0] + '" selected="selected">' + data.warehouses[i][1] + '</option>');
+                        } else {
+                            $('#id_warehouse_np').append('<option value="' + data.warehouses[i][0] + '">' + data.warehouses[i][1] + '</option>');
+                        }
+                    };
+                    set_comment();
+                    warehouse_id = $('#id_warehouse_np').val();
+                },
+            });
+        }
     };
 
     $(document).on('change', '#id_city_np', function(e) {
-        console.log('-b-');
         set_warehouses();
     });
 
     $(document).on('change', '#id_warehouse_np', function(e) {
         set_comment();
+        warehouse_id = $(this).val();
     });
 
     checkoutform_hide = [['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_city_np', '#div_id_warehouse_np'],
