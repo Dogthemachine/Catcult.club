@@ -26,10 +26,16 @@ def lang(t):
     return x
 
 
+class ChoiceFieldNP(forms.ChoiceField):
+    def validate(self, value):
+        pass
+
+
 class CheckoutForm(forms.Form):
 
     # Build list of countries for dropdown list in form
     COUNTRIES = []
+    WAREHOUSES = []
 
     name = forms.CharField(
         label=_("Your First name:"),
@@ -56,9 +62,9 @@ class CheckoutForm(forms.Form):
         queryset=NovaPoshtaCities.objects.exclude(description_ru='').exclude(description_uk=''),
         required=False,
     )
-    warehouse_np = forms.ModelChoiceField(
+    warehouse_np = ChoiceFieldNP(
         label=_("Nova Poshta warehouse:"),
-        queryset=NovaPoshtaWarehouses.objects.all(),
+        choices=WAREHOUSES,
         required=False,
     )
     shipping = forms.CharField(label=_("Your shipping address:"), max_length=512)
@@ -106,11 +112,6 @@ class CheckoutForm(forms.Form):
         self.fields["country"].choices = [
             (c.id, delivery_cost(c, self.cart)) for c in Countris.objects.all()
         ]
-
-        # city_id = self.fields["city_np"].choices[0][0]
-        # self.fields["warehouse_np"].choices = [
-        #     (c.id, c.description_ru) for c in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id) if c.description_ru
-        # ]
 
     def clean(self):
         payment = self.cleaned_data.get("payment")

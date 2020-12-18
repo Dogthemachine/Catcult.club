@@ -467,7 +467,6 @@ $(document).ready(function() {
                 if ($('#id_delivery_2').prop('checked')) {checkoutform(2);};
                 if ($('#id_delivery_3').prop('checked')) {checkoutform(3);};
                 if ($('#id_delivery_4').prop('checked')) {checkoutform(4);};
-                set_warehouses();
                 $('#cc-cart-cancel').hide();
             }
         });
@@ -592,7 +591,6 @@ $(document).ready(function() {
 
     function set_warehouses() {
         var city_id = $('#id_city_np').val();
-        console.log('city_id='+city_id)
         var loc_lang = get_loc_lang();
         if (city_id != '') {
             $.ajax({
@@ -600,7 +598,6 @@ $(document).ready(function() {
                 type: 'post',
                 success: function(data) {
                     $('#id_warehouse_np').empty();
-                    console.log('set_warehouses-->'+warehouse_id);
                     for (i = 0; i < data.warehouses.length; i++) {
                         if (data.warehouses[i][0] == warehouse_id) {
                             $('#id_warehouse_np').append('<option value="' + data.warehouses[i][0] + '" selected="selected">' + data.warehouses[i][1] + '</option>');
@@ -649,6 +646,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#id_delivery_1', function(e) {
         checkoutform(1);
+        set_warehouses();
         set_comment();
     });
 
