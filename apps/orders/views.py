@@ -20,8 +20,9 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.dateformat import format
 
-from .forms import CheckoutForm, NovaPoshtaWarehouses
-from .models import Cart, CartItem, CartSet, CartSetItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones
+from .forms import CheckoutForm
+from .models import Cart, CartItem, CartSet, CartSetItem, Orders, OrderItems, Payment, PaymentRaw, Promo, Phones, \
+    NovaPoshtaCities, NovaPoshtaWarehouses, NovaPoshtaRegions
 from apps.info.models import Config
 from apps.liqpay import LiqPay
 from apps.elephants.models import Balance
@@ -130,9 +131,25 @@ def cart_plus(request, id, set=False, plus=True):
 
 
 @json_view
-def cart_warehouses(request, city_id):
-    warehouses = [(w.id, w.description) for w in NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id)]
+def cart_warehouses(request, city_id, warehouse_id):
+    warehouses = [(w.id, w.description, w.id == warehouse_id) for w in
+                  NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id)]
     return {'success': True, 'warehouses': warehouses}
+
+
+@json_view
+def cart_cities(request, region_id, city_id):
+    try:
+        region = NovaPoshtaRegions.objects.get(pk=region_id)
+    except:
+        return {'success': False}
+    if city_id == 0:
+        cities = [(c.id, c.description, region.areasenter_ref == c.ref) for c in
+                  NovaPoshtaCities.objects.filter(novaposhtaregions__id=region_id)]
+    else:
+        cities = [(c.id, c.description, city_id == c.id) for c in
+                  NovaPoshtaCities.objects.filter(novaposhtaregions__id=region_id)]
+    return {'success': True, 'cities': cities}
 
 
 def price_description(request):

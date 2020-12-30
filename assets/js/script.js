@@ -390,6 +390,8 @@ $(document).ready(function() {
     });
 
     var open_form = 0;
+    var region_id = 0;
+    var city_id = 0;
     var warehouse_id = 0;
 
     $('#cc-cart-checkout').on('click', function() {
@@ -463,7 +465,7 @@ $(document).ready(function() {
                     open_form = 1;
                     checkoutform(0);
                 };
-                if ($('#id_delivery_1').prop('checked')) {checkoutform(1); set_comment();};
+                if ($('#id_delivery_1').prop('checked')) {checkoutform(1); set_cities(); set_warehouses(); set_comment();};
                 if ($('#id_delivery_2').prop('checked')) {checkoutform(2);};
                 if ($('#id_delivery_3').prop('checked')) {checkoutform(3);};
                 if ($('#id_delivery_4').prop('checked')) {checkoutform(4);};
@@ -586,7 +588,7 @@ $(document).ready(function() {
     });
 
     function set_comment() {
-        $('#id_shipping').val($('#id_city_np  option:selected').text() + ', ' + $('#id_warehouse_np  option:selected').text());
+        $('#id_shipping').val($('#id_region_np  option:selected').text() + ' обл, ' + $('#id_city_np  option:selected').text() + ', ' + $('#id_warehouse_np  option:selected').text());
     };
 
     function set_warehouses() {
@@ -594,42 +596,74 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         if (city_id != '') {
             $.ajax({
-                url: '/' + loc_lang + '/cart/' + city_id + '/warehouses/',
+                url: '/' + loc_lang + '/cart/' + city_id + '/' + warehouse_id + '/warehouses/',
                 type: 'post',
-                success: function(data) {
+                success: function(ajax_data) {
                     $('#id_warehouse_np').empty();
-                    for (i = 0; i < data.warehouses.length; i++) {
-                        if (data.warehouses[i][0] == warehouse_id) {
-                            $('#id_warehouse_np').append('<option value="' + data.warehouses[i][0] + '" selected="selected">' + data.warehouses[i][1] + '</option>');
-                        } else {
-                            $('#id_warehouse_np').append('<option value="' + data.warehouses[i][0] + '">' + data.warehouses[i][1] + '</option>');
-                        }
+                    for (i = 0; i < ajax_data.warehouses.length; i++) {
+                        var data = {id: ajax_data.warehouses[i][0], text: ajax_data.warehouses[i][1], active: ajax_data.warehouses[i][2]};
+                        var newOption = new Option(data.text, data.id, data.active, data.active);
+                        $('#id_warehouse_np').append(newOption).trigger('change');
                     };
                     set_comment();
                     warehouse_id = $('#id_warehouse_np').val();
                 },
             });
+        };
+    };
+
+    function set_cities() {
+        var region_id = $('#id_region_np').val();
+        var loc_lang = get_loc_lang();
+        if (region_id != '') {
+            $.ajax({
+                url: '/' + loc_lang + '/cart/' + region_id + '/' +city_id + '/cities/',
+                type: 'post',
+                success: function(ajax_data) {
+                    $('#id_city_np').empty();
+                    for (i = 0; i < ajax_data.cities.length; i++) {
+                        var data = {id: ajax_data.cities[i][0], text: ajax_data.cities[i][1], center: ajax_data.cities[i][2]};
+                        var newOption = new Option(data.text, data.id, data.center, data.center);
+                        $('#id_city_np').append(newOption).trigger('change');
+                    };
+                     set_comment();
+                    city_id = $('#id_city_np').val();
+                },
+            });
+            set_warehouses();
+
         }
     };
 
+    $(document).on('change', '#id_region_np', function(e) {
+        city_id = 0;
+        warehouse_id = 0;
+        set_cities();
+    });
+
     $(document).on('change', '#id_city_np', function(e) {
-        set_warehouses();
+        if (city_id != $('#id_city_np').val()) {
+            city_id = $('#id_city_np').val();
+            set_warehouses();
+        };
     });
 
     $(document).on('change', '#id_warehouse_np', function(e) {
-        set_comment();
-        warehouse_id = $(this).val();
+        if (warehouse_id != $('#id_warehouse_np').val()) {
+            set_comment();
+            warehouse_id = $('#id_warehouse_np').val();
+        };
     });
 
-    checkoutform_hide = [['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_city_np', '#div_id_warehouse_np'],
+    checkoutform_hide = [['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
                          ['#div_id_shipping', '#div_id_country', '#div_id_email'],
-                         ['#div_id_country', '#div_id_email', '#div_id_city_np', '#div_id_warehouse_np'],
-                         ['#div_id_city_np', '#div_id_warehouse_np'],
-                         ['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_city_np', '#div_id_warehouse_np']
+                         ['#div_id_country', '#div_id_email', '#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np']
                         ];
 
     checkoutform_show = [[],
-                         ['#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
                          ['#div_id_shipping'],
                          ['#div_id_country', '#div_id_email', '#div_id_shipping'],
                          []

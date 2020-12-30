@@ -17,6 +17,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get('TC_HOSTNAME')]
 INSTALLED_APPS = [
     'cacheops',
     'modeltranslation',
+    'django_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,12 +87,22 @@ TEMPLATES = [
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT') + "/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    'select2': {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT') + "/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
+
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = "select2"
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 

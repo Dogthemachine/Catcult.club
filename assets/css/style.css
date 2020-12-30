@@ -855,3 +855,7 @@ a:hover {
 .cc-artist-block {
     margin-top:-20px;
 }
+
+.select2 {
+    width: 100% !important;
+}

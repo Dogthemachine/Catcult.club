@@ -1,12 +1,14 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Fieldset, Layout, Submit
+from django_select2.forms import Select2Widget, ModelSelect2Widget
 
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext
+from django_select2 import forms as s2forms
 from django.utils.translation import gettext_lazy as _
 
-from apps.orders.models import Promo, Countris, Cart, NovaPoshtaCities, NovaPoshtaWarehouses
+from apps.orders.models import Promo, Countris, Cart, NovaPoshtaRegions, NovaPoshtaCities, NovaPoshtaWarehouses
 from apps.helpers import delivery_cost
 
 
@@ -35,6 +37,7 @@ class CheckoutForm(forms.Form):
 
     # Build list of countries for dropdown list in form
     COUNTRIES = []
+    CITIES = []
     WAREHOUSES = []
 
     name = forms.CharField(
@@ -57,15 +60,26 @@ class CheckoutForm(forms.Form):
         coerce=int,
         widget=forms.RadioSelect(),
     )
-    city_np = forms.ModelChoiceField(
+    region_np = forms.ModelChoiceField(
+        label=_("Your region:"),
+        queryset=NovaPoshtaRegions.objects.exclude(description_ru='').exclude(description_uk=''),
+        widget=Select2Widget(),
+        required=False,
+    )
+    city_np = ChoiceFieldNP(
         label=_("Your city:"),
-        queryset=NovaPoshtaCities.objects.exclude(description_ru='').exclude(description_uk=''),
+        choices=CITIES,
+        widget=Select2Widget(),
         required=False,
     )
     warehouse_np = ChoiceFieldNP(
         label=_("Nova Poshta warehouse:"),
         choices=WAREHOUSES,
+        widget=Select2Widget(),
         required=False,
+    )
+    country = forms.ChoiceField(
+        label=_("Country (cost of delivery)"), choices=COUNTRIES, required=False
     )
     shipping = forms.CharField(label=_("Your shipping address:"), max_length=512)
     email = forms.EmailField(label=_("Email address:"), required=False)
@@ -74,9 +88,6 @@ class CheckoutForm(forms.Form):
         choices=lang(settings.PAYMENT),
         coerce=int,
         widget=forms.RadioSelect(),
-    )
-    country = forms.ChoiceField(
-        label=_("Country (cost of delivery)"), choices=COUNTRIES, required=False
     )
     promo = forms.CharField(label=_("Promo code (if any):"), required=False)
 

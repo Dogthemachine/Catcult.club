@@ -72,6 +72,7 @@ from apps.orders.views import (
     cart_valuta,
     cart_plus,
     cart_warehouses,
+    cart_cities,
 )
 from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
@@ -246,7 +247,9 @@ urlpatterns += (
         path("cart/checkout/", cart_checkout, name="cart_checkout"),
         path("cart/valuta/", cart_valuta, name="cart_valuta"),
         path("success/", main_page, name="payment_success"),
-        path("cart/<int:city_id>/warehouses/", cart_warehouses, name="cart_warehouses"),
+        path("cart/<int:city_id>/<int:warehouse_id>/warehouses/", cart_warehouses, name="cart_warehouses"),
+        path("cart/<int:region_id>/<int:city_id>/cities/", cart_cities, name="cart_cities"),
+        path("select2/", include("django_select2.urls")),
         path("i18n/", include("django.conf.urls.i18n")),
     )
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

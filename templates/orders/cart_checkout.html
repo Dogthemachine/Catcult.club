@@ -7,3 +7,6 @@
 {# LiqPay form place, fills via AJAX request #}
 <div id="payment-form"></div>
 {% endcomment %}
+
+{% block css %}{{ form.media.css }}{% endblock %}
+{% block script %}{{ form.media.js }}{% endblock %}
