@@ -133,7 +133,7 @@ def cart_plus(request, id, set=False, plus=True):
 @json_view
 def cart_warehouses(request, city_id, warehouse_id):
     warehouses = [(w.id, w.description, w.id == warehouse_id) for w in
-                  NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id)]
+                  NovaPoshtaWarehouses.objects.filter(novaposhtacities__id=city_id).order_by('number')]
     return {'success': True, 'warehouses': warehouses}
 
 
