@@ -676,6 +676,7 @@ $(document).ready(function() {
         for (j = 0; j < checkoutform_show[i].length; j++) {
             $(checkoutform_show[i][j]).show();
         };
+        if (i<3) {$('#id_payment_3').parent().show()} else {$('#id_payment_3').parent().hide()};
     }
 
     $(document).on('click', '#id_delivery_1', function(e) {
