@@ -3,7 +3,7 @@ import os
 gettext = lambda s: s
 
 ADMINS = (
-    ('Dmitry', 'danileyko@i.ua'),
+    ('Dmitry', 'dmitrydanileyko@gmail.com'),
 )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

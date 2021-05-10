@@ -559,16 +559,16 @@ def create_item_balance(sender, instance, created, **kwargs):
             balance.save()
 
 
-@receiver(post_save, sender=Sizes)
-def create_size_balance(sender, instance, created, **kwargs):
-    item = instance.item
-    cache.delete(template_cache_key("item_template", item.id))
-    if created:
-        category = instance.categories
-        items = Items.objects.filter(fashions__categories=category)
-        for item in items:
-            balance = Balance(item=item, size=instance)
-            balance.save()
+#@receiver(post_save, sender=Sizes)
+#def create_size_balance(sender, instance, created, **kwargs):
+#    item = instance.item
+#    cache.delete(template_cache_key("item_template", item.id))
+#    if created:
+#        category = instance.categories
+#        items = Items.objects.filter(fashions__categories=category)
+#        for item in items:
+#            balance = Balance(item=item, size=instance)
+#            balance.save()
 
 
 @receiver(post_save, sender=Photo)
