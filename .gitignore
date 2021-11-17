@@ -7,3 +7,4 @@
 .idea
 *.sqlite3
 .bash_profile
+.DS_Store
