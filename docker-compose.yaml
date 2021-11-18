@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  cats:
+    build: .
+    command: python3.8 /projects/three_cats/manage.py runserver 0.0.0.0:8080
+    volumes:
+      - /c/projects/:/projects/
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+
+  redis:
+    image: redis:6.0-alpine
+    ports:
+      - '6379:6379'

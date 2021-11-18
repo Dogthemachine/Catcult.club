@@ -3,7 +3,7 @@ import os
 gettext = lambda s: s
 
 ADMINS = (
-    ('Dmitry', 'dmitrydanileyko@gmail.com'),
+    ('Dmitry', 'danileyko@i.ua'),
 )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -87,14 +87,14 @@ TEMPLATES = [
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT') + "/1",
+        "LOCATION": os.environ.get('TC_REDIS_PORT') + "/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     'select2': {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT') + "/2",
+        "LOCATION": os.environ.get('TC_REDIS_PORT') + "/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -106,7 +106,7 @@ SELECT2_CACHE_BACKEND = "select2"
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
-CACHEOPS_REDIS = "redis://127.0.0.1:" + os.environ.get('TC_REDIS_PORT') + "/1"
+CACHEOPS_REDIS = os.environ.get('TC_REDIS_PORT') + "/1"
 
 WSGI_APPLICATION = 'three_cats.wsgi.application'
 
