@@ -469,6 +469,7 @@ $(document).ready(function() {
                 if ($('#id_delivery_2').prop('checked')) {checkoutform(2);};
                 if ($('#id_delivery_3').prop('checked')) {checkoutform(3);};
                 if ($('#id_delivery_4').prop('checked')) {checkoutform(4);};
+                if ($('#id_delivery_5').prop('checked')) {checkoutform(5);};
                 $('#cc-cart-cancel').hide();
             }
         });
@@ -659,6 +660,7 @@ $(document).ready(function() {
                          ['#div_id_shipping', '#div_id_country', '#div_id_email'],
                          ['#div_id_country', '#div_id_email', '#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
                          ['#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
+                         ['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
                          ['#div_id_shipping', '#div_id_country', '#div_id_email', '#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np']
                         ];
 
@@ -666,7 +668,8 @@ $(document).ready(function() {
                          ['#div_id_region_np', '#div_id_city_np', '#div_id_warehouse_np'],
                          ['#div_id_shipping'],
                          ['#div_id_country', '#div_id_email', '#div_id_shipping'],
-                         []
+                         [],
+                         ['#div_id_shipping']
                         ];
 
     function checkoutform(i) {
@@ -698,6 +701,11 @@ $(document).ready(function() {
     $(document).on('click', '#id_delivery_4', function(e) {
         checkoutform(4);
         $('#id_shipping').val('Из магазина');
+    });
+
+     $(document).on('click', '#id_delivery_5', function(e) {
+        checkoutform(5);
+        $('#id_shipping').attr("placeholder", "Укажите город и номер отделения Justin");
     });
 
     window.addEventListener('message', function (e) {

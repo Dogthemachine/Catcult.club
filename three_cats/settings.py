@@ -188,6 +188,7 @@ DELIVERY = (
 #    (2, gettext('Courier delivery across Odessa;')),
     (3, gettext('Worldwide Delivery.')),
     (2, gettext('In showroom')),
+    (4, gettext('Justin')),
 )
 
 PAYMENT = (
