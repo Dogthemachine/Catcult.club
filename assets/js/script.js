@@ -714,5 +714,26 @@ $(document).ready(function() {
       }
     }, false);
 
+  const page_lang = document.documentElement.lang;
+  var cookie_message = 'Этот веб-сайт использует файлы cookie. Используя этот веб-сайт, вы соглашаетесь на использование этих файлов cookie.';
+  var cookie_consentMessage = 'Я понимаю';
+
+  if (page_lang === 'uk') {
+    cookie_message = 'Цей веб -сайт використовує файли cookie. Використовуючи цей веб -сайт, ви даєте згоду на використання нами цих файлів cookie.';
+    cookie_consentMessage = 'Я розумію';
+  };
+
+  if (page_lang === 'en') {
+    cookie_message = 'This website uses cookies. By using this website, you agree to the use of these cookies.';
+    cookie_consentMessage = 'I accept';
+  };
+
+  $('#cookieConsent').cookieConsent({
+    message: cookie_message,
+    consentMessage: cookie_consentMessage,
+//    style: 'color:Tomato;',
+    consentStyle: 'font-weight:bold;'
+  });
+
 //    initialize();
 });
