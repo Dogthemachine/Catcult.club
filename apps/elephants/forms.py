@@ -134,12 +134,11 @@ class SetSizesForm(forms.Form):
 
 class IWantForm(forms.Form):
     name = forms.CharField(
-        label=_("Name"), max_length=70, widget=forms.TextInput(attrs={"class": "span9"})
+        label=_("Your name"), max_length=70, widget=forms.TextInput(attrs={"class": "span9"})
     )
     phone = forms.CharField(
-        label=_("Phone"),
+        label=_("Phone or e-mail"),
         max_length=40,
-        required=False,
         widget=forms.TextInput(attrs={"class": "span9"}),
     )
     email = forms.EmailField(
