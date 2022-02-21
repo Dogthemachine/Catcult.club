@@ -321,6 +321,21 @@ def cart_checkout(request):
 
                 send_sms(order.phone, text)
 
+            elif order.payment_method == 1:
+                if order.lang_code == 'en':
+                    text = 'Your order #%(number)s has been taken. Card number is %(card)s (%(name)s) and sum is %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.MONO_CARD, 'name': settings.MONO_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                    text += ' Please indicate your name or order number in the payment order'
+                elif order.lang_code == 'ru':
+                    text = 'Ваш заказ №%(number)s был принят. Номер карты %(card)s (%(name)s). Сумма к оплате %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.MONO_CARD, 'name': settings.MONO_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                    text += ' Пожалуйста, укажите в назначении платежа свою фамилию или номер заказа'
+                elif order.lang_code == 'uk':
+                    text = 'Ваше замовлення №%(number)s було прийняте. Номер картки %(card)s (%(name)s). Сума до оплати %(sum)s %(dsc)s. CatCult' % {'number': order.get_number(), 'card': settings.MONO_CARD, 'name': settings.MONO_NAME, 'sum': order.get_total_price(request), 'dsc': price_description(request)}
+                    text += ' Буьласка, вкжіть в призначенні платежу своє прізвище або номер замовлення'
+                else:
+                    text = ''
+
+                send_sms(order.phone, text)
+
             else:
                 if order.payment_method != 5:
                     if order.lang_code == 'en':

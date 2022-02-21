@@ -185,7 +185,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 DELIVERY = (
     (0, gettext('Warehouse-to-warehouse delivery at the nearest Nova Poshta branch (in Ukraine);')),
     (1, gettext('Nova Poshta door-to-door delivery (in Ukraine);')),
-#    (2, gettext('Courier delivery across Odessa;')),
     (3, gettext('Worldwide Delivery.')),
     (2, gettext('In showroom')),
     (4, gettext('Justin')),
@@ -193,12 +192,10 @@ DELIVERY = (
 
 PAYMENT = (
     (3, gettext('Pay by card (Visa, MasterCard);')),
+    (1, gettext('MonoBank (Ukraine only);')),
     (2, gettext('PrivatBank (Ukraine only);')),
-    (1, ''),
-#    (1, gettext('Settle in cash in the case of courier "door-to-door" delivery;')),
     (0, gettext('Cash on delivery upon receipt of order at the Nova Poshta branch;')),
     (5, gettext('Cash in showroom')),
-#    (5, gettext('Through any system of international money transfer (in the case of overseas delivery).')),
 )
 
 # Discount for regular users.
@@ -221,7 +218,9 @@ SMS_PUBLIC_KEY = os.environ.get('TC_SMS_PUBLIC_KEY')
 SMS_PRIVATE_KEY = os.environ.get('TC_SMS_PRIVATE_KEY')
 
 PRIVAT_CARD = os.environ.get('TC_PRIVAT_CARD')
+MONO_CARD = os.environ.get('TC_MONO_CARD')
 PRIVAT_NAME = os.environ.get('TC_PRIVAT_NAME')
+MONO_NAME = os.environ.get('TC_MONO_NAME')
 
 LIQPAY_PUBLIC_KEY = os.environ.get('TC_LIQPAY_PUBLIC_KEY')
 LIQPAY_PRIVATE_KEY = os.environ.get('TC_LIQPAY_PRIVATE_KEY')
