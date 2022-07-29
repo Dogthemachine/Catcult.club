@@ -52,7 +52,7 @@ class CheckoutForm(forms.Form):
     )
     phone = forms.CharField(
         label=_("Phone number:"),
-        widget=forms.TextInput(attrs={"placeholder": "380001112233"}),
+        widget=forms.TextInput(attrs={"placeholder": "+_(___)___-__-__"}),
     )
     delivery = forms.TypedChoiceField(
         label=_("Delivery Method"),
