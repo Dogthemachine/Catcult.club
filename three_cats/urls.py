@@ -251,6 +251,7 @@ urlpatterns += (
         path("cart/<int:region_id>/<int:city_id>/cities/", cart_cities, name="cart_cities"),
         path("select2/", include("django_select2.urls")),
         path("i18n/", include("django.conf.urls.i18n")),
+        prefix_default_language=False,
     )
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )

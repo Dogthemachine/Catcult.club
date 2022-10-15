@@ -168,24 +168,24 @@ $(document).ready(function() {
 
     $('#cc-language').on('change', function(e) {
         var lang = $("#cc-language").val();
-        var loc = window.location.toString().substring( 0, window.location.toString().indexOf(window.location.host)
-            + window.location.host.toString().length + 1) + lang
-            + window.location.toString().substring(window.location.toString().indexOf(window.location.host)
-            + window.location.host.toString().length + 3);
+
+        n_lang = '/' + lang + '/';
+        if (lang=='uk') { n_lang = '/';}
+        pathname = window.location.pathname.substr(1);
+
+        if (window.location.pathname.indexOf('/ru/')==0)
+        {
+            pathname = window.location.pathname.substr(4);
+        };
+
+        if (window.location.pathname.indexOf('/en/')==0)
+        {
+            pathname = window.location.pathname.substr(4);
+        };
+
+        loc = window.location.protocol + '//' + window.location.host + n_lang + pathname;
+
         window.location = loc;
-        /*
-        e.preventDefault();
-          $.ajax({
-              url: '/i18n/setlang/',
-              data: 'language=' + lang,
-              type: 'post',
-              success: function() {
-                  location.reload();
-              },
-              error: function() {
-              }
-          });
-           */
     });
 
     $('#cc-valuta').on('change', function(e) {
