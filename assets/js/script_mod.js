@@ -58,17 +58,14 @@ $(document).ready(function() {
     // Перевод
     $('#cs-locate-en').on('click', function(e) {
         e.preventDefault();
-          alert('===');
           $.ajax({
               url: '/i18n/setlang/',
               data: 'language=en',
               type: 'post',
               success: function() {
-                  alert('+++');
                   location.reload();
               },
               error: function() {
-                  alert('---');
               }
           });
 
@@ -171,6 +168,13 @@ $(document).ready(function() {
         location.search = '?date_from=' + date_from + '&date_to=' + date_to + '&status=' + status;
     });
 
+    function get_loc_lang() {
+        var lang = window.location.pathname.toString().substr(0,2);
+        if (lang=='en') {return '/' + lang};
+        if (lang=='ru') {return '/' + lang};
+        return ''
+    };
+
     $('#cc-stat-sale-filter').on('click', function(e) {
         e.preventDefault();
 
@@ -178,11 +182,10 @@ $(document).ready(function() {
         var date_to = $('#cc-date-to').val();
         var payment = $('#cc-payment-stat').val();
 
-        var loc_lang = window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var loc_lang = get_loc_lang();
         e.preventDefault();
           $.ajax({
-              url: '/' + loc_lang + '/stat/payment/',
+              url: loc_lang + '/stat/payment/',
               data: 'payment=' + payment,
               type: 'post',
               success: function() {

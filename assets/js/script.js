@@ -83,7 +83,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         //alert($(this).data('id'))
         $.ajax({
-            url: '/' + loc_lang + '/order/' + $(this).data('id') + '/',
+            url: loc_lang + '/order/' + $(this).data('id') + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -106,7 +106,7 @@ $(document).ready(function() {
         if ($('#cs-order-position-'+order_id).html() == '') {
         var loc_lang = get_loc_lang();
           $.ajax({
-              url: '/' + loc_lang + '/order_position/',
+              url: loc_lang + '/order_position/',
               data: 'order_id=' + order_id,
               type: 'get',
               success: function(data) {
@@ -193,7 +193,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         e.preventDefault();
           $.ajax({
-              url: '/' + loc_lang + '/cart/valuta/',
+              url: loc_lang + '/cart/valuta/',
               data: 'valuta=' + valuta,
               type: 'post',
               success: function() {
@@ -209,7 +209,7 @@ $(document).ready(function() {
     $('#cc-comment-confirm').on('click', function() {
         var loc_lang = get_loc_lang();
         $.ajax({
-            url: '/' + loc_lang + '/comment/',
+            url: loc_lang + '/comment/',
             type: 'post',
             data: $('#cc-add-comment-form').serializeArray(),
             success: function(data) {
@@ -236,7 +236,7 @@ $(document).ready(function() {
     $('#cc-replay-confirm').on('click', function() {
         var loc_lang = get_loc_lang();
         $.ajax({
-            url: '/' + loc_lang + '/replay/',
+            url: loc_lang + '/replay/',
             type: 'post',
             data: $('#cc-add-replay-form').serializeArray(),
             success: function(data) {
@@ -253,7 +253,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         var id_com = $(this).data('comment-id');
         $.ajax({
-            url: '/' + loc_lang + '/comment-activate/' + id_com + '/',
+            url: loc_lang + '/comment-activate/' + id_com + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -268,7 +268,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         var id_com = $(this).data('comment-id');
         $.ajax({
-            url: '/' + loc_lang + '/comment-deactivate/' + id_com + '/',
+            url: loc_lang + '/comment-deactivate/' + id_com + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -283,7 +283,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         var id_com = $(this).data('comment-id');
         $.ajax({
-            url: '/' + loc_lang + '/comment-delete/' + id_com + '/',
+            url: loc_lang + '/comment-delete/' + id_com + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -298,7 +298,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         var id_com = $(this).data('reply-id');
         $.ajax({
-            url: '/' + loc_lang + '/replay-activate/' + id_com + '/',
+            url: loc_lang + '/replay-activate/' + id_com + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -313,7 +313,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         var id_com = $(this).data('reply-id');
         $.ajax({
-            url: '/' + loc_lang + '/replay-deactivate/' + id_com + '/',
+            url: loc_lang + '/replay-deactivate/' + id_com + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -325,15 +325,17 @@ $(document).ready(function() {
     });
 
     function get_loc_lang() {
-        return window.location.toString().substr(window.location.toString().indexOf(window.location.host)
-                       + window.location.host.toString().length + 1,2);
+        var lang = window.location.pathname.toString().substr(0,2);
+        if (lang=='en') {return '/' + lang};
+        if (lang=='ru') {return '/' + lang};
+        return ''
     };
 
     $('.cc-reply-delete').on('click', function() {
         var loc_lang = get_loc_lang();
         var id_com = $(this).data('reply-id');
         $.ajax({
-            url: '/' + loc_lang + '/replay-delete/' + id_com + '/',
+            url: loc_lang + '/replay-delete/' + id_com + '/',
             type: 'post',
             success: function(data) {
                 if (data.success) {
@@ -362,7 +364,7 @@ $(document).ready(function() {
     $('.cc-cart-link').on('click', function() {
         var loc_lang = get_loc_lang();
         $.ajax({
-            url: '/' + loc_lang + '/cart/',
+            url: loc_lang + '/cart/',
             type: 'get',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -374,14 +376,14 @@ $(document).ready(function() {
     $('.cc-gallery-link').on('click', function() {
         var loc_lang = get_loc_lang();
         $.ajax({
-            url: '/' + loc_lang + '/gallery/photo/' + $(this).data('id') + '/',
+            url: loc_lang + '/gallery/photo/' + $(this).data('id') + '/',
             type: 'get',
             success: function(data) {
                 $('#cc-gallery-content').html(data.html);
             }
         });
         $.ajax({
-            url: '/' + loc_lang + '/gallery/photo_buy/' + $(this).data('id') + '/',
+            url: loc_lang + '/gallery/photo_buy/' + $(this).data('id') + '/',
             type: 'get',
             success: function(data) {
                 $('#cc-gallery-buy').html(data.html);
@@ -406,7 +408,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
 
         $.ajax({
-            url: '/' + loc_lang + '/cart/checkout/',
+            url: loc_lang + '/cart/checkout/',
             type: type,
             data: data,
             success: function(data) {
@@ -485,7 +487,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
 
         $.ajax({
-            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/remove/',
+            url: loc_lang + '/cart/' + $(this).data('id') + '/remove/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -500,7 +502,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
 
         $.ajax({
-            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/plus/',
+            url: loc_lang + '/cart/' + $(this).data('id') + '/plus/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -515,7 +517,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
 
         $.ajax({
-            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/minus/',
+            url: loc_lang + '/cart/' + $(this).data('id') + '/minus/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -530,7 +532,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
 
         $.ajax({
-            url: '/' + loc_lang + '/cart/' + $(this).data('id') + '/remove_set/',
+            url: loc_lang + '/cart/' + $(this).data('id') + '/remove_set/',
             type: 'post',
             success: function(data) {
                 $('#cc-cart-content').html(data.html);
@@ -597,7 +599,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         if (city_id != '') {
             $.ajax({
-                url: '/' + loc_lang + '/cart/' + city_id + '/' + warehouse_id + '/warehouses/',
+                url: loc_lang + '/cart/' + city_id + '/' + warehouse_id + '/warehouses/',
                 type: 'post',
                 success: function(ajax_data) {
                     $('#id_warehouse_np').empty();
@@ -618,7 +620,7 @@ $(document).ready(function() {
         var loc_lang = get_loc_lang();
         if (region_id != '') {
             $.ajax({
-                url: '/' + loc_lang + '/cart/' + region_id + '/' +city_id + '/cities/',
+                url: loc_lang + '/cart/' + region_id + '/' +city_id + '/cities/',
                 type: 'post',
                 success: function(ajax_data) {
                     $('#id_city_np').empty();
