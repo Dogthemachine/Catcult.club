@@ -48,8 +48,8 @@ def showcase(request, category_id=None, fashion_id=None, artist_id=None):
         title_tag = category.title_tag
         description_tag = category.description_tag
     else:
-        title_tag = _("main pae title_tag")
-        description_tag = _("main pae description_tag")
+        title_tag = _("Sportswear with artistic spirit")
+        description_tag = _("✶Ukrainian based clothes brand✶ ☛Clothes created in collaboration with artists☚ ✈Worldwide delivery✈")
 
     fashions = None
     artist = None
