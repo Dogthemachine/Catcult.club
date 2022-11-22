@@ -1,4 +1,5 @@
 /venv
+/cat_clone
 *.py[cod]
 .*.sw[a-z]
 *.un~
