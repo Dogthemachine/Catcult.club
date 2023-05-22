@@ -178,6 +178,9 @@ def cart_checkout(request):
 
     cart_items = CartItem.objects.filter(cart=cart)
 
+    print('\n\n\n', request.LANGUAGE_CODE, '\n\n\n')
+    print('\n\n\n', request.META['HTTP_ACCEPT_LANGUAGE'], '\n\n\n')
+
     for item in cart_items:
         if not item.check_avail():
             no_avail_items += 1
